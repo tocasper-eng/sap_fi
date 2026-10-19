@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAP Financial Accounting (FI) – Complete Reference</title>
+<style>
+:root {
+  --sap-orange: #F0AB00;
+  --sap-dark-orange: #E8720C;
+  --sap-blue: #0070F2;
+  --sap-dark: #1A2132;
+  --sap-mid: #354A5E;
+  --sap-light: #F5F6F7;
+  --sap-border: #DEDEDE;
+  --sap-text: #32363A;
+  --sap-sub: #556B82;
+  --sidebar-w: 270px;
+  --accent: #F0AB00;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --sap-light: #1A2132;
+    --sap-border: #354A5E;
+    --sap-text: #E5E7EA;
+    --sap-sub: #A0B3C8;
+    --bg: #11181F;
+  }
+}
+:root[data-theme="dark"] {
+  --sap-light: #1A2132;
+  --sap-border: #354A5E;
+  --sap-text: #E5E7EA;
+  --sap-sub: #A0B3C8;
+  --bg: #11181F;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "72","SAP-icons",Arial,sans-serif; background: var(--sap-light); color: var(--sap-text); display: flex; min-height: 100vh; }
+
+/* Sidebar */
+#sidebar {
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  background: var(--sap-dark);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+#sidebar .logo {
+  background: var(--sap-orange);
+  padding: 18px 20px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#sidebar .logo .sap-badge {
+  background: #fff;
+  color: var(--sap-orange);
+  font-size: 18px;
+  font-weight: 900;
+  padding: 2px 8px;
+  border-radius: 3px;
+  letter-spacing: 1px;
+}
+#sidebar .logo h1 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--sap-dark);
+  line-height: 1.3;
+}
+#sidebar nav { padding: 12px 0; flex: 1; }
+#sidebar nav .section-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: rgba(255,255,255,.45);
+  padding: 14px 20px 6px;
+}
+#sidebar nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 20px;
+  color: rgba(255,255,255,.82);
+  text-decoration: none;
+  font-size: 13.5px;
+  border-left: 3px solid transparent;
+  transition: background .15s, border-color .15s;
+}
+#sidebar nav a:hover { background: rgba(255,255,255,.08); color: #fff; }
+#sidebar nav a.active { background: rgba(240,171,0,.15); border-left-color: var(--sap-orange); color: var(--sap-orange); font-weight: 600; }
+#sidebar nav a .icon { font-size: 16px; opacity: .8; width: 20px; text-align: center; }
+#sidebar .version-tag {
+  padding: 12px 20px;
+  font-size: 11px;
+  color: rgba(255,255,255,.35);
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+
+/* Main */
+#main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+#topbar {
+  background: #fff;
+  border-bottom: 1px solid var(--sap-border);
+  padding: 10px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+#topbar h2 { font-size: 16px; font-weight: 600; color: var(--sap-mid); }
+#topbar .badges { display: flex; gap: 8px; }
+.badge {
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+.badge-new { background: #E8FBEF; color: #1B8C3A; }
+.badge-ecc { background: #FFF3CD; color: #856404; }
+.badge-key { background: #E8F1FB; color: var(--sap-blue); }
+
+#content { padding: 32px; max-width: 1100px; }
+
+/* Sections */
+.section { display: none; }
+.section.active { display: block; }
+
+/* Cards */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin: 24px 0; }
+.card {
+  background: #fff;
+  border: 1px solid var(--sap-border);
+  border-radius: 8px;
+  padding: 20px;
+  transition: box-shadow .2s;
+}
+.card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.1); }
+.card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--sap-mid); }
+.card p { font-size: 13px; line-height: 1.6; color: var(--sap-sub); }
+.card .card-tag {
+  display: inline-block;
+  background: rgba(240,171,0,.15);
+  color: var(--sap-dark-orange);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+/* Heading hierarchy */
+.section > h2 { font-size: 24px; font-weight: 700; color: var(--sap-mid); margin-bottom: 4px; }
+.section > .lead { font-size: 15px; color: var(--sap-sub); margin-bottom: 24px; line-height: 1.6; }
+h3.topic { font-size: 17px; font-weight: 700; color: var(--sap-mid); margin: 28px 0 10px; padding-bottom: 6px; border-bottom: 2px solid var(--sap-orange); display: inline-flex; align-items: center; gap: 8px; }
+h4.subtopic { font-size: 14px; font-weight: 700; color: var(--sap-text); margin: 18px 0 8px; }
+
+/* Text blocks */
+.prose { font-size: 14px; line-height: 1.7; color: var(--sap-text); }
+.prose ul { padding-left: 20px; margin: 8px 0; }
+.prose li { margin: 4px 0; }
+.prose strong { color: var(--sap-mid); }
+
+/* Comparison table */
+.compare-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0; }
+.compare-table th { background: var(--sap-dark); color: #fff; padding: 10px 14px; text-align: left; }
+.compare-table th:first-child { background: var(--sap-orange); color: var(--sap-dark); }
+.compare-table td { padding: 10px 14px; border-bottom: 1px solid var(--sap-border); vertical-align: top; }
+.compare-table tr:nth-child(even) td { background: rgba(240,171,0,.05); }
+.compare-table td:first-child { font-weight: 600; color: var(--sap-mid); }
+
+/* Info boxes */
+.info-box { padding: 14px 18px; border-radius: 6px; margin: 16px 0; font-size: 13.5px; line-height: 1.6; }
+.info-box.tip { background: #FFF8E1; border-left: 4px solid var(--sap-orange); }
+.info-box.note { background: #E8F1FB; border-left: 4px solid var(--sap-blue); }
+.info-box.new { background: #E8FBEF; border-left: 4px solid #1B8C3A; }
+.info-box strong { display: block; margin-bottom: 4px; }
+
+/* Process flow */
+.process-flow { display: flex; align-items: stretch; gap: 0; margin: 20px 0; flex-wrap: wrap; }
+.process-step {
+  background: #fff;
+  border: 1px solid var(--sap-border);
+  border-radius: 6px;
+  padding: 14px 16px;
+  flex: 1;
+  min-width: 120px;
+  position: relative;
+  font-size: 13px;
+  text-align: center;
+}
+.process-step .step-num {
+  width: 24px; height: 24px;
+  background: var(--sap-orange);
+  color: var(--sap-dark);
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 8px;
+}
+.process-step + .process-step::before {
+  content: "→";
+  position: absolute;
+  left: -16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--sap-orange);
+  font-size: 18px;
+  font-weight: 700;
+}
+.process-step strong { display: block; font-size: 12px; color: var(--sap-mid); margin-top: 4px; }
+
+/* Tabs inside sections */
+.inner-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--sap-border); margin: 20px 0 0; }
+.inner-tab {
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--sap-sub);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: color .15s, border-color .15s;
+}
+.inner-tab.active { color: var(--sap-orange); border-bottom-color: var(--sap-orange); }
+.inner-panel { display: none; padding: 20px 0; }
+.inner-panel.active { display: block; }
+
+/* Source list */
+.source-list { list-style: none; padding: 0; margin: 16px 0; }
+.source-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--sap-border);
+  font-size: 13px;
+}
+.source-list .src-badge {
+  background: var(--sap-dark);
+  color: var(--sap-orange);
+  font-weight: 800;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.source-list .src-badge.old { background: #f5e6c8; color: #7a5000; }
+.source-list .src-info strong { display: block; color: var(--sap-text); }
+.source-list .src-info span { color: var(--sap-sub); font-size: 12px; }
+
+/* Hamburger */
+#menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+#menu-toggle span { display: block; width: 22px; height: 2px; background: var(--sap-mid); margin: 5px 0; border-radius: 2px; }
+
+/* Mobile */
+@media (max-width: 768px) {
+  #sidebar { position: fixed; left: -280px; top: 0; z-index: 100; transition: left .25s; }
+  #sidebar.open { left: 0; }
+  #menu-toggle { display: block; }
+  #content { padding: 20px 16px; }
+  #topbar { padding: 10px 16px; }
+  .card-grid { grid-template-columns: 1fr; }
+  .process-flow { flex-direction: column; }
+  .process-step + .process-step::before { content: "↓"; left: 50%; top: -14px; transform: translateX(-50%); }
+}
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside id="sidebar">
+  <div class="logo">
+    <div class="sap-badge">SAP</div>
+    <h1>Financial Accounting<br>Complete Reference</h1>
+  </div>
+  <nav>
+    <div class="section-label">Getting Started</div>
+    <a href="#" onclick="show('overview')" id="nav-overview" class="active"><span class="icon">🏠</span> Overview</a>
+    <a href="#" onclick="show('s4hana')" id="nav-s4hana"><span class="icon">⚡</span> SAP S/4HANA & Fiori</a>
+
+    <div class="section-label">FI Sub-Modules</div>
+    <a href="#" onclick="show('gl')" id="nav-gl"><span class="icon">📒</span> General Ledger (FI-GL)</a>
+    <a href="#" onclick="show('ap')" id="nav-ap"><span class="icon">💳</span> Accounts Payable (FI-AP)</a>
+    <a href="#" onclick="show('ar')" id="nav-ar"><span class="icon">📧</span> Accounts Receivable (FI-AR)</a>
+    <a href="#" onclick="show('aa')" id="nav-aa"><span class="icon">🏭</span> Asset Accounting (FI-AA)</a>
+    <a href="#" onclick="show('bl')" id="nav-bl"><span class="icon">🏦</span> Bank Accounting (FI-BL)</a>
+
+    <div class="section-label">Advanced Topics</div>
+    <a href="#" onclick="show('closing')" id="nav-closing"><span class="icon">📅</span> Financial Closing</a>
+    <a href="#" onclick="show('additional')" id="nav-additional"><span class="icon">➕</span> Additional FI</a>
+    <a href="#" onclick="show('customizing')" id="nav-customizing"><span class="icon">⚙️</span> Customizing / Config</a>
+
+    <div class="section-label">Reference</div>
+    <a href="#" onclick="show('comparison')" id="nav-comparison"><span class="icon">🔄</span> ECC vs S/4HANA</a>
+    <a href="#" onclick="show('sources')" id="nav-sources"><span class="icon">📚</span> Source Documents</a>
+  </nav>
+  <div class="version-tag">Sources: TFIN50/52 (ECC) · S4F10/12/13/15/17 (S/4HANA)<br>SAP Help Portal 2025 FPS02</div>
+</aside>
+
+<!-- Main content -->
+<div id="main">
+  <div id="topbar">
+    <button id="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <h2 id="topbar-title">Overview – SAP Financial Accounting</h2>
+    <div class="badges">
+      <span class="badge badge-new">S/4HANA 2025</span>
+      <span class="badge badge-ecc">ECC Reference</span>
+    </div>
+  </div>
+
+  <div id="content">
+
+    <!-- ===== OVERVIEW ===== -->
+    <div class="section active" id="section-overview">
+      <h2>SAP Financial Accounting (FI)</h2>
+      <p class="lead">The FI module is the central component of SAP ERP for recording, managing, and reporting all financial transactions. It provides a complete audit trail and integrates in real time with Logistics, HR, and Controlling.</p>
+
+      <div class="info-box new">
+        <strong>SAP S/4HANA 2025 (FPS02)</strong>
+        The latest release runs exclusively on the SAP HANA in-memory database. The <strong>Universal Journal (table ACDOCA)</strong> unifies FI, CO, and COPA into one single source of truth, eliminating reconciliation overhead.
+      </div>
+
+      <div class="card-grid">
+        <div class="card"><div class="card-tag">FI-GL</div><h3>General Ledger</h3><p>Parallel ledgers, document splitting, segment reporting (IFRS / US GAAP), Universal Journal. The heart of all FI postings.</p></div>
+        <div class="card"><div class="card-tag">FI-AP</div><h3>Accounts Payable</h3><p>Vendor master data (Business Partner), invoice processing, payment program, integration with Materials Management.</p></div>
+        <div class="card"><div class="card-tag">FI-AR</div><h3>Accounts Receivable</h3><p>Customer master data (Business Partner), incoming payments, dunning, dispute management, integration with Sales.</p></div>
+        <div class="card"><div class="card-tag">FI-AA</div><h3>Asset Accounting</h3><p>Fixed asset lifecycle from acquisition to retirement: depreciation, parallel valuation, year-end closing.</p></div>
+        <div class="card"><div class="card-tag">FI-BL</div><h3>Bank Accounting</h3><p>Bank master data, house banks, cash management, electronic bank statements, payment clearing.</p></div>
+        <div class="card"><div class="card-tag">FI-FM</div><h3>Funds Management</h3><p>Budget planning and monitoring for public sector and non-profits. Commitment items, funds centers.</p></div>
+        <div class="card"><div class="card-tag">FI-SL</div><h3>Special Purpose Ledger</h3><p>Flexible ledger solution for custom reporting dimensions beyond the standard chart of accounts.</p></div>
+        <div class="card"><div class="card-tag">FI-TV</div><h3>Travel Management</h3><p>Travel request, travel expenses, and reimbursement processing integrated with payroll and FI postings.</p></div>
+      </div>
+
+      <h3 class="topic">Integration with Other SAP Modules</h3>
+      <div class="prose">
+        <p>SAP FI integrates in real time with all other SAP components. Every logistics or HR event that has a financial impact is immediately reflected in Financial Accounting through <strong>automatic account determination</strong>.</p>
+        <ul>
+          <li><strong>FI ↔ MM (Materials Management):</strong> Goods receipts, invoice verification, and inventory movements generate FI postings automatically.</li>
+          <li><strong>FI ↔ SD (Sales & Distribution):</strong> Customer invoices, credit memos, and revenue recognitions post directly to AR and GL.</li>
+          <li><strong>FI ↔ HR (Human Resources):</strong> Payroll results are transferred to FI for wage and salary postings.</li>
+          <li><strong>FI ↔ CO (Controlling):</strong> In S/4HANA, FI and CO share the Universal Journal — every FI document line carries a CO object, eliminating reconciliation.</li>
+          <li><strong>FI ↔ AA (Asset Accounting):</strong> Asset transactions generate parallel FI postings to GL accounts.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Key S/4HANA Innovations vs ECC</h3>
+      <table class="compare-table">
+        <tr><th>Topic</th><th>SAP ECC (TFIN50/52)</th><th>SAP S/4HANA (S4F series)</th></tr>
+        <tr><td>Data model</td><td>Separate tables: BKPF/BSEG, BSAD, BSID, BSAK…</td><td>Universal Journal ACDOCA – one table for all</td></tr>
+        <tr><td>Vendor/Customer</td><td>Separate vendor (LFA1) and customer (KNA1) masters</td><td>Business Partner (BP) – unified master, mandatory</td></tr>
+        <tr><td>New GL</td><td>Optional; document splitting an add-on</td><td>Always on; document splitting by default</td></tr>
+        <tr><td>Asset Accounting</td><td>Classic AA – depreciation areas, separate tables</td><td>New AA – parallel valuation in ACDOCA</td></tr>
+        <tr><td>Reporting</td><td>Report Painter, SAP List Viewer</td><td>SAP Fiori analytical apps, embedded analytics</td></tr>
+        <tr><td>User interface</td><td>SAP GUI (transaction codes)</td><td>SAP Fiori launchpad (browser/mobile) + SAP GUI</td></tr>
+        <tr><td>CO reconciliation</td><td>Period-end reconciliation ledger needed</td><td>No reconciliation needed – one journal</td></tr>
+      </table>
+    </div>
+
+    <!-- ===== S/4HANA & FIORI ===== -->
+    <div class="section" id="section-s4hana">
+      <h2>SAP S/4HANA Overview &amp; SAP Fiori</h2>
+      <p class="lead">SAP S/4HANA is the next-generation ERP built on the SAP HANA in-memory database. It combines transactional and analytical processing (HTAP) and provides a modern user experience through SAP Fiori.</p>
+
+      <h3 class="topic">What is SAP S/4HANA?</h3>
+      <div class="prose">
+        <p>SAP S/4HANA rewrote the core ERP application to fully exploit the capabilities of the SAP HANA database. Key pillars:</p>
+        <ul>
+          <li><strong>In-memory computing:</strong> The entire database fits in RAM, eliminating disk I/O bottlenecks. Both OLTP and OLAP run on the same data in real time (HTAP – Hybrid Transactional/Analytical Processing).</li>
+          <li><strong>Simplified data model:</strong> Aggregate tables (FAGLFLEXT, BSAD, etc.) are eliminated. All data flows into the Universal Journal (ACDOCA), reducing storage by up to 70%.</li>
+          <li><strong>Intelligent Enterprise:</strong> Embedded machine learning, AI, and robotic process automation (RPA) are built into business processes.</li>
+          <li><strong>Deployment options:</strong> Cloud (Public / Private Edition) or On-Premise. One code line ensures consistency.</li>
+        </ul>
+      </div>
+
+      <table class="compare-table">
+        <tr><th>Dimension</th><th>S/4HANA Cloud Public</th><th>S/4HANA Cloud Private</th><th>S/4HANA On-Premise</th></tr>
+        <tr><td>Business Process</td><td>Standardized, core ERP</td><td>Flexible, extended ERP</td><td>Customizable, extended ERP</td></tr>
+        <tr><td>Innovation Lifecycle</td><td>Quarterly</td><td>Semi-annual</td><td>Annual, customer-led</td></tr>
+        <tr><td>TCO</td><td>Lowest</td><td>Lower</td><td>Higher</td></tr>
+        <tr><td>Customization</td><td>Within Standards</td><td>Within Standards</td><td>Open to modifications</td></tr>
+      </table>
+
+      <h3 class="topic">SAP Fiori User Experience</h3>
+      <div class="prose">
+        <p>SAP Fiori is the user experience layer for SAP S/4HANA. It follows five design principles:</p>
+        <ul>
+          <li><strong>Role-based:</strong> Each user sees only the applications relevant to their role.</li>
+          <li><strong>Responsive:</strong> Works across all screen sizes – desktop, tablet, and mobile.</li>
+          <li><strong>Simple:</strong> 1 user, 1 use case, 3 screens maximum per app.</li>
+          <li><strong>Coherent:</strong> Consistent look and feel across all SAP products.</li>
+          <li><strong>Instant Value:</strong> Low barrier to adoption with minimal training needed.</li>
+        </ul>
+      </div>
+
+      <h4 class="subtopic">Three Types of Fiori Apps</h4>
+      <div class="card-grid">
+        <div class="card"><div class="card-tag">Transactional</div><h3>Task-based Access</h3><p>Access to tasks like change, create, display (documents, master records), or entire guided processes. Runs on any DB.</p></div>
+        <div class="card"><div class="card-tag">Analytical</div><h3>Insights &amp; KPIs</h3><p>Visual overview of complex topics for monitoring. Uses embedded analytics and requires SAP HANA.</p></div>
+        <div class="card"><div class="card-tag">Fact Sheet</div><h3>Search &amp; Explore</h3><p>360-degree view of an object (e.g., a vendor) and contextual navigation between related objects. Requires HANA.</p></div>
+      </div>
+
+      <h3 class="topic">Universal Journal (ACDOCA)</h3>
+      <div class="info-box new">
+        <strong>Key Innovation in S/4HANA Finance</strong>
+        The Universal Journal (table ACDOCA) is the single source of truth for all finance postings. Every document line item — from FI, CO, AA, and COPA — is written to one table. This eliminates reconciliation, reduces data footprint, and enables real-time reporting without data replication.
+      </div>
+      <div class="prose">
+        <p>The Universal Journal enables <strong>continuous accounting</strong> – postings flow through Accounting → Compliance → Entity Close → Intercompany → Consolidation → Disclosure in one integrated flow.</p>
+        <ul>
+          <li>FI line items (previously BSEG): now in ACDOCA</li>
+          <li>CO line items (previously COEP): now in ACDOCA</li>
+          <li>Asset Accounting values: now in ACDOCA</li>
+          <li>COPA actual values: now in ACDOCA</li>
+          <li>Plan data: stored in ACDOCP</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== GENERAL LEDGER ===== -->
+    <div class="section" id="section-gl">
+      <h2>General Ledger Accounting (FI-GL)</h2>
+      <p class="lead">The General Ledger is the core of Financial Accounting. All subledger postings flow automatically into the GL. In S/4HANA, document splitting and parallel ledgers are standard features built on the Universal Journal.</p>
+
+      <div class="inner-tabs">
+        <div class="inner-tab active" onclick="innerTab(this,'gl-org')">Organizational Elements</div>
+        <div class="inner-tab" onclick="innerTab(this,'gl-master')">Master Data</div>
+        <div class="inner-tab" onclick="innerTab(this,'gl-posting')">Posting Transactions</div>
+        <div class="inner-tab" onclick="innerTab(this,'gl-parallel')">Parallel Ledgers</div>
+        <div class="inner-tab" onclick="innerTab(this,'gl-splitting')">Document Splitting</div>
+      </div>
+
+      <div class="inner-panel active" id="ip-gl-org">
+        <h4 class="subtopic">Key Organizational Units in FI</h4>
+        <div class="prose">
+          <ul>
+            <li><strong>Client:</strong> Highest level in SAP hierarchy. All company codes within a client share master data (e.g., chart of accounts, business partners).</li>
+            <li><strong>Company Code:</strong> The smallest organizational unit that produces a complete self-contained set of accounts. Required for all FI postings.</li>
+            <li><strong>Chart of Accounts:</strong> A list of all G/L accounts used in one or more company codes. Three types: Operating, Country-specific, Group.</li>
+            <li><strong>Fiscal Year Variant:</strong> Defines the fiscal year structure (calendar year or non-calendar). Controls posting periods.</li>
+            <li><strong>Posting Period Variant:</strong> Controls which periods are open for posting for each account type.</li>
+            <li><strong>Business Area:</strong> Optional. Used for cross-company-code financial reporting.</li>
+            <li><strong>Profit Center / Segment:</strong> Used for segment reporting under IFRS 8. Document splitting ensures balance sheets by segment.</li>
+          </ul>
+        </div>
+        <div class="info-box tip">
+          <strong>Variant Principle</strong>
+          SAP uses variants to share settings across multiple company codes. A fiscal year variant or posting period variant is defined once and assigned to many company codes — avoiding redundant configuration.
+        </div>
+      </div>
+
+      <div class="inner-panel" id="ip-gl-master">
+        <h4 class="subtopic">G/L Account Master Record</h4>
+        <div class="prose">
+          <p>A G/L account master record has two views:</p>
+          <ul>
+            <li><strong>Chart of Accounts segment:</strong> Account number, short/long text, account type (balance sheet / P&amp;L), group account number.</li>
+            <li><strong>Company Code segment:</strong> Currency, field status group, open item management, line item display, tax settings.</li>
+          </ul>
+          <p>In S/4HANA, G/L accounts are created and maintained via the Fiori app <em>"Manage G/L Account Master Data"</em>.</p>
+        </div>
+        <h4 class="subtopic">Business Partner (S/4HANA)</h4>
+        <div class="prose">
+          <p>In S/4HANA, vendors and customers are managed as <strong>Business Partners (BP)</strong>. The BP concept replaces the separate vendor master (transaction XK01) and customer master (XD01).</p>
+          <ul>
+            <li>One BP can have roles: FI Vendor (FLVN01), FI Customer (FLCU01), and others simultaneously.</li>
+            <li>General data (address, communication) is stored once at the BP level, reducing data redundancy.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="inner-panel" id="ip-gl-posting">
+        <h4 class="subtopic">Posting Transactions in the G/L</h4>
+        <div class="prose">
+          <p>Every posting in SAP creates a <strong>document</strong> — the fundamental unit of accounting. A document has:</p>
+          <ul>
+            <li><strong>Document header:</strong> Document type, posting date, document date, currency, reference, header text.</li>
+            <li><strong>Line items:</strong> G/L account, debit/credit indicator, amount, tax code, cost center, profit center, segment.</li>
+          </ul>
+          <p><strong>Document types</strong> control: number ranges, account types allowed, and document behavior (e.g., SA = GL document, KR = vendor invoice, DR = customer invoice).</p>
+        </div>
+        <h4 class="subtopic">Posting Period Control</h4>
+        <div class="prose">
+          <ul>
+            <li>Managed via the <strong>Posting Period Variant</strong>. Open periods are controlled per account type (+, A, D, K, M, S).</li>
+            <li>Special periods (13–16) are used for year-end closing adjustments.</li>
+            <li>Transaction OB52 (or Fiori app) opens/closes periods.</li>
+          </ul>
+        </div>
+        <h4 class="subtopic">Reversal and Correction</h4>
+        <div class="prose">
+          <ul>
+            <li><strong>Normal Reversal:</strong> Creates a counter-entry in the same period (debit/credit swapped).</li>
+            <li><strong>Negative Posting (Storno):</strong> Reversal with the same sign in the original period — prevents double counting in period totals. Requires activation in company code settings.</li>
+            <li>Accrual/Deferral documents can be set for automatic reversal in the following period.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="inner-panel" id="ip-gl-parallel">
+        <h4 class="subtopic">Parallel Accounting / Parallel Ledgers</h4>
+        <div class="prose">
+          <p>Companies reporting under multiple accounting standards (e.g., IFRS and local GAAP) use parallel ledgers in S/4HANA:</p>
+          <ul>
+            <li><strong>Leading Ledger (0L):</strong> The primary ledger, required for all postings.</li>
+            <li><strong>Non-leading Ledger:</strong> Stores delta values for alternative accounting standards (e.g., IFRS, US GAAP, local GAAP).</li>
+            <li><strong>Extension Ledger:</strong> New in S/4HANA. Stores only the delta versus the leading ledger — efficient use of storage.</li>
+          </ul>
+          <p>Ledger Group-Specific Postings allow entering values only in a specific ledger without affecting others — used for IFRS vs local adjustments.</p>
+        </div>
+      </div>
+
+      <div class="inner-panel" id="ip-gl-splitting">
+        <h4 class="subtopic">Document Splitting</h4>
+        <div class="prose">
+          <p>Document Splitting ensures that each financial document is split along a characteristic (e.g., Profit Center or Segment), enabling balance sheet reporting at a more granular level. Required for IFRS 8 segment reporting.</p>
+          <ul>
+            <li><strong>Active Splitting:</strong> Split logic is explicitly applied during posting. Rules define how to split line items (e.g., proportionally by expense).</li>
+            <li><strong>Passive Splitting:</strong> Splitting information is inherited from related documents.</li>
+            <li><strong>Zero Balance:</strong> Balance-correcting line items are generated to ensure each profit center has a balanced document.</li>
+          </ul>
+        </div>
+        <div class="info-box tip">
+          <strong>Document Splitting – S/4HANA vs ECC</strong>
+          In ECC, New GL with document splitting was an optional activation. In S/4HANA, the Universal Journal always captures all splitting characteristics — document splitting is standard behavior.
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ACCOUNTS PAYABLE ===== -->
+    <div class="section" id="section-ap">
+      <h2>Accounts Payable (FI-AP)</h2>
+      <p class="lead">FI-AP manages all payables to vendors — from vendor master data and invoice entry to payment runs, integration with Materials Management, and period-end closing.</p>
+
+      <h3 class="topic">Vendor Master Data (Business Partner)</h3>
+      <div class="prose">
+        <p>In S/4HANA, vendor master data is managed as a <strong>Business Partner (BP)</strong> with role FLVN01 (FI Vendor).</p>
+        <ul>
+          <li><strong>General Data:</strong> Name, address, bank details, communication.</li>
+          <li><strong>Company Code Data:</strong> Payment terms, payment methods, reconciliation account, withholding tax, dunning data.</li>
+          <li><strong>Purchasing Data (MM):</strong> Purchasing organization, incoterms, order currency.</li>
+        </ul>
+        <p>The reconciliation account links the vendor subledger to the GL automatically: every AP posting generates a corresponding GL entry to the reconciliation account.</p>
+      </div>
+
+      <h3 class="topic">Accounts Payable Transactions</h3>
+      <div class="inner-tabs">
+        <div class="inner-tab active" onclick="innerTab(this,'ap-inv')">Invoice Entry</div>
+        <div class="inner-tab" onclick="innerTab(this,'ap-pay')">Payments</div>
+        <div class="inner-tab" onclick="innerTab(this,'ap-mm')">MM Integration</div>
+        <div class="inner-tab" onclick="innerTab(this,'ap-close')">Closing</div>
+      </div>
+      <div class="inner-panel active" id="ip-ap-inv">
+        <div class="prose">
+          <ul>
+            <li><strong>Document type KR:</strong> Vendor invoice — debit expense/asset account, credit vendor.</li>
+            <li><strong>Document type KG:</strong> Vendor credit memo — debit vendor, credit expense/asset.</li>
+            <li><strong>Net/Gross entry:</strong> In gross entry, tax is posted to a separate tax account; in net entry, tax is included in the base amount.</li>
+            <li><strong>One-time vendors:</strong> Dummy vendor accounts used for occasional suppliers — address entered at document entry time.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="inner-panel" id="ip-ap-pay">
+        <div class="prose">
+          <p>The <strong>Automatic Payment Program (F110)</strong> is the standard tool for generating outgoing payments:</p>
+          <ul>
+            <li><strong>Parameters:</strong> Run date, company codes, payment methods, vendor selection.</li>
+            <li><strong>Proposal:</strong> System proposes open items due for payment. Can be edited manually.</li>
+            <li><strong>Payment Run:</strong> Creates payment documents and clears open items. Generates payment media (checks, bank transfers, SEPA).</li>
+            <li><strong>SEPA Credit Transfer / Direct Debit:</strong> European standard for electronic payments, fully supported in S/4HANA.</li>
+            <li><strong>Digital Payments:</strong> S/4HANA supports modern payment methods via SAP Digital Payments add-on.</li>
+          </ul>
+          <p><strong>Payment Terms</strong> define the baseline date and payment conditions. Cash discounts (e.g., 2% within 14 days, net 30) are configured in payment term master data and automatically calculated during payment.</p>
+        </div>
+      </div>
+      <div class="inner-panel" id="ip-ap-mm">
+        <div class="prose">
+          <p>The AP / MM integration (Logistics Invoice Verification – LIV) is a three-way match process:</p>
+        </div>
+        <div class="process-flow">
+          <div class="process-step"><div class="step-num">1</div>Purchase Order<strong>MM-PUR</strong></div>
+          <div class="process-step"><div class="step-num">2</div>Goods Receipt<strong>MM-WM</strong></div>
+          <div class="process-step"><div class="step-num">3</div>Invoice Verification<strong>FI-AP / LIV</strong></div>
+          <div class="process-step"><div class="step-num">4</div>Payment<strong>FI-AP F110</strong></div>
+        </div>
+        <div class="prose">
+          <ul>
+            <li>The <strong>GR/IR clearing account</strong> (Goods Receipt / Invoice Receipt) is used to record the liability until the invoice is received and matched to the goods receipt.</li>
+            <li>Price and quantity variances between PO and invoice are posted to variance accounts.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="inner-panel" id="ip-ap-close">
+        <div class="prose">
+          <ul>
+            <li><strong>Balance Confirmations:</strong> Sent to vendors to confirm balances at period end.</li>
+            <li><strong>GR/IR Clearing:</strong> At period end, uncleared GR/IR items are analyzed and accruals posted if goods were received but invoice not yet entered.</li>
+            <li><strong>Clearing Open Items:</strong> Incoming payments or credit memos are matched against open invoices (open item management).</li>
+            <li><strong>Payment Differences:</strong> Small differences within defined tolerances are automatically posted to tolerance accounts. Larger differences require manual resolution.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ACCOUNTS RECEIVABLE ===== -->
+    <div class="section" id="section-ar">
+      <h2>Accounts Receivable (FI-AR)</h2>
+      <p class="lead">FI-AR manages customer accounting — from invoicing and incoming payment processing to credit management, dunning, dispute resolution, and closing.</p>
+
+      <h3 class="topic">Customer Master Data (Business Partner)</h3>
+      <div class="prose">
+        <p>In S/4HANA, customer data uses the Business Partner (BP) with role FLCU01 (FI Customer).</p>
+        <ul>
+          <li><strong>General Data:</strong> Name, address, bank details, tax registration.</li>
+          <li><strong>Company Code Data:</strong> Payment terms, dunning area, reconciliation account, tolerance group.</li>
+          <li><strong>Sales Data (SD):</strong> Sales organization, shipping data, pricing procedures.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">AR Transactions</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>Customer Invoice (DR):</strong> Debit customer, credit revenue. Usually posted automatically from SD billing.</li>
+          <li><strong>Incoming Payment (DZ):</strong> Debit bank/cash, credit customer. Clears open invoice items.</li>
+          <li><strong>Down Payment (F-29):</strong> Special GL transaction for customer advance payments. Posted to a special reconciliation account.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Dunning Program</h3>
+      <div class="prose">
+        <p>The dunning program automatically identifies overdue customer invoices and generates dunning notices:</p>
+        <ul>
+          <li><strong>Dunning Levels:</strong> Up to 9 levels with escalating fees and interest charges.</li>
+          <li><strong>Dunning Procedure:</strong> Configured with dunning intervals, minimum amounts, and texts per level.</li>
+          <li><strong>Dunning Run (F150):</strong> Selects overdue items, creates dunning proposals, and generates notices.</li>
+          <li>In S/4HANA, dunning notices can be sent digitally as PDFs via email or printed.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Dispute Management</h3>
+      <div class="prose">
+        <p>When customers dispute an invoice or pay short, dispute cases can be created:</p>
+        <ul>
+          <li>Dispute cases link to AR open items and track the resolution workflow.</li>
+          <li>Reason codes categorize disputes (e.g., pricing error, goods not received).</li>
+          <li>Integrated with Collections Management for proactive outreach.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Integration with Sales &amp; Distribution (SD)</h3>
+      <div class="prose">
+        <ul>
+          <li>Billing documents in SD automatically create FI customer invoices via account determination (Account Key).</li>
+          <li>Revenue is posted per revenue account, taxes per tax account — all determined by the SD pricing procedure.</li>
+          <li>Credit management in SD checks credit exposure (open orders + deliveries + AR open items) against the customer credit limit.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== ASSET ACCOUNTING ===== -->
+    <div class="section" id="section-aa">
+      <h2>Asset Accounting (FI-AA)</h2>
+      <p class="lead">FI-AA manages the complete lifecycle of fixed assets — from capitalization through depreciation to retirement. In S/4HANA, New Asset Accounting integrates fully into the Universal Journal.</p>
+
+      <div class="inner-tabs">
+        <div class="inner-tab active" onclick="innerTab(this,'aa-org')">Org Structures</div>
+        <div class="inner-tab" onclick="innerTab(this,'aa-master')">Master Data</div>
+        <div class="inner-tab" onclick="innerTab(this,'aa-trans')">Transactions</div>
+        <div class="inner-tab" onclick="innerTab(this,'aa-depr')">Depreciation</div>
+        <div class="inner-tab" onclick="innerTab(this,'aa-report')">Reporting</div>
+      </div>
+
+      <div class="inner-panel active" id="ip-aa-org">
+        <h4 class="subtopic">Chart of Depreciation</h4>
+        <div class="prose">
+          <p>The <strong>Chart of Depreciation</strong> is assigned to a company code and contains all depreciation areas. Each depreciation area can post to the GL independently:</p>
+          <ul>
+            <li><strong>Depreciation Area 01:</strong> Book depreciation (local GAAP) — usually posts to GL in real time.</li>
+            <li><strong>Depreciation Area 15:</strong> Tax depreciation — posts delta to GL or is only statistical.</li>
+            <li><strong>Depreciation Area 32:</strong> IFRS (International Financial Reporting Standards).</li>
+          </ul>
+          <p>In S/4HANA New AA, each depreciation area writes to a corresponding ledger in the Universal Journal, enabling parallel valuation.</p>
+        </div>
+        <h4 class="subtopic">Asset Classes</h4>
+        <div class="prose">
+          <p>Asset classes group similar assets (e.g., machinery, vehicles, IT equipment). They control:</p>
+          <ul>
+            <li>Account determination (G/L accounts for acquisitions, depreciation, retirements)</li>
+            <li>Screen layout (which fields are required/optional in the asset master)</li>
+            <li>Default depreciation terms (method, useful life)</li>
+            <li>Number range for asset numbers</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="inner-panel" id="ip-aa-master">
+        <h4 class="subtopic">Asset Master Record</h4>
+        <div class="prose">
+          <p>Each fixed asset has a master record with:</p>
+          <ul>
+            <li><strong>General tab:</strong> Asset description, serial number, inventory number, cost center, WBS element.</li>
+            <li><strong>Time-dependent tab:</strong> Cost center, plant, business area (can change over the asset's life).</li>
+            <li><strong>Depreciation areas tab:</strong> Depreciation key, useful life, start of depreciation per area.</li>
+            <li><strong>Net book value:</strong> Calculated from acquisition value minus accumulated depreciation.</li>
+          </ul>
+          <p>Mass changes to asset master records can be made via worklists — efficient for fleet updates or reclassifications.</p>
+        </div>
+      </div>
+
+      <div class="inner-panel" id="ip-aa-trans">
+        <h4 class="subtopic">Asset Transactions</h4>
+        <div class="prose">
+          <ul>
+            <li><strong>Acquisition (integrated):</strong> From MM purchase order — GR/IR posting auto-capitalizes the asset.</li>
+            <li><strong>Acquisition (non-integrated):</strong> Direct posting via transaction F-90 or Fiori app — used for inter-company transfers or direct purchase.</li>
+            <li><strong>Retirement (full/partial):</strong> Removes asset value and accumulated depreciation; posts gain/loss to P&amp;L.</li>
+            <li><strong>Transfer within company code:</strong> Moves asset from one cost center or asset class to another.</li>
+            <li><strong>Intercompany transfer:</strong> Asset is retired in the selling company code and acquired in the receiving one — potentially at different values.</li>
+            <li><strong>Assets Under Construction (AuC):</strong> Costs are collected on a WBS element or internal order, then settled to a completed asset at capitalization date.</li>
+            <li><strong>Unplanned Depreciation:</strong> Posts extra depreciation for specific events (damage, write-down) without changing the depreciation schedule.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="inner-panel" id="ip-aa-depr">
+        <h4 class="subtopic">Depreciation Calculation</h4>
+        <div class="prose">
+          <ul>
+            <li><strong>Depreciation Key:</strong> Determines the calculation method (straight-line, declining-balance, units of production), the base value, and rounding rules.</li>
+            <li><strong>Useful Life:</strong> Defined in the depreciation area. The system calculates the periodic depreciation amount automatically.</li>
+            <li><strong>Depreciation Run (AFAB / Fiori):</strong> A background job that posts periodic depreciation to all relevant GL accounts. Must be run each period.</li>
+            <li><strong>Fiscal Year Change:</strong> Must be executed in Asset Accounting before the new fiscal year starts — opens the new year for asset postings.</li>
+            <li><strong>Year-End Closing:</strong> Locks the previous year for AA postings and generates year-end reports.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="inner-panel" id="ip-aa-report">
+        <h4 class="subtopic">Asset Accounting Reports</h4>
+        <div class="prose">
+          <ul>
+            <li><strong>Asset Explorer (AW01N):</strong> Interactive asset history showing all transactions, depreciation simulations, and planned values.</li>
+            <li><strong>Asset History Sheet:</strong> Formal statutory report showing opening balance, additions, retirements, transfers, depreciation charges, and closing balance per asset class.</li>
+            <li><strong>Depreciation Simulation:</strong> Projects future depreciation before running the official depreciation posting.</li>
+            <li>In S/4HANA, Fiori analytical apps provide real-time dashboards for asset value monitoring across all depreciation areas.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== BANK ACCOUNTING ===== -->
+    <div class="section" id="section-bl">
+      <h2>Bank Accounting (FI-BL)</h2>
+      <p class="lead">FI-BL manages bank master data, cash position monitoring, and the processing of incoming and outgoing payments via electronic bank statements.</p>
+
+      <h3 class="topic">Bank Master Data</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>Bank Master Record (FI12):</strong> Contains bank key, name, address, SWIFT/BIC code. Each house bank has one or more bank accounts.</li>
+          <li><strong>House Bank:</strong> A bank account used by the company code for outgoing payments. Assigned a bank ID and GL account for the bank balance.</li>
+          <li><strong>Bank Determination:</strong> Configured in the payment program to select the optimal bank for each payment based on currency, amount, and payment method.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Electronic Bank Statement (EBS)</h3>
+      <div class="prose">
+        <ul>
+          <li>EBS processing imports the bank's MT940/CAMT file and automatically posts the bank's debit/credit entries.</li>
+          <li><strong>Posting Rules:</strong> Map bank transaction codes to G/L accounts and clearing rules.</li>
+          <li><strong>Automatic Clearing:</strong> The system attempts to match bank entries against open items in AR/AP using search algorithms (amount, reference number).</li>
+          <li>Unmatched items go to a bank clearing account for manual processing.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Cash Management</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>Cash Position:</strong> Shows bank balances by value date — inflows from AR and outflows to AP vendors.</li>
+          <li><strong>Liquidity Forecast:</strong> Combines open AR/AP items with expected cash flows to project future bank balances.</li>
+          <li>In S/4HANA, the SAP Cash Management application provides advanced cash pooling, bank connectivity (SWIFT), and real-time position monitoring.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== FINANCIAL CLOSING ===== -->
+    <div class="section" id="section-closing">
+      <h2>Financial Closing (S4F15)</h2>
+      <p class="lead">Period-end and year-end closing involves a series of technical and accounting tasks across all FI subledgers to produce accurate financial statements.</p>
+
+      <h3 class="topic">Periodic Closing Process</h3>
+      <div class="process-flow">
+        <div class="process-step"><div class="step-num">1</div>Subledger Closing<strong>AA / AP / AR</strong></div>
+        <div class="process-step"><div class="step-num">2</div>Valuation<strong>Currency / Provisions</strong></div>
+        <div class="process-step"><div class="step-num">3</div>Accruals &amp; Deferrals<strong>Periodic</strong></div>
+        <div class="process-step"><div class="step-num">4</div>GL Closing<strong>Reconcile</strong></div>
+        <div class="process-step"><div class="step-num">5</div>Financial Statements<strong>Balance Sheet / P&amp;L</strong></div>
+      </div>
+
+      <h3 class="topic">Key Closing Activities</h3>
+      <div class="inner-tabs">
+        <div class="inner-tab active" onclick="innerTab(this,'cls-valuation')">Valuation</div>
+        <div class="inner-tab" onclick="innerTab(this,'cls-accruals')">Accruals</div>
+        <div class="inner-tab" onclick="innerTab(this,'cls-statements')">Fin. Statements</div>
+        <div class="inner-tab" onclick="innerTab(this,'cls-cockpit')">Closing Cockpit</div>
+      </div>
+
+      <div class="inner-panel active" id="ip-cls-valuation">
+        <h4 class="subtopic">Foreign Currency Valuation</h4>
+        <div class="prose">
+          <ul>
+            <li>Open items in foreign currencies are revalued at the closing exchange rate.</li>
+            <li>Unrealized gains/losses are posted to valuation accounts. In the following period, the valuation posting is reversed (reversed on day 1 of new period).</li>
+            <li>S/4HANA automatically handles the reversal using the accrual/deferral mechanism.</li>
+          </ul>
+        </div>
+        <h4 class="subtopic">Regrouping Receivables and Payables</h4>
+        <div class="prose">
+          <p>For balance sheet presentation, AR/AP items must be reclassified: debit balances on vendor accounts move to the assets side; credit balances on customer accounts move to the liabilities side.</p>
+        </div>
+        <h4 class="subtopic">Value Adjustments (Bad Debt Provision)</h4>
+        <div class="prose">
+          <p>Individual and flat-rate valuation adjustments are posted for receivables that are unlikely to be collected (e.g., aging-based provisions).</p>
+        </div>
+      </div>
+
+      <div class="inner-panel" id="ip-cls-accruals">
+        <h4 class="subtopic">Accruals and Deferrals</h4>
+        <div class="prose">
+          <ul>
+            <li><strong>Accruals:</strong> Expenses incurred but not yet invoiced (e.g., accruing wages for the last week of December, invoice arrives in January).</li>
+            <li><strong>Deferrals:</strong> Payments made in advance but relating to future periods (e.g., prepaid insurance).</li>
+            <li>In SAP, posted via transaction FBS1 with an automatic reversal date in the following period.</li>
+            <li><strong>Accruals Management (S/4HANA):</strong> Provides automated accrual postings for recurring items and purchase order accruals (goods/services received but invoice outstanding).</li>
+          </ul>
+        </div>
+        <h4 class="subtopic">Cost of Sales Accounting</h4>
+        <div class="prose">
+          <p>An alternative P&amp;L structure where expenses are classified by cost function (production, selling, admin) rather than by nature. Requires cost centers mapped to functional areas.</p>
+        </div>
+      </div>
+
+      <div class="inner-panel" id="ip-cls-statements">
+        <h4 class="subtopic">Financial Statement Versions</h4>
+        <div class="prose">
+          <p>Financial Statement Versions (FSV) define how GL accounts map to balance sheet and P&amp;L line items for statutory reporting. Configured in transaction OB58.</p>
+          <ul>
+            <li>Multiple FSVs can exist (local GAAP, group reporting, management).</li>
+            <li>Transaction F.01 (or Fiori app) generates financial statements based on the FSV.</li>
+            <li>S/4HANA offers Fiori analytical apps with drill-down capability from financial statement line items to individual journal entries.</li>
+          </ul>
+        </div>
+        <h4 class="subtopic">Balance Audit Trail</h4>
+        <div class="prose">
+          <p>The balance audit trail (transaction FAGLB03) ensures that all GL balances can be reconciled from opening balance → all postings → closing balance. Required for statutory audits.</p>
+        </div>
+      </div>
+
+      <div class="inner-panel" id="ip-cls-cockpit">
+        <h4 class="subtopic">Financial Closing Cockpit</h4>
+        <div class="prose">
+          <p>The Financial Closing Cockpit (transaction FCCL / Fiori app) is a workflow-based tool that organizes all closing tasks:</p>
+          <ul>
+            <li>Task templates group recurring closing activities (e.g., "Run depreciation", "Post foreign currency valuation").</li>
+            <li>Dependencies between tasks are defined — a downstream task cannot start until prerequisites are complete.</li>
+            <li>Real-time status monitoring across multiple company codes and fiscal periods.</li>
+            <li>Automated scheduling of background jobs directly from the cockpit.</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 class="topic">Intercompany Reconciliation</h3>
+      <div class="prose">
+        <p>For companies with multiple company codes, intercompany transactions must balance. In S/4HANA:</p>
+        <ul>
+          <li>Every intercompany posting generates mirror entries in both company codes via a central clearing account.</li>
+          <li>The <strong>Intercompany Matching and Reconciliation</strong> app identifies differences between intercompany receivables and payables.</li>
+          <li>Eliminates intercompany profit/loss for consolidated group reporting.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== ADDITIONAL FI ===== -->
+    <div class="section" id="section-additional">
+      <h2>Additional Financial Accounting (S4F13)</h2>
+      <p class="lead">Advanced FI topics including automatic payment processing, dunning, correspondence, special GL transactions, document parking, validations/substitutions, and data archiving.</p>
+
+      <h3 class="topic">Automatic Payment Program (F110)</h3>
+      <div class="prose">
+        <p>The automatic payment program selects due open items and generates payment documents:</p>
+        <ul>
+          <li><strong>Payment Methods:</strong> Check, bank transfer, SEPA credit transfer, SEPA direct debit. Configured per country and company code.</li>
+          <li><strong>Bank Selection:</strong> Rules determine which house bank account is used for each payment based on currency, available balance, and bank ranking.</li>
+          <li><strong>Digital Payments:</strong> Modern payment connectors (credit cards, real-time payments) are handled via the SAP Digital Payments add-on.</li>
+          <li><strong>SEPA:</strong> The Single Euro Payments Area standard — SEPA Credit Transfer (SCT) and SEPA Direct Debit (SDD) core/B2B are fully supported.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Special GL Transactions</h3>
+      <div class="prose">
+        <p>Special GL (SpGL) transactions post to alternative reconciliation accounts instead of the standard AR/AP reconciliation account:</p>
+        <ul>
+          <li><strong>Down Payment Requests (F-37/F-47):</strong> Statistical posting — notifies AR/AP of an expected advance payment without affecting GL balances. Creates a noted item.</li>
+          <li><strong>Down Payments (F-29/F-48):</strong> Real posting — debit/credit bank, credit/debit a special reconciliation account (e.g., "Down Payments Received").</li>
+          <li><strong>Guarantees:</strong> Contingent liabilities recorded as statistical items.</li>
+          <li><strong>Bill of Exchange:</strong> Used in some European countries for time-limited payment instruments.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Parking Documents</h3>
+      <div class="prose">
+        <ul>
+          <li>A <strong>parked document</strong> is saved in the system but <strong>not yet posted</strong> — no impact on GL balances.</li>
+          <li>Used to enter incomplete documents for completion/approval before posting (workflow integration).</li>
+          <li><strong>Document Holding:</strong> A temporary save that reserves the transaction code but does not create a document number (internal hold).</li>
+          <li>Parked documents appear in AP/AR open item lists but are excluded from financial statements until posted.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Validations and Substitutions</h3>
+      <div class="prose">
+        <p>Validations and substitutions are user-defined rules that execute during document entry:</p>
+        <ul>
+          <li><strong>Validation:</strong> Checks a condition and issues a message (warning or error) if it is not met. For example: "If G/L account = 600xxx, cost center must be filled."</li>
+          <li><strong>Substitution:</strong> Automatically fills or replaces a field value based on conditions. For example: "If company code = 1000 and business area = 9000, set profit center = 90001."</li>
+          <li>Configured in GGB0/GGB4 using ABAP Boolean/arithmetic syntax.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Data Archiving in FI</h3>
+      <div class="prose">
+        <ul>
+          <li>FI documents are subject to legal retention periods (typically 10 years in many countries).</li>
+          <li>After the retention period, documents can be archived from the live database to an archive server, reducing the active database size.</li>
+          <li>Archived documents remain accessible via SAP's archive information system (AS).</li>
+          <li>In S/4HANA, SAP ILM (Information Lifecycle Management) handles archiving policies.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== CUSTOMIZING ===== -->
+    <div class="section" id="section-customizing">
+      <h2>FI Customizing &amp; Configuration (S4F12)</h2>
+      <p class="lead">Core configuration of Financial Accounting performed in the Implementation Guide (IMG / SPRO). Covers organizational units, chart of accounts, document control, and posting rules.</p>
+
+      <h3 class="topic">Core FI Configuration Sequence</h3>
+      <div class="process-flow">
+        <div class="process-step"><div class="step-num">1</div>Define Company Code<strong>OX02</strong></div>
+        <div class="process-step"><div class="step-num">2</div>Create Chart of Accounts<strong>OB13</strong></div>
+        <div class="process-step"><div class="step-num">3</div>Assign CoA to Company Code<strong>OB62</strong></div>
+        <div class="process-step"><div class="step-num">4</div>Define Fiscal Year Variant<strong>OB29</strong></div>
+        <div class="process-step"><div class="step-num">5</div>Assign FY Variant<strong>OB37</strong></div>
+      </div>
+
+      <h3 class="topic">Key Configuration Topics</h3>
+      <div class="card-grid">
+        <div class="card"><div class="card-tag">Org Units</div><h3>Company Code Settings</h3><p>Country, currency, language, chart of accounts, fiscal year variant, field status variant, posting period variant.</p></div>
+        <div class="card"><div class="card-tag">Variant Principle</div><h3>Fiscal Year Variant</h3><p>Calendar or non-calendar year. Special periods for year-end adjustments. Maximum 16 posting periods.</p></div>
+        <div class="card"><div class="card-tag">Master Data</div><h3>G/L Account Groups</h3><p>Groups control number ranges and field status for G/L accounts. Separate groups for balance sheet, revenue, cost, statistical accounts.</p></div>
+        <div class="card"><div class="card-tag">Currency</div><h3>Currency &amp; Exchange Rates</h3><p>Currency types (10=company code currency, 30=group currency, 40=hard currency). Exchange rate types (M=standard, B=bank buying, G=bank selling).</p></div>
+        <div class="card"><div class="card-tag">Documents</div><h3>Document Types &amp; Number Ranges</h3><p>Each document type has a number range. Number ranges can be internal (system-assigned) or external (user-entered).</p></div>
+        <div class="card"><div class="card-tag">Clearing</div><h3>Tolerances</h3><p>Tolerance groups define permitted payment differences for employees (upper limits) and customers/vendors (cash discount percentages and amounts).</p></div>
+        <div class="card"><div class="card-tag">Taxes</div><h3>Tax Codes</h3><p>Tax codes define tax type (input/output) and tax rate. Account assignments for tax postings are defined in FTXP. Jurisdiction codes used in some countries.</p></div>
+        <div class="card"><div class="card-tag">Business Partner</div><h3>BP Configuration</h3><p>Account groups control number ranges and field status for vendors/customers. BP role categories map FI subledger roles to the unified BP.</p></div>
+      </div>
+
+      <h3 class="topic">Payment Terms Configuration</h3>
+      <div class="prose">
+        <p>Payment terms (OBB8) define the structure of payment conditions:</p>
+        <ul>
+          <li><strong>Baseline Date Calculation:</strong> Document date, posting date, entry date, or from invoice date.</li>
+          <li><strong>Payment Terms Block:</strong> Three payment blocks with day limit, percentage discount, and number of days.</li>
+          <li>Example: "2% within 14 days, 1% within 30 days, net 60": If paid by day 14 → 2% discount; by day 30 → 1% discount; by day 60 → no discount.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Common Practices for SAP S/4HANA Implementation</h3>
+      <div class="info-box note">
+        <strong>Migration from ECC to S/4HANA</strong>
+        Key changes in configuration: (1) Business Partner replaces vendor/customer master — migration tool FLBPD1 converts existing data. (2) New Asset Accounting requires migration from Classic AA. (3) New GL document splitting replaces the optional classic document splitting. (4) ACDOCA replaces FAGLFLEXT and BSEG as the primary data source for all FI reports.
+      </div>
+      <div class="prose">
+        <ul>
+          <li>SAP Readiness Check analyzes your ECC system and identifies required changes.</li>
+          <li>Simplification List documents all features removed or changed in S/4HANA.</li>
+          <li>Custom Code Migration Guide helps adapt ABAP programs to the new data model.</li>
+          <li>SAP Best Practices provide pre-configured content for accelerated implementations.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== COMPARISON ===== -->
+    <div class="section" id="section-comparison">
+      <h2>ECC vs SAP S/4HANA – Detailed Comparison</h2>
+      <p class="lead">Comprehensive side-by-side view of SAP ERP (ECC, TFIN50/52 curriculum) versus SAP S/4HANA (S4F curriculum) across all Financial Accounting sub-areas.</p>
+
+      <table class="compare-table">
+        <tr><th>Area / Feature</th><th>SAP ECC (TFIN50/52)</th><th>SAP S/4HANA (S4F series)</th></tr>
+        <tr><td>Database</td><td>Any RDBMS (Oracle, DB2, MSSQL, MaxDB)</td><td>SAP HANA only</td></tr>
+        <tr><td>Data Model</td><td>BKPF (header), BSEG (line items), BSAD/BSID (cleared items), FAGLFLEXT (totals)</td><td>Universal Journal ACDOCA — one table for all line items</td></tr>
+        <tr><td>User Interface</td><td>SAP GUI (transaction codes)</td><td>SAP Fiori + SAP GUI (both supported)</td></tr>
+        <tr><td>Vendor Master</td><td>Separate LFA1 (general), LFB1 (company code), LFM1 (purchasing)</td><td>Business Partner (BUT000) with role FLVN01</td></tr>
+        <tr><td>Customer Master</td><td>Separate KNA1 (general), KNB1 (company code), KNVV (sales)</td><td>Business Partner (BUT000) with role FLCU01</td></tr>
+        <tr><td>General Ledger</td><td>Classic GL (optional: New GL with activation)</td><td>New GL always on; leading and non-leading ledgers standard</td></tr>
+        <tr><td>Document Splitting</td><td>Optional with New GL; complex activation</td><td>Standard feature; always available</td></tr>
+        <tr><td>Profit Center Accounting</td><td>Classic EC-PCA (separate totals table)</td><td>Integrated in ACDOCA — no separate EC-PCA</td></tr>
+        <tr><td>Segment Reporting</td><td>Requires New GL + segment characteristic</td><td>Built into ACDOCA by default</td></tr>
+        <tr><td>Asset Accounting</td><td>Classic AA (ANLC, ANEP tables); FI-AA runs depreciation outside FI</td><td>New AA — depreciation areas post directly to ACDOCA; real-time integration</td></tr>
+        <tr><td>Depreciation</td><td>Monthly batch job (AFAB) updates FI via separate step</td><td>Real-time during posting; batch job optional for performance</td></tr>
+        <tr><td>Bank Communication</td><td>Manual or BCM (Bank Communication Management add-on)</td><td>SAP Cash Management advanced with bank connectivity hub</td></tr>
+        <tr><td>Payment Program</td><td>F110 with SAP GUI; SEPA supported from EHP5+</td><td>F110 + Fiori apps; Digital Payments add-on for modern methods</td></tr>
+        <tr><td>CO Reconciliation</td><td>Required: period-end reconciliation ledger (KA12)</td><td>Not needed — FI and CO are in the same ACDOCA journal</td></tr>
+        <tr><td>Controlling Integration</td><td>FI-CO integration via automatic accounts; reconciliation required</td><td>Fully merged in Universal Journal — real-time, no reconciliation</td></tr>
+        <tr><td>Closing Cockpit</td><td>SAP Closing Cockpit (add-on or activated)</td><td>Fiori-based Financial Closing Cockpit — standard</td></tr>
+        <tr><td>Archiving</td><td>Standard archiving via SARA</td><td>SAP ILM (Information Lifecycle Management) integrated</td></tr>
+        <tr><td>Analytics</td><td>Report Painter, ABAP List Viewer, BW extraction</td><td>Embedded analytics (CDS views), SAP Analytics Cloud integration</td></tr>
+      </table>
+    </div>
+
+    <!-- ===== SOURCES ===== -->
+    <div class="section" id="section-sources">
+      <h2>Source Documents</h2>
+      <p class="lead">This reference was compiled from the following official SAP training materials and the SAP Help Portal.</p>
+
+      <ul class="source-list">
+        <li>
+          <span class="src-badge">S4F10</span>
+          <div class="src-info">
+            <strong>Business Processes in Financial Accounting in SAP S/4HANA</strong>
+            <span>Course Version 20 · 5 Days · Material No. 50158588 · © 2022 SAP SE · 208 pages</span>
+          </div>
+        </li>
+        <li>
+          <span class="src-badge">S4F12</span>
+          <div class="src-info">
+            <strong>Basics of Customizing for Financial Accounting: GL, AP, AR in SAP S/4HANA</strong>
+            <span>Course Version 20 · 5 Days · Material No. 50158545 · © 2022 SAP SE · 262 pages</span>
+          </div>
+        </li>
+        <li>
+          <span class="src-badge">S4F13</span>
+          <div class="src-info">
+            <strong>Additional Financial Accounting Configuration in SAP S/4HANA</strong>
+            <span>Course Version 20 · © 2022 SAP SE · 291 pages</span>
+          </div>
+        </li>
+        <li>
+          <span class="src-badge">S4F15</span>
+          <div class="src-info">
+            <strong>Financial Closing in SAP S/4HANA</strong>
+            <span>Course Version 20 · © 2022 SAP SE · 208 pages</span>
+          </div>
+        </li>
+        <li>
+          <span class="src-badge">S4F17</span>
+          <div class="src-info">
+            <strong>Asset Accounting in SAP S/4HANA</strong>
+            <span>Course Version 20 · © 2022 SAP SE · 192 pages</span>
+          </div>
+        </li>
+        <li>
+          <span class="src-badge old">TFIN50-1</span>
+          <div class="src-info">
+            <strong>Business Processes in Financial Accounting (ECC) Part 1</strong>
+            <span>Legacy ECC curriculum · 2018 · 370 pages</span>
+          </div>
+        </li>
+        <li>
+          <span class="src-badge old">TFIN50-2</span>
+          <div class="src-info">
+            <strong>Business Processes in Financial Accounting (ECC) Part 2</strong>
+            <span>Legacy ECC curriculum · 2018 · 500 pages</span>
+          </div>
+        </li>
+        <li>
+          <span class="src-badge old">TFIN52-1</span>
+          <div class="src-info">
+            <strong>Customizing Financial Accounting in SAP ERP (ECC) Part 1</strong>
+            <span>Legacy ECC curriculum · 2018 · 582 pages</span>
+          </div>
+        </li>
+        <li>
+          <span class="src-badge old">TFIN52-2</span>
+          <div class="src-info">
+            <strong>Customizing Financial Accounting in SAP ERP (ECC) Part 2</strong>
+            <span>Legacy ECC curriculum · 2018 · 342 pages</span>
+          </div>
+        </li>
+        <li>
+          <span class="src-badge">PORTAL</span>
+          <div class="src-info">
+            <strong>SAP Help Portal – Financial Accounting – General Topics</strong>
+            <span>SAP S/4HANA 2025 FPS02 (October 2026) · help.sap.com</span>
+          </div>
+        </li>
+      </ul>
+
+      <div class="info-box tip">
+        <strong>About this Reference</strong>
+        Content synthesized from SAP-official training materials (S4F series, TFIN series) and the SAP Help Portal. The S4F series reflects SAP S/4HANA 2022; the SAP Help Portal content reflects version 2025 FPS02. TFIN materials remain relevant for ECC systems still in operation.
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+const titles = {
+  overview: 'Overview – SAP Financial Accounting',
+  s4hana: 'SAP S/4HANA Overview & SAP Fiori',
+  gl: 'General Ledger Accounting (FI-GL)',
+  ap: 'Accounts Payable (FI-AP)',
+  ar: 'Accounts Receivable (FI-AR)',
+  aa: 'Asset Accounting (FI-AA)',
+  bl: 'Bank Accounting (FI-BL)',
+  closing: 'Financial Closing (S4F15)',
+  additional: 'Additional Financial Accounting (S4F13)',
+  customizing: 'FI Customizing & Configuration (S4F12)',
+  comparison: 'ECC vs SAP S/4HANA Comparison',
+  sources: 'Source Documents'
+};
+
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('#sidebar nav a').forEach(a => a.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  document.getElementById('nav-' + id).classList.add('active');
+  document.getElementById('topbar-title').textContent = titles[id] || id;
+  document.getElementById('sidebar').classList.remove('open');
+  window.scrollTo(0, 0);
+  return false;
+}
+
+function innerTab(el, panelId) {
+  const container = el.closest('.section') || el.parentElement.parentElement;
+  container.querySelectorAll('.inner-tab').forEach(t => t.classList.remove('active'));
+  container.querySelectorAll('.inner-panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  const panel = document.getElementById('ip-' + panelId);
+  if (panel) panel.classList.add('active');
+}
+
+// Close sidebar on outside click
+document.addEventListener('click', function(e) {
+  const sb = document.getElementById('sidebar');
+  if (sb.classList.contains('open') && !sb.contains(e.target) && e.target.id !== 'menu-toggle') {
+    sb.classList.remove('open');
+  }
+});
+</script>
+</body>
+</html>
