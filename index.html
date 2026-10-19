@@ -310,6 +310,7 @@ h4.subtopic { font-size: 14px; font-weight: 700; color: var(--sap-text); margin:
     <a href="#" onclick="show('customizing')" id="nav-customizing"><span class="icon">⚙️</span> Customizing / Config</a>
 
     <div class="section-label">Reference</div>
+    <a href="#" onclick="show('tcodes')" id="nav-tcodes"><span class="icon">⌨️</span> T-Code Reference</a>
     <a href="#" onclick="show('comparison')" id="nav-comparison"><span class="icon">🔄</span> ECC vs S/4HANA</a>
     <a href="#" onclick="show('sources')" id="nav-sources"><span class="icon">📚</span> Source Documents</a>
   </nav>
@@ -545,6 +546,153 @@ h4.subtopic { font-size: 14px; font-weight: 700; color: var(--sap-text); margin:
           In ECC, New GL with document splitting was an optional activation. In S/4HANA, the Universal Journal always captures all splitting characteristics — document splitting is standard behavior.
         </div>
       </div>
+
+      <h3 class="topic">G/L Account Master Record – Detail</h3>
+      <div class="prose">
+        <p>A G/L account is created at two levels (FS00 maintains both centrally; FSP0 = chart of accounts segment only; FSS0 = company code segment only).</p>
+        <table>
+          <thead><tr><th>Segment</th><th>Fields</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Chart of Accounts segment</strong></td><td>Account number, account group, G/L account type, short/long text, group account number, trading partner</td><td>Valid for every company code using that chart of accounts</td></tr>
+            <tr><td><strong>Company Code segment</strong></td><td>Account currency, only balances in local currency, tax category, posting without tax allowed, reconciliation account type, open item management, line item display, sort key, field status group, automatic posting only, house bank/account ID</td><td>Company-code-specific control of posting behaviour</td></tr>
+          </tbody>
+        </table>
+        <h4 class="subtopic">G/L Account Types (S/4HANA)</h4>
+        <table>
+          <thead><tr><th>Type</th><th>Meaning</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>X – Balance Sheet</td><td>Assets, liabilities, equity</td><td>Balance carried forward to itself</td></tr>
+            <tr><td>N – Non-operating Expense/Income</td><td>P&amp;L accounts not relevant to CO</td><td>Carried to retained earnings</td></tr>
+            <tr><td>P – Primary Costs/Revenue</td><td>P&amp;L accounts that are also CO cost elements</td><td>Replaces separate cost element master (KA01) – merged in S/4HANA</td></tr>
+            <tr><td>S – Secondary Costs</td><td>Internal CO allocations (assessment, activity allocation)</td><td>Posted only within CO, visible in ACDOCA</td></tr>
+            <tr><td>C – Cash Account</td><td>Bank / cash GL accounts</td><td>Needed for Bank Account Management &amp; cash management (S/4HANA 1909+)</td></tr>
+          </tbody>
+        </table>
+        <h4 class="subtopic">Important Control Fields</h4>
+        <ul>
+          <li><strong>Reconciliation account for account type (D / K / A):</strong> Subledger postings (customer, vendor, asset) update this account automatically. Direct manual posting is blocked.</li>
+          <li><strong>Open item management:</strong> Account items must be cleared by offsetting postings (bank clearing, GR/IR, salaries payable). Enables F-03 clearing and open item lists.</li>
+          <li><strong>Line item display:</strong> In S/4HANA, always technically available via ACDOCA; the flag controls the classic FBL3N behaviour.</li>
+          <li><strong>Only balances in local currency:</strong> Required for clearing accounts posted in multiple currencies (e.g., GR/IR) so differences do not arise from exchange rates.</li>
+          <li><strong>Tax category:</strong> “-” input tax only, “+” output tax only, “*” all tax types, “&lt;” input tax account, “&gt;” output tax account; “Posting without tax allowed” permits tax-free postings.</li>
+          <li><strong>Field status group:</strong> Determines which fields are Suppressed / Required / Optional on the posting screen. Linked to the Field Status Variant assigned to the company code (OBC4).</li>
+          <li><strong>Sort key:</strong> Fills the “Assignment” field automatically (e.g., 001 posting date, 009 external document number, 031 customer number).</li>
+        </ul>
+        <h4 class="subtopic">Account Groups (OBD4)</h4>
+        <p>Account groups classify G/L accounts (e.g., SAKO liquid funds, ERG P&amp;L, ANL fixed assets, MAT materials) and control (1) the <strong>number range interval</strong> and (2) the <strong>field status</strong> of the master record. The number range of the account group must be respected when creating an account.</p>
+        <h4 class="subtopic">Retained Earnings Account (OB53)</h4>
+        <p>Each P&amp;L account is assigned a P&amp;L statement account type (usually “X”) which points to a retained earnings account. At balance carryforward, the P&amp;L balances are transferred to this account. More than one retained-earnings account is possible (e.g., for different equity presentations).</p>
+      </div>
+
+      <h3 class="topic">Document Principle and Document Control</h3>
+      <div class="prose">
+        <p>Every posting creates an FI document consisting of a <strong>header</strong> (document date, posting date, document type, period, currency, reference, header text) and 2 – 999 <strong>line items</strong> (posting key, account, amount, tax code, cost object, text). In S/4HANA the complete journal entry is stored in table <strong>ACDOCA</strong>; BKPF remains the header, BSEG is kept for compatibility (compatibility views for BSIS/BSAS/BSID/BSAD/BSIK/BSAK).</p>
+        <h4 class="subtopic">Document Types (OBA7)</h4>
+        <table>
+          <thead><tr><th>Type</th><th>Use</th><th>Account types allowed</th><th>Default number range</th></tr></thead>
+          <tbody>
+            <tr><td>SA</td><td>G/L account document</td><td>S</td><td>01</td></tr>
+            <tr><td>AB</td><td>Accounting document (all)</td><td>A D K M S</td><td>01</td></tr>
+            <tr><td>KR / KG</td><td>Vendor invoice / credit memo</td><td>K S</td><td>19 / 17</td></tr>
+            <tr><td>KZ</td><td>Vendor payment</td><td>K S</td><td>15</td></tr>
+            <tr><td>DR / DG</td><td>Customer invoice / credit memo</td><td>D S</td><td>18 / 16</td></tr>
+            <tr><td>DZ</td><td>Customer payment</td><td>D S</td><td>14</td></tr>
+            <tr><td>RE / RV</td><td>Logistics invoice (MIRO) / Billing (SD)</td><td>K S / D S</td><td>51 / 00 (external, = billing document no.)</td></tr>
+            <tr><td>WA / WE</td><td>Goods issue / Goods receipt</td><td>M S</td><td>49 / 50</td></tr>
+            <tr><td>AA / AF</td><td>Asset posting / Depreciation</td><td>A S</td><td>01 / 03</td></tr>
+            <tr><td>ZP / ZV</td><td>Payment program posting / clearing</td><td>D K S</td><td>20</td></tr>
+          </tbody>
+        </table>
+        <p>Document type controls: number range, allowed account types, reversal document type, “net document type” (cash discount deducted at invoice), required reference / header text, exchange rate type for FX, and authorization group. Number ranges (FBN1) are defined per company code and fiscal year (year-dependent or “9999” year-independent), internal or external.</p>
+        <h4 class="subtopic">Posting Keys (OB41)</h4>
+        <table>
+          <thead><tr><th>Key</th><th>Dr/Cr</th><th>Account type</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td>40 / 50</td><td>Dr / Cr</td><td>G/L (S)</td><td>Debit / credit G/L account</td></tr>
+            <tr><td>01 / 11</td><td>Dr / Cr</td><td>Customer (D)</td><td>Invoice / credit memo</td></tr>
+            <tr><td>15 / 05</td><td>Cr / Dr</td><td>Customer</td><td>Incoming payment / outgoing payment</td></tr>
+            <tr><td>09 / 19</td><td>Dr / Cr</td><td>Customer special G/L</td><td>Down payment request, down payment, etc.</td></tr>
+            <tr><td>31 / 21</td><td>Cr / Dr</td><td>Vendor (K)</td><td>Invoice / credit memo</td></tr>
+            <tr><td>25 / 35</td><td>Dr / Cr</td><td>Vendor</td><td>Outgoing payment / incoming payment</td></tr>
+            <tr><td>29 / 39</td><td>Dr / Cr</td><td>Vendor special G/L</td><td>Down payment, guarantee, etc.</td></tr>
+            <tr><td>70 / 75</td><td>Dr / Cr</td><td>Asset (A)</td><td>Asset acquisition / retirement (with transaction type)</td></tr>
+            <tr><td>89 / 99</td><td>Dr / Cr</td><td>Material (M)</td><td>Stock inward / outward movement</td></tr>
+          </tbody>
+        </table>
+        <p>The posting key controls debit/credit, account type, and field status of the line item (combined with the account’s field status group – the stricter of the two wins, except “Required” + “Suppressed” is an error). In Fiori / Enjoy transactions (FB50, FB60, FB70) the posting key is derived automatically from the Debit/Credit indicator.</p>
+        <h4 class="subtopic">Posting Periods (OB52)</h4>
+        <p>The posting period variant has one row per account type (+ all, A, D, K, M, S) with ranges of accounts and two (in S/4HANA three) period intervals: <strong>Interval 1</strong> (normally the current period, can be restricted by authorization group), <strong>Interval 2</strong> (usually special periods 13–16 for year-end adjustments), and <strong>Interval 3</strong> (for CO postings only). The system derives the period from the posting date and the fiscal year variant and checks that it is open.</p>
+        <h4 class="subtopic">Reference Documents and Posting Aids</h4>
+        <ul>
+          <li><strong>Post with reference (FB50 → Post with reference / FBR2):</strong> Copy an existing document, optionally reversing or generating a new one.</li>
+          <li><strong>Account assignment model (FKMT):</strong> Template with fixed accounts and equivalence numbers to distribute amounts.</li>
+          <li><strong>Sample documents (F-01):</strong> Stored under number range X2, never update balances; used as templates.</li>
+          <li><strong>Recurring entries (FBD1 create, FBD3 display, F.14 execute, F.15 list):</strong> Document stored in number range X1; the recurring entry program posts it on scheduled dates (interval or run schedule), e.g., rent, insurance, leasing.</li>
+          <li><strong>Hold (F-02 → Hold) vs Park (FBV1 / FV50):</strong> Held documents are personal and have a temporary ID; parked documents receive a real document number, can be reported, changed by others, released via workflow, and posted with FBV0.</li>
+        </ul>
+        <h4 class="subtopic">Reversal</h4>
+        <p>Individual reversal FB08, mass reversal F.80. The <strong>reversal reason</strong> (OBXK) controls whether (a) a negative posting is allowed – reducing the transaction figures instead of inflating debit and credit – and (b) an alternative posting date may be used. Accrual/deferral documents (FBS1) are reversed with F.81 on the reversal date stored in the document.</p>
+      </div>
+
+      <h3 class="topic">Clearing and Open Item Management</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>Account clearing (F-03 G/L, F-32 customer, F-44 vendor):</strong> Select open items with a zero balance – generates a clearing document without line items (unless differences or exchange rate differences arise).</li>
+          <li><strong>Post with clearing (F-28 incoming / F-53 outgoing payment, F-30):</strong> Enter a payment line and simultaneously clear the open item(s).</li>
+          <li><strong>Automatic clearing (F.13 / F13E):</strong> Clears items with identical values in the criteria defined in OB74 (e.g., assignment, reference, business area) – typical for GR/IR and bank clearing accounts.</li>
+          <li><strong>Payment differences:</strong> within tolerance → cash discount adjustment or expense/revenue posting (OBXL reason codes); outside tolerance → residual item (new open item for the remainder) or partial payment (original item stays open, payment posted with reference) or posted on account.</li>
+          <li><strong>Resetting clearing (FBRA):</strong> Reverses the clearing; optionally reverses the clearing document as well.</li>
+          <li><strong>Exchange rate differences on clearing:</strong> Realised FX gains/losses are posted automatically to the accounts defined in OBA1 (KDF) per reconciliation / G/L account.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Ledgers, Currencies and the Universal Journal</h3>
+      <div class="prose">
+        <h4 class="subtopic">Ledger Types</h4>
+        <table>
+          <thead><tr><th>Ledger</th><th>Characteristics</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Leading ledger 0L</strong></td><td>Exactly one per client; assigned to all company codes; integrated with CO; fiscal year variant and posting period variant of the company code; basis for group accounting principle (e.g., IFRS).</td></tr>
+            <tr><td><strong>Non-leading (standard) ledger</strong></td><td>Parallel full set of books for another accounting principle (e.g., local GAAP, tax). Own fiscal year variant and posting period variant possible. All postings flow into it unless restricted by ledger group.</td></tr>
+            <tr><td><strong>Extension ledger</strong></td><td>S/4HANA only. Points to an underlying ledger and stores only delta postings (manual adjustments, simulations, management view). Reporting = base ledger + extension. Types: standard, valuation-line-item, prediction/simulation (for commitments / sales orders).</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Ledger groups</strong> let you post to a subset of ledgers (ledger-group-specific postings FB50L / FB01L). A ledger group with the same name as the ledger is created automatically. Documents with ledger group get a representative ledger that determines period checks.</p>
+        <h4 class="subtopic">Currency Types</h4>
+        <table>
+          <thead><tr><th>Type</th><th>Name</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>00</td><td>Document currency</td><td>Entered in the document</td></tr>
+            <tr><td>10</td><td>Company code currency (local)</td><td>Mandatory</td></tr>
+            <tr><td>30</td><td>Group currency</td><td>Currency of the client (T000)</td></tr>
+            <tr><td>40 / 50 / 60</td><td>Hard / Index / Global company currency</td><td>Optional</td></tr>
+            <tr><td>Y1–Y9 / Z1–Z9</td><td>Freely defined currencies</td><td>S/4HANA: up to 10 currencies per ledger in ACDOCA (8 freely definable)</td></tr>
+          </tbody>
+        </table>
+        <p>Translation uses exchange rate types (M average, B bank buying, G bank selling, EURX for euro cross rates) with validity date, maintained in OB08 / TCURR. Translation ratio (OBBS) and direct vs indirect quotation are defined per currency pair.</p>
+        <h4 class="subtopic">Accounting Principles and Valuation</h4>
+        <p>An <strong>accounting principle</strong> (e.g., IFRS, LGAAP) is assigned to a ledger group (OB_ACCPRINC). Valuation areas (foreign currency valuation, asset depreciation areas) are linked to accounting principles so that valuation results post only to the ledgers of that principle.</p>
+      </div>
+
+      <h3 class="topic">G/L Reporting and Analysis</h3>
+      <div class="prose">
+        <table>
+          <thead><tr><th>Classic (ECC / GUI)</th><th>Fiori App (S/4HANA)</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td>FS10N / FAGLB03</td><td>Display G/L Account Balances</td><td>Monthly debit, credit, balance, cumulative balance per ledger</td></tr>
+            <tr><td>FBL3N / FAGLL03</td><td>Display Line Items in General Ledger / Manage Journal Entries</td><td>Open / cleared / all items with layout variants</td></tr>
+            <tr><td>FB03</td><td>Manage Journal Entries → display</td><td>Document display incl. entry view and general ledger view</td></tr>
+            <tr><td>S_ALR_87012284</td><td>Financial Statement / Trial Balance (Display Financial Statement)</td><td>Balance sheet &amp; P&amp;L via financial statement version</td></tr>
+            <tr><td>S_PL0_86000030</td><td>Trial Balance</td><td>Period balances per account, ledger, profit center, segment</td></tr>
+            <tr><td>FAGLGVTR</td><td>Carry Forward Balances</td><td>Balance carryforward per ledger (replaces F.07 / F.16)</td></tr>
+            <tr><td>—</td><td>G/L Account Balances – Comparison, Audit Journal, Journal Entry Analyzer</td><td>Embedded analytics on ACDOCA with CDS views</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box note">
+          <strong>Entry view vs General Ledger view</strong>
+          The entry view shows the document as entered. The general ledger view shows the document per ledger after document splitting, with zero-balance clearing lines and inherited profit center / segment. In S/4HANA both views read ACDOCA (the GL view) and BSEG (entry view).
+        </div>
+      </div>
     </div>
 
     <!-- ===== ACCOUNTS PAYABLE ===== -->
@@ -620,6 +768,120 @@ h4.subtopic { font-size: 14px; font-weight: 700; color: var(--sap-text); margin:
           </ul>
         </div>
       </div>
+
+      <h3 class="topic">Vendor / Business Partner Master – Detail</h3>
+      <div class="prose">
+        <p>Business Partner transaction <strong>BP</strong> replaces FK01/FK02/FK03 (and XK01). BP categories: Person, Organization, Group. Relevant BP roles: <strong>000000 General</strong>, <strong>FLVN00 Supplier (purchasing)</strong>, <strong>FLVN01 FI Supplier</strong>. Customer–Vendor Integration (CVI) synchronizes the BP with the classic tables LFA1 / LFB1 / LFM1, which remain as the technical persistence.</p>
+        <table>
+          <thead><tr><th>Segment</th><th>Key fields</th><th>Controlled by</th></tr></thead>
+          <tbody>
+            <tr><td>General data (client level)</td><td>Name, search term, address, language, tax numbers (VAT reg. no.), bank details (bank key / account / IBAN / SWIFT), payment cards, industry</td><td>BP grouping → number range (internal / external), field status</td></tr>
+            <tr><td>Company code data</td><td>Reconciliation account, sort key, cash management group, payment terms, payment methods, payment block, house bank, alternative payee, tolerance group, check double invoice, withholding tax type/code, dunning procedure, accounting clerk, head office</td><td>Account group (OBD3) field status + company code field status</td></tr>
+            <tr><td>Purchasing organization data</td><td>Order currency, incoterms, purchasing terms of payment, GR-based IV, evaluated receipt settlement (ERS), partner functions (OA ordering address, PI invoicing party, VN vendor)</td><td>Purchasing organization</td></tr>
+          </tbody>
+        </table>
+        <ul>
+          <li><strong>One-time vendors (CPD):</strong> Account group with only generic data; address and bank entered at invoice time.</li>
+          <li><strong>Alternative payee:</strong> Payment goes to another BP (defined in general data for all company codes, or in company-code data; “Individual spec.” allows entry per document).</li>
+          <li><strong>Head office / branch:</strong> Postings on the branch are automatically recorded on the head office account; “Decentralized processing” lets dunning/payment still address the branch.</li>
+          <li><strong>Sensitive fields (dual control):</strong> Changes to defined fields (e.g., bank details) block payments until confirmed by a second user (FK08 / FK09).</li>
+          <li><strong>Blocking / deletion flags:</strong> Posting block (per company code or all), purchasing block, payment block, flag for deletion (archiving).</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Invoice and Credit Memo Processing</h3>
+      <div class="prose">
+        <h4 class="subtopic">Direct FI Invoice (FB60 / Fiori “Create Supplier Invoice”)</h4>
+        <ul>
+          <li>Enter vendor, invoice date, posting date, reference (external invoice number), amount, tax code (or “Calculate tax” flag), payment terms (defaulted from master), baseline date.</li>
+          <li>Line items: G/L account, D/C indicator, amount, cost center / internal order / WBS, text. System derives posting keys 31 (vendor) and 40 (expense) and generates the tax line and the reconciliation account line.</li>
+          <li><strong>Document check “Check double invoice”</strong> warns if reference, date and amount already exist for the vendor.</li>
+          <li>Credit memo FB65 (posting key 21) – reference to invoice can be entered in “Invoice reference” so that payment terms and due date are taken over.</li>
+          <li>Net vs gross procedure: with net document type (KN) the cash discount is deducted immediately and posted to the clearing account; with gross (KR) the discount is realised at payment.</li>
+        </ul>
+        <h4 class="subtopic">Logistics Invoice Verification (MIRO) – Three-way match</h4>
+        <p>Purchase Order (quantity/price) → Goods Receipt (MIGO, posts Dr Stock / Cr GR/IR clearing) → Invoice Receipt (MIRO, posts Dr GR/IR / Dr Input tax / Cr Vendor). Variances within tolerance (OMR6) are posted to price difference accounts; outside tolerance the invoice is blocked for payment (payment block R) and released with MRBR. The <strong>GR/IR account</strong> is cleared automatically (F.13) when quantities match; remaining balances are regrouped at period end with F.19 / MR11 (maintain GR/IR clearing).</p>
+        <h4 class="subtopic">Payment Terms (OBB8)</h4>
+        <ul>
+          <li>Baseline date default: no default / document date / posting date / entry date; optional fixed day and additional months.</li>
+          <li>Up to three instalments: e.g., 3% within 14 days, 2% within 30 days, net 45 days.</li>
+          <li>Instalment payment terms (OBB9) split one invoice into several due items with percentage shares.</li>
+          <li>Payment terms can be flagged for customer, vendor, or both; day limits allow different terms depending on the day of the month.</li>
+          <li>Cash discount base: gross or net of tax (company-code setting OBY6 “Discount base is net”).</li>
+        </ul>
+        <h4 class="subtopic">Down Payments (Special G/L transactions)</h4>
+        <ol>
+          <li><strong>Down payment request</strong> F-47 (noted item, special G/L indicator F) – no balance update, triggers payment program.</li>
+          <li><strong>Down payment</strong> made F-48 or via F110 (special G/L indicator A, posted to alternative reconciliation account “Down payments made”).</li>
+          <li><strong>Invoice</strong> received FB60 / MIRO.</li>
+          <li><strong>Clearing of down payment</strong> F-54 transfers the down payment to the normal reconciliation account against the invoice; remaining amount paid with F110.</li>
+        </ol>
+      </div>
+
+      <h3 class="topic">Automatic Payment Program (F110) – Full Process</h3>
+      <div class="prose">
+        <h4 class="subtopic">Configuration (FBZP)</h4>
+        <table>
+          <thead><tr><th>FBZP step</th><th>Content</th></tr></thead>
+          <tbody>
+            <tr><td>All company codes</td><td>Sending and paying company code, separate payment per business area, tolerance days, cash discount handling (maximum / always), special G/L transactions to be paid (A, F, …), vendor/customer netting</td></tr>
+            <tr><td>Paying company codes</td><td>Minimum amounts for incoming/outgoing payments, forms for payment advice and EDI, sender details, bill of exchange parameters</td></tr>
+            <tr><td>Payment methods in country</td><td>Key (C check, T bank transfer, S SEPA credit transfer, D SEPA direct debit, E/U…), outgoing/incoming, classification (check / bank transfer / bill of exchange), master record requirements (address, bank details, IBAN, SWIFT), document type for payment and clearing, payment medium program (classic RFFO* or Payment Medium Workbench format e.g. SEPA_CT), allowed currencies</td></tr>
+            <tr><td>Payment methods in company code</td><td>Minimum/maximum amount, foreign payments / foreign currency allowed, bank optimization (by postal code / bank group), form data, payment advice control (always / only if lines &gt; n), payment per due day, grouping</td></tr>
+            <tr><td>Bank determination</td><td><em>Ranking order</em> of house banks per payment method and currency; <em>bank accounts</em> (house bank + account ID → G/L bank sub-account, clearing account); <em>available amounts</em> per bank account (outgoing / incoming limits); <em>value date</em> (days to add); <em>expenses/charges</em></td></tr>
+            <tr><td>House banks</td><td>FI12 / Fiori Manage Bank Accounts: house bank ID, bank key, account ID, bank account number, IBAN, G/L account, currency</td></tr>
+          </tbody>
+        </table>
+        <h4 class="subtopic">Execution Steps</h4>
+        <ol>
+          <li><strong>Parameters</strong> – run date and identification; posting date; documents entered up to; company codes; payment methods (sequence = priority); next payment date (items that would become overdue before the next run are included); vendor / customer ranges; free selection (e.g., document type, payment block); additional log; payment medium variants.</li>
+          <li><strong>Proposal run</strong> – creates the payment proposal (REGUH / REGUP). Exception list shows items not paid with error reasons (e.g., 003 payment block, 006 account blocked, 007 no valid payment method, 017 bank details missing). Proposal can be edited: change payment method, house bank, block / unblock items, re-allocate.</li>
+          <li><strong>Payment run</strong> – posts payment documents (document type ZP), clears open items, creates payment data for the medium.</li>
+          <li><strong>Payment medium</strong> – <em>Payment Medium Workbench (PMW)</em> creates files (DME / XML e.g. pain.001.001.03 for SEPA) via format and format supplement, mapped by payment medium format → variant (SE38 program SAPFPAYM); classic RFFO* programs print checks (RFFOUS_C) or create DME; payment advices and payment summary are spooled.</li>
+          <li><strong>Automatic scheduling</strong> – F110S / Schedule Manager batch-input; Fiori “Manage Automatic Payments” and “Schedule Payment Proposals”.</li>
+        </ol>
+        <h4 class="subtopic">Payment Logic</h4>
+        <ul>
+          <li>Due date determination: baseline date + days of the payment term; the program pays with the <strong>maximum cash discount</strong> if the item is still within discount period at next run date, otherwise at net due date (“Pay immediately” tolerance days).</li>
+          <li>Payment method selection: document payment method (manually in the item) &gt; payment method list in master record &gt; payment program parameters – checked in the order of the parameter sequence.</li>
+          <li>Grouping: items of one vendor are normally paid together; “Single payment” flag in master or document pays separately; “Payment per due day” option.</li>
+          <li>Payment block keys (OB27): A blocked for payment (set by down payment), R invoice verification, * skip account, blank free for payment; flags “changeable in payment proposal” and “not changeable”.</li>
+          <li>Cross-company-code payments: the paying company code pays on behalf of sending company codes; intercompany clearing accounts (OBYA).</li>
+        </ul>
+        <h4 class="subtopic">Check Management</h4>
+        <p>Check lots per house bank/account (FCHI); print and assign check numbers (FCH5 manual, F110 automatic); check register FCHN; void checks (FCH3 unused, FCH8 reverse payment + void, FCH9 void issued check); cashed-check update via EBS. Reasons for voiding (FCHV).</p>
+      </div>
+
+      <h3 class="topic">AP Period-End Activities</h3>
+      <div class="prose">
+        <table>
+          <thead><tr><th>Activity</th><th>T-Code / App</th><th>What happens</th></tr></thead>
+          <tbody>
+            <tr><td>Balance confirmation (vendors)</td><td>F.18 / SAPF130K</td><td>Letters to selected vendors with open items (balance notification, balance request, balance confirmation); reply check list</td></tr>
+            <tr><td>Foreign currency valuation</td><td>FAGL_FC_VAL / Fiori “Perform Foreign Currency Valuation”</td><td>Open vendor items in foreign currency are valuated at closing rate; unrealised gain/loss posted to adjustment account (OBA1 KDB/KDF) and reversed on day 1 of next period (or delta logic)</td></tr>
+            <tr><td>Regrouping / sorting</td><td>FAGLF101 (F101 classic)</td><td>Vendors with debit balances moved to receivables account; payables sorted by remaining term (≤1 yr, 1–5 yrs, &gt;5 yrs) via target accounts (OBBV/OBBW/OBBX); affiliated companies separated by trading partner</td></tr>
+            <tr><td>GR/IR analysis</td><td>F.19 / MR11</td><td>Goods received not invoiced (accrued liability) and invoiced not received (asset) regrouped on the balance sheet</td></tr>
+            <tr><td>Interest calculation on vendor items</td><td>F.44 / F.4A</td><td>Interest on arrears or on balances (interest indicator in master)</td></tr>
+            <tr><td>Reports</td><td>FBL1N, FK10N, S_ALR_87012077 (vendor info), S_ALR_87012085 (due date analysis), S_ALR_87012078 (vendor payment history), Fiori “Supplier Payment Analysis”, “Days Payable Outstanding”</td><td>Reconciliation and analysis</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="topic">FI-AP Transaction Code Reference</h3>
+      <div class="prose">
+        <table>
+          <thead><tr><th>Area</th><th>Classic T-Code</th><th>Fiori app</th></tr></thead>
+          <tbody>
+            <tr><td>Master data</td><td>BP (FK01/02/03, XK01, FK05 block, FK06 delete flag)</td><td>Maintain Business Partner, Manage Supplier Master Data</td></tr>
+            <tr><td>Invoice / credit memo</td><td>FB60, FB65, F-43, F-41, MIRO, MIR7 (park), MR8M (cancel)</td><td>Create Supplier Invoice, Manage Supplier Invoices, Create Incoming Invoices</td></tr>
+            <tr><td>Payments</td><td>F-53, F-58 (with print), F110, F111 (payment requests), FBZP, FBPM (PMW), FCHI/FCHN/FCH5/FCH8</td><td>Post Outgoing Payments, Manage Automatic Payments, Manage Payment Media, Manage Payment Blocks</td></tr>
+            <tr><td>Down payments</td><td>F-47, F-48, F-54</td><td>Manage Supplier Down Payment Requests</td></tr>
+            <tr><td>Clearing</td><td>F-44, F.13, FBRA</td><td>Clear Outgoing Payments, Reset Cleared Items</td></tr>
+            <tr><td>Reporting</td><td>FBL1N, FK10N, S_ALR_87012082/85/77</td><td>Supplier Line Items, Display Supplier Balances, Supplier Aging</td></tr>
+            <tr><td>Closing</td><td>F.18, FAGL_FC_VAL, FAGLF101, F.19</td><td>Perform Foreign Currency Valuation, Regroup Receivables/Payables</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!-- ===== ACCOUNTS RECEIVABLE ===== -->
@@ -674,6 +936,112 @@ h4.subtopic { font-size: 14px; font-weight: 700; color: var(--sap-text); margin:
           <li>Revenue is posted per revenue account, taxes per tax account — all determined by the SD pricing procedure.</li>
           <li>Credit management in SD checks credit exposure (open orders + deliveries + AR open items) against the customer credit limit.</li>
         </ul>
+      </div>
+
+      <h3 class="topic">Customer / Business Partner Master – Detail</h3>
+      <div class="prose">
+        <p>BP roles: <strong>FLCU00 Customer (sales)</strong> and <strong>FLCU01 FI Customer</strong>; classic tables KNA1 / KNB1 / KNVV remain via CVI. Sales area data (sales org / distribution channel / division) holds shipping, billing, partner functions (SP sold-to, SH ship-to, BP bill-to, PY payer), incoterms, and pricing procedure. The <strong>payer</strong> partner determines the FI account posted by billing.</p>
+        <ul>
+          <li>Company code data: reconciliation account, payment terms, payment methods (incoming: direct debit D, SEPA DD), dunning procedure, dunning block, dunning recipient, dunning clerk, accounting clerk, interest indicator, tolerance group, credit memo payment terms, head office, alternative payer, lockbox.</li>
+          <li>Credit management: in S/4HANA the credit segment data (credit limit, risk class, check rule, score) is maintained in BP role <strong>UKM000</strong> (SAP Credit Management, FSCM) – FD32 of classic credit control area is replaced.</li>
+          <li>Correspondence: periodic account statements (indicator for monthly / weekly), bank statement, payment advice notes.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Invoice, Payment and Clearing in AR</h3>
+      <div class="prose">
+        <h4 class="subtopic">Invoice sources</h4>
+        <ul>
+          <li><strong>SD billing (VF01 / VF04 collective):</strong> Billing document → accounting document RV with posting key 01 to the payer, revenue accounts determined via account determination (VKOA: condition tables with chart of accounts, sales org, account assignment group of customer and material, account key ERL revenue / ERS sales deductions / MWS tax). Billing number = FI document number (external numbering) when number ranges match.</li>
+          <li><strong>Direct FI invoice FB70</strong> (posting key 01) and credit memo FB75 (posting key 11); F-22 / F-27 classic.</li>
+          <li><strong>Down payment request</strong> F-37 (noted item F), down payment received F-29 (special G/L A), clearing F-39; in SD via billing plan with down payment request billing type FAZ.</li>
+        </ul>
+        <h4 class="subtopic">Incoming payments</h4>
+        <ul>
+          <li><strong>Manual F-28</strong> (posting key 15 / 40 bank): select open items by document, reference, amount; cash discount granted automatically if within discount period; payment differences → tolerance (OBA3 customer tolerance group / OBA4 employee tolerance), reason codes (OBBE) for residual items, charge-off to expense, or partial payment.</li>
+          <li><strong>Payment advice notes (FBE1)</strong> hold remittance information before the payment arrives; the EBS or lockbox uses them for clearing.</li>
+          <li><strong>Electronic bank statement / lockbox</strong> clears customer items automatically using note-to-payee interpretation (document number, reference, amount).</li>
+          <li><strong>Direct debit via F110</strong> for customers with payment method D/SEPA DD and valid mandate.</li>
+          <li><strong>Payment cards:</strong> Authorization in SD, settlement run FCC1 creates the receivable on the clearing house account.</li>
+        </ul>
+        <h4 class="subtopic">Interest Calculation</h4>
+        <p>Item interest calculation (FINT / F.2B) on overdue items or balance interest (F.26); interest indicator in master record; interest rates, reference interest rates (OB81/OB83), calculation period, minimum amounts, posting via account determination (OBV1). Produces interest letters / documents.</p>
+      </div>
+
+      <h3 class="topic">Dunning – Configuration and Run (F150)</h3>
+      <div class="prose">
+        <h4 class="subtopic">Dunning procedure (FBMP)</h4>
+        <table>
+          <thead><tr><th>Element</th><th>Setting</th></tr></thead>
+          <tbody>
+            <tr><td>Dunning interval (days)</td><td>Minimum days between two dunning runs for the same account (e.g., 14)</td></tr>
+            <tr><td>Number of dunning levels</td><td>Up to 9; each level with days in arrears, calculate interest flag, always dun flag, print all items</td></tr>
+            <tr><td>Minimum days in arrears (account)</td><td>At least one item must exceed this to dun the account at all</td></tr>
+            <tr><td>Line item grace periods</td><td>Days added to due date before an item counts as overdue</td></tr>
+            <tr><td>Dunning charges</td><td>Fixed amount or percentage per level and currency, with minimum dunned amount</td></tr>
+            <tr><td>Minimum amounts</td><td>Minimum overdue amount / percentage per level to reach that level</td></tr>
+            <tr><td>Dunning texts / forms</td><td>SAPscript (F150_DUNN_01/02) or Smart Form / Adobe Form per level and company code; legal dunning procedure text</td></tr>
+            <tr><td>Special G/L indicators</td><td>Which special G/L transactions (e.g., down payment requests) are dunned</td></tr>
+            <tr><td>Dunning areas (OB61)</td><td>Optional sub-division of company code (e.g., by division) with own dunning procedure and level per item</td></tr>
+            <tr><td>Dunning keys (OB17)</td><td>Limit the dunning level an item can reach and print it separately</td></tr>
+            <tr><td>Dunning block reasons (OB18)</td><td>Block an item or account from dunning</td></tr>
+          </tbody>
+        </table>
+        <h4 class="subtopic">Dunning run steps</h4>
+        <ol>
+          <li><strong>Parameters:</strong> run date / identification; dunning date; documents posted up to; company codes; customer / vendor ranges; free selection.</li>
+          <li><strong>Dunning selection (schedule):</strong> Program determines overdue items (due date + grace days &lt; dunning date), the dunning level per item (days in arrears vs level definition; level can only rise by one per run unless “always dun”), the account dunning level (highest item level), checks minimum amounts, dunning interval and blocks → <strong>dunning proposal</strong>.</li>
+          <li><strong>Edit proposal:</strong> Change dunning level, block items/accounts, display dunning history; sample printout.</li>
+          <li><strong>Print / dispatch:</strong> Dunning notices printed or sent via e-mail/fax (BTE 1040), dunning charges and interest shown; the dunning level and last dunned date are updated in the item (MANSP / MABER) and account (KNB5).</li>
+          <li>Dunning history F150 → Dunning history or S_ALR_87012085; dunning via <strong>Collections Management (FSCM)</strong> in S/4HANA provides worklists instead of letters.</li>
+        </ol>
+        <div class="info-box note">
+          <strong>Dunning vendors</strong>
+          Vendors with debit balances (e.g., unpaid credit memos) can also be dunned; the dunning procedure must be entered in the vendor master and “dunning of vendors” is activated per procedure.
+        </div>
+      </div>
+
+      <h3 class="topic">Credit, Dispute and Collections Management (FSCM in S/4HANA)</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>SAP Credit Management (FIN-FSCM-CR):</strong> Credit segments, credit limit per BP, scoring rules, credit exposure from SD orders / deliveries / FI open items (credit exposure categories 100 open orders, 200 deliveries, 300 billing, 400 receivables), credit checks in SD (static / dynamic, horizon), blocked documents released with UKM_CASE / VKM1. Replaces FD32 / OVA8 classic credit control area.</li>
+          <li><strong>Dispute Management (UDM_DISPUTE):</strong> Dispute case created from a residual / partial payment or manually from FBL5N; case attributes (reason, processor, status, disputed amount), linked to FI documents; resolution via credit memo, write-off (automatic write-off program UDM_AUTOWRITEOFF) or payment. Cases visible in Fiori “Manage Dispute Cases”.</li>
+          <li><strong>Collections Management (UDM_SUPERVISOR / UDM_SPECIALIST):</strong> Collection strategies with rules (overdue amount, dunning level, promise to pay broken), worklists for collection specialists, customer contacts, promises to pay, and resubmissions – an alternative to dunning letters.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">AR Period-End Activities</h3>
+      <div class="prose">
+        <table>
+          <thead><tr><th>Activity</th><th>T-Code / App</th><th>Detail</th></tr></thead>
+          <tbody>
+            <tr><td>Balance confirmation (customers)</td><td>F.17 / SAPF130D</td><td>Procedures: <em>balance confirmation</em> (customer should reply in any case), <em>balance notification</em> (reply only if disagreeing), <em>balance request</em> (customer states balance). Selection by random sample / amount; reply addresses; check list and results table for auditors.</td></tr>
+            <tr><td>Foreign currency valuation</td><td>FAGL_FC_VAL</td><td>Open customer items in foreign currency valued at key date; posting to adjustment account per reconciliation account (OBA1 KDF) and P&amp;L unrealised gain/loss; reversal or delta posting.</td></tr>
+            <tr><td>Flat-rate individual value adjustment</td><td>F103 / F104 (SAPF107)</td><td>Provision method (OB04) with percentage of receivable per days overdue; F103 transfers overdue items to special G/L indicator E (valuation adjustment) with provision posting; F104 reverses the transfer when paid.</td></tr>
+            <tr><td>Individual value adjustment</td><td>F-21 with special G/L indicator E</td><td>Manual write-down of a specific doubtful receivable, posted to the valuation adjustment account; later write-off via F-30 / FBRA</td></tr>
+            <tr><td>Regrouping</td><td>FAGLF101</td><td>Customers with credit balances → payables; receivables sorted by remaining term; affiliated company receivables separated (trading partner)</td></tr>
+            <tr><td>Correspondence</td><td>FB12 request / F.61 print / F.62 periodic account statements / F.64 maintain</td><td>Correspondence types (OB77): SAP01 payment notice, SAP06 account statement, SAP08 open item list, SAP09 internal document, SAP10 individual letter; assigned to company codes with print programs (OB78)</td></tr>
+            <tr><td>Reports</td><td>FBL5N, FD10N, S_ALR_87012168 (due date analysis), S_ALR_87012172 (customer balances), S_ALR_87012178 (customer open item analysis by balance of overdue items)</td><td>Fiori: Customer Line Items, Days Sales Outstanding, Overdue Receivables, Process Receivables</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="topic">FI-AR Transaction Code Reference</h3>
+      <div class="prose">
+        <table>
+          <thead><tr><th>Area</th><th>Classic T-Code</th><th>Fiori app</th></tr></thead>
+          <tbody>
+            <tr><td>Master data</td><td>BP (FD01/02/03, XD01, FD05 block, FD06 delete flag, FD32 credit)</td><td>Maintain Business Partner, Manage Customer Master Data, Manage Credit Accounts</td></tr>
+            <tr><td>Invoice / credit memo</td><td>FB70, FB75, F-22, F-27, VF01, VF11 (cancel billing)</td><td>Create Outgoing Invoices, Manage Customer Invoices</td></tr>
+            <tr><td>Payments</td><td>F-28, F-26 (fast entry), FBE1 (payment advice), F110 (direct debit), FBL5N</td><td>Post Incoming Payments, Manage Payment Advices, Reprocess Bank Statement Items</td></tr>
+            <tr><td>Down payments</td><td>F-37, F-29, F-39</td><td>Manage Customer Down Payment Requests</td></tr>
+            <tr><td>Dunning</td><td>F150, FBMP, OB61, OB17, OB18</td><td>Manage Dunning Procedures (config), Dunning runs via GUI</td></tr>
+            <tr><td>Clearing</td><td>F-32, F-30, F.13, FBRA</td><td>Clear Incoming Payments, Reset Cleared Items</td></tr>
+            <tr><td>Correspondence</td><td>FB12, F.61, F.62, F.64, F.27 (periodic statements)</td><td>Manage Correspondence</td></tr>
+            <tr><td>Closing</td><td>F.17, FAGL_FC_VAL, F103, F104, FAGLF101</td><td>Perform Foreign Currency Valuation, Regroup Receivables/Payables</td></tr>
+            <tr><td>FSCM</td><td>UDM_DISPUTE, UDM_SUPERVISOR, UKM_CASE, UKM_BP</td><td>Manage Dispute Cases, Process Receivables, Manage Collection Worklists</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
@@ -766,6 +1134,159 @@ h4.subtopic { font-size: 14px; font-weight: 700; color: var(--sap-text); margin:
           </ul>
         </div>
       </div>
+
+      <h3 class="topic">Organizational Structures in FI-AA</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>Chart of depreciation (OADB / EC08 copy):</strong> Country-specific collection of depreciation areas (e.g., 0DE Germany, 0US USA, 1DE…). Copied from a reference chart and assigned to a company code (OAOB). One company code = one chart of depreciation; several company codes may share one.</li>
+          <li><strong>Depreciation areas (OADB):</strong> Typical set – 01 book depreciation (leading ledger / local GAAP), 15 tax balance sheet, 20 cost-accounting depreciation (CO), 30/31/32 group valuation in group currency / consolidated, 60 IFRS. Each area has a <em>posting indicator</em> (0 no posting, 1 post real time, 2 post APC periodically / 3 depreciation only, 4 APC immediately and depreciation periodically, 5 APC only), a <em>target ledger group</em>, an <em>accounting principle</em>, value-management rules (positive/negative APC, net book value allowed), and currency type.</li>
+          <li><strong>Derived depreciation areas:</strong> Calculated as formula from other areas (e.g., 03 = 02 – 01 special reserves), optionally posted.</li>
+          <li><strong>Asset classes (OAOA):</strong> Classification (buildings, machinery, vehicles, IT, low value assets, AuC); hold account determination, screen layout rule, number range (external / internal, AS08), default depreciation keys and useful life per depreciation area (OAYZ), status of AuC (none / line-item / summary settlement), low-value-asset check (maximum amount OAY2), inventory indicator, history sheet group.</li>
+          <li><strong>Account determination (AO90):</strong> Per chart of accounts, account determination key and depreciation area: APC account, accumulated depreciation, ordinary / special / unplanned depreciation expense, revenue from asset sale, clearing account for asset sale, gain / loss on retirement, down payments / AuC, revaluation accounts.</li>
+          <li><strong>Screen layout rules (AO21):</strong> Field status of asset master (required / optional / suppressed / display), maintenance level (asset class / main asset / sub-number), copying rules.</li>
+          <li><strong>Transaction types (AO73 / OAXE):</strong> 100 external acquisition, 110 in-house production, 120 goods receipt, 130 AuC acquisition, 200 retirement without revenue, 210 retirement with revenue, 250 retirement by scrapping, 300 intra-company transfer prior-year acquisition, 310 current-year, 320 complete transfer, 330 partial, 331–3xx intercompany transfers, 400 post-capitalisation, 500/600 write-up, 640/650 unplanned depreciation, 700/730 settlement of AuC. Transaction type groups define debit/credit, prior-/current-year, and asset history sheet position. Transaction types can be restricted to depreciation areas.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Asset Master Record (AS01 / Fiori “Manage Fixed Assets”)</h3>
+      <div class="prose">
+        <table>
+          <thead><tr><th>Tab</th><th>Fields</th></tr></thead>
+          <tbody>
+            <tr><td>General</td><td>Description, asset main number text, account determination (from class), serial number, inventory number, quantity / unit, manage historically, capitalisation date (set automatically by first acquisition), deactivation date, first acquisition date</td></tr>
+            <tr><td>Time-dependent</td><td>Cost center, responsible cost center, internal order, WBS element, plant, location, room, personnel number, shift factor – with validity intervals (time-dependent intervals allow cost center changes with history)</td></tr>
+            <tr><td>Allocations</td><td>Evaluation groups 1–5 (OAVA) and 8-character evaluation group, asset super number, investment reason, environmental protection indicator</td></tr>
+            <tr><td>Origin</td><td>Vendor, manufacturer, country of origin, type name, in-house produced %, original asset (for transfers), original value / acquisition year</td></tr>
+            <tr><td>Insurance / Leasing / Net worth tax</td><td>Insurance type and start, base value index; lease start, number of payments, payment cycle, interest rate, annuity (for lease-type leasing postings); property indicator, real estate</td></tr>
+            <tr><td>Depreciation areas</td><td>Per area: depreciation key, useful life (years/periods), expired useful life, ordinary depreciation start date, special depreciation start, scrap value / percentage, variable depreciation portion, index series, deactivated area (area can be removed for an asset), group asset, shift factor, change-over year</td></tr>
+          </tbody>
+        </table>
+        <ul>
+          <li><strong>Sub-numbers (AS11):</strong> Subsequent acquisitions or components managed separately (e.g., engine replacement); own depreciation terms possible per sub-number.</li>
+          <li><strong>Group assets (AS21):</strong> Several assets depreciated as a group (US tax ADR).</li>
+          <li><strong>Mass changes (AR31 / AR01 → worklist with substitution OA02):</strong> Change e.g. cost center for many assets via substitution rules.</li>
+          <li><strong>Legacy data transfer (AS91 / AS92; S/4HANA: ABLDT, LTMC/Migration cockpit, transfer date OAYC):</strong> Takeover of APC and accumulated depreciation per area; cumulative values transferred to G/L separately (OASV).</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Asset Transactions – Full Lifecycle</h3>
+      <div class="prose">
+        <h4 class="subtopic">Acquisitions</h4>
+        <ul>
+          <li><strong>With vendor, integrated (F-90 / FB60 with asset):</strong> Dr Asset (posting key 70, TTy 100) / Cr Vendor 31. Capitalisation date = asset value date. Depreciation start date determined by the period control of the depreciation key.</li>
+          <li><strong>Via purchasing (ME21N with account assignment category A → MIGO goods receipt → MIRO):</strong> Valuated GR posts to the asset immediately; non-valuated GR capitalises at invoice receipt.</li>
+          <li><strong>Automatic offsetting (ABZON):</strong> Acquisition with automatic offsetting entry to a clearing account (asset acquisition clearing, e.g., when the invoice is entered separately by AP).</li>
+          <li><strong>In-house production / AuC settlement:</strong> Costs collected on an internal order or WBS → settlement (KO88 / CJ88) to AuC (TTy 130) → final settlement to the completed asset (AIAB distribution rules, AIBU settlement; TTy 336/339 → 100).</li>
+          <li><strong>Post-capitalisation (ABNAN):</strong> Capitalise values that should have been capitalised in a prior year (TTy 400) with catch-up depreciation.</li>
+          <li><strong>Subsequent acquisition</strong> in a later year to the same asset – the depreciation key period control decides whether depreciation starts at the beginning of the year or at the acquisition period.</li>
+        </ul>
+        <h4 class="subtopic">Transfers</h4>
+        <ul>
+          <li><strong>Intra-company transfer (ABUMN):</strong> Move an asset (complete or partial, by amount / percentage / quantity) to another asset in the same company code (e.g., reclassification to another asset class, or AuC → final asset). Transfer variants (OAYZ / AO75) determine which values are transferred (gross = APC + accumulated depreciation; net = net book value) and which transaction types are used (300/310 → 320/330).</li>
+          <li><strong>Inter-company transfer (ABT1N):</strong> Between company codes; the “relationship type” (01 legally independent, 02 same company) and transfer method (gross / net / new value) define whether a sale with revenue or a transfer at NBV is posted; cross-company clearing accounts used.</li>
+        </ul>
+        <h4 class="subtopic">Retirements</h4>
+        <ul>
+          <li><strong>Sale with customer (F-92 / ABAON with revenue):</strong> Dr Customer 01 / Cr Revenue from asset sale (50) + asset retirement flag → system posts: Dr Accumulated depreciation, Dr Clearing asset sale, Cr Asset APC, gain or loss (TTy 210). Proportional depreciation up to the retirement period is posted automatically.</li>
+          <li><strong>Retirement without customer (ABAON):</strong> Revenue posted to clearing account.</li>
+          <li><strong>Scrapping (ABAVN):</strong> No revenue, NBV written off to loss (TTy 200).</li>
+          <li><strong>Partial retirement:</strong> By amount, percentage or quantity; prior-year and current-year acquisitions distinguished (TTy 200/250 vs 260).</li>
+          <li><strong>Mass retirement:</strong> Worklist via AR01 / AR31 with retirement as the purpose.</li>
+        </ul>
+        <h4 class="subtopic">Other Transactions</h4>
+        <ul>
+          <li><strong>Write-up (ABZU):</strong> Reverses excessive depreciation of prior years (TTy 700 ordinary, 710 special, 730 unplanned).</li>
+          <li><strong>Unplanned depreciation (ABAA):</strong> Manual, TTy 640 (prior-year) / 650 (current-year) – posted by the next depreciation run.</li>
+          <li><strong>Manual depreciation / transfer of reserves (ABMA / ABSO):</strong> For keys with manual depreciation method; special reserves (e.g., investment subsidies).</li>
+          <li><strong>Investment support (ABIF):</strong> Government grants managed as negative values on a separate depreciation area or as reduction of APC (investment support measure in OAYM / ANVA).</li>
+          <li><strong>Revaluation (AR29 / ABAW):</strong> Index-based or manual revaluation of APC and depreciation (inflation accounting).</li>
+          <li><strong>Reversal (AB08):</strong> Reverses an asset document together with the FI document.</li>
+        </ul>
+        <div class="info-box note">
+          <strong>Asset value date vs posting date</strong>
+          The asset value date determines the depreciation calculation (via period control) and must lie in the same fiscal year as the posting date. The posting date drives the FI period. In S/4HANA both the asset line and the FI line are one journal entry in ACDOCA – no more periodic APC posting program (ASKB) for areas posting in real time.
+        </div>
+      </div>
+
+      <h3 class="topic">Depreciation – Methods, Keys and Run</h3>
+      <div class="prose">
+        <h4 class="subtopic">Depreciation key (AFAMA) = combination of calculation methods</h4>
+        <table>
+          <thead><tr><th>Method</th><th>T-Code</th><th>Content</th></tr></thead>
+          <tbody>
+            <tr><td>Base method</td><td>AFAMR</td><td>Type of depreciation (ordinary / special / unplanned), depreciation method: percentage from useful life, stated percentage, total percentage in concessionary period, unit-of-production, declining balance with multiplier, immediate (100%), no depreciation. Treatment at end of useful life (dep. to zero, with curb).</td></tr>
+            <tr><td>Declining-balance method</td><td>AFAMD</td><td>Multiplication factor (e.g., 2× or 3× straight-line), maximum and minimum percentage.</td></tr>
+            <tr><td>Maximum amount method</td><td>AFAMH</td><td>Caps depreciation up to a maximum amount within a date.</td></tr>
+            <tr><td>Multi-level method</td><td>AFAMS</td><td>Phases (levels) of validity (years / periods from start) with base value (01 APC, 24 NBV, 27 NBV less scrap, 31 remaining useful life…), percentage, remaining life flag – allows e.g. 10% first 5 years then 5%, or sum-of-the-years-digits via percentages.</td></tr>
+            <tr><td>Period control method</td><td>AFAMP / OAVH</td><td>Rules for the start of depreciation for acquisitions, subsequent acquisitions, retirements and transfers: 01 pro rata at period start, 02 pro rata up to mid-period, 03 pro rata mid-period, 04 first-year convention (half-year), 06 start of year, 07 start of following year, 08 end of year, 11 next month (fiscal-year-variant dependent calendar assignments).</td></tr>
+          </tbody>
+        </table>
+        <p>Additional key settings: change-over method (e.g., from declining balance to straight-line when SL is higher – “changeover when NBV &lt; …”), multiple-shift usage (shift factor increases depreciation), scrap value handling (consider or not, cut-off value key AFAMS), “depreciation below zero / NBV negative allowed”, acquisition only allowed in capitalisation year, period control according to fiscal years. Common SAP standard keys: <strong>LINR</strong> straight-line from remaining life to book value zero, <strong>LINK</strong> straight-line from APC, <strong>DG20/DG30</strong> declining balance 2×/3×, <strong>GWG</strong> immediate (low value assets), <strong>0000</strong> no depreciation, <strong>MANU</strong> manual, <strong>STCK</strong> units of production.</p>
+        <h4 class="subtopic">Depreciation types</h4>
+        <ul>
+          <li><strong>Ordinary depreciation:</strong> Planned wear and tear over useful life.</li>
+          <li><strong>Special depreciation:</strong> Tax-based depreciation in addition to ordinary (e.g., accelerated allowances), usually only in tax area.</li>
+          <li><strong>Unplanned depreciation:</strong> Unusual decline in value (damage, obsolescence), posted manually (ABAA).</li>
+          <li><strong>Transfer of reserves / revaluation / interest</strong> (imputed interest for cost accounting area 20 – posted to CO).</li>
+        </ul>
+        <h4 class="subtopic">Depreciation posting run (AFAB / Fiori “Schedule Asset Accounting Jobs – Depreciation Posting Run”)</h4>
+        <ul>
+          <li>Parameters: company code, fiscal year, posting period, reason for run – <strong>planned posting run</strong> (next period in sequence), <strong>repeat run</strong> (post differences for the same period again, e.g., after new acquisitions), <strong>restart</strong> (after termination), <strong>unplanned posting run</strong> (skip periods – S/4HANA: allowed, periods in between are posted together).</li>
+          <li>Test run with error list; update run must be executed in background (ECC) – in S/4HANA can run online for small volumes.</li>
+          <li>Posting: per depreciation area that posts depreciation, one document per company code / period / ledger group (document type AF), Dr Depreciation expense (cost center from asset master, via account assignment objects ACSET) / Cr Accumulated depreciation. Posting cycle per area: monthly, quarterly, semi-annual, annual (OAYR) – with smoothing or catch-up for differences.</li>
+          <li>In S/4HANA the planned depreciation is calculated and stored immediately at every asset transaction (table FAAT_PLAN_VALUES); AFAB only posts – no separate recalculation (AFAR) needed except after customizing changes.</li>
+          <li>Log: ACDOCA line items per asset (S/4HANA posts at asset level, not summarised), posting totals per account; depreciation forecast via Fiori “Depreciation Lists” / S_ALR_87012936.</li>
+        </ul>
+        <h4 class="subtopic">Parallel valuation</h4>
+        <p>In S/4HANA New Asset Accounting the <strong>ledger approach</strong> assigns each depreciation area to an accounting principle / ledger group (01 → 0L IFRS, 32 → L1 local GAAP); each area posts its own APC and depreciation values in real time to its ledger — no delta areas needed. The <strong>accounts approach</strong> keeps parallel values in separate G/L accounts within one ledger (area 01 posts to the regular accounts, area 32 to a second account set via a separate account determination). Transaction ABSO with “limit posting to a depreciation area / accounting principle” allows differing values (e.g., IFRS component approach vs tax).</p>
+      </div>
+
+      <h3 class="topic">Assets Under Construction (AuC) and Investment Management</h3>
+      <div class="prose">
+        <ol>
+          <li>Create AuC asset in an AuC asset class (depreciation key 0000, status “line item settlement” for individual tracking).</li>
+          <li>Collect costs: direct postings to the AuC (F-90 with TTy 130), or on an <strong>investment order / WBS element</strong> (IM investment profile OITA assigns an AuC class; the AuC is created automatically when the order is released) with periodic settlement (KO88) to the AuC.</li>
+          <li>At completion: <strong>AIAB</strong> define distribution rules per line item (percentage / amount / equivalence numbers to one or more final assets or cost centers), <strong>AIBU</strong> settle – TTy 336 (AuC retirement) / 339 and 100-type capitalisation on the final assets; the capitalisation date of the final asset = settlement asset value date.</li>
+          <li>Summary settlement AuC class: whole balance transferred with ABUMN.</li>
+          <li>Investment Management (IM): investment programs (IM01) with program positions and budget, appropriation requests (IMA11) for approval, measures (orders / WBS), availability control against budget, reporting (IM Information System).</li>
+        </ol>
+      </div>
+
+      <h3 class="topic">Periodic Processing and Year-End in FI-AA</h3>
+      <div class="prose">
+        <table>
+          <thead><tr><th>Task</th><th>T-Code</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Depreciation run</td><td>AFAB</td><td>Monthly / per posting cycle</td></tr>
+            <tr><td>Recalculate depreciation</td><td>AFAR</td><td>After changes to depreciation keys / customizing</td></tr>
+            <tr><td>Periodic APC postings</td><td>ASKB</td><td>ECC: for areas posting APC periodically; obsolete in S/4HANA for real-time areas</td></tr>
+            <tr><td>Fiscal year change</td><td>AJRW</td><td>Opens the new asset fiscal year (technical), carries forward asset values; can be run from the last period of the old year; required before postings in the new year. In S/4HANA 1809+ executed automatically with the G/L balance carryforward (FAGLGVTR) or still via AJRW.</td></tr>
+            <tr><td>Year-end closing</td><td>AJAB</td><td>Checks all assets are completely depreciated for the year, no errors, depreciation posted; locks the year in AA (reopen with OAAQ / OAAR per area). In S/4HANA: Fiori “Make Year-End Closing for Asset Accounting”.</td></tr>
+            <tr><td>Physical inventory</td><td>AR01 / S_ALR_87011979 inventory list</td><td>Inventory indicator and inventory note in master</td></tr>
+            <tr><td>Reconciliation AA ↔ GL</td><td>ABST2 / ABST</td><td>In S/4HANA no reconciliation differences possible (single document), ABST2 replaced by “Asset Balances” vs “G/L Balances” apps</td></tr>
+            <tr><td>Asset history sheet</td><td>S_ALR_87011990 (RAGITT_ALV01)</td><td>Opening balance, acquisitions, retirements, transfers, depreciation, closing balance per asset class / balance sheet item; history sheet versions (OA79) e.g. 0001 by acquisition year, 0002 by FS version; legally required in many countries</td></tr>
+            <tr><td>Other reports</td><td>AW01N asset explorer, S_ALR_87011963 asset balances, S_ALR_87012026 depreciation current year, S_ALR_87012050 acquisitions, S_ALR_87012052 retirements, S_ALR_87012054 intracompany transfers, S_ALR_87012936 depreciation simulation / forecast</td><td>Fiori: Asset Balances, Asset History Sheet, Depreciation Lists, Asset Transactions, Asset Accounting Overview</td></tr>
+          </tbody>
+        </table>
+        <h4 class="subtopic">Asset Explorer (AW01N)</h4>
+        <p>Central display per asset: planned and posted values per depreciation area and fiscal year (APC, depreciation, NBV), transactions, parameters (dep. key, useful life, start dates), comparisons between areas, and depreciation simulation with changed parameters; direct navigation to FI documents and master record.</p>
+      </div>
+
+      <h3 class="topic">FI-AA Transaction Code Reference</h3>
+      <div class="prose">
+        <table>
+          <thead><tr><th>Area</th><th>T-Codes</th></tr></thead>
+          <tbody>
+            <tr><td>Master data</td><td>AS01 create, AS02 change, AS03 display, AS05 block, AS06 delete, AS11 sub-number, AS21 group asset, AS91 legacy, AW01N explorer, AR31 mass change</td></tr>
+            <tr><td>Acquisition</td><td>F-90 with vendor, F-91 clearing, ABZON automatic offsetting, ABZE in-house, ABZP affiliated company, ABNAN post-capitalisation, ABSO misc. transaction</td></tr>
+            <tr><td>Transfer / AuC</td><td>ABUMN intra-company, ABT1N intercompany, AIAB distribution rules, AIBU settlement, KO88 order settlement</td></tr>
+            <tr><td>Retirement</td><td>F-92 with customer, ABAON without customer, ABAVN scrapping, AB08 reverse</td></tr>
+            <tr><td>Depreciation / value adjustment</td><td>AFAB run, AFAR recalculate, AFBP display log, ABAA unplanned, ABZU write-up, ABMA manual, ABIF investment support, AR29 revaluation</td></tr>
+            <tr><td>Periodic</td><td>AJRW fiscal year change, AJAB year-end close, OAAQ/OAAR reopen, ASKB periodic APC (ECC), ABST2 reconciliation</td></tr>
+            <tr><td>Customizing</td><td>EC08 copy chart of depreciation, OAOB assign to company code, OADB depreciation areas, OAOA asset classes, AO90 account determination, AO21 screen layout, AFAMA depreciation keys, AFAMS multi-level, AFAMP period control, OAYZ default values per class, OAYR posting rules, AO73 transaction types, OA79 history sheet version, ACSET account assignment objects</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!-- ===== BANK ACCOUNTING ===== -->
@@ -799,6 +1320,87 @@ h4.subtopic { font-size: 14px; font-weight: 700; color: var(--sap-text); margin:
           <li><strong>Liquidity Forecast:</strong> Combines open AR/AP items with expected cash flows to project future bank balances.</li>
           <li>In S/4HANA, the SAP Cash Management application provides advanced cash pooling, bank connectivity (SWIFT), and real-time position monitoring.</li>
         </ul>
+      </div>
+
+      <h3 class="topic">Bank Master Data and House Banks</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>Bank directory (FI01/FI02/FI03, BNKA):</strong> Bank country + bank key (national bank code / SWIFT), name, address, SWIFT/BIC, bank group (for payment optimisation). Can be imported from national bank files (BAUP) or created on the fly when entering BP bank details.</li>
+          <li><strong>House banks (FI12 / Fiori “Manage Banks”):</strong> The company’s own banks; house bank ID (5 char) + bank key; EDI partner profiles, data medium exchange details, communication data.</li>
+          <li><strong>Bank accounts (ECC: FI12 account ID; S/4HANA: Bank Account Management – “Manage Bank Accounts”):</strong> Account ID, bank account number, IBAN, currency, control key, G/L account (main bank account) and connectivity path to house bank/account ID. S/4HANA BAM adds: account type, opening/closing date, signatories, overdraft limit, workflow-based approval of changes, revision history, account technical ID, bank account hierarchy, and the “bank account hierarchy view”. Lite version (without FSCM Cash) still mandatory for F110.</li>
+          <li><strong>G/L account structure per bank account:</strong> Main bank account (reconciled with the statement) + bank sub-accounts / clearing accounts for outgoing checks, outgoing transfers, incoming payments, cash receipt — items move from sub-account to main account when the statement confirms them. Sub-accounts are open-item managed; main account is not.</li>
+          <li><strong>Business partner bank details:</strong> Bank type (partner bank type) allows several accounts per BP; selected in the document via “Partner bank”; IBAN-only entry possible.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Electronic Bank Statement (EBS)</h3>
+      <div class="prose">
+        <h4 class="subtopic">Formats</h4>
+        <ul>
+          <li><strong>MT940</strong> (SWIFT, structured field :86: with national subfields), <strong>MultiCash</strong> (AUSZUG.TXT + UMSATZ.TXT), <strong>BAI / BAI2</strong> (USA), <strong>CAMT.053</strong> (ISO 20022 XML, standard for SEPA; CAMT.052 intraday, CAMT.054 debit/credit notifications), country formats (e.g., DTAUS, CSB43). Imported via FF_5 (SAPMF40S) or Fiori “Manage Incoming Payment Files”; intraday statements FF.5 / FEB_FILE_HANDLING.</li>
+        </ul>
+        <h4 class="subtopic">Configuration (OT83 / Fiori “Manage Bank Statement Reprocessing Rules”)</h4>
+        <ol>
+          <li><strong>Account symbols</strong> – abstract names for G/L accounts (BANK, CHECK-OUT, TRANSFER-OUT, INCOMING, FEES, INTEREST).</li>
+          <li><strong>Assign accounts to account symbols</strong> – with masking (e.g., ++++++++++ for the bank G/L account taken from the house bank account; +++++++++1 sub-account suffix) and currency.</li>
+          <li><strong>Posting rules</strong> – keys (e.g., 0001 outgoing check, 0002 outgoing transfer, 0003 incoming payment, 0004 bank fees) with posting area 1 (bank accounting: Dr/Cr account symbols, document type SA, posting type 1 post to G/L / 4 clear debit G/L / 5 clear credit G/L) and posting area 2 (subledger: posting type 7 clear debit subledger / 8 clear credit subledger, document type DZ/KZ).</li>
+          <li><strong>Transaction types</strong> – a set of external transaction codes per bank format (e.g., MT940 business transaction code 051 transfer, 020 cheque, NTRF, NCHK; CAMT bank transaction code domain/family) mapped to posting rules with +/− sign and interpretation algorithm (000 none, 001 standard document number, 011 outgoing check number, 012 reference number, 015 clearing via assignment, 019 reference to DME, 020 document number search, 021 reference document number, 031 DME management, 901–999 customer-defined BTE).</li>
+          <li><strong>Assign bank accounts to transaction types.</strong></li>
+          <li><strong>Search strings (OTPM)</strong> – regular-expression patterns on the note-to-payee to derive posting rule, cost center, or clearing information.</li>
+        </ol>
+        <h4 class="subtopic">Processing</h4>
+        <ul>
+          <li>Import creates bank statement in buffer tables (FEBKO header, FEBEP items) and batch input / direct posting of area 1 (bank) and area 2 (subledger). “Post immediately” or via batch session (FEBP).</li>
+          <li><strong>Post-processing (FEBAN; S/4HANA: Fiori “Reprocess Bank Statement Items”):</strong> Items with status “to be post-processed” (no match found): manual assignment of open items, residual / partial payment, posting on account, or posting to G/L with reason; proposal from machine learning (Cash Application add-on).</li>
+          <li>Bank statement list FF.6 / FEBA_BANK_STATEMENT; reconciliation of main account balance to statement closing balance.</li>
+          <li><strong>Returns / rejects (CAMT.054 / direct debit returns):</strong> Reverse the clearing (FBRA) and reopen the customer item; return reason codes; dunning may continue.</li>
+        </ul>
+        <h4 class="subtopic">Manual Bank Statement (FF67)</h4>
+        <p>Enter statement header (house bank, account ID, statement number, dates, opening/closing balance) and line items with business transaction codes defined per variant; same posting rules; used where no electronic file is available.</p>
+      </div>
+
+      <h3 class="topic">Cash Journal (FBCJ)</h3>
+      <div class="prose">
+        <ul>
+          <li>Petty cash for a company code: one cash journal per cash desk and currency (FBCJC0: number, G/L cash account, document types for G/L / vendor / customer postings, cash journal name). Cash journal number range (FBCJC1).</li>
+          <li><strong>Business transactions (FBCJC2):</strong> Types C receipts from bank, B payment to bank, R revenue, E expense, D customer posting, K vendor posting; each with G/L account, tax code, flag “account modifiable”, “tax modifiable”, “business transaction blocked”.</li>
+          <li>Tabs for cash receipts, cash payments, check receipts; save (document is only in the cash journal) and post (FI document created); print receipts (FBCJC3 print parameters); split of a receipt into several lines; display balance per day, cash forecast; deletion only of unposted entries; reversal of posted items.</li>
+          <li>Fiori: “Manage Cash Journal” / “Post Cash Journal Entries”.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Lockbox (US) and Check Deposit</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>Lockbox (FLB2 import, FLB1 post-process):</strong> Bank collects customer checks and sends BAI/BAI2 file with MICR data, check amount and invoice references. Lockbox configuration (OBAY destinations, OBAX control parameters: document types, posting keys, G/L and clearing accounts, posting type “partial payments”, invoice number matching logic, tolerance). Statuses: applied, partially applied, on account, unprocessed; batch input for post-processing; payment advice created for each check.</li>
+          <li><strong>Check deposit (FF68):</strong> Manual list of received checks (check number, drawer, bank, amount, customer / invoice); posts Dr Check clearing / Cr Customer (area 2) and bank receipt when statement confirms. Variants defined in OT45.</li>
+          <li><strong>Bill of exchange</strong> (special G/L W): receivable from bill of exchange, discounting (F-33), presentation (F-34), contingent liability and reversal at due date.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Cash Management (FI-CM / S/4HANA Cash Management)</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>Cash position (FF7A / Fiori “Cash Position”)</strong> – short-term view (days) of bank accounts and bank clearing accounts based on planning levels (e.g., F0 posted bank, B1 outgoing checks, B2 outgoing transfers, C1 incoming) derived from G/L accounts and payment processing; includes memo records (FF63) for expected flows.</li>
+          <li><strong>Liquidity forecast (FF7B / “Liquidity Forecast”)</strong> – medium-term view based on open items of customers / vendors grouped by planning groups (BP master: cash management group, e.g., E1 domestic customers, A1 domestic vendors) and purchase / sales orders (if integrated), with planned dates derived from payment terms and payment history.</li>
+          <li><strong>S/4HANA Cash Management (FSCM-CLM):</strong> One Exposure from Operations (FQM_FLOW) collects all actual and forecast flows from FI, MM, SD, TRM; apps: Cash Flow Analyzer, Bank Account Management, Make Bank Transfers (payment requests), Cash Operations, Liquidity Planning (with SAC). Classic FF7A/FF7B are superseded.</li>
+          <li><strong>Bank transfers / payment requests (F111, FIBLFFP):</strong> Treasury-type payments between own accounts without an invoice; payment program for payment requests.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">FI-BL Transaction Code Reference</h3>
+      <div class="prose">
+        <table>
+          <thead><tr><th>Area</th><th>T-Codes</th><th>Fiori apps</th></tr></thead>
+          <tbody>
+            <tr><td>Master data</td><td>FI01/02/03 bank, FI12 house banks, BAUP import bank directory, NWBC BAM (ECC), FCLM_BAM (S/4HANA)</td><td>Manage Banks, Manage Bank Accounts, Bank Account Hierarchy</td></tr>
+            <tr><td>Bank statement</td><td>FF_5 import, FF.5 (intraday), FF67 manual, FEBAN post-process, FEBP post buffer, FF.6 list, FEBA_BANK_STATEMENT, OT83 config, OTPM search strings</td><td>Manage Incoming Payment Files, Reprocess Bank Statement Items, Bank Statement Monitor</td></tr>
+            <tr><td>Checks</td><td>FCHI lots, FCH5 manual check, FCHN register, FCH3/FCH8/FCH9 void, FF68 check deposit</td><td>Manage Checkbooks, Check Register</td></tr>
+            <tr><td>Lockbox</td><td>FLB2, FLB1, OBAY, OBAX</td><td>—</td></tr>
+            <tr><td>Cash journal</td><td>FBCJ, FBCJC0/1/2/3</td><td>Manage Cash Journal</td></tr>
+            <tr><td>Cash management</td><td>FF7A, FF7B, FF63 memo record, FF6B planning levels, F111 payment requests, FDFD, FF.1/FF.3</td><td>Cash Position, Cash Flow Analyzer, Make Bank Transfers, Liquidity Forecast</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
@@ -897,6 +1499,195 @@ h4.subtopic { font-size: 14px; font-weight: 700; color: var(--sap-text); margin:
           <li>Eliminates intercompany profit/loss for consolidated group reporting.</li>
         </ul>
       </div>
+
+      <h3 class="topic">Closing Sequence – Month-End and Year-End Checklist</h3>
+      <div class="prose">
+        <table>
+          <thead><tr><th>Phase</th><th>Tasks</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1. Pre-closing (old period still open)</strong></td><td>Post all operational documents; recurring entries (F.14); accruals/deferrals (FBS1); clear GR/IR (F.13); check parked documents (FBV0) and held documents; CO allocations (assessments KSU5, distributions KSV5, settlements KO88); SD billing complete (VF04); MM: goods movements, invoice verification, period closing program MMPV (opens new MM period); payroll posting.</td></tr>
+            <tr><td><strong>2. Subledger closing</strong></td><td><em>AP/AR:</em> payment runs, dunning, balance confirmations (F.17/F.18), FX valuation of open items (FAGL_FC_VAL), value adjustments (F103/F104), regrouping (FAGLF101), interest. <em>AA:</em> depreciation run (AFAB), AuC settlement (AIBU), fiscal year change (AJRW), year-end close (AJAB). <em>MM:</em> inventory valuation, lowest value determination (MRN0–MRN3), LIFO/FIFO, balance sheet valuation, physical inventory differences, GR/IR regrouping (F.19).</td></tr>
+            <tr><td><strong>3. G/L closing</strong></td><td>Close posting periods for subledgers (OB52 – account types D, K, A, M), FX valuation of balance-sheet G/L accounts, tax postings (RFUMSV00 advance return for VAT, F.12), intercompany reconciliation (ICMR/FBICR3), reclassification, provisions, document splitting checks, post adjustments in special periods 13–16, carry forward balances (FAGLGVTR), financial statements (F.01 / Fiori Display Financial Statement), balance audit trail, close periods for G/L.</td></tr>
+            <tr><td><strong>4. Reporting &amp; archiving</strong></td><td>Financial statement versions for legal / IFRS / management; notes and disclosures; group reporting (SAP Group Reporting / consolidation); audit information system (AIS); data archiving (SARA) after retention periods.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="topic">Fixed Assets and Current Assets in Closing</h3>
+      <div class="prose">
+        <h4 class="subtopic">Inventory (MM) valuation</h4>
+        <ul>
+          <li><strong>Price control:</strong> S standard price (variances to price difference accounts) vs V moving average price; material ledger with actual costing in S/4HANA (mandatory ML, optional actual costing CKMLCP) allows parallel valuation in multiple currencies and revaluation at period end.</li>
+          <li><strong>Balance sheet valuation (MRN0 lowest value by market price, MRN1 by range of coverage, MRN2 by movement rate, MRN3 loss-free valuation, MRF1/MRF3 FIFO, MRL1 LIFO):</strong> Results are stored as tax / commercial prices in the material master and posted via MR21 / MR22 or as devaluation postings to the inventory and P&amp;L.</li>
+          <li><strong>GR/IR clearing account analysis (F.19 / Fiori “Regroup GR/IR Clearing Account”):</strong> Items not fully cleared at period end are regrouped: goods received not yet invoiced → “Delivered but not invoiced” liability; invoiced not yet received → “Invoiced but not delivered” asset; posted with automatic reversal on day one of the new period.</li>
+          <li><strong>Physical inventory:</strong> Count (MI01/MI04), differences posted (MI07) to inventory difference accounts.</li>
+        </ul>
+        <h4 class="subtopic">Receivables / Payables valuation summary</h4>
+        <ul>
+          <li>Foreign currency valuation of open items (see below) → unrealised gains / losses.</li>
+          <li>Value adjustments for doubtful receivables: flat-rate (F103/F104) and individual (special G/L E).</li>
+          <li>Regrouping by remaining term and credit/debit balance (FAGLF101) – legal requirement in many GAAPs (e.g., HGB §268).</li>
+          <li>Separate disclosure of receivables/payables to affiliated companies via trading partner (VBUND) – transferred from BP master (company ID) into the document line.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Foreign Currency Valuation (FAGL_FC_VAL) – Detail</h3>
+      <div class="prose">
+        <h4 class="subtopic">Valuation methods (OB59)</h4>
+        <table>
+          <thead><tr><th>Parameter</th><th>Options</th></tr></thead>
+          <tbody>
+            <tr><td>Valuation procedure</td><td><em>Lowest value principle</em> (only losses posted), <em>Strict lowest value</em> (always compare with last valuation), <em>Always evaluate</em> (gains and losses – IFRS / US GAAP), <em>Revalue only</em> (only gains)</td></tr>
+            <tr><td>Document type</td><td>e.g., SA</td></tr>
+            <tr><td>Exchange rate determination</td><td>Exchange rate type for debit / credit balances (e.g., M), “determine exchange rate type from account balance”, “use exchange rate type from invoice reference”</td></tr>
+            <tr><td>Posting</td><td>Post per line item (reversal of individual items) or balance; group valuation; “minimum difference” threshold</td></tr>
+            <tr><td>Valuation area (OB7Z / FAGL_FC_VAL)</td><td>Links valuation method, currency type and accounting principle → ledger group (so IFRS valuation posts only to 0L, local GAAP to L1)</td></tr>
+          </tbody>
+        </table>
+        <h4 class="subtopic">Valuation scope</h4>
+        <ul>
+          <li><strong>Open items</strong> (customers, vendors, G/L accounts with OI management in foreign currency): each item’s FC amount is translated at the closing rate; the difference to the current local currency amount is posted to the <strong>balance sheet adjustment account</strong> (per reconciliation account, OBA1 transaction KDF) and to <strong>unrealised exchange rate gain/loss</strong>. The item itself keeps its original local currency amount; the valuation difference is stored in the item (BSEG-BDIFF) so that the realised difference at payment is split into realised vs reversal of unrealised.</li>
+          <li><strong>Balance sheet G/L accounts without OI management</strong> (bank accounts, loans in FC): the account balance in FC is valued; the difference is posted directly to the account (or to an adjustment account) and P&amp;L (OBA1 transaction KDB – exchange rate difference key in G/L master).</li>
+          <li><strong>Reversal / delta logic:</strong> Classic: valuation posted on the key date and reversed on key date + 1 (“reverse postings” flag). S/4HANA alternative: <em>delta posting</em> – only the change since the last valuation is posted and nothing is reversed (“Valuation with update of valuation difference / posting of deltas”), used together with the “Year-end valuation” option in which the last valuation of the year remains.</li>
+        </ul>
+        <h4 class="subtopic">Translation of balances (FAGL_FCV / Fiori “Perform Foreign Currency Valuation” with “Currency Translation”)</h4>
+        <p>For group reporting, local currency balances are translated into the group currency (currency type 30) at the closing rate for balance sheet accounts and average rate for P&amp;L – translation differences posted to equity; configured via translation method and FS version.</p>
+        <h4 class="subtopic">Realised exchange rate differences</h4>
+        <p>Arise at payment / clearing when the rate differs from the invoice rate; posted automatically to realised gain/loss accounts (OBA1 KDF “Exchange rate difference realized” per reconciliation account or G/L account). Rounding differences (KDR) and translation differences for parallel currencies (KDW) also use OBA1.</p>
+      </div>
+
+      <h3 class="topic">Accruals and Deferrals</h3>
+      <div class="prose">
+        <h4 class="subtopic">Manual accrual/deferral documents (FBS1 / F.81)</h4>
+        <p>FBS1 posts a document with a <strong>reversal reason</strong> and <strong>reversal date</strong>; F.81 (reverse accrual/deferral documents) mass-reverses them after the key date. Used for: accrued expenses (expense incurred not yet invoiced: Dr Expense / Cr Accrued liabilities), deferred income (Dr Revenue / Cr Deferred income), prepaid expenses (Dr Prepaid / Cr Expense), accrued revenue. Alternative: recurring entries for equal monthly amounts (e.g., spread an annual insurance premium with 12 recurring documents).</p>
+        <h4 class="subtopic">Accruals Management (Accrual Engine – FI-GL ACE; S/4HANA “Manual Accruals” and “Purchase Order Accruals”)</h4>
+        <ul>
+          <li><strong>Accrual object</strong> = item to be accrued (contract, PO item) with accrual type (costs, revenues, prepaid), start/end date, total amount, accrual method (linear by days / periods, custom BAdI), accounting principle and ledger group → <strong>accrual item types</strong> (P planned / periodic accruals, O opening posting, I inception, C closing).</li>
+          <li><strong>Periodic accrual run</strong> (ACACACT / Fiori “Post Accruals Periodically”) posts the planned amounts for the period to G/L, with full traceability per object and reversal/adjustment on change (e.g., contract shortened); simulations; review and approval workflow (“Review Accruals”).</li>
+          <li><strong>Purchase order accruals (S/4HANA 1809+):</strong> Purchase orders with services / consumables are automatically transferred to the Accrual Engine (transfer run ACEPSOT), the planned cost per period is derived from delivery schedule / PO validity; actual GR/IR values reduce the accrual; proposals can be reviewed by the requester / cost center manager (“Review Purchase Order Accruals”) before posting – replaces manual estimation of “received not invoiced” services.</li>
+          <li>Posting: Dr Expense (CO object from PO) / Cr Accrued liabilities; reversed/adjusted automatically in the next period.</li>
+        </ul>
+        <h4 class="subtopic">Provisions</h4>
+        <p>Posted manually (FB50) or via Accrual Engine / Liability Management; for IFRS, long-term provisions discounted; separate G/L accounts per provision type; often ledger-specific (local GAAP vs IFRS).</p>
+      </div>
+
+      <h3 class="topic">Regrouping and Sorting (FAGLF101 / F101)</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>Sort method (OBBU):</strong> Defines remaining-term intervals (e.g., ≤ 1 year, 1–5 years, &gt; 5 years) separately for receivables and payables; for each reconciliation account the <em>target accounts</em> (OBBV receivables sorted, OBBW payables sorted, OBBX changed reconciliation account for credit/debit) and <em>adjustment accounts</em> are assigned.</li>
+          <li><strong>Vendors with debit balances / customers with credit balances:</strong> Regrouped to receivables / payables adjustment accounts (“changed reconciliation account”).</li>
+          <li><strong>Affiliated companies:</strong> Items with trading partner are regrouped to “receivables / payables from affiliated companies” accounts for consolidation and legal disclosure.</li>
+          <li><strong>Investments / inventory ratios:</strong> Sort by remaining term for loans; special G/L items included or excluded.</li>
+          <li>Postings are made on the key date with automatic reversal on the next day; valuation area / ledger group selection for parallel accounting; results displayed per account with target accounts.</li>
+          <li>Fiori: “Regroup Receivables/Payables”.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Balance Confirmations (F.17 / F.18)</h3>
+      <div class="prose">
+        <ul>
+          <li>Programs SAPF130D (customers) / SAPF130K (vendors) create <strong>letters</strong>, <strong>reply slips</strong>, <strong>check lists</strong> (which accounts were selected and with which balance) and <strong>results tables</strong> (for entering replies).</li>
+          <li>Procedures: <em>Balance confirmation</em> (reply requested in any case – positive method), <em>Balance notification</em> (reply only in case of disagreement – negative method), <em>Balance request</em> (customer is asked to state the balance without the company disclosing its figure).</li>
+          <li>Selection: account ranges, reconciliation accounts, random sample (number or percentage), amount thresholds, items up to key date, head office/branch handling, one-time accounts, exclude blocked accounts.</li>
+          <li>Reply address: company code or alternative (auditor) address; form set (SAPscript F130_CONFIRM_01 etc., OB90 form selection, OB89 reply addresses); correspondence sent via print, e-mail or PDF.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Financial Statements and Financial Statement Versions</h3>
+      <div class="prose">
+        <h4 class="subtopic">Financial statement version (FSV) – OB58 / Fiori “Manage Global Hierarchies” (type Financial Statement Version)</h4>
+        <ul>
+          <li>Hierarchy of <strong>items</strong> (nodes) with texts, to which G/L accounts (ranges, with debit / credit indicator – an account can appear under “Assets” when debit and “Liabilities” when credit) or functional areas are assigned; several charts of accounts possible (group account numbers) in one version.</li>
+          <li>Special items: <em>Assets</em>, <em>Liabilities + Equity</em>, <em>Net result: profit</em>, <em>Net result: loss</em> (calculated as difference), <em>P&amp;L result</em>, <em>Not assigned</em> (accounts not yet assigned – should be empty at close), <em>Financial statement notes</em>.</li>
+          <li>Options: item keys automatic or manual, maintain language, display totals, contra items.</li>
+          <li>Several versions for legal (local GAAP), IFRS, tax, management formats; used by RFBILA00 (F.01 / S_ALR_87012284), Trial Balance, Display Financial Statement (Fiori, ledger and FSV selectable, comparison periods, drill-down to line items), Group Reporting, Report Painter and SAP Analytics Cloud.</li>
+        </ul>
+        <h4 class="subtopic">Reports</h4>
+        <ul>
+          <li><strong>Balance sheet / P&amp;L (F.01 RFBILA00):</strong> Key date, comparison year, FSV, ledger, business area / profit center / segment, output as ALV, classic list, or structured balance list; variants for scaled values.</li>
+          <li><strong>Cash flow statement:</strong> Via financial statement version with cash flow items (indirect method) or Report Painter; Fiori “Cash Flow Statement” based on ACDOCA with the semantic tag of FSV items (semantic tags like CASH, RECEIVABLES allow KPIs).</li>
+          <li><strong>Balance audit trail (RFKLET00 open-item accounts, RFKKBU00 / RFHABU00 / RFBELUGA0 accumulated):</strong> Legally required chronological list of all documents per account; in S/4HANA available as “Audit Journal” Fiori app (journal entries by posting date, with changes and deletions) and “Balance Audit Trail” extraction.</li>
+          <li><strong>Compact document journal (S_ALR_87012287 RFBELJ00), document journal, G/L account list (RFSKPL00), chart of accounts (RFSKVZ00), account assignment manual.</strong></li>
+          <li><strong>Audit Information System (AIS):</strong> Role-based collection of audit reports (SECR) for external auditors; data extraction via DART (RFUMSV00 data retention tool) for tax authorities.</li>
+        </ul>
+        <h4 class="subtopic">Cost of sales accounting and functional areas</h4>
+        <p>P&amp;L structured by function (cost of goods sold, selling, R&amp;D, administration) instead of by nature. Requires <strong>functional areas</strong> (OKBD) derived via substitution (OBBZ) from cost center category, order type, G/L account, or entered manually; activation per company code; the FSV uses the functional area as the characteristic in ACDOCA. Period accounting (nature of expense) and cost of sales accounting can be reported in parallel from the same journal entries in S/4HANA.</p>
+      </div>
+
+      <h3 class="topic">Balance Carryforward and Year-End Technical Steps</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>FAGLGVTR (Fiori “Carry Forward Balances”):</strong> Per ledger and company code: balance sheet accounts carry their balance into period 0 of the new year; P&amp;L accounts are set to zero and the result is carried to the retained earnings account (OB53, per P&amp;L statement account type). Can be run repeatedly – subsequent postings to the old year automatically update the carryforward (no re-run needed in S/4HANA when the “automatic carryforward” is active, otherwise re-run). Customer / vendor carryforward (F.07 classic) is included in S/4HANA.</li>
+          <li><strong>Number ranges for the new year:</strong> Year-dependent document number ranges must be created (FBN1) – or use “9999” year-independent ranges; AA number ranges (AS08).</li>
+          <li><strong>Posting period variant:</strong> Open the new year’s periods (OB52) – authorization group for interval 1 lets only closing staff post into the old period.</li>
+          <li><strong>Special periods 13–16:</strong> Audit adjustments posted with posting date = last day of the fiscal year and period manually set to 13–16; financial statements can be produced per special period (e.g., 13 = adjustments, 14 = audit, 15/16 = group).</li>
+          <li><strong>Asset fiscal year change (AJRW) and year-end close (AJAB)</strong> – see FI-AA.</li>
+          <li><strong>Tax reporting:</strong> Advance return for tax on sales / purchases (RFUMSV00 / S_ALR_87012357), EC sales list (S_ALR_87012400), withholding tax reporting (S_P00_07000134), SAP Document and Reporting Compliance (formerly ACR) for electronic statutory reports in S/4HANA.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Intercompany Reconciliation</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>Classic ICR (FBICS3 select, FBICA3 assign automatically, FBICR3 reconcile manually):</strong> Processes 001 G/L open items, 002 G/L accounts, 003 customer/vendor open items; data selected from all company codes (also remote systems via RFC), automatically matched by reference / amount / trading partner; unmatched items processed in a reconciliation UI; results communicated to partners.</li>
+          <li><strong>SAP S/4HANA Intercompany Matching and Reconciliation (ICMR, 1909+):</strong> Real-time matching on ACDOCA and ACDOCU (group reporting) with matching methods, rules, reason codes, auto-adjustments, Fiori apps “Manage Assignments”, “Reconciliation Status Overview”, “Define Matching Methods”; variance adjustments can post journal entries; supports continuous close.</li>
+          <li>Prerequisite: trading partner (VBUND) in BP master and documents; intercompany clearing accounts (OBYA) for cross-company postings (a cross-company document creates one FI document per company code linked by the cross-company document number).</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Financial Closing Cockpit and Advanced Financial Closing</h3>
+      <div class="prose">
+        <h4 class="subtopic">Financial Closing Cockpit (FCC, ECC and S/4HANA on-premise, CLOCOC / CLOCO)</h4>
+        <ul>
+          <li><strong>Template</strong> (per closing type: month-end, quarter-end, year-end) with organizational hierarchy (controlling area → company codes → plants) and <strong>task hierarchy</strong>: folders and tasks.</li>
+          <li><strong>Task types:</strong> Program with variant (e.g., AFAB with variant), transaction (manual task, user records completion), flow definition (job chain of several programs), note / remote task (other systems via RFC), workflow.</li>
+          <li>Each task: responsible person / processor, planned start (offset in days from key date, e.g., “–2” or “+3”), duration, critical path flag, <strong>dependencies</strong> (predecessor must be finished – the system schedules successors automatically), authorizations, documentation.</li>
+          <li><strong>Task list</strong> = instance of the template for a specific key date (e.g., period 03/2026); release → tasks scheduled and started in background; monitoring with Gantt chart, status (planned, running, completed with/without errors), spool / job log access, completion statistics, audit trail of who completed what when.</li>
+          <li>Benefits: standardisation across entities, transparency, workflow approvals, reduced closing time (from days to hours), documentation for auditors.</li>
+        </ul>
+        <h4 class="subtopic">SAP Advanced Financial Closing (AFC) – cloud (SAP BTP), successor of FCC</h4>
+        <ul>
+          <li>Closing task templates and task lists orchestrating jobs across multiple S/4HANA (on-premise and cloud) systems via communication arrangements; tasks: automated job (with variant), manual, approval, verification, remote; dependencies, service-level monitoring, closing KPIs.</li>
+          <li>Fiori apps: Manage Closing Task Lists, Process Closing Tasks, Approve Closing Tasks, Analyze Closing Progress, Define Closing Task Templates; integration with SAP Analytics Cloud and e-mail notifications; audit-compliant log.</li>
+          <li>Related S/4HANA closing apps: “Manage Journal Entry Verification Workflow” (approval before posting), “Closing Cockpit – Overview”, “Schedule General Ledger Jobs”, “Schedule Asset Accounting Jobs”, “Schedule Accounts Receivable/Payable Jobs”.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Document Splitting in the Closing Context</h3>
+      <div class="prose">
+        <ul>
+          <li>Purpose: produce <strong>complete balance sheets per profit center / segment / business area</strong> (IFRS 8 segment reporting, management reporting) by splitting lines that have no account assignment (vendor, customer, tax, bank) according to the lines that have one (expenses / revenues).</li>
+          <li><strong>Passive split:</strong> Payments and clearings inherit the split of the original invoice. <strong>Active split:</strong> Based on splitting rules – business transaction (0000 unspecified, 0200 customer invoice, 0300 vendor invoice, 0400 bank account statement, 1000 payment…), business transaction variant, item categories (01000 balance sheet account, 02000 customer, 03000 vendor, 05100 taxes, 20000 expense, 30000 revenue, 04000 cash account), splitting method (0000000012 standard with inheritance), splitting rule = which item categories are split based on which base item categories. <strong>Zero balance clearing</strong> lines (account from OBXM, item category 01001) create balanced documents per characteristic; <strong>inheritance</strong> copies the characteristic to all lines when a document has only one; <strong>default account assignment</strong> (constant) for lines where nothing can be derived.</li>
+          <li>Splitting characteristics (profit center, segment, business area) are flagged <em>zero balance</em> and/or <em>mandatory</em>; validation at posting ensures every line has the characteristic. Documents posted before activation are not split – migration needed.</li>
+          <li>Closing relevance: FX valuation, regrouping, depreciation, and payment program postings are all split so that segment balance sheets remain complete; FSV reports by segment (Trial Balance by profit center / segment); segment derived from profit center master (CEPC-SEGMENT).</li>
+          <li>Diagnosis: FB03 → General ledger view; simulation “Expert mode” shows the applied splitting rule; error “Balancing field … not filled” indicates missing derivation.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Closing Transaction Code Reference</h3>
+      <div class="prose">
+        <table>
+          <thead><tr><th>Task</th><th>Classic T-Code / Program</th><th>Fiori app (S/4HANA)</th></tr></thead>
+          <tbody>
+            <tr><td>Recurring entries</td><td>F.14 (SAPF120), F.15</td><td>Schedule General Ledger Jobs → Recurring Entries</td></tr>
+            <tr><td>Accrual / deferral</td><td>FBS1, F.81; ACACACT, ACACTREE01</td><td>Post Accruals Periodically, Manage Manual Accruals, Review Purchase Order Accruals</td></tr>
+            <tr><td>GR/IR analysis</td><td>F.19 (RFWERE00), MR11</td><td>Regroup GR/IR Clearing Account</td></tr>
+            <tr><td>Foreign currency valuation</td><td>FAGL_FC_VAL (FAGL_FCV), F.05 (classic)</td><td>Perform Foreign Currency Valuation</td></tr>
+            <tr><td>Flat-rate value adjustment</td><td>F103, F104 (SAPF107)</td><td>—</td></tr>
+            <tr><td>Regrouping</td><td>FAGLF101 (F101)</td><td>Regroup Receivables/Payables</td></tr>
+            <tr><td>Balance confirmation</td><td>F.17, F.18</td><td>—</td></tr>
+            <tr><td>Depreciation / AA year-end</td><td>AFAB, AJRW, AJAB</td><td>Schedule Asset Accounting Jobs, Make Year-End Closing for Asset Accounting</td></tr>
+            <tr><td>Posting periods</td><td>OB52, FAGL_EHP4_T001B_COFI</td><td>Manage Posting Periods</td></tr>
+            <tr><td>Balance carryforward</td><td>FAGLGVTR, F.07, F.16</td><td>Carry Forward Balances</td></tr>
+            <tr><td>Financial statements</td><td>F.01 (RFBILA00), S_ALR_87012284, S_PL0_86000028/30, OB58</td><td>Display Financial Statement, Trial Balance, Manage Global Hierarchies</td></tr>
+            <tr><td>Tax</td><td>RFUMSV00 / S_ALR_87012357, F.12, S_ALR_87012400</td><td>Run Compliance Reports (Document and Reporting Compliance)</td></tr>
+            <tr><td>Intercompany reconciliation</td><td>FBICS3, FBICA3, FBICR3</td><td>ICMR: Manage Assignments, Reconciliation Status Overview</td></tr>
+            <tr><td>Closing cockpit</td><td>CLOCOT (template), CLOCO (task list), CLOCOC (customizing)</td><td>SAP Advanced Financial Closing</td></tr>
+            <tr><td>Audit</td><td>RFBELUGA0, RFKLET00, S_ALR_87012287, SECR (AIS)</td><td>Audit Journal, Balance Audit Trail</td></tr>
+            <tr><td>Archiving</td><td>SARA (FI_DOCUMNT, FI_ACCPAYB, FI_ACCRECV, AM_ASSET)</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!-- ===== ADDITIONAL FI ===== -->
@@ -955,6 +1746,96 @@ h4.subtopic { font-size: 14px; font-weight: 700; color: var(--sap-text); margin:
           <li>In S/4HANA, SAP ILM (Information Lifecycle Management) handles archiving policies.</li>
         </ul>
       </div>
+
+      <h3 class="topic">Special G/L Transactions</h3>
+      <div class="prose">
+        <p>Special G/L transactions post customer/vendor items to an <strong>alternative reconciliation account</strong> instead of the one in the master record, so that e.g. down payments or bills of exchange are shown separately on the balance sheet. Controlled by the <strong>special G/L indicator</strong> (OBXR customers, OBXT vendors; account determination per chart of accounts and reconciliation account; posting keys 09/19 customer, 29/39 vendor).</p>
+        <table>
+          <thead><tr><th>Type</th><th>Indicators</th><th>Characteristics</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Noted items</strong></td><td>F down payment request, bill of exchange payment request</td><td>One-sided, no balance update, no transaction figures; just a reminder visible in line items; relevant for payment program (F) and dunning if configured; cleared when the real posting is made.</td></tr>
+            <tr><td><strong>Free offsetting entries</strong></td><td>A down payment, I interest receivable, B bill of exchange payable, S check/bill of exchange</td><td>Normal two-sided posting; the offsetting entry is entered freely (bank); updates the special reconciliation account.</td></tr>
+            <tr><td><strong>Automatic offsetting entries (statistical postings)</strong></td><td>G guarantee, security deposit</td><td>System posts an offsetting entry automatically to a clearing account (OBXY) – contingent liabilities, shown as memo items.</td></tr>
+            <tr><td><strong>Bills of exchange</strong></td><td>W bill of exchange receivable, Q / R discounting, collection</td><td>Receivable from bill (F-36), discounting at bank (F-33) with contingent liability, presentation / collection (F-34), reversal of contingent liability after due date + protest period (FBWD / FBWE).</td></tr>
+            <tr><td><strong>Individual value adjustment</strong></td><td>E</td><td>Write-down of doubtful receivables, posted against valuation adjustment account (see Closing).</td></tr>
+          </tbody>
+        </table>
+        <p>Properties of a special G/L indicator: noted item flag, relevant for credit limit, commitments warning, target special G/L indicator (for down payment request → down payment), posting key, description. Down payment integration with SD (billing plan, FAZ) and MM (purchase order down payment, ME2DP, F-47 from PO; S/4HANA “Manage Supplier Down Payment Requests” linked to PO).</p>
+      </div>
+
+      <h3 class="topic">Document Parking and Approval Workflow</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>Park (FV50 G/L, FV60 vendor, FV70 customer, FBV1; MIR7 logistics):</strong> Document number is assigned, but no transaction figures are updated (except, optionally, commitment / CO funds). Parked documents can be displayed (FBV3), changed (FBV2), deleted (FBV0 → delete), and posted (FBV0 individually or FBV0 list / Fiori “Manage Journal Entries → parked”). Reports can include parked documents (e.g., FBL1N with “parked items”).</li>
+          <li><strong>Holding (F-02 → Hold):</strong> Temporary user-specific number, no document number, not visible for other users or reports; completed later via “Get held document”.</li>
+          <li><strong>Completion workflow:</strong> Workflow variant (OBWA) assigned to company code (OBWJ) with release approval groups (OBWE, from BP master) and release approval paths / amount limits (OBWF, OBWC) – e.g., documents &gt; 10,000 need second release. SAP Business Workflow templates WS10000051 (completion) / WS10000052 (release). Agents receive work items; after release the document is posted automatically.</li>
+          <li><strong>S/4HANA Journal Entry Verification:</strong> Fiori “Verify General Journal Entries” – flexible workflow (Manage Workflows for Journal Entry Verification) with preconditions (amount, company code, account), approvers (users / teams via Manage Teams and Responsibilities), and “Request / Approve” apps; parked entries submitted for verification and posted on approval.</li>
+          <li><strong>Document change rules (OB32):</strong> Which fields of a posted document may be changed (e.g., text, assignment, payment block, payment terms – only if item not cleared, posting period open). Change documents (FB04) record all changes.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Validations and Substitutions (GGB0 / GGB4 / OB28 / OBBH)</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>Call-up points:</strong> 1 document header, 2 line item, 3 complete document; for CO: order, cost center, etc. Activation level per company code (OB28 validation, OBBH substitution): 0 inactive, 1 active, 2 active except batch input.</li>
+          <li><strong>Validation</strong> step = <em>Prerequisite</em> (when the rule applies, Boolean expression e.g. BSEG-HKONT = ‘400000’) + <em>Check</em> (condition that must be true, e.g., BSEG-KOSTL ≠ ‘’) + <em>Message</em> (type I information, W warning, E error, A abort; message class with variables). Example: for travel expense accounts a cost center and a personnel number are required.</li>
+          <li><strong>Substitution</strong> step = <em>Prerequisite</em> + <em>Substitution</em> (field replaced by constant, another field, or a user exit / Boolean rule; e.g., derive business area from cost center, set text, assign segment). Fields that can be substituted are listed in table GB01 (some, like amount or account, are protected).</li>
+          <li><strong>Rules</strong> (reusable Boolean conditions) and <strong>sets</strong> (GS01, value lists like account ranges) make rules maintainable; <strong>user exits</strong> (program ZGGBR000 / ZGGBS000 registered in GCX2) for complex ABAP logic. Transport via GGB1 / GCT9. Trace: GGB0 → Simulation; validation/substitution log in document.</li>
+          <li>S/4HANA additionally offers BRFplus-based validations (Fiori “Manage Substitution/Validation Rules” for journal entries, 1909+) with rule-building UI for key users.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Withholding Tax</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>Classic withholding tax</strong> (one code per vendor, at payment) vs <strong>Extended withholding tax (EWT)</strong>: several withholding tax types per BP, at invoice or at payment, for vendors and customers, with accumulation, exemption certificates, minimum / maximum amounts, formulas, and legal reporting. Activated per company code (SPRO → Extended Withholding Tax → Activate).</li>
+          <li>Configuration: WHT type (invoice-time / payment-time, base amount = gross / net / tax amount, rounding, accumulation period), WHT code (percentage, posting indicator 1 standard / 2 offsetting / 3 grossing-up, income type), country-specific official keys, recipient types, account determination (OBWW), assignment of types to company code (validity, “subject to WHT” for customers), WHT in the BP master (type, code, liable flag, exemption number / rate / dates).</li>
+          <li>Posting: at invoice, Dr Expense / Cr Vendor net / Cr WHT payable; at payment, the vendor item is reduced and WHT posted. Reporting: generic withholding tax reporting (S_P00_07000134 / RFIDYYWT), certificates (1099 / 1042 US, Form 16 India, Modelo 190 Spain, etc.), Document and Reporting Compliance.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">SEPA – Mandates, Direct Debit and Credit Transfer</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>SEPA credit transfer (SCT):</strong> Payment method S (or T with PMW format SEPA_CT) producing XML pain.001.001.03 (or .09 ISO 20022 2019 version) via the Payment Medium Workbench; requires IBAN and BIC (BIC optional since IBAN-only) in BP bank details; end-to-end ID, remittance information (structured / unstructured), batch booking, charge bearer SLEV. Urgent / instant payments via separate formats.</li>
+          <li><strong>SEPA direct debit (SDD):</strong> Payment method D/E with PMW format SEPA_DD, pain.008.001.02 (CORE for consumers with pre-notification and 5 / 2 day lead times; B2B for companies); requires a valid <strong>mandate</strong>.</li>
+          <li><strong>Mandate management (FSEPA_M1 create, FSEPA_M2 change, FSEPA_M3 display, FSEPA_M4 list; Fiori “Manage SEPA Mandates”):</strong> Mandate ID (internal / external number range, OBB_SEPA), creditor identifier (per company code, SEPA_CI), debtor BP and bank details, signature date / place, status (entered, active, obsolete, cancelled, completed), type recurring / one-off, B2B indicator, first use / last use dates, amendment history (change of bank account → new “amendment indicator” in the file). Mandate is selected in the document (BSEG-SEPA_MANDATE) or defaulted from BP; mandate becomes obsolete 36 months after last use.</li>
+          <li><strong>Sequence type</strong> in the file: FRST first use, RCUR recurring, OOFF one-off, FNAL final – derived automatically from mandate status and usage.</li>
+          <li><strong>Pre-notification</strong> (program SEPA_DD_PRENOTIF / correspondence) informs the debtor of amount and date before collection; <strong>returns</strong> (R-transactions: reject, refund, return) processed via EBS / CAMT.054 with reason codes (AM04 insufficient funds, MD01 no mandate…).</li>
+          <li>Bank communication: SAP Bank Communication Management (BCM, FBPM1 batch and approval of payments, BNK_MONI status monitor), SWIFT / EBICS connectivity, Multi-Bank Connectivity cloud service in S/4HANA.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Payment Medium Workbench (PMW) and Correspondence</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>PMW (OBPM1 formats, OBPM2 format supplements, OBPM3 payment medium variants / selection, OBPM4 note-to-payee):</strong> Generic framework replacing RFFO* programs; formats delivered by SAP (SEPA_CT, SEPA_DD, ACH, CGI_XML_CT…) or built with DMEE/DMEEX tree editor; event modules; output as file, download, or PI; payment medium created in F110 (“Printout/data medium” tab with variant) or separately with FBPM; Data Medium Administration (FDTA) stores files with status, download, repeat, and payment summary; note-to-payee composition rules; grouping of payments into collective files per house bank / format.</li>
+          <li><strong>Payment advice notes</strong> (RFFOAVIS / RFFOAVIS_FPAYM) and <strong>payment summary</strong>; EDI payment advices (IDoc REMADV / PEXR2002).</li>
+          <li><strong>Correspondence (OB77 types, OB78 program assignment, OB79 call options, OB96 forms):</strong> SAP01 payment notice (automatic after payment with differences), SAP06 account statement (periodic, F.27, based on master data indicator), SAP08 open items list, SAP09 internal document, SAP10 individual letter, SAP11/12 bank statement / bill of exchange charges; requested manually (FB12), from line item display, or automatically (payment program, dunning, cash discount difference); printed with F.61 / F.64 (maintain requests), e-mail via BTE 2310/2320 or Output Management (S/4HANA BRF+ output control).</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Taxes on Sales and Purchases (VAT / Sales Tax)</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>Tax calculation procedure</strong> (OBBG per country: TAXD Germany, TAXUSJ / TAXUSX US jurisdiction with external tax engine) with <strong>condition types</strong> (MWAS output, MWVS input, NAVS non-deductible, NLXA acquisition tax) and <strong>account keys</strong> (MWS output tax, VST input tax, NAV non-deductible, ESA/ESE acquisition tax) → G/L accounts (OB40).</li>
+          <li><strong>Tax codes (FTXP):</strong> Per country: tax type (A output, V input), rates per condition, target tax code (for down payments), check indicator (error if entered tax ≠ calculated), EU code (for EC sales list), tax category restriction on G/L accounts; properties: deductible / non-deductible portion, reverse charge (output + input in one code), tax on tax, jurisdiction codes (US: state / county / city, FTXP with jurisdiction, external tax via Vertex/Taxware/Thomson RFC).</li>
+          <li><strong>Tax determination:</strong> Manual tax code in FI; automatic in SD (tax classification of customer / material, departure / destination country, condition records MWST) and MM (tax indicators of material / plant / account assignment, condition records in purchasing info record); plants abroad (foreign VAT registration) via plant-abroad functionality.</li>
+          <li>Tax base: gross / net cash discount handling (OBY6 “Tax base is net value”), tax on freight, tax in down payments, tax clearing for intra-EU acquisitions. Posting: tax line items with tax code, tax base amount stored in document (BSET), tax reporting dates (VAT date).</li>
+          <li><strong>Reporting:</strong> Advance return (RFUMSV00) with tax payable posting (F.12 / S_ALR_87012357 “Post tax payable”), EC sales list (RFASLM00), Intrastat (MM/SD), electronic filing via SAP Document and Reporting Compliance (e-invoicing SII/SDI/etc.), deferred tax (tax on payment basis, RFUMSV50).</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Interest Calculation, Tolerances and Other Topics</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>Tolerance groups:</strong> <em>Employees (OBA4)</em>: upper limits for posting amount per document and per line item, cash discount %, permitted payment difference (amount / %) for revenue and expense, blank group = default for all users; users assigned via OB57. <em>Customers / vendors (OBA3)</em>: payment differences permitted (gain/loss amount and %, discount adjustment), tolerance days for payment terms, residual item handling (dunning key, payment term for residual). The lower of employee / BP tolerance applies. <em>G/L accounts (OBA0)</em>: for automatic clearing differences.</li>
+          <li><strong>Interest calculation:</strong> Interest indicators (OB46: item interest calculation “P” vs balance interest “S”), interest rate reference (OB81/OB83 reference rates and OB82 time-dependent terms), interest calculation frequency, posting via OBV1 / OBV2 account determination with symbols (0001 interest received, 0002 interest paid, 1000 customer), programs F.2B item interest customers, F.47 vendors, F.52 balance interest G/L, FINT (new). Interest letters as correspondence.</li>
+          <li><strong>Cross-company-code transactions (OBYA):</strong> Clearing accounts between company codes (receivable/payable pairs) – one entry creates one document per company code with a cross-company document number (company code 1 document no. + company code + fiscal year); reversal via FBU8; tax handled in the first company code.</li>
+          <li><strong>Payment cards, payment requests (F111), bills of exchange, cheque / bill of exchange receivable (F-36), lease accounting (RE-FX, SAP Contract and Lease Management – IFRS 16).</strong></li>
+          <li><strong>Data archiving (SARA, archiving objects FI_DOCUMNT, FI_ACCPAYB, FI_ACCRECV, FI_ACCOUNT, AM_ASSET, FI_BANKS):</strong> Prerequisites: documents cleared, retention periods per account type / document type (OBR7, OBR8), “archive index” for display (FB03 reads archive via AS_AIS / SAP Archive Information System); phases: write, delete, store (content server), reload (not recommended); <strong>SAP Information Lifecycle Management (ILM)</strong> adds retention rules, legal holds, and destruction (GDPR data privacy – ILM blocking of BP data, end of purpose check).</li>
+        </ul>
+      </div>
     </div>
 
     <!-- ===== CUSTOMIZING ===== -->
@@ -1005,6 +1886,248 @@ h4.subtopic { font-size: 14px; font-weight: 700; color: var(--sap-text); margin:
           <li>Custom Code Migration Guide helps adapt ABAP programs to the new data model.</li>
           <li>SAP Best Practices provide pre-configured content for accelerated implementations.</li>
         </ul>
+      </div>
+
+      <h3 class="topic">Company Code and Global Parameters</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>Define company code (OX02 / EC01 copy):</strong> 4-char key, name, city, country, currency, language; copying from a reference (e.g., 0001 or 1010) with all dependent customizing is the recommended approach.</li>
+          <li><strong>Company code global parameters (OBY6):</strong> Chart of accounts, country chart of accounts, company (consolidation unit, OX15), credit control area, fiscal year variant, field status variant, posting period variant, workflow variant, VAT registration number, business area financial statements, propose fiscal year, define default value date, negative postings permitted, cash management activated, tax base is net value, discount base is net value, financial assets management active, purchase account processing, no forex rate difference when clearing in local currency, max. exchange rate deviation %.</li>
+          <li><strong>Additional data:</strong> Company (OX15) for consolidation, address (SADR), parallel currencies (OB22: 2nd/3rd local currency with currency type, exchange rate type, source currency, translation date type); in S/4HANA: ledger settings (FINSC_LEDGER) per company code – fiscal year variant, posting period variant per ledger, currency types per ledger, accounting principle.</li>
+          <li><strong>Controlling integration:</strong> Assign company code to controlling area (OX19), real-time integration CO→FI (variant OBXL / ledger settings), account assignment objects (OKB9 default cost center per G/L account / company code / business area / profit center).</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Fiscal Year and Posting Periods</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>Fiscal year variant (OB29):</strong> Calendar year (K4 = 12 periods + 4 special), year-dependent vs year-independent, number of posting periods (max 16 incl. special), shortened fiscal year (e.g., change of year-end – flag year-dependent, fewer periods; AA requires separate handling of depreciation for shortened year), period texts, period determination table (month / day / period / year shift –1/0/+1 for non-calendar years, e.g., V3 April–March, V6 July–June, WK week-based with 52/53 periods). Assigned to company code (OB37) and, in S/4HANA, possibly different per non-leading ledger.</li>
+          <li><strong>Posting period variant (OBBO) and periods (OB52):</strong> See FI-GL; assign to company code (OBBP). Authorization group in interval 1 (object F_BKPF_BUP). Fiori “Manage Posting Periods”. CO periods opened separately (OKP1).</li>
+          <li><strong>Special periods</strong> 13–16 for closing postings; posting date must lie in the last period of the fiscal year.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Chart of Accounts and G/L Account Configuration</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>Chart of accounts (OB13):</strong> Key, description, maintenance language, length of G/L account number (max 10), group chart of accounts (for consolidation – accounts then require “group account number”), integration with CO (manual / automatic creation of cost elements – in S/4HANA merged), blocked indicator. Types: <em>operating</em> (assigned to company code, OB62), <em>country-specific</em> (alternative account number in company code segment; one-to-one mapping), <em>group</em> (consolidation).</li>
+          <li><strong>Account groups (OBD4):</strong> Number range interval + field status of the master record (company code segment fields).</li>
+          <li><strong>Retained earnings (OB53), reconciliation accounts, account determination for automatic postings (FBKP / OBYC MM, VKOA SD, OBA1 FX, OBXK bank charges, OBXU cash discount received, OBXI cash discount granted, OBXL payment differences, OBYA cross-company, OBXM zero-balance clearing, OB40 taxes, OBXZ bill of exchange, OBXR/OBXT special G/L).</strong></li>
+          <li><strong>Field status variant (OBC4):</strong> Set of field status groups (G001 general, G003 material consumption, G004 cost accounts, G005 bank, G006 material accounts, G067 reconciliation accounts, G029 revenue…), each listing field groups (general data, additional account assignments, payment transactions, taxes, asset accounting, materials management, consolidation, real estate, financial assets) with Suppress / Required / Optional; assigned to company code (OBC5); the G/L master points to a group.</li>
+          <li><strong>Sample accounts / data transfer rules (OB15 / FSM1),</strong> account creation by copying (FS15/FS16 transfer between company codes), mass maintenance (OB_GLACC11/12/13), G/L account deletion (OBR2 reset transaction data in test systems).</li>
+          <li><strong>Posting keys (OB41), document types and number ranges (OBA7, FBN1), document change rules (OB32), reversal reasons (OBXK is bank charges – reversal reasons are in SPRO “Define Reasons for Reversal”), fast entry screens (O7E6), line layout variants (O7Z3/O7Z4), sort variants, text keys (OB56), reference / header text mandatory via document type.</strong></li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Currencies and Exchange Rates</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>Currency codes (OY03, TCURC)</strong> with decimals (OY04 – e.g., JPY 0, BHD 3); <strong>exchange rate types (OB07)</strong>: M standard (mandatory, used for translation at posting), B bank buying, G bank selling, EURX euro cross rates with reference currency, P planning, with options “inversion allowed”, “reference currency”, “buying / selling rate type”; <strong>translation ratios (OBBS)</strong> per currency pair and rate type (1:1, 1:100 etc., direct / indirect quotation); <strong>exchange rates (OB08, TCURR)</strong> valid from date, direct (1 USD = 0.92 EUR) or indirect quotation (prefix “/”); worklist maintenance (TCURMNT), automatic upload from ECB / Reuters via Market Rates Management (S/4HANA cloud service) or RFC.</li>
+          <li>Document translation: local currency amount = document amount × rate of type M on the translation date (posting date by default; document date via OBY6 “foreign currency translation date”); manual rate entry allowed within maximum deviation; <strong>exchange rate difference keys</strong> for G/L accounts (OBA1 KDB).</li>
+          <li>Parallel currencies per company code / ledger (OB22 / FINSC_LEDGER): group currency 30 translated from document or local currency (“source currency” setting), hard currency 40 (country T005), index currency 50, global company currency 60.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Business Partner Customizing (AP / AR)</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>BP groupings (BUCF / SPRO Cross-Application Components → BP → Number Ranges and Groupings):</strong> Number range (internal / external, e.g., BP01 internal 1000000–1999999), link to customer account group (OBD2) and vendor account group (OBD3) via <strong>CVI mapping</strong> (SPRO → Customer/Vendor Integration: BP role → account group, number assignment “same numbers” recommended, field mapping of industries, payment cards, tax categories).</li>
+          <li><strong>Account groups (OBD2 customers, OBD3 vendors):</strong> Number range (XDN1 / XKN1), field status for general / company code / sales or purchasing data, one-time account indicator, output determination procedure; typical groups: 0001 sold-to, 0002 ship-to, 0003 payer, 0004 bill-to, CPD one-time; 0001 vendors, 0002 goods supplier, 0003 alternative payee, 0004 invoicing party, 0006 plant, 0007 plant, CPD one-time.</li>
+          <li><strong>Reconciliation accounts</strong> (G/L accounts with reconciliation type D / K, alternative reconciliation accounts allowed via OBXR/OBXT and “reconciliation account ready for input” – OBBY/OBBW), <strong>sort keys (OB16)</strong>, <strong>accounting clerks (OB05)</strong>, <strong>payment terms (OBB8), instalments (OBB9), payment block reasons (OB27), dunning (FBMP / OB61 / OB17 / OB18), tolerance groups (OBA3), interest indicators (OB46), cash management groups (OB10 / FDFD), head office / branch, alternative payer, release approval groups (OBWE), credit management (UKM / OB45 credit control areas), correspondence (OB77 / OB78), payment methods (FBZP), house banks (FI12), bank account management, lockbox (OBAY/OBAX), EBS (OT83), check lots (FCHI), withholding tax.</strong></li>
+          <li><strong>Sales / purchasing integration:</strong> Account assignment groups (OVK8 / OVK5) and account determination (VKOA) for SD revenue; MM account determination (OBYC: valuation class, transaction key BSX inventory, WRX GR/IR, GBB offsetting, PRD price difference, KDM exchange rate difference, FRL external service) and purchasing organization assignment.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">S/4HANA Conversion Topics for FI Configuration</h3>
+      <div class="prose">
+        <ul>
+          <li><strong>Mandatory:</strong> Business Partner / CVI synchronisation (MDS_LOAD_COCKPIT, CVI_FS_CHECK_CUSTOMIZING); New Asset Accounting (ledger approach / accounts approach, FAA_CMP_LDT); New G/L with document splitting optional but migration required for classic G/L; material ledger activation; cost element = G/L account merge (FINS_CUST_CONS_CHK consistency check); credit management via FSCM (classic credit control area obsolete); new cash management or BAM lite; Universal Journal migration (FINS_MIG_STATUS, cockpit MIG).</li>
+          <li><strong>Ledger settings (FINSC_LEDGER):</strong> One place for ledgers, company code assignment, currency types, fiscal year / posting period variants per ledger, accounting principles; extension ledgers; “ledger for CO version”.</li>
+          <li><strong>Simplification items</strong> (Simplification Item Check report /SDF/RC_START_CHECK) list obsolete transactions: FK01/FD01 → BP, FD32 → UKM_BP, F.07 → FAGLGVTR, ASKB obsolete, AFBP log, S_ALR tax reports → Document and Reporting Compliance, FF7A/FF7B → Cash Management apps, classic EBS → still available plus new apps, FBL*N → Fiori line item apps with compatibility.</li>
+          <li><strong>Fiori launchpad configuration:</strong> Business roles (SAP_BR_GL_ACCOUNTANT, SAP_BR_AP_ACCOUNTANT, SAP_BR_AR_ACCOUNTANT, SAP_BR_ASSET_ACCOUNTANT, SAP_BR_CASH_MANAGER), business catalogs, spaces and pages (/UI2/FLPD_CUST, Manage Launchpad Spaces), app finder; Fiori Apps Reference Library for app-to-transaction mapping.</li>
+        </ul>
+      </div>
+
+      <h3 class="topic">Configuration Transaction Code Reference</h3>
+      <div class="prose">
+        <table>
+          <thead><tr><th>Area</th><th>T-Codes</th></tr></thead>
+          <tbody>
+            <tr><td>Enterprise structure</td><td>OX02 company code, EC01 copy, OX15 company, OX03 business area, OX19 controlling area assignment, OKKP controlling area, KE51 profit center, segment (SPRO), OBY6 global parameters, OB22 parallel currencies, FINSC_LEDGER ledgers</td></tr>
+            <tr><td>Fiscal year / periods</td><td>OB29 FYV, OB37 assign FYV, OBBO PPV, OBBP assign PPV, OB52 open/close periods, OKP1 CO periods</td></tr>
+            <tr><td>Chart of accounts / G/L</td><td>OB13 CoA, OB62 assign CoA, OBD4 account groups, OB53 retained earnings, OBC4 field status variant, OBC5 assign FSV, FS00/FSP0/FSS0 accounts, OB15 sample accounts, FS15/FS16 transfer, OB_GLACC11 mass change</td></tr>
+            <tr><td>Documents</td><td>OBA7 document types, FBN1 number ranges, OB41 posting keys, OB32 change rules, OBXK (bank charges), SPRO reversal reasons, OB56 text keys, O7E6/O7Z3 screen variants, OB74 automatic clearing criteria, OBXZ, OB28/OBBH validation/substitution activation, GGB0/GGB4</td></tr>
+            <tr><td>Tolerances</td><td>OBA4 employee groups, OB57 assign users, OBA3 customer/vendor, OBA0 G/L</td></tr>
+            <tr><td>Currencies / tax</td><td>OY03/OY04 currencies, OB07 rate types, OBBS ratios, OB08 rates, OBA1 FX accounts, OBBG tax procedure, FTXP tax codes, OB40 tax accounts, OBCL default tax codes, OBCN account keys, OBYZ condition types</td></tr>
+            <tr><td>Business partner</td><td>BP, BUCF groupings, CVI mapping (SPRO), OBD2/OBD3 account groups, XDN1/XKN1 number ranges, OB12/OB11 (ECC) number range assignment, OBB8/OBB9 payment terms, OB27 payment blocks, OB16 sort keys, OB05 clerks, OBXR/OBXT special G/L, OBWE/OBWF release groups</td></tr>
+            <tr><td>Payments / banks</td><td>FBZP all payment settings, FI12 house banks, FCHI check lots, OBPM1–4 PMW, DMEE/DMEEX formats, OT83 EBS, OTPM search strings, OT45/OT46 check deposit / manual statement variants, OBAY/OBAX lockbox, FBCJC0–3 cash journal, SEPA_CI creditor ID, OBB_SEPA mandates</td></tr>
+            <tr><td>Dunning / interest / correspondence</td><td>FBMP dunning procedure, OB61 areas, OB17 keys, OB18 blocks, OBVU/OBVV/OBVW forms, OB46/OB81/OB82/OB83 interest, OBV1/OBV2 interest accounts, OB77/OB78/OB79/OB96 correspondence</td></tr>
+            <tr><td>Closing</td><td>OB59 valuation methods, OB7Z/FAGL_FC_VAL valuation areas, OBBU sort methods, OBBV/OBBW/OBBX regrouping accounts, OB04 provision methods, OB58 FSV, OKBD functional areas, OBBZ substitution for functional area, OBR7/OBR8 archiving retention, CLOCOC closing cockpit</td></tr>
+            <tr><td>Asset accounting</td><td>EC08, OAOB, OADB, OABC/OABD, OAOA, AO90, AO21, OAYZ, AFAMA/AFAMS/AFAMP/AFAMD/AFAMR, OAYR, AO73, OA79, ACSET, OAYC/OAYD legacy transfer dates, AS08 number ranges, FAA_CMP ledger approach</td></tr>
+            <tr><td>Document splitting</td><td>GSP_LZ2 classify G/L accounts for splitting, GSP_VZ3 classify document types, GSP_RD splitting rules, OBXM zero-balance clearing account, SPRO activate splitting / define characteristics</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ===== T-CODE REFERENCE ===== -->
+    <div class="section" id="section-tcodes">
+      <h2>SAP FI Transaction Code Master Reference</h2>
+      <p class="lead">Consolidated list of the most frequently used FI transaction codes, grouped by sub-module, with the S/4HANA Fiori equivalent where one exists. Transactions marked <em>(ECC)</em> are obsolete or replaced in S/4HANA.</p>
+
+      <div class="inner-tabs">
+        <div class="inner-tab active" onclick="innerTab(this,'tc-gl')">G/L</div>
+        <div class="inner-tab" onclick="innerTab(this,'tc-ap')">AP</div>
+        <div class="inner-tab" onclick="innerTab(this,'tc-ar')">AR</div>
+        <div class="inner-tab" onclick="innerTab(this,'tc-aa')">AA</div>
+        <div class="inner-tab" onclick="innerTab(this,'tc-bl')">Bank</div>
+        <div class="inner-tab" onclick="innerTab(this,'tc-close')">Closing</div>
+        <div class="inner-tab" onclick="innerTab(this,'tc-report')">Reporting</div>
+      </div>
+
+      <div class="inner-panel active" id="ip-tc-gl">
+        <table>
+          <thead><tr><th>T-Code</th><th>Description</th><th>Fiori app / S/4HANA note</th></tr></thead>
+          <tbody>
+            <tr><td>FS00 / FSP0 / FSS0</td><td>G/L account master – central / CoA / company code</td><td>Manage G/L Account Master Data</td></tr>
+            <tr><td>FB50 / FB50L</td><td>G/L document (Enjoy) / ledger-group-specific</td><td>Post General Journal Entries</td></tr>
+            <tr><td>F-02 / FB01</td><td>G/L posting – classic</td><td>—</td></tr>
+            <tr><td>FV50 / FBV0 / FBV2 / FBV3</td><td>Park / post parked / change / display</td><td>Manage Journal Entries, Verify General Journal Entries</td></tr>
+            <tr><td>FB02 / FB03 / FB04</td><td>Change / display document / display changes</td><td>Manage Journal Entries</td></tr>
+            <tr><td>FB08 / F.80 / FBU8</td><td>Reverse document / mass / cross-company</td><td>Manage Journal Entries → Reverse</td></tr>
+            <tr><td>FBD1 / FBD2 / FBD3 / F.14 / F.15</td><td>Recurring entry create / change / display / execute / list</td><td>Manage Recurring Journal Entries</td></tr>
+            <tr><td>FBS1 / F.81</td><td>Accrual-deferral document / reverse</td><td>—</td></tr>
+            <tr><td>F-01 / FKMT</td><td>Sample document / account assignment model</td><td>—</td></tr>
+            <tr><td>F-03 / F.13 / FBRA</td><td>Clear G/L / automatic clearing / reset clearing</td><td>Clear G/L Accounts, Reset Cleared Items</td></tr>
+            <tr><td>FS10N / FAGLB03 / FBL3N / FAGLL03</td><td>Balances / line items (classic / new G/L)</td><td>Display G/L Account Balances, Display Line Items in General Ledger</td></tr>
+            <tr><td>FAGLGVTR / F.07 (ECC) / F.16 (ECC)</td><td>Balance carryforward</td><td>Carry Forward Balances</td></tr>
+            <tr><td>OB52 / OB29 / OBBO</td><td>Posting periods / fiscal year variant / PP variant</td><td>Manage Posting Periods</td></tr>
+            <tr><td>FAGL_FC_VAL / FAGLF101</td><td>FX valuation / regrouping</td><td>Perform Foreign Currency Valuation / Regroup Receivables/Payables</td></tr>
+            <tr><td>OB58 / F.01 / S_ALR_87012284</td><td>FSV / financial statements</td><td>Manage Global Hierarchies / Display Financial Statement</td></tr>
+            <tr><td>GGB0 / GGB4 / OB28 / OBBH</td><td>Validation / substitution / activation</td><td>Manage Substitution/Validation Rules</td></tr>
+            <tr><td>FINSC_LEDGER / FAGL_ACTIVATION (ECC)</td><td>Ledger settings / New G/L activation</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="inner-panel" id="ip-tc-ap">
+        <table>
+          <thead><tr><th>T-Code</th><th>Description</th><th>Fiori app / S/4HANA note</th></tr></thead>
+          <tbody>
+            <tr><td>BP / FK01-03 (ECC) / XK01 (ECC)</td><td>Supplier master</td><td>Maintain Business Partner</td></tr>
+            <tr><td>FK05 / FK06 / FK08 / FK09</td><td>Block / deletion flag / confirm sensitive fields</td><td>—</td></tr>
+            <tr><td>FB60 / FB65 / F-43 / F-41</td><td>Invoice / credit memo (Enjoy / classic)</td><td>Create Supplier Invoice, Manage Supplier Invoices</td></tr>
+            <tr><td>FV60 / MIR7</td><td>Park vendor invoice / park logistics invoice</td><td>—</td></tr>
+            <tr><td>MIRO / MIR4 / MR8M / MRBR</td><td>Logistics invoice verification / display / cancel / release blocked</td><td>Create Supplier Invoice (LIV), Release Blocked Invoices</td></tr>
+            <tr><td>F-47 / F-48 / F-54</td><td>Down payment request / down payment / clearing</td><td>Manage Supplier Down Payment Requests</td></tr>
+            <tr><td>F-53 / F-58 / F-44</td><td>Outgoing payment / with print / clear vendor</td><td>Post Outgoing Payments, Clear Outgoing Payments</td></tr>
+            <tr><td>F110 / F110S / F111 / FBZP / FBPM / FDTA</td><td>Payment program / schedule / payment requests / config / PMW / DME admin</td><td>Manage Automatic Payments, Manage Payment Media</td></tr>
+            <tr><td>FCHI / FCH5 / FCHN / FCH8 / FCH9</td><td>Check lots / manual check / register / void &amp; reverse / void</td><td>Manage Checkbooks</td></tr>
+            <tr><td>FBL1N / FK10N</td><td>Vendor line items / balances</td><td>Supplier Line Items, Display Supplier Balances</td></tr>
+            <tr><td>F.18 / F.19 / MR11</td><td>Vendor balance confirmation / GR/IR analysis / GR/IR maintenance</td><td>Regroup GR/IR Clearing Account</td></tr>
+            <tr><td>F.44 / F.47</td><td>Vendor interest (balance / item)</td><td>—</td></tr>
+            <tr><td>FBW* / FSEPA_M*</td><td>Bill of exchange / SEPA mandates</td><td>Manage SEPA Mandates</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="inner-panel" id="ip-tc-ar">
+        <table>
+          <thead><tr><th>T-Code</th><th>Description</th><th>Fiori app / S/4HANA note</th></tr></thead>
+          <tbody>
+            <tr><td>BP / FD01-03 (ECC) / XD01 (ECC)</td><td>Customer master</td><td>Maintain Business Partner</td></tr>
+            <tr><td>FD32 (ECC) / UKM_BP / UKM_CASE</td><td>Credit limit / credit management</td><td>Manage Credit Accounts, Manage Documented Credit Decisions</td></tr>
+            <tr><td>FB70 / FB75 / F-22 / F-27</td><td>Invoice / credit memo (Enjoy / classic)</td><td>Create Outgoing Invoices, Manage Customer Invoices</td></tr>
+            <tr><td>VF01 / VF04 / VF11 / VF02</td><td>Billing document / collective / cancel / change (release to accounting)</td><td>Create Billing Documents</td></tr>
+            <tr><td>F-37 / F-29 / F-39</td><td>Down payment request / received / clearing</td><td>Manage Customer Down Payment Requests</td></tr>
+            <tr><td>F-28 / F-26 / F-32 / F-30</td><td>Incoming payment / fast entry / clear customer / post with clearing</td><td>Post Incoming Payments, Clear Incoming Payments</td></tr>
+            <tr><td>FBE1 / FBE2 / FBE3</td><td>Payment advice create / change / display</td><td>Manage Payment Advices</td></tr>
+            <tr><td>F150 / FBMP</td><td>Dunning run / dunning procedure</td><td>—</td></tr>
+            <tr><td>FBL5N / FD10N / FD11</td><td>Customer line items / balances / analysis</td><td>Customer Line Items, Display Customer Balances</td></tr>
+            <tr><td>F.17 / F103 / F104 / F-21 (E)</td><td>Balance confirmation / flat-rate value adjustment / individual VA</td><td>—</td></tr>
+            <tr><td>FB12 / F.61 / F.62 / F.64 / F.27</td><td>Correspondence request / print / periodic / maintain / account statements</td><td>Manage Correspondence</td></tr>
+            <tr><td>F.2B / FINT / F.26</td><td>Item interest / interest calculation / balance interest</td><td>—</td></tr>
+            <tr><td>UDM_DISPUTE / UDM_SUPERVISOR / UDM_SPECIALIST</td><td>Dispute case / collections supervisor / specialist worklist</td><td>Manage Dispute Cases, Process Receivables</td></tr>
+            <tr><td>FLB2 / FLB1 / FF68</td><td>Lockbox import / post-process / check deposit</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="inner-panel" id="ip-tc-aa">
+        <table>
+          <thead><tr><th>T-Code</th><th>Description</th><th>Fiori app / S/4HANA note</th></tr></thead>
+          <tbody>
+            <tr><td>AS01 / AS02 / AS03 / AS05 / AS06</td><td>Asset master create / change / display / block / delete</td><td>Manage Fixed Assets</td></tr>
+            <tr><td>AS11 / AS21 / AS91 / ABLDT</td><td>Sub-number / group asset / legacy asset (ECC) / legacy transfer (S/4)</td><td>Migration Cockpit</td></tr>
+            <tr><td>AW01N</td><td>Asset Explorer</td><td>Asset Values (object page)</td></tr>
+            <tr><td>F-90 / F-91 / ABZON / ABZE / ABZP / ABNAN</td><td>Acquisition: vendor / clearing / auto-offset / in-house / affiliated / post-capitalisation</td><td>Post Acquisition (Integrated AP) / Post Acquisition (Non-Integrated)</td></tr>
+            <tr><td>ABUMN / ABT1N</td><td>Intra-company / inter-company transfer</td><td>Post Transfer within Company Code / Post Transfer – Intercompany</td></tr>
+            <tr><td>F-92 / ABAON / ABAVN / AB08</td><td>Retirement with customer / without / scrapping / reverse</td><td>Post Retirement (Integrated AR), Post Retirement (Non-Integrated), Reverse Asset Posting</td></tr>
+            <tr><td>AIAB / AIBU / KO88 / CJ88</td><td>AuC distribution rules / settlement / order / WBS settlement</td><td>Settle Assets Under Construction</td></tr>
+            <tr><td>ABAA / ABZU / ABMA / ABIF / AR29</td><td>Unplanned depreciation / write-up / manual depreciation / investment support / revaluation</td><td>Post Unplanned Depreciation, Post Write-Up</td></tr>
+            <tr><td>AFAB / AFAR / AFBP / ASKB (ECC)</td><td>Depreciation run / recalculate / log / periodic APC posting</td><td>Schedule Asset Accounting Jobs, Depreciation Run Status</td></tr>
+            <tr><td>AJRW / AJAB / OAAQ / OAAR</td><td>Fiscal year change / year-end close / reopen company code / reopen area</td><td>Make Year-End Closing for Asset Accounting</td></tr>
+            <tr><td>AR01 / AR31 / OA02</td><td>Asset worklist / mass change / substitution for mass change</td><td>—</td></tr>
+            <tr><td>S_ALR_87011963 / 87011990 / 87012026 / 87012936</td><td>Asset balances / history sheet / depreciation posted / depreciation simulation</td><td>Asset Balances, Asset History Sheet, Depreciation Lists</td></tr>
+            <tr><td>ABST2 (ECC)</td><td>Reconciliation AA–GL</td><td>Not needed (single document)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="inner-panel" id="ip-tc-bl">
+        <table>
+          <thead><tr><th>T-Code</th><th>Description</th><th>Fiori app / S/4HANA note</th></tr></thead>
+          <tbody>
+            <tr><td>FI01 / FI02 / FI03 / BAUP</td><td>Bank master create / change / display / upload directory</td><td>Manage Banks</td></tr>
+            <tr><td>FI12 / FCLM_BAM / FI13</td><td>House banks / bank account management</td><td>Manage Bank Accounts</td></tr>
+            <tr><td>FF_5 / FF.5 / FF67 / FEBP / FEBAN / FEBA_BANK_STATEMENT / FF.6</td><td>EBS import / intraday / manual statement / post / post-process / display / list</td><td>Manage Incoming Payment Files, Reprocess Bank Statement Items, Bank Statement Monitor</td></tr>
+            <tr><td>OT83 / OTPM / OT45 / OT46</td><td>EBS config / search strings / check deposit variants / manual statement variants</td><td>Manage Bank Statement Reprocessing Rules</td></tr>
+            <tr><td>FBCJ / FBCJC0 / FBCJC1 / FBCJC2 / FBCJC3</td><td>Cash journal / setup / number range / business transactions / print</td><td>Manage Cash Journal</td></tr>
+            <tr><td>FF7A / FF7B / FF63 / FF6B / FF.1</td><td>Cash position / liquidity forecast / memo record / planning levels</td><td>Cash Position, Cash Flow Analyzer, Liquidity Forecast</td></tr>
+            <tr><td>F111 / FIBLFFP / FRFT</td><td>Payment requests / free form payment / repetitive codes</td><td>Make Bank Transfers</td></tr>
+            <tr><td>FBPM1 / BNK_MONI / BNK_APP</td><td>Bank Communication Management batching / monitor / approval</td><td>Approve Bank Payments, Monitor Payments</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="inner-panel" id="ip-tc-close">
+        <table>
+          <thead><tr><th>T-Code</th><th>Description</th><th>Fiori app / S/4HANA note</th></tr></thead>
+          <tbody>
+            <tr><td>F.14 / FBS1 / F.81 / ACACACT</td><td>Recurring entries / accrual-deferral / reverse / accrual engine run</td><td>Post Accruals Periodically, Manage Manual Accruals</td></tr>
+            <tr><td>F.13 / F13E / F.19 / MR11</td><td>Automatic clearing / with variant / GR-IR analysis / maintenance</td><td>Regroup GR/IR Clearing Account</td></tr>
+            <tr><td>FAGL_FC_VAL / FAGL_FCV / F.05 (ECC)</td><td>Foreign currency valuation</td><td>Perform Foreign Currency Valuation</td></tr>
+            <tr><td>F103 / F104 / FAGLF101 / F101 (ECC)</td><td>Flat-rate value adjustment transfer / reverse / regrouping</td><td>Regroup Receivables/Payables</td></tr>
+            <tr><td>F.17 / F.18</td><td>Balance confirmations customers / vendors</td><td>—</td></tr>
+            <tr><td>AFAB / AJRW / AJAB</td><td>Depreciation / AA fiscal year change / year-end</td><td>Schedule Asset Accounting Jobs</td></tr>
+            <tr><td>MMPV / MMRV / CKMLCP / MRN0–3</td><td>MM period close / allow previous period / actual costing / balance sheet valuation</td><td>—</td></tr>
+            <tr><td>KSU5 / KSV5 / KO88 / KSS2 / KKS1</td><td>CO assessment / distribution / settlement / splitting / variance</td><td>Schedule Overhead Accounting Jobs</td></tr>
+            <tr><td>OB52 / FAGLGVTR</td><td>Posting periods / balance carryforward</td><td>Manage Posting Periods, Carry Forward Balances</td></tr>
+            <tr><td>RFUMSV00 / F.12 / S_ALR_87012400</td><td>VAT return / tax payable posting / EC sales list</td><td>Run Compliance Reports</td></tr>
+            <tr><td>FBICS3 / FBICA3 / FBICR3 / ICMR apps</td><td>Intercompany reconciliation (select / assign / reconcile)</td><td>Intercompany Matching and Reconciliation</td></tr>
+            <tr><td>CLOCOT / CLOCO / CLOCOC</td><td>Closing cockpit template / task list / customizing</td><td>SAP Advanced Financial Closing</td></tr>
+            <tr><td>SARA / SARI / SARJ</td><td>Archive administration / archive information system / archive retrieval</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="inner-panel" id="ip-tc-report">
+        <table>
+          <thead><tr><th>Report / T-Code</th><th>Content</th><th>Fiori app</th></tr></thead>
+          <tbody>
+            <tr><td>F.01 / S_ALR_87012284 (RFBILA00)</td><td>Balance sheet / P&amp;L by FSV</td><td>Display Financial Statement</td></tr>
+            <tr><td>S_PL0_86000030 / S_ALR_87012277</td><td>Trial balance / G/L account balances</td><td>Trial Balance, G/L Account Balances</td></tr>
+            <tr><td>S_ALR_87012287 (RFBELJ00) / S_ALR_87012289</td><td>Document journal / compact document journal</td><td>Audit Journal</td></tr>
+            <tr><td>S_ALR_87012326 / S_ALR_87012328 (RFSKVZ00 / RFSKPL00)</td><td>Chart of accounts / G/L account list</td><td>Manage G/L Account Master Data</td></tr>
+            <tr><td>S_ALR_87012082 / 87012085 / 87012077 / 87012078</td><td>Vendor balances / due date analysis / vendor info / payment history</td><td>Supplier Aging, Days Payable Outstanding, Supplier Payment Analysis</td></tr>
+            <tr><td>S_ALR_87012172 / 87012168 / 87012178 / 87012197</td><td>Customer balances / due date analysis / open item analysis by overdue / customer list</td><td>Days Sales Outstanding, Overdue Receivables, Customer Aging</td></tr>
+            <tr><td>S_ALR_87011963 / 87011990 / 87012050 / 87012052</td><td>Asset balances / history sheet / acquisitions / retirements</td><td>Asset Balances, Asset History Sheet, Asset Transactions</td></tr>
+            <tr><td>S_ALR_87012357 / 87012400 / S_P00_07000134</td><td>VAT advance return / EC sales list / withholding tax</td><td>Run Compliance Reports</td></tr>
+            <tr><td>FAGLL03 / FBL1N / FBL5N / FBL3N</td><td>Line item reports</td><td>Display Line Items in General Ledger, Supplier / Customer Line Items</td></tr>
+            <tr><td>SECR (AIS) / RFBELUGA0 / RFKLET00</td><td>Audit Information System / balance audit trail</td><td>Audit Journal, Balance Audit Trail</td></tr>
+            <tr><td>GR55 / GRR1 / FGI0 (ECC)</td><td>Report Painter / drilldown reporting</td><td>Replaced by CDS-based analytical apps, Query Browser, SAC</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
@@ -1135,6 +2258,7 @@ const titles = {
   closing: 'Financial Closing (S4F15)',
   additional: 'Additional Financial Accounting (S4F13)',
   customizing: 'FI Customizing & Configuration (S4F12)',
+  tcodes: 'SAP FI Transaction Code Master Reference',
   comparison: 'ECC vs SAP S/4HANA Comparison',
   sources: 'Source Documents'
 };
