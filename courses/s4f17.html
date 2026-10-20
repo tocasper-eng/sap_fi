@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S4F17 – Asset Accounting (S/4HANA)</title><style>
+:root{--sap-orange:#F0AB00;--sap-blue:#0070F2;--sap-dark:#1A2132;--sap-mid:#354A5E;--sap-light:#F5F6F7;--sap-border:#DEDEDE;--sap-text:#32363A;--sap-sub:#556B82;--card:#fff;--sidebar-w:300px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--sap-light:#11181F;--sap-border:#354A5E;--sap-text:#E5E7EA;--sap-sub:#A0B3C8;--card:#1A2132}}
+:root[data-theme="dark"]{--sap-light:#11181F;--sap-border:#354A5E;--sap-text:#E5E7EA;--sap-sub:#A0B3C8;--card:#1A2132}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"72",Arial,sans-serif;background:var(--sap-light);color:var(--sap-text);display:flex;min-height:100vh}
+#sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--sap-dark);color:#fff;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+#sidebar .logo{background:var(--sap-orange);padding:14px 18px;display:flex;gap:10px;align-items:center}
+#sidebar .logo .badge{background:#fff;color:var(--sap-orange);font-weight:900;padding:2px 8px;border-radius:3px}
+#sidebar .logo h1{font-size:13px;color:var(--sap-dark);line-height:1.3}
+#sidebar nav{padding:10px 0;flex:1}
+#sidebar nav a{display:block;padding:7px 18px;color:rgba(255,255,255,.82);text-decoration:none;font-size:12.5px;border-left:3px solid transparent}
+#sidebar nav a:hover{background:rgba(255,255,255,.08);color:#fff}
+#sidebar nav a.unit{font-weight:700;color:var(--sap-orange);margin-top:8px;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+#sidebar nav a.lesson{padding-left:30px}
+#sidebar .back{padding:12px 18px;font-size:12px;border-top:1px solid rgba(255,255,255,.1)}
+#sidebar .back a{color:var(--sap-orange)}
+#main{flex:1;min-width:0}
+#topbar{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--sap-border);padding:12px 28px;display:flex;align-items:center;gap:12px}
+#topbar h2{font-size:15px;font-weight:600;flex:1}
+#menu-toggle{display:none;background:none;border:0;cursor:pointer;width:28px}
+#menu-toggle span{display:block;height:3px;background:var(--sap-text);margin:5px 0;border-radius:2px}
+.badge-new{background:#E8FBEF;color:#1B8C3A;font-size:11px;padding:3px 8px;border-radius:10px;font-weight:700}
+.badge-ecc{background:#FFF8E1;color:#A05A00;font-size:11px;padding:3px 8px;border-radius:10px;font-weight:700}
+#content{padding:28px 36px;max-width:1100px}
+h2.unit{font-size:22px;color:var(--sap-dark);margin:40px 0 6px;padding-top:12px;border-top:3px solid var(--sap-orange)}
+:root[data-theme="dark"] h2.unit,:root:not([data-theme="light"]) h2.unit{color:var(--sap-text)}
+h2.unit:first-of-type{margin-top:0;border-top:0;padding-top:0}
+h3.lesson{font-size:17px;margin:28px 0 10px;color:var(--sap-blue)}
+h4{font-size:14px;margin:16px 0 6px}
+p,li{font-size:13.5px;line-height:1.65}
+ul,ol{margin:6px 0 12px 22px}
+p{margin:6px 0}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13px;background:var(--card)}
+th,td{border:1px solid var(--sap-border);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--sap-dark);color:#fff;font-weight:600}
+.box{padding:12px 16px;border-radius:6px;margin:14px 0;font-size:13px;line-height:1.6;background:var(--card);border-left:4px solid var(--sap-orange)}
+.box.key{border-left-color:var(--sap-blue)}
+.box strong{display:block;margin-bottom:4px}
+.lead{font-size:14px;color:var(--sap-sub);margin-bottom:18px}
+.unit-objectives{background:var(--card);border:1px solid var(--sap-border);border-radius:6px;padding:12px 16px;margin:10px 0 16px}
+code{background:rgba(0,0,0,.06);padding:1px 5px;border-radius:3px;font-size:12.5px}
+@media (max-width:900px){#sidebar{position:fixed;left:calc(-1*var(--sidebar-w));transition:left .2s;z-index:10}#sidebar.open{left:0}#menu-toggle{display:block}#content{padding:18px 16px}}
+</style></head>
+<body>
+<aside id="sidebar">
+  <div class="logo"><div class="badge">SAP</div><h1>S4F17 – Asset Accounting (S/4HANA)</h1></div>
+  <nav><a class="unit" href="#s4f17-u1">Unit 1: Organizational Structures</a><a class="lesson" href="#s4f17-u1-l1">Lesson 1: Assigning a Chart of Accounts and a Chart of Depreciation to a Company Code</a><a class="lesson" href="#s4f17-u1-l2">Lesson 2: Assigning Management Accounting Objects to Fixed Assets</a><a class="lesson" href="#s4f17-u1-l3">Lesson 3: Defining How Depreciation Areas Post to the General Ledger</a><a class="lesson" href="#s4f17-u1-l4">Lesson 4: Understanding the Importance of Asset Classes in Fixed Assets</a><a class="unit" href="#s4f17-u2">Unit 2: Master Data</a><a class="lesson" href="#s4f17-u2-l1">Lesson 1: Explaining the Components of an Asset Class</a><a class="lesson" href="#s4f17-u2-l2">Lesson 2: Creating and Changing Master Data in Asset Accounting</a><a class="lesson" href="#s4f17-u2-l3">Lesson 3: Carrying Out Mass Changes to Asset Master Data Using a Worklist</a><a class="unit" href="#s4f17-u3">Unit 3: Asset Transactions</a><a class="lesson" href="#s4f17-u3-l1">Lesson 1: Processing Acquisitions</a><a class="lesson" href="#s4f17-u3-l2">Lesson 2: Posting Non-Integrated Asset Acquisitions and Understanding the Integration with MM</a><a class="lesson" href="#s4f17-u3-l3">Lesson 3: Posting Integrated and Non-Integrated Asset Retirements</a><a class="lesson" href="#s4f17-u3-l4">Lesson 4: Performing Transfers Within Company Code and Intercompany Asset Transfers</a><a class="lesson" href="#s4f17-u3-l5">Lesson 5: Representing, Distributing, and Settling Assets Under Construction</a><a class="lesson" href="#s4f17-u3-l6">Lesson 6: Entering and Analyzing Unplanned Depreciation</a><a class="unit" href="#s4f17-u4">Unit 4: Periodic Processing and Valuation</a><a class="lesson" href="#s4f17-u4-l1">Lesson 1: Defining Depreciation Areas, Keys, Calculation, and Posting</a><a class="lesson" href="#s4f17-u4-l2">Lesson 2: Executing Programs for Fiscal Year Change and Year-End Closing in AA</a><a class="lesson" href="#s4f17-u4-l3">Lesson 3: Investment Support Measures</a><a class="lesson" href="#s4f17-u4-l4">Lesson 4: Parallel Accounting in Asset Accounting</a><a class="unit" href="#s4f17-u5">Unit 5: Reporting in Asset Accounting</a><a class="lesson" href="#s4f17-u5-l1">Lesson 1: Executing Various AA Reports Using SAP List Viewer and Sort Variants</a><a class="lesson" href="#s4f17-u5-l2">Lesson 2: Analytics Architecture in SAP S/4HANA</a><a class="lesson" href="#s4f17-u5-l3">Lesson 3: Executing Depreciation and Transaction Simulation</a><a class="lesson" href="#s4f17-u5-l4">Lesson 4: Understanding the Layout of an Asset History Sheet</a><a class="unit" href="#s4f17-u6">Unit 6: Legacy Data Transfer</a><a class="lesson" href="#s4f17-u6-l1">Lesson 1: Entering Legacy Data</a></nav>
+  <div class="back"><a href="../index.html">&larr; Back to SAP FI Reference</a></div>
+</aside>
+<div id="main">
+  <div id="topbar"><button id="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')"><span></span><span></span><span></span></button><h2>S4F17 – Asset Accounting (S/4HANA)</h2><span class="badge-new">S/4HANA</span></div>
+  <div id="content">
+  <p class="lead">Unit-by-unit study notes written from the course material. Every lesson of the course is covered in the same order as the original.</p>
+<h2 class="unit" id="s4f17-u1">Unit 1: Organizational Structures</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand the organizational units that Asset Accounting (FI-AA) relies on, how a chart of depreciation is built and assigned to a company code, how FI-AA integrates with Management Accounting, which depreciation areas post which values to the general ledger, and why the asset class is the central classification object for fixed assets.</div>
+
+<h3 class="lesson" id="s4f17-u1-l1">Lesson 1: Assigning a Chart of Accounts and a Chart of Depreciation to a Company Code</h3>
+<p class="lead">Learn the organizational units relevant to FI-AA, understand what a chart of depreciation is, and see how a company code is made ready for Asset Accounting by assigning it a chart of accounts and a chart of depreciation.</p>
+
+<h4>Business context</h4>
+<p>External consultants have proposed an organizational structure for the group. The FI-AA project team has to evaluate the proposal, which requires a clear understanding of the organizational units, of the chart of depreciation concept, and of how a chart of depreciation is created and linked to a company code.</p>
+
+<h4>Organizational units used by Asset Accounting</h4>
+<p>FI-AA is a subledger of Financial Accounting, so it works within the FI organizational hierarchy. The relevant units are:</p>
+<table><thead><tr><th>Unit</th><th>Meaning</th><th>Relevance for FI-AA</th></tr></thead><tbody>
+<tr><td>Client</td><td>Top level of the system hierarchy; identifies the logical system. Settings made here are valid for every company code.</td><td>Charts of depreciation and asset classes are client-level objects.</td></tr>
+<tr><td>Company code</td><td>Independent accounting unit for which the legally required balance sheet and P&amp;L are produced.</td><td>Every asset belongs to exactly one company code; the company code carries one chart of accounts and one chart of depreciation.</td></tr>
+<tr><td>Profit center</td><td>Internal area responsible for costs and revenues. Without document splitting you get only a P&amp;L by profit center; with document splitting you can also produce a balance sheet by profit center.</td><td>Derived into asset postings via the cost center or other CO object assigned in the asset master.</td></tr>
+<tr><td>Segment</td><td>Division of the enterprise for external segment reporting as required by US GAAP (SFAS 131) and IFRS (IFRS 8).</td><td>Can be populated on asset line items when document splitting is active.</td></tr>
+<tr><td>Business area</td><td>Financially separate unit for which an internal balance sheet and P&amp;L can be prepared. Must be defined first under Enterprise Structure → Definition → Financial Accounting → Define Business Area.</td><td>Can be stored in the asset master record and inherited into postings.</td></tr>
+</tbody></table>
+<p>Document splitting (a function of the general ledger in S/4HANA) is what makes complete balances possible for business area, profit center and segment, because it enriches every line item with these characteristics.</p>
+
+<h4>Chart of accounts versus chart of depreciation</h4>
+<p>The <strong>chart of accounts</strong> holds all G/L accounts. FI-AA does not have its own chart of accounts; it simply uses the operative chart of accounts that is assigned to the company code in FI. Charts of accounts can be global, industry-specific or country-specific.</p>
+<p>The <strong>chart of depreciation</strong> is a different kind of object. Its purpose is to cope with the many legal and business requirements for valuing and depreciating assets. It is essentially a catalogue of <em>depreciation areas</em>, together with the depreciation keys that are allowed within those areas. Important characteristics:</p>
+<ul>
+<li>Charts of depreciation are country-specific, so SAP delivers a <strong>sample chart of depreciation for many countries</strong> (for example 0DE for Germany, 0US for the United States, and so on). Sample charts cannot be used directly; you must <strong>copy</strong> a reference chart into your own chart and then delete the depreciation areas you do not need.</li>
+<li>Depreciation keys are defined per chart of depreciation, but the building blocks behind them (calculation methods, period controls and so on) are client-wide. The standard keys can be changed and extended.</li>
+<li>A chart of depreciation also contains objects for special valuations, for example investment support keys, settings for capital tax valuation, and the rules that capture differences between book and country-specific tax depreciation.</li>
+<li>Up to <strong>99 depreciation areas</strong> can be managed in parallel; each depreciation area belongs to exactly one chart of depreciation.</li>
+<li>Each company code uses exactly one operative chart of accounts and exactly one chart of depreciation, but several company codes may share the same chart of accounts and the same chart of depreciation.</li>
+</ul>
+<p><strong>Copy hint from the course:</strong> copying a chart of depreciation also copies area-specific parameters such as the transaction-type restrictions that classic Asset Accounting required (stored in table TABWA). New Asset Accounting no longer needs restricted transaction types (the only exceptions are revaluations and investment support), so after copying you should check TABWA and remove obsolete restrictions, even if you copied from an SAP sample chart.</p>
+<p><strong>Training note:</strong> the S4F17 course does not use the country sample charts directly; the exercises use chart of depreciation Z000, which is a copy of 0DE with some additional values.</p>
+
+<h4>Depreciation areas</h4>
+<p>Asset portfolios and transactions have to be valued differently for different audiences. Each distinct valuation approach is represented in the system by a depreciation area. Typical approaches:</p>
+<ul>
+<li>Book depreciation according to local accounting law.</li>
+<li>Tax balance sheet valuation, if the tax authority permits a different valuation.</li>
+<li>Cost-accounting (imputed) depreciation for internal management reporting.</li>
+<li>Parallel accounting for group reporting under IFRS or US GAAP.</li>
+</ul>
+<p>Each depreciation area therefore stands for one type of valuation (book, tax, group, cost-accounting). You can define additional areas of your own within a chart of depreciation.</p>
+
+<h4>Process: making a company code ready for FI-AA</h4>
+<ol>
+<li>Create and configure the company code in Financial Accounting (chart of accounts, fiscal year variant, currencies and so on).</li>
+<li>Assign a chart of depreciation to the company code (ideally as a separate project step).</li>
+<li>Complete the FI-AA-specific company code data through the various Customizing activities (number ranges, account assignments, posting rules and so on).</li>
+</ol>
+<p>Once these three steps are done the company code is usable in Asset Accounting.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>FI-AA reuses the FI organizational structure: client, company code, business area, profit center and segment.</li>
+<li>The chart of accounts (G/L accounts) and the chart of depreciation (catalogue of depreciation areas and keys) are two different, independent objects; both are assigned to the company code.</li>
+<li>Charts of depreciation are client-level, country-specific, and must be created by copying a reference chart; delete unneeded areas and obsolete TABWA restrictions afterwards.</li>
+<li>Each company code has one chart of accounts and one chart of depreciation; several company codes can share them.</li>
+<li>Up to 99 depreciation areas allow parallel valuation for book, tax, cost-accounting and group purposes.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> This unit has no hands-on exercise; the learning assessment tests that the chart of depreciation is a client-level object, that sample charts can be adapted by copying, and that a company code is an independent accounting unit.</div>
+
+<h3 class="lesson" id="s4f17-u1-l2">Lesson 2: Assigning Management Accounting Objects to Fixed Assets</h3>
+<p class="lead">Understand which Controlling (CO) objects can be stored in an asset master record and which of them can receive the depreciation postings.</p>
+
+<h4>Why the integration matters</h4>
+<p>Even though the course focuses on the asset subledger, depreciation is an expense that management accounting wants to see on the responsible cost object. The asset master record is the place where the link between the asset and the CO structure is maintained, so every asset can carry account assignment data from Controlling.</p>
+
+<h4>CO objects that can be assigned in the asset master</h4>
+<table><thead><tr><th>Object</th><th>Type of assignment</th></tr></thead><tbody>
+<tr><td>Cost center</td><td>Real assignment (the usual receiver of depreciation)</td></tr>
+<tr><td>Internal order</td><td>Real or statistical</td></tr>
+<tr><td>Activity type</td><td>Statistical information only</td></tr>
+</tbody></table>
+<p>These objects belong to a controlling area, and a controlling area may span several company codes, so the same CO master data can be relevant for more than one company code.</p>
+<p>In addition to pure CO objects, objects from other applications that have controlling functions can be assigned, for example a WBS element (Project System), a real estate object (RE-FX), a maintenance order (statistical only) or Public Sector Management (PSM) objects.</p>
+
+<h4>Where depreciation can be posted</h4>
+<p>The depreciation of any depreciation area can be posted to one of the following receivers:</p>
+<ul>
+<li>Cost center</li>
+<li>Real internal order</li>
+<li>Cost center plus a statistical order</li>
+<li>WBS element</li>
+<li>Cost center plus a statistical WBS element</li>
+<li>Real estate object</li>
+<li>PSM objects</li>
+</ul>
+<p>A single asset can never be assigned to two cost centers. If depreciation really needs to be spread over several cost centers, assign the asset to a real internal order and settle that order periodically to the cost centers.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>The asset master record carries CO account assignments: cost center, internal order (real or statistical) and activity type (statistical).</li>
+<li>Other controlling-capable objects such as WBS elements, real estate objects, maintenance orders and PSM objects can also be assigned.</li>
+<li>Depreciation is posted to one real receiver (cost center, real order, WBS element, real estate object or PSM object), optionally with a statistical order or WBS element in parallel.</li>
+<li>One asset cannot be split between two cost centers; use a real order with settlement instead.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f17-u1-l3">Lesson 3: Defining How Depreciation Areas Post to the General Ledger</h3>
+<p class="lead">Decide, for each depreciation area, whether and how its asset values and depreciation reach the general ledger, understand how areas are tied to accounting principles and ledgers, and assign financial statement versions for asset reporting.</p>
+
+<h4>Depreciation areas and financial statements</h4>
+<p>Assets are valued from different business, tax and legal perspectives, and each perspective is a depreciation area. Not every area needs to produce financial statements, however. You therefore define in Customizing which areas transfer values to FI and how that transfer happens.</p>
+
+<h4>Posting indicator of a depreciation area</h4>
+<table><thead><tr><th>Indicator</th><th>Behaviour</th></tr></thead><tbody>
+<tr><td>0</td><td>Area does not post anything to the general ledger (reporting-only or purely statistical area).</td></tr>
+<tr><td>1</td><td>Area posts asset values (APC) to FI online in real time; depreciation is posted periodically.</td></tr>
+<tr><td>3</td><td>Area posts depreciation only (no APC postings).</td></tr>
+<tr><td>4</td><td>Area posts APC immediately and depreciation periodically.</td></tr>
+</tbody></table>
+<p>Whatever the indicator, depreciation itself is always posted periodically by the depreciation run, program <code>FAA_DEPRECIATION_POST</code>. Areas used purely for reporting are set to indicator 0 and never touch the G/L.</p>
+
+<h4>Ledgers, accounting principles and depreciation areas</h4>
+<p>In S/4HANA the ledgers assigned to the company code in FI-GL and the depreciation areas of the chart of depreciation must correspond:</p>
+<ul>
+<li>Every ledger in which the company code updates balances must also be represented in Asset Accounting, so each base ledger must be controlled by a depreciation area.</li>
+<li>The link is made through the <strong>accounting principle</strong>: each depreciation area is assigned an accounting principle, and the accounting principle is assigned to a ledger group. All areas that represent the same valuation share the same accounting principle (and thus the same ledger group).</li>
+<li>The accounting principle is mandatory for every depreciation area, including non-posting areas and delta areas that exist only for reporting; it may never be blank.</li>
+<li>Depreciation area 01 is not automatically tied to the leading ledger 0L. In new Asset Accounting all depreciation areas are equal; there is no "leading" depreciation area.</li>
+</ul>
+<p>Customizing paths: accounting principles are defined under Financial Accounting Global Settings → Ledgers → Parallel Accounting → Define Accounting Principles, and linked to ledger groups under Financial Accounting Global Settings → Ledgers → Parallel Accounting → Assign Accounting Principle to Ledger Groups.</p>
+<p>With parallel valuation the system posts the parallel values in real time with their actual amounts, creating a separate document for each accounting principle. The two technical options for parallel valuation (ledger approach and accounts approach) are covered in Unit 4.</p>
+
+<h4>Currencies</h4>
+<p>The parallel currencies of Asset Accounting must mirror the currencies of the general ledger. Consequently two company codes can only share a chart of depreciation if they use the same non-leading ledgers and the same parallel currencies.</p>
+
+<h4>Financial statement versions for asset reports</h4>
+<p>Asset values and depreciation from the individual areas can flow into separate balance sheet accounts and P&amp;L accounts. Financial statement versions (FSVs) are defined in G/L Customizing per chart of accounts, and you specify in which balance sheet or P&amp;L item each account appears. Because asset reports can display financial statement items, you can assign one FSV <strong>per depreciation area</strong> under Asset Accounting → Integration with G/L Accounting → Specify Financial Statement Version for Asset Reports. Choosing an appropriate sort variant then lets asset reports be grouped by balance sheet item.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Posting indicators 0 / 1 / 3 / 4 control whether an area posts nothing, APC in real time plus periodic depreciation, depreciation only, or APC immediately plus periodic depreciation.</li>
+<li>Depreciation is always posted periodically by <code>FAA_DEPRECIATION_POST</code>.</li>
+<li>Every depreciation area needs an accounting principle; the accounting principle maps to a ledger group, and every G/L ledger of the company code must be represented by a depreciation area.</li>
+<li>There is no leading depreciation area; area 01 need not belong to ledger 0L.</li>
+<li>Asset currencies must match G/L currencies; an FSV can be assigned per depreciation area for asset reporting.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f17-u1-l4">Lesson 4: Understanding the Importance of Asset Classes in Fixed Assets</h3>
+<p class="lead">Recognise the asset class as the primary classification criterion for fixed assets and know the elements it contains.</p>
+
+<h4>Business context</h4>
+<p>The company wants its fixed assets classified and needs an asset class catalogue. To design it you have to understand what an asset class controls and what functions its elements perform.</p>
+
+<h4>What an asset class is</h4>
+<ul>
+<li>Every asset belongs to exactly <strong>one</strong> asset class. Typical classes: buildings, vehicles, fixtures and fittings, machines.</li>
+<li>Asset classes are created at <strong>client level</strong>.</li>
+<li>A class has two main sections: a <strong>master data section</strong> and a <strong>depreciation data section</strong>.</li>
+<li>One asset class can be linked to <strong>several charts of depreciation</strong>, which allows a globally uniform class catalogue even when depreciation areas differ by country.</li>
+</ul>
+
+<h4>What the asset class provides</h4>
+<table><thead><tr><th>Element</th><th>Function</th></tr></thead><tbody>
+<tr><td>Default values for master data</td><td>Pre-fills fields when an asset is created.</td></tr>
+<tr><td>Default depreciation terms per depreciation area</td><td>Proposes depreciation key, useful life and so on; you decide whether they are defaulted and they may be overwritten manually during asset creation.</td></tr>
+<tr><td>Area deactivation</td><td>Individual depreciation areas can be suppressed for a class.</td></tr>
+<tr><td>Account determination</td><td>Links the class to the G/L reconciliation accounts.</td></tr>
+<tr><td>Number range interval</td><td>Determines how asset numbers are assigned.</td></tr>
+<tr><td>Screen layout</td><td>Controls which master data fields are required, optional or suppressed.</td></tr>
+</tbody></table>
+<p>Because assets that appear under different balance sheet items (for example buildings versus machines) need different G/L accounts, they must be placed in different asset classes. Special classes exist for assets under construction, low-value assets, intangible assets (patents, software) and leased assets.</p>
+
+<h4>Related applications</h4>
+<p>The course points out that the <em>technical</em> management of equipment is done in Plant Maintenance (PM, also called Enterprise Asset Management), that financial assets are handled by Treasury and Risk Management (Accounting → Financial Supply Chain Management → Treasury and Risk Management), and that rental and leasing contracts under IFRS 16 are evaluated with SAP Contract and Lease Management on RE-FX (see SAP Note 2255555).</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>The asset class is the main classification criterion; every asset has exactly one class, and classes are client-level.</li>
+<li>A class carries control data (account determination, number range, screen layout) plus default master and depreciation data per area.</li>
+<li>One class can be used with many charts of depreciation, enabling a uniform global class catalogue.</li>
+<li>Different balance sheet items require different asset classes; special classes exist for AuC, low-value, intangible and leased assets.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercise in this unit. The unit's learning assessment checks that activity type, order and cost center (not cost element) can be assigned in the asset master, that an asset cannot have two cost centers, that number range interval, account determination and screen layout (not insurance type) are class control data, and that a class can be linked to several charts of depreciation.</div>
+<h2 class="unit" id="s4f17-u2">Unit 2: Master Data</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Master the building blocks of an asset class (account determination, number ranges, screen layouts, special classes for AuC and low-value assets), learn how asset master records are created, changed and linked to equipment, and carry out mass changes with a worklist.</div>
+
+<h3 class="lesson" id="s4f17-u2-l1">Lesson 1: Explaining the Components of an Asset Class</h3>
+<p class="lead">Understand each component of an asset class – account determination, number range interval, screen layout rules for master data and depreciation areas, account assignment objects, tab layout – and the special handling of assets under construction and low-value assets.</p>
+
+<h4>Business context</h4>
+<p>Consultants have proposed an asset class catalogue for the group. Because the asset class acts as the template for every asset master record created later, the project team has to decide carefully which default values and controls to store in each class so that assets are maintained uniformly.</p>
+
+<h4>Account determination</h4>
+<p>The account determination key in the asset class links the asset master records (and their values) to the G/L accounts that receive APC and depreciation postings. The key can be used in three patterns:</p>
+<ul>
+<li>One key per balance sheet account, with the key named after the account – only practical for a very small class catalogue.</li>
+<li>One key shared by several similar asset classes that all post to the same fixed asset balance sheet account.</li>
+<li>One key covering several company codes with different operative charts of accounts – the same key is mapped to different accounts per chart of accounts, so one key per class suffices.</li>
+</ul>
+<p>Accounts are assigned in Customizing under Asset Accounting → Integration with General Ledger Accounting → Assign G/L Accounts (transaction <code>AO90</code> in practice). For every depreciation area that posts depreciation you must additionally assign, for ordinary and unplanned depreciation, an accumulated depreciation account, an expense account and a revenue account for write-ups. Accounts for revaluation of depreciation and for interest (cost-accounting area) can be added if needed.</p>
+
+<h4>Number range interval</h4>
+<table><thead><tr><th>Assignment type</th><th>Behaviour</th></tr></thead><tbody>
+<tr><td>Internal</td><td>System takes the next free number of the interval assigned to the class.</td></tr>
+<tr><td>External</td><td>The user (or a feeding system) supplies the number.</td></tr>
+</tbody></table>
+<p>Number ranges are defined per company code under Asset Accounting → Organizational Structures → Asset Classes → Define Number Range Interval (<code>AS08</code>). Alternatively a cross-company-code number assignment can be set up under Asset Accounting → Organizational Structures → Specify Number Assignment across Company Codes, so that several company codes draw from one company code's intervals.</p>
+
+<h4>Screen layout for asset master data</h4>
+<p>The screen layout rule assigned to the class governs three things:</p>
+<table><thead><tr><th>Parameter</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Field selection</td><td>Each master data field is required, optional, display-only or suppressed. This trims the master record to what the class needs and forces entry of important control data.</td></tr>
+<tr><td>Maintenance level</td><td>Level at which a field is maintained: asset class, main asset number or subnumber.</td></tr>
+<tr><td>Reference</td><td>Whether the field content is copied when an asset is created using another asset as a template.</td></tr>
+</tbody></table>
+
+<h4>Account assignment objects</h4>
+<p>CO objects appear in the asset master only after they are activated under Asset Accounting → Integration with the General Ledger → Additional Account Assignment Objects → Activate Account Assignment Objects. After activation the screen layout decides how they appear (for example mandatory). Cost-accounting depreciation can be posted to cost centers, CO internal orders, WBS elements, real estate objects and PSM objects (funds center, fund, grant). APC values can also be posted to account assignment objects such as an investment order or WBS element of an investment project; this is needed for direct capitalization in Investment Management and for statistical budget monitoring of asset purchases.</p>
+
+<h4>Profit center and segment on the asset master (segment reporting for assets)</h4>
+<p>With segment reporting activated, the profit center and segment are derived from the cost center or internal order of the asset and <strong>stored</strong> in the asset master record. The additional account assignment can then be switched from cost center to profit center/segment – especially attractive for new implementations – and the function automatically performs the transfer posting of asset values when the cost center changes. Steps:</p>
+<ol>
+<li>Activate under Asset Accounting → Integration with General Ledger Accounting → Segment Reporting → Activate Segment Reporting.</li>
+<li>Activate the account assignment objects Profit Center and Segment (Additional Account Assignment Objects → Activate Account Assignment Objects).</li>
+<li>Make the fields visible in the screen layout: Asset Accounting → Master Data → Screen Layout → Define Screen Layout for Asset Master Data, logical field group Time-dependent data.</li>
+<li>Set the Record Account Assignment indicator on the Control Data tab of the asset reconciliation accounts.</li>
+<li>For existing assets, run program <code>FAGL_ASSET_MASTERDATA_UPD</code> (Segment Reporting → Fill Master Data for Segment Reporting) to fill profit center and segment; after activation these fields are initially blank, and depending on Customizing the system may block postings until they are filled. If no unique value can be derived, correct the CO object or the asset master manually.</li>
+</ol>
+<p>SAP Note 2318878 gives further details.</p>
+
+<h4>Customer fields and tab layout</h4>
+<p>Customer-defined fields can be added with the Fiori app <strong>Custom Fields and Logic</strong>; they then appear in Create Asset, Change Asset, Display Asset Master Worklist, Manage Fixed Assets, Asset History Sheet, Asset Balances, Depreciation Lists and Asset Transactions. Only time-independent fields can be added, there is no automatic input check and no field help. Separately, the <strong>tab layout</strong> defined per asset class decides how many tab pages exist, what they are called and which logical field groups (for example General Data, Posting Information) sit on each tab.</p>
+
+<h4>Screen layout for depreciation areas</h4>
+<p>Each depreciation area in the class gets its own screen layout rule for the depreciation data section. SAP delivers rules 1000 and 2000. Their maintenance level decides where depreciation terms are controlled:</p>
+<table><thead><tr><th>Maintenance level</th><th>Effect</th></tr></thead><tbody>
+<tr><td>Asset class</td><td>Valuation controlled uniformly for all assets of the class.</td></tr>
+<tr><td>Main asset number</td><td>Class values are copied into the main asset and can be changed there; all subnumbers inherit the main number's terms.</td></tr>
+<tr><td>Asset subnumber</td><td>Most flexible: each subnumber may have its own depreciation terms.</td></tr>
+</tbody></table>
+<p>The course works at asset level with <code>AS02</code> and at class level with <code>OAYZ</code> (depreciation area defaults per class); detail screens per area are opened by double-clicking.</p>
+
+<h4>Additional class functions</h4>
+<ul>
+<li><strong>Copy from reference:</strong> new classes are created by copying an existing class in <code>OAOA</code>; the depreciation area defaults are copied too and can be adjusted afterwards.</li>
+<li><strong>Allowed entries for user fields:</strong> standard informational fields usable as report selection criteria:</li>
+</ul>
+<table><thead><tr><th>Field</th><th>Use</th></tr></thead><tbody>
+<tr><td>Evaluation groups 1–5</td><td>Free customer-specific classification of assets.</td></tr>
+<tr><td>Environmental protection indicator</td><td>Reason for an environmental investment (e.g. new climate regulation).</td></tr>
+<tr><td>Reason for investment</td><td>Explanation of the capital expenditure (e.g. replacement).</td></tr>
+<tr><td>Asset super number</td><td>Groups several assets, e.g. a production line or business unit.</td></tr>
+</tbody></table>
+<ul>
+<li><strong>Default values:</strong> once allowed entries exist they can be stored as defaults in the class.</li>
+</ul>
+
+<h4>Special class: Assets under Construction (AuC)</h4>
+<ul>
+<li>Own class and own G/L account, because AuC are shown separately in the balance sheet.</li>
+<li>Depreciation key <strong>0000</strong> prevents depreciation, at least in the balance sheet areas; special tax depreciation and investment support remain possible.</li>
+<li>Down payments on AuC can be processed in Accounts Payable.</li>
+<li>Credit memos can still be posted after full capitalization if negative APC is allowed in the depreciation area detail screen.</li>
+<li>Investment Management (IM) integrates orders and projects with the AuC via the investment measure.</li>
+</ul>
+
+<h4>Special class: Low-Value Assets (LVA)</h4>
+<ul>
+<li>Choose individual or collective management – each needs its own class.</li>
+<li>Collective management requires a base unit of measure in the class (<code>OAOA</code>).</li>
+<li>Maximum LVA amounts are stored per company code under Asset Accounting → General Valuation → Amount Specifications (Company Code / Depreciation Area) → Specify Max. Amount for Low-Value Assets + Asset Classes.</li>
+</ul>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Account determination links the class to the balance sheet, accumulated depreciation, expense and write-up accounts; one key can serve several classes and several charts of accounts.</li>
+<li>Number ranges (internal or external) are per company code, or shared across company codes.</li>
+<li>Screen layout rules control field status, maintenance level and reference behaviour; a separate rule per depreciation area (1000/2000) sets the maintenance level for depreciation terms.</li>
+<li>CO objects, profit center and segment must be activated as account assignment objects before they appear; segment reporting stores profit center/segment on the asset and auto-posts transfers on cost center changes.</li>
+<li>AuC use key 0000 and a separate account; LVAs can be individual or collective with company-code maximum amounts.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> The course material for this unit contains no exercise pages, only a learning assessment. To practise on your own: copy an asset class in <code>OAOA</code>, review the depreciation area defaults in <code>OAYZ</code> (chart Z000), check account determination (Assign G/L Accounts) and the number range interval, and compare screen layout rules 1000 and 2000. The assessment checks that screen layout controls field selection, maintenance level and reference (not the number range), that AuC down payments are possible in AP, and that LVAs can be managed collectively.</div>
+
+<h3 class="lesson" id="s4f17-u2-l2">Lesson 2: Creating and Changing Master Data in Asset Accounting</h3>
+<p class="lead">Create asset master records (single, multiple, subnumbers), maintain time-dependent data and depreciation terms, understand change documents, and link assets to PM equipment.</p>
+
+<h4>Ways to create an asset master record</h4>
+<ol>
+<li><strong>Via an asset class:</strong> enter company code and class; the class supplies the defaults.</li>
+<li><strong>Via a reference asset:</strong> an existing asset may give better defaults than the class alone, but be careful not to copy unwanted data such as the capitalization date.</li>
+</ol>
+<p>In both cases fill the required fields, add optional data and save; the system assigns the asset number (Fiori app Create Asset, transaction <code>AS01</code>).</p>
+
+<h4>Creating multiple similar assets</h4>
+<p>When buying, say, 20 PCs or 12 desks, you can create several similar assets in one step. Per asset you can individually maintain description, inventory number, business area, cost center and evaluation groups 1–5. More fields can be made changeable by activating the configurable entry screen (Asset Accounting → Master Data → Screen Layout → Define Screen Layout for Asset Master Data → Configurable Entry Screen for Creating Multiple Assets, switch "Multiple") and then flagging field groups as ready for input when creating multiple assets in the screen layout rule. Most fields of tables ANLA and ANLZ can be selected.</p>
+
+<h4>Asset subnumbers</h4>
+<p>A complex asset can be split into subnumbers for technical or accounting reasons: to manage subsequent acquisitions in later years separately (buildings), to track individual components, or to split by technical aspects. The class decides whether subnumbers are numbered internally or externally – external numbering is handy during legacy data transfer, after which you switch to internal. If the depreciation screen layout allows maintenance at subnumber level, each subnumber can have its own depreciation terms (<code>AS11</code>).</p>
+
+<h4>Personal value list</h4>
+<p>The asset field offers a personal value list by default. It can be switched off in the Change Asset app (<code>AS02</code>) via More → Settings → Interface; existing entries must first be removed with Delete from Personal List before the general F4 search help appears.</p>
+
+<h4>Changing master data</h4>
+<ul>
+<li><strong>Time-dependent data</strong> holds the CO assignments (cost center, project) plus shift operation and shutdown, which affect depreciation and can change monthly. Intervals are maintained with the Further Intervals button on the Time-dependent tab.</li>
+<li>Every change creates a <strong>change document</strong> listing changed fields, number of changes per field, user, and old/new values. View them from <code>AS02</code>, with report <code>RAAEND01</code>, or via the Fiori tile Change Documents for Asset Master Record.</li>
+<li>Many assets at once: use a mass change (Lesson 3).</li>
+</ul>
+
+<h4>Depreciation areas in the asset master</h4>
+<p>Depreciation terms default from the class and can be changed per area in the asset. Some values (for example the depreciation start date) are derived from the first acquisition posting. Extra parameters such as index, variable depreciation portion and scrap value are mainly relevant to the cost-accounting area.</p>
+
+<h4>Asset and equipment integration (PM)</h4>
+<ul>
+<li>Equipment is linked by entering the asset number in the equipment master; several pieces of equipment may point to one asset but each piece belongs to only one asset.</li>
+<li>The system can create an equipment master automatically when an asset is created, copying fields such as company code and inventory number, and keeps both records synchronized in either direction. A workflow can notify the PM manager.</li>
+<li>Customizing: Asset Accounting → Master Data → Automatic Creation of Equipment Master Records; see SAP Notes 370884 and 549929.</li>
+</ul>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Assets are created from a class or from a reference asset; the number is assigned on save.</li>
+<li>Multiple similar assets can be created in one step with individual descriptions, inventory numbers, business areas, cost centers and evaluation groups.</li>
+<li>Subnumbers separate components or later acquisitions and may carry their own depreciation terms.</li>
+<li>CO assignments, shift and shutdown are time-dependent; every change is logged in a change document (<code>RAAEND01</code>).</li>
+<li>Asset and PM equipment masters can be created and synchronized automatically.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercise pages are included for this lesson. Suggested self-practice: create an asset with <code>AS01</code> / the Create Asset app, create several similar assets in one run, add a subnumber with <code>AS11</code>, change time-dependent data and depreciation terms with <code>AS02</code>, and display the change documents (<code>RAAEND01</code>). The assessment asks which fields can differ when creating multiple assets (description, inventory number, cost center – not license plate) and which asset master fields belong to the depreciation area (depreciation start, useful life, scrap value).</div>
+
+<h3 class="lesson" id="s4f17-u2-l3">Lesson 3: Carrying Out Mass Changes to Asset Master Data Using a Worklist</h3>
+<p class="lead">Use a substitution rule plus a worklist to change a field (for example the cost center) on many asset master records in one run.</p>
+
+<h4>Concept</h4>
+<p>Mass changes are run from the FI-AA application menu by editing a worklist; the user only needs authorization for the application transaction, no workflow task assignment is required in Customizing. Technically the function is built on the workflow engine and Business Object Repository methods, so the basic workflow Customizing must exist (<code>SWU3</code>, automatic workflow Customizing – a decision to agree with IT; SAP Note 127931).</p>
+
+<h4>Substitution rule</h4>
+<table><thead><tr><th>Part</th><th>Content</th></tr></thead><tbody>
+<tr><td>Conditions</td><td>Identify the records to change; built with the form editor or in expert mode (requires technical table/field names).</td></tr>
+<tr><td>Substitutions</td><td>Replacement values applied when conditions are met: constants, field-to-field assignments or user exits.</td></tr>
+</tbody></table>
+<p>SAP Note 210897 covers substitutions for time-dependent asset data.</p>
+
+<h4>Procedure</h4>
+<ol>
+<li>Define the substitution: Asset Accounting → Master Data → Define Substitution → Define substitution for mass changes → Substitution → Create Substitution, with at least one if-then step.</li>
+<li>Assign the substitution to the company code with <code>OA02</code>.</li>
+<li>Select the assets with any asset report, or via Environment → Worklist → Generate (<code>AR01</code>).</li>
+<li>On the result list choose Create Worklist.</li>
+<li>Enter a description and a purpose (a predefined standard task such as "change master data").</li>
+<li>Pick the substitution rule in the dialog and save.</li>
+<li>Process the worklist: Environment → Worklist → Edit (<code>AR31</code>).</li>
+<li>Verify with the asset display or report <code>RAAEND01</code> (change documents).</li>
+</ol>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>A mass change = substitution rule (what to change and how) + worklist (which assets) + worklist processing.</li>
+<li>Substitution is defined in Customizing and assigned to the company code (<code>OA02</code>).</li>
+<li>Worklists are generated from any asset report or <code>AR01</code> and executed with <code>AR31</code>.</li>
+<li>The function relies on basic workflow Customizing (<code>SWU3</code>).</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercise pages are included for this lesson; the procedure above is the practice path: define a substitution that replaces one cost center with another, assign it with <code>OA02</code>, build a worklist with <code>AR01</code>, process it with <code>AR31</code> and verify with <code>RAAEND01</code>.</div>
+<h2 class="unit" id="s4f17-u3">Unit 3: Asset Transactions</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Post and analyse the full life cycle of asset transactions in S/4HANA: integrated and non-integrated acquisitions (including the MM purchasing route), integrated and non-integrated retirements, intra- and intercompany transfers, settlement of assets under construction, and manual unplanned depreciation, using the Asset Explorer and Manage Fixed Assets to check the results.</div>
+
+<h3 class="lesson" id="s4f17-u3-l1">Lesson 1: Processing Acquisitions</h3>
+<p class="lead">Post an external asset acquisition integrated with Accounts Payable, understand the two-part document logic of new Asset Accounting (technical clearing account), know what transaction types and the asset value date do, and analyse the result in the Asset Explorer and the Manage Fixed Assets app.</p>
+
+<h4>Subledger principle</h4>
+<p>Asset Accounting is a subledger like AP and AR. Every posting to a vendor, customer or asset account immediately updates the related G/L reconciliation account, so subledger and general ledger are always in balance. The reconciliation accounts for fixed assets must be set up together with the asset department before the first posting.</p>
+
+<h4>Ways to post an external acquisition</h4>
+<table><thead><tr><th>Method</th><th>When used</th><th>Where</th></tr></thead><tbody>
+<tr><td>FI-AA integrated with AP, no purchase order</td><td>Incoming invoice is available and there is no PO</td><td>Fiori tile Post Acquisition (Integrated AP) without Purchase Order, <code>F-90</code></td></tr>
+<tr><td>FI-AA with automatic offsetting entry (clearing account)</td><td>Invoice not yet received, or AP already posted the invoice separately</td><td><code>ABZON</code> (Lesson 2)</td></tr>
+<tr><td>Materials Management</td><td>Asset procured and activated in Logistics via PO / GR / IR</td><td>MM transactions (Lesson 2)</td></tr>
+<tr><td>In-house production</td><td>Own goods or services are capitalized via an investment measure (order or project) settled to an AuC and then to the final asset</td><td>Investment Management</td></tr>
+<tr><td>Settlement of a CO order</td><td>Costs collected on an order are settled to the asset</td><td>Controlling</td></tr>
+</tbody></table>
+
+<h4>Integrated acquisition with AP</h4>
+<p>With <code>F-90</code> the vendor and the asset are posted in one document, which satisfies both FI and FI-AA. Every asset line requires a <strong>transaction type</strong>; it classifies the movement (acquisition, retirement, transfer …) and decides where the amount appears on the asset history sheet.</p>
+<p>In new Asset Accounting the system splits an integrated acquisition into two parts:</p>
+<ol>
+<li><strong>Operational part</strong> (vendor invoice): one ledger-group-independent document, valid for all accounting principles, posted against the <em>technical clearing account for integrated asset acquisitions</em>.</li>
+<li><strong>Valuating part</strong> (capitalization of the asset): one ledger-group-specific document per accounting principle, also posted against the technical clearing account.</li>
+</ol>
+<p>The technical clearing account therefore always nets to zero per accounting principle and account assignment object; to protect this, manual postings to it are not allowed. It is defined under Asset Accounting → Integration with General Ledger Accounting → Technical Clearing Account for Integrated Asset Acquisition. Prerequisites: a balance sheet account, created as a reconciliation account for fixed assets, and <strong>not</strong> used in any account determination.</p>
+<p>If document splitting is active, the document type of the entry view cannot always be inherited by the valuating documents (required items may exist only in the operational document). You can then define an alternative document type under Integrated Transactions: Alternative Doc. Type for Ledger-Grp-Spec. Docs → Specify Alternative Document Type for Acctg-Principle-Specific Documents.</p>
+
+<h4>Transaction types</h4>
+<ul>
+<li>Mandatory on every asset posting; they identify acquisitions, retirements, transfers and so on and position the value on the asset history sheet (for example as a current-year or prior-year acquisition).</li>
+<li>SAP delivers all necessary transaction types; customers can copy or create their own under Asset Accounting → Transactions.</li>
+<li>Every transaction type belongs to a transaction type group, and the groups themselves are fixed by SAP and cannot be changed.</li>
+</ul>
+
+<h4>Asset Explorer (<code>AW01N</code>)</h4>
+<p>The Asset Explorer shows one asset with all its depreciation areas in a tree (icons distinguish real from derived areas), header information (company code, main number, subnumber), a jump to master data, and tabs for planned values, posted values, transactions and a <strong>Compare</strong> tab that shows value development over several years and several areas side by side. The bottom-left pane lists related objects (cost center, G/L account, vendor, purchase order, equipment) with direct navigation. Functions include transparent depreciation calculation with depreciation key details, drill-down to the FI document, currency conversion, calling asset reports, print/export, and simulation of transactions and changed depreciation terms.</p>
+
+<h4>Manage Fixed Assets (Fiori)</h4>
+<p>This app gathers everything about an asset in one place, including a graphical life-cycle chart and key figures (APC, accumulated depreciation, net book value) that make unexpected value changes – for example special depreciation after an accident – easy to explain. Reach it from Display Asset Master Worklist or from the reporting apps Asset History Sheet, Asset Balances, Depreciation Lists and Asset Transactions. Functions: key characteristics, overview of all parallel depreciation areas and their parameters, key figures by area and by type of value correction, life-cycle chart, multi-year/multi-area comparison, time-dependent and time-independent master data, attachments, notes and editing.</p>
+
+<h4>What the first acquisition does to the master record</h4>
+<table><thead><tr><th>Field set automatically</th><th>Derived from</th></tr></thead><tbody>
+<tr><td>Capitalization date</td><td>Asset value date</td></tr>
+<tr><td>Date of initial acquisition</td><td>Asset value date</td></tr>
+<tr><td>Acquisition year and period</td><td>Posting date</td></tr>
+<tr><td>Depreciation start date per area</td><td>Asset value date combined with the period control method of the depreciation key</td></tr>
+<tr><td>Vendor on the Origin tab</td><td>The AP-integrated posting</td></tr>
+</tbody></table>
+<p>Default asset value dates per transaction type can be set in Customizing. The <strong>asset value date</strong> is the real activation date; together with the depreciation key it fixes the depreciation start and hence planned annual depreciation and interest, which are updated with every further posting. Posting date and asset value date must lie in the same fiscal year.</p>
+
+<h4>The FI document: number ranges and gross/net document types</h4>
+<ul>
+<li>The document type (client-wide, two characters) points to a number range interval, but the interval itself is maintained per company code (<code>FBN1</code>); if year-dependent numbering is not wanted, enter year 9999.</li>
+<li>With the ledger solution, document types used for postings to non-leading ledgers only need separate number ranges so the leading view has no gaps.</li>
+<li>Default document types per transaction are set in <code>OBU1</code> (Financial Accounting Global Settings → Document → Default Values).</li>
+<li>The document type also defines allowed account types and whether the document is <strong>gross</strong> or <strong>net</strong>. Here gross/net has nothing to do with tax: a net document type lets the system compute the cash discount from the payment terms and capitalize the invoice amount minus tax minus discount; a gross type capitalizes without deducting the discount.</li>
+</ul>
+<table><thead><tr><th>Standard document types</th><th>Type</th></tr></thead><tbody>
+<tr><td>AA, KR</td><td>Gross</td></tr>
+<tr><td>AN, KN</td><td>Net</td></tr>
+</tbody></table>
+<p>If the discount actually taken at payment differs from the amount deducted, document splitting corrects the APC automatically at payment time; without document splitting you run the P&amp;L adjustment program <code>SAPF181</code> in collective processing. For non-integrated acquisitions the full APC is capitalized and the discount is handled only on the vendor side.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Integrated acquisitions (<code>F-90</code>) create one operational document plus one valuating document per accounting principle, balanced via the technical clearing account, which must never be posted manually or used in account determination.</li>
+<li>Transaction types are mandatory and drive the asset history sheet; their groups are SAP-fixed.</li>
+<li>The asset value date sets capitalization date and depreciation start; it must be in the same fiscal year as the posting date.</li>
+<li>Net document types (AN, KN) capitalize net of cash discount; gross types (AA, KR) do not; <code>SAPF181</code> is only needed without document splitting.</li>
+<li>Asset Explorer and Manage Fixed Assets are the analysis tools for values, documents and simulations.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> The extracted course text contains no exercise pages for this unit. Self-practice: post an AP-integrated acquisition with <code>F-90</code> (transaction type 100, document type KR/KN) to an asset in your class, then open <code>AW01N</code> / Manage Fixed Assets to review the planned values, the two generated documents and the dates set in the master record.</div>
+
+<h3 class="lesson" id="s4f17-u3-l2">Lesson 2: Posting Non-Integrated Asset Acquisitions and Understanding the Integration with MM</h3>
+<p class="lead">Post an acquisition with automatic offsetting entry via a clearing account when invoice and asset arrive at different times, and follow the purchasing route from purchase requisition to invoice receipt.</p>
+
+<h4>Acquisition with clearing account (automatic offsetting entry)</h4>
+<p>When the acquisition is not integrated, a clearing account bridges AP and FI-AA. Typical reasons: the invoice arrives before the asset, or the asset is already delivered and in use while the invoice is still outstanding. Two postings result, in whichever order the business dictates:</p>
+<ul>
+<li>AP side: debit clearing account and input tax, credit vendor.</li>
+<li>FI-AA side (<code>ABZON</code>): debit asset, credit clearing account.</li>
+</ul>
+<p>Newer features of the offsetting-entry transaction: you can create a new asset master record directly while posting, and you can post to several existing assets in one step.</p>
+
+<h4>Acquisition via Materials Management</h4>
+<ol>
+<li>Create a purchase requisition and, if needed, the asset master record.</li>
+<li>Create the purchase order (possibly from the requisition) with <strong>account assignment category A</strong> (asset). The asset number is entered in the item detail; for even tighter integration the asset master can be created from within the PO transaction.</li>
+<li>Post the goods receipt. The PO decides whether the GR is <strong>valuated</strong> (asset capitalized at GR) or <strong>non-valuated</strong> (asset capitalized at invoice receipt). A valuated GR is useful when goods arrive before the invoice; if the invoice later differs, adjustment postings are made to the asset. With a non-valuated GR nothing is capitalized yet, so no correction is needed, but the GR date still becomes the capitalization date.</li>
+<li>Post the invoice receipt. For a non-valuated GR this is the moment the asset is capitalized, line items are created and the value fields updated.</li>
+</ol>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Non-integrated acquisitions use a clearing account: AP posts invoice vs. clearing, FI-AA posts asset vs. clearing (<code>ABZON</code>).</li>
+<li>The MM route is PReq → PO with account assignment category A → GR → IR.</li>
+<li>Valuated GR capitalizes at goods receipt (later invoice differences adjust the asset); non-valuated GR capitalizes at invoice receipt but keeps the GR date as capitalization date.</li>
+<li>An asset master can be created directly from the PO or from the offsetting-entry posting.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercise pages in the source. Self-practice: post an acquisition with automatic offsetting entry (<code>ABZON</code>), then create a PO with account assignment A for a new asset, post GR and IR, and compare the capitalization dates in the asset master.</div>
+
+<h3 class="lesson" id="s4f17-u3-l3">Lesson 3: Posting Integrated and Non-Integrated Asset Retirements</h3>
+<p class="lead">Retire assets with or without revenue, with or without a customer, completely or partially, individually or en masse, and understand how the system determines proportional depreciation and gain or loss.</p>
+
+<h4>Integrated retirement with customer</h4>
+<p>In the customer invoice (<code>F-92</code>) you post the revenue to the "revenue from asset sales" account and tick the <strong>Asset Retirement</strong> checkbox. A dialog then asks for the asset number, the retirement transaction type, the asset value date (retirement date) and either the portion retired or the complete-retirement indicator.</p>
+
+<h4>How the system computes the result</h4>
+<ol>
+<li>The retirement date determines the retirement period; the period control method of the depreciation key decides up to which period depreciation may still be posted.</li>
+<li>The system calculates the proportional value adjustments (accumulated depreciation) for the retired portion up to that period and reverses them.</li>
+<li>It removes the APC (or the retired share) and posts the retirement.</li>
+<li>Gain or loss = revenue − (APC − value adjustments). In the course's T-account example a complete retirement with revenue produced a loss of EUR 1,300.</li>
+</ol>
+<p>The balances of the revenue-from-asset-sales and clearing-asset-retirement accounts can be disclosed in the notes to the financial statements.</p>
+
+<h4>Retirement variants</h4>
+<table><thead><tr><th>Variant</th><th>Characteristics</th></tr></thead><tbody>
+<tr><td>With revenue and customer</td><td>Integrated with AR (<code>F-92</code>)</td></tr>
+<tr><td>With revenue, no customer</td><td>Not integrated (<code>ABAON</code>)</td></tr>
+<tr><td>Without revenue (scrapping)</td><td>Loss equals net book value (<code>ABAVN</code>)</td></tr>
+<tr><td>Mass retirement</td><td>Worklist based, with or without revenue</td></tr>
+<tr><td>Several assets in one manual retirement transaction</td><td>Multiple assets selected in the posting</td></tr>
+</tbody></table>
+<p>The first three can each be complete or partial.</p>
+
+<h4>Mass retirement with a worklist</h4>
+<ol>
+<li>Select the assets with an asset report.</li>
+<li>Create a worklist.</li>
+<li>Choose the purpose: retirement without revenue or retirement sale with revenue (standard tasks).</li>
+<li>Enter the revenue distribution.</li>
+<li>Edit if necessary, release and process the worklist.</li>
+</ol>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Integrated retirements are triggered from the customer invoice by the Asset Retirement checkbox; the dialog needs asset, transaction type, value date and portion/complete indicator.</li>
+<li>The retirement date plus period control decide how much depreciation is still posted; gain/loss is revenue minus net book value of the retired share.</li>
+<li>Variants: with customer, without customer, scrapping, mass retirement, multiple assets; each can be complete or partial.</li>
+<li>Mass retirements use worklists with a standard-task purpose and revenue distribution.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercise pages in the source. Self-practice: sell an asset to a customer with <code>F-92</code> (asset retirement checkbox), scrap another with <code>ABAVN</code>, and check the gain/loss and proportional depreciation in <code>AW01N</code>.</div>
+
+<h3 class="lesson" id="s4f17-u3-l4">Lesson 4: Performing Transfers Within Company Code and Intercompany Asset Transfers</h3>
+<p class="lead">Transfer assets within a company code (for example after a wrong class) and between company codes, understanding relationship types, transfer variants, transfer methods and cross-company depreciation areas.</p>
+
+<h4>Intracompany transfer</h4>
+<p>Reasons: the asset was created in the wrong class; part of an asset is split off or moved to a new asset; an AuC is to be moved to a finished asset (possible, but SAP's AuC settlement in Lesson 5 is the better tool). Transaction <code>ABUMN</code> is used. The system applies <strong>transfer variant 4</strong> for transfers within a company code; one task of a transfer variant is to determine the transaction types recorded on the source and the target asset. All variants are maintained under Asset Accounting → Transactions → Intercompany Asset Transfers → Automatic Intercompany Asset Transfers → Define Transfer Variants.</p>
+
+<h4>Automatic intercompany transfer (<code>ABT1L</code>)</h4>
+<p>Used when an asset is sold or moved to another company code; acquisition and retirement are posted in one step. The system derives a <strong>relationship type</strong> from the company IDs of the two company codes:</p>
+<table><thead><tr><th>Relationship type</th><th>Situation</th><th>Standard treatment</th></tr></thead><tbody>
+<tr><td>02</td><td>Both company codes belong to the same company (ID): one legal unit, legally dependent company codes</td><td>Treated like an intracompany transfer: transaction types 3xx, gross method</td></tr>
+<tr><td>01</td><td>Company codes belong to different companies (IDs) but the same group (client)</td><td>Legally independent units; retirement and acquisition with revenue</td></tr>
+</tbody></table>
+<p>The company is the smallest unit for which individual financial statements are legally required, so it represents a legal entity. The derived assignment can be reviewed under Define Transfer Variants → Check Company ID of Company Codes; exceptions can be coded in a customer program exit.</p>
+
+<h4>Transfer methods</h4>
+<table><thead><tr><th>Method</th><th>Value capitalized on target</th><th>Revenue required?</th></tr></thead><tbody>
+<tr><td>Gross</td><td>Historical APC and accumulated depreciation are carried over</td><td>No</td></tr>
+<tr><td>Net</td><td>Net book value of the source company code</td><td>Yes (equals NBV when no gain/loss)</td></tr>
+<tr><td>New value</td><td>The sales revenue entered</td><td>Yes</td></tr>
+</tbody></table>
+<p>Most intracompany transaction types use the gross method. SAP's standard transfer variants (combinations of transaction types and methods) are said to cover about 80 % of cases; see SAP Note 327088 for details and SAP Note 379944 for mass transfers. If your enterprise structure differs, define your own variants with standard or custom transaction types.</p>
+
+<h4>Cross-company depreciation areas</h4>
+<p>When the two company codes use different charts of depreciation, equivalent areas may have different keys. Before transferring you therefore define <strong>cross-company depreciation areas</strong>: client-wide keys with a description and no control parameters of their own, which map "same function" areas to each other. If none is defined the system uses an asterisk (*) as generic entry. Caution: once you use cross-company areas you must define one for every area that is transferred, even where the keys already match.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Intracompany transfers (<code>ABUMN</code>) fix wrong classes or split assets; they use transfer variant 4.</li>
+<li>Intercompany transfers (<code>ABT1L</code>) post retirement and acquisition at once; the relationship type (01/02) is derived from the company IDs.</li>
+<li>Gross method carries historical values; net method capitalizes NBV; new value method capitalizes the revenue.</li>
+<li>Different charts of depreciation require cross-company depreciation areas for all transferred areas.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercise pages in the source. Self-practice: transfer an asset created in the wrong class to a new asset with <code>ABUMN</code>, then transfer an asset to another company code with <code>ABT1L</code> and inspect the transaction types chosen by the transfer variant.</div>
+
+<h3 class="lesson" id="s4f17-u3-l5">Lesson 5: Representing, Distributing, and Settling Assets Under Construction</h3>
+<p class="lead">Manage an asset under construction through its two phases and settle it, line item by line item, to one or more completed assets.</p>
+
+<h4>Phases and representation</h4>
+<p>An AuC passes through an <strong>under-construction phase</strong> and a <strong>useful-life phase</strong>. Because the two phases are shown under different balance sheet items, they are represented by different asset master records (AuC class vs. final asset class). Moving from the first to the second is the <strong>capitalization</strong> of the AuC. In FI-AA an AuC can be managed either as a normal asset for summary settlement or as an asset with <strong>line item management</strong>. For large investments with internal activities, Investment Management (orders/projects as investment measures) is the appropriate tool (see e-learning S4F18e).</p>
+
+<h4>Line-item settlement procedure</h4>
+<ol>
+<li>Assign a settlement profile (SAP standard <strong>AI</strong>) to the company code: Asset Accounting → Transactions → Capitalization of Assets under Construction → Define/Assign Settlement Profiles.</li>
+<li>In the distribution transaction (<code>AIAB</code>) select all line items that go in the same proportion to the same receiver.</li>
+<li>Define distribution rules (percentages or amounts) for them.</li>
+<li>Run the settlement (<code>AIBU</code>); all line items that have a rule are settled to their receivers.</li>
+</ol>
+<p>The system automatically separates current-year from prior-year line items and uses different transaction types for each. You need not settle everything at once nor distribute 100 % of each line item; to settle by amounts, select and distribute items one at a time.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>AuC and completed asset are separate master records because they sit in different balance sheet items.</li>
+<li>Line item management allows precise settlement of individual costs to several receivers.</li>
+<li>Settlement profile AI must be assigned to the company code; distribute with <code>AIAB</code>, settle with <code>AIBU</code>.</li>
+<li>Current-year and prior-year items are settled with different transaction types automatically.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercise pages in the source. Self-practice: create an AuC with line item management, post two acquisitions to it, distribute the items to two final assets with <code>AIAB</code>, settle with <code>AIBU</code> and verify in <code>AW01N</code>.</div>
+
+<h3 class="lesson" id="s4f17-u3-l6">Lesson 6: Entering and Analyzing Unplanned Depreciation</h3>
+<p class="lead">Post manual unplanned depreciation for selected depreciation areas and know when it reaches the general ledger.</p>
+
+<h4>Posting unplanned depreciation</h4>
+<ul>
+<li>Beyond the depreciation planned by the depreciation key, you can manually schedule unplanned depreciation for an individual asset (<code>ABAA</code>). The transaction type (for example 640) tells the system that this is unplanned depreciation.</li>
+<li>A dialog lets you choose the depreciation areas affected – useful when a write-down is permitted for book purposes but not for tax.</li>
+<li>Because the amount is only <em>planned</em> manually, no FI document is created at entry. The G/L document is generated when the periodic depreciation posting run (<code>FAA_DEPRECIATION_POST</code>) executes.</li>
+</ul>
+
+<h4>Analysis</h4>
+<p>Manual depreciation is evaluated with a dedicated report: Accounting → Financial Accounting → Fixed Assets → Information System → Reports on Asset Accounting → Explanations for P&amp;L → International → Manual Depreciation. The Asset Explorer also shows the planned unplanned depreciation per area.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Unplanned depreciation is entered manually per asset with a specific transaction type and can be restricted to selected depreciation areas.</li>
+<li>No FI document is produced at entry; it is posted by the next depreciation run.</li>
+<li>Use the Manual Depreciation report (Explanations for P&amp;L) or the Asset Explorer to analyse it.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercise pages in the source. Self-practice: post unplanned depreciation with <code>ABAA</code> to the book area only, check the planned values in <code>AW01N</code>, run the depreciation posting and confirm the FI document appears. The unit assessment tests, among other things, that posting date and asset value date must share a fiscal year, that <code>SAPF181</code> is unnecessary with document splitting, and that the relationship type in <code>ABT1L</code> comes from the company IDs.</div>
+<h2 class="unit" id="s4f17-u4">Unit 4: Periodic Processing and Valuation</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Configure depreciation areas and depreciation keys, understand how the depreciation engine calculates amounts (including time-dependent terms, imputed interest and index series), run and troubleshoot the depreciation posting, perform fiscal year change and year-end closing, manage investment support measures, and map parallel accounting with the ledger or accounts approach.</div>
+
+<h3 class="lesson" id="s4f17-u4-l1">Lesson 1: Defining Depreciation Areas, Keys, Calculation, and Posting</h3>
+<p class="lead">Understand what a depreciation area controls, how a depreciation key is assembled from calculation methods, how the depreciation engine derives amounts (period intervals, time-dependent terms, interest, indexing), and how the depreciation run posts to FI and CO.</p>
+
+<h4>Periodic processing at a glance</h4>
+<table><thead><tr><th>Periodic task</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Primary cost planning</td><td>Planned depreciation and interest are determined periodically and passed to CO primary cost planning per cost center via a report.</td></tr>
+<tr><td>Investment support</td><td>Subsidies for certain investments; eligible assets carry an investment support key, and claims can be posted per asset (Lesson 3).</td></tr>
+<tr><td>Inflation management</td><td>Needed in countries with high inflation or deflation.</td></tr>
+<tr><td>Closing Cockpit</td><td>Define, schedule, execute and monitor recurring closing activities.</td></tr>
+<tr><td>Depreciation run</td><td>The core periodic posting (<code>FAA_DEPRECIATION_POST</code>).</td></tr>
+</tbody></table>
+
+<h4>What a depreciation area defines</h4>
+<p>Areas are identified by a two-character numeric key. Each area's definition (Asset Accounting → General Valuation → Depreciation Areas → Define Depreciation Areas, <code>OADB</code>) decides:</p>
+<ul>
+<li>whether and how APC, proportional value adjustments and depreciation are posted to the G/L (posting indicator), or whether the area is for reporting only;</li>
+<li>which valuation purpose the area serves (balance sheet, tax, cost accounting …);</li>
+<li>how values are managed, for example whether only APC is allowed, or positive and/or negative net book values;</li>
+<li>how posting values and depreciation terms are transferred from (and to) other areas.</li>
+</ul>
+
+<h4>Depreciation types</h4>
+<table><thead><tr><th>Type</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Ordinary depreciation</td><td>Planned reduction of value through normal wear and tear.</td></tr>
+<tr><td>Special depreciation</td><td>Purely tax-driven percentage depreciation, possibly staggered within a concession period, independent of actual wear.</td></tr>
+<tr><td>Unplanned depreciation</td><td>Permanent value loss from unusual events such as damage.</td></tr>
+<tr><td>Unit-of-production depreciation</td><td>Depreciation that follows actual output or usage (kilometres driven, units produced).</td></tr>
+</tbody></table>
+<p>Which types are allowed is activated per depreciation area.</p>
+
+<h4>Depreciation key and calculation methods</h4>
+<p>A depreciation key is a container of calculation methods, each holding part of the parameters the system needs:</p>
+<table><thead><tr><th>Calculation method</th><th>Controls</th></tr></thead><tbody>
+<tr><td>Base method</td><td>Depreciation type, calculation method (e.g. percentage from useful life), treatment after end of life.</td></tr>
+<tr><td>Declining-balance method</td><td>Multiplication factor and upper/lower percentage limits for declining-balance depreciation.</td></tr>
+<tr><td>Maximum amount method</td><td>Upper amount limit for depreciation up to a given date.</td></tr>
+<tr><td>Multilevel method</td><td>Percentage rates per validity period/level, base value.</td></tr>
+<tr><td>Period control method</td><td>Which period depreciation starts/ends for acquisitions, additions, retirements and transfers.</td></tr>
+</tbody></table>
+<p>Methods are assigned to the key in <code>AFAMA</code> (Asset Accounting → Depreciation → Valuation Methods → Depreciation Key → Maintain Depreciation Key). Advantages over the old internal calculation keys: country-specific requirements become chart-specific methods, the number of keys stays manageable, and keys can be defaulted per company code or area. The method detail list for a key is visible from <code>AFAMA</code>, from the asset master and from the Asset Explorer.</p>
+
+<h4>How values are calculated</h4>
+<ul>
+<li>The depreciation terms (key, useful life, scrap value …) live in the asset master per area. Depreciation start = asset value date interpreted by the period control method. Depending on the area, revaluation and imputed interest are computed as well.</li>
+<li>Changing a key in Customizing does <strong>not</strong> change already calculated values; you must recalculate depreciation (<code>AS02</code> for one asset, program <code>RAAFAR00</code> / <code>AFAR</code> for many).</li>
+<li><strong>Period-interval logic</strong> (depreciation engine, part of EA-FIN): the engine checks how long a reference value (APC, NBV) stays constant within the year. With no transactions there is one interval (periods 1–12); every transaction creates a new interval according to period control.</li>
+</ul>
+
+<h4>Time-dependent depreciation terms</h4>
+<p>Depreciation key, useful life (years/periods), variable depreciation portion, absolute scrap value and percentage scrap value can be maintained in time intervals in the depreciation area detail of <code>AS02</code> (Further Intervals / Add Interval), analogous to time-dependent master data. Without intervals, a parameter change recalculates the whole open fiscal year and all future years; with a new interval only future periods are affected. Changes only take effect if they respect area rules – otherwise the system applies the <em>reduction of calculated depreciation</em>. Course example: area 03 is derived as 02 − 01 and must not be positive; shortening the useful life only in area 01 would make area 03 positive, so the change in area 01 is silently ignored.</p>
+
+<h4>Cost-accounting depreciation area</h4>
+<p>For the cost-accounting area you decide whether interest is calculated and whether depreciation continues below zero. Example terms given in the course:</p>
+<table><thead><tr><th>Term</th><th>Example value / meaning</th></tr></thead><tbody>
+<tr><td>Depreciation key</td><td>LINA – straight-line from replacement value, pro rata temporis, with curb and interest</td></tr>
+<tr><td>Ordinary depreciation start</td><td>1 February: first-year depreciation and interest = 11/12 of the annual amount</td></tr>
+<tr><td>Index</td><td>103 % on APC: from year 2 depreciation is based on the indexed replacement value</td></tr>
+<tr><td>Interest</td><td>10 % on half the acquisition value</td></tr>
+<tr><td>Depreciation after planned life end</td><td>Depreciation continues after the planned useful life</td></tr>
+<tr><td>Depreciation below NBV zero</td><td>Continues after NBV reaches zero; area must allow negative NBV (changeover key may be used)</td></tr>
+<tr><td>Curb (effective life after planned end)</td><td>With a 10-year life the rate falls from 1/10 to 1/11 in year 11, 1/12 in year 12, so depreciation tapers off</td></tr>
+</tbody></table>
+
+<h4>Imputed interest</h4>
+<p>Prerequisites: allow interest in the depreciation area; set "post interest" for company code and area; use a depreciation key with an interest calculation method. If the interest base is the replacement value, indexed interest results. Interest is posted by the periodic depreciation run to the accounts of the area's account determination, with the cost center or order of the asset as additional account assignment.</p>
+
+<h4>Replacement values and index series</h4>
+<p>For areas with revaluation/indexing you default an index series in the asset or class. Index figures must be entered for each fiscal year; missing figures make the system fall back to a simulated annual rate. Indexed revaluation can also be applied to accumulated depreciation and to interest (when interest is based on replacement value). For G/L posting you choose whether only APC revaluation or also depreciation/interest revaluation is posted.</p>
+
+<h4>The depreciation run</h4>
+<p><code>FAA_DEPRECIATION_POST</code> (Fiori: Schedule Asset Accounting Jobs / Post Depreciation, <code>AFAB</code>) posts ordinary depreciation (book and imputed), tax/special depreciation including allocation and write-off of reserves, unplanned and other manual depreciation, imputed interest, and revaluation of APC or accumulated depreciation. It writes FI-AA and G/L directly, posts additional account assignment objects and creates CO documents. Run it first in test mode; errors are shown with red lights and an error list. Typical errors:</p>
+<ul>
+<li>Invalid account assignment object (e.g. cost center locked in CO).</li>
+<li>Missing account assignment type in FI-AA Customizing ("account requires an assignment to a CO object").</li>
+<li>Missing depreciation accounts in account determination.</li>
+<li>Posting period not matching the posting interval defined in Customizing.</li>
+<li>Posting cycle not maintained for the depreciation area.</li>
+</ul>
+<p>The log of a productive run (program <code>RAPOST2001</code>) lists all documents: Periodic Processing → Depreciation Run → Display Log.</p>
+
+<h4>Configuration checklist for depreciation posting</h4>
+<ol>
+<li>Define the posting areas: General Valuation → Depreciation Areas → Define Depreciation Areas.</li>
+<li>Assign depreciation accounts: Integration with General Ledger Accounting → Assign G/L Accounts.</li>
+<li>Assign document type AF to the company code: Post Depreciation to General Ledger Accounting → Specify Document Type for Posting of Depreciation (SAP Note 890976 if an external number range is still used).</li>
+<li>Specify intervals and posting rules per area (monthly, quarterly …).</li>
+<li>Activate account assignment objects: Additional Account Assignment Objects → Activate Account Assignment Objects.</li>
+<li>Specify account assignment types (e.g. cost-accounting depreciation to the asset's CO object): Additional Account Assignment Objects → Specify Account Assignment Types for Account Assignment Objects. Active objects can be listed with program <code>RAACCOBJ01</code> / transaction <code>AACCOBJ</code>.</li>
+</ol>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>A depreciation area (two-digit key) defines posting behaviour, valuation purpose, allowed value types and value transfer from other areas.</li>
+<li>Depreciation keys are built from base, declining-balance, maximum amount, multilevel and period control methods (<code>AFAMA</code>); Customizing changes need a recalculation (<code>AS02</code>, <code>RAAFAR00</code>).</li>
+<li>Key, useful life, variable portion and scrap values can be time-dependent; otherwise changes hit the whole open year.</li>
+<li>Cost-accounting areas can index APC, compute imputed interest, depreciate below zero and apply a curb.</li>
+<li><code>FAA_DEPRECIATION_POST</code> posts all depreciation types, interest and revaluation to FI and CO; test runs reveal locked cost centers, missing accounts or account assignment types.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> The extracted course text contains no exercise pages for this unit. Self-practice: inspect key LINA in <code>AFAMA</code>, add a time-dependent useful life interval to an asset in <code>AS02</code>, run <code>AFAB</code> in test mode for your company code, resolve any error-list items and run it productively, then display the log and the FI/CO documents.</div>
+
+<h3 class="lesson" id="s4f17-u4-l2">Lesson 2: Executing Programs for Fiscal Year Change and Year-End Closing in AA</h3>
+<p class="lead">Open the new fiscal year for asset postings and close the old one, in the right order relative to the general ledger.</p>
+
+<h4>Fiscal year change</h4>
+<ul>
+<li>In S/4HANA the new year in FI-AA is opened by the central balance carry-forward of FI-GL (<code>FAGLGVTR</code>); a separate AA fiscal year change program (formerly AJRW) is no longer needed.</li>
+<li>Technically the change opens new annual value fields for every asset; it may be started in the last posting period of the current year.</li>
+<li>A change to year N+1 is only possible if year N−1 is already closed in FI-AA (at most two open years).</li>
+</ul>
+
+<h4>Year-end closing</h4>
+<ol>
+<li>Check depreciation lists and the asset history sheet, then post depreciation for the final period.</li>
+<li>If results are unsatisfactory, use depreciation simulation, mass changes or adjustment postings – and rerun depreciation afterwards.</li>
+<li>Run the year-end closing program (Accounting → Financial Accounting → Fixed Assets → Periodic Processing → Year-End Closing → Execute/Undo or Execute (Cross-Company Code and Ledger); Fiori job template "Year-End Closing Asset Accounting (Cross-Company Code and Ledger)" in Schedule Asset Accounting Jobs).</li>
+<li>The program checks that depreciation is fully posted and that no asset is erroneous or incomplete. If clean, it sets the last closed fiscal year per depreciation area and blocks asset postings into the closed year.</li>
+</ol>
+<p>Order matters: all subledgers, including FI-AA, must be closed before the fiscal year is closed in the general ledger; doing it the other way round can create serious G/L inconsistencies. A closed AA year can be re-opened with the Undo option if corrections are needed.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Balance carry-forward in FI-GL (<code>FAGLGVTR</code>) also opens the new year in FI-AA.</li>
+<li>Only two fiscal years can be open in FI-AA: the previous year must be closed before changing to the next.</li>
+<li>Year-end closing verifies complete depreciation posting, then locks the year per depreciation area.</li>
+<li>Close FI-AA (and all subledgers) before closing the general ledger year.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercise pages in the source. Self-practice: run the year-end closing in test mode for the training company code, read the error log (incomplete assets, unposted depreciation), then schedule it via the Schedule Asset Accounting Jobs app.</div>
+
+<h3 class="lesson" id="s4f17-u4-l3">Lesson 3: Investment Support Measures</h3>
+<p class="lead">Define investment support (government subsidy) measures and understand the two accounting treatments: as a special reserve on the liabilities side or as a reduction of APC on the assets side.</p>
+
+<h4>Concept and definition</h4>
+<p>Investment support is a subsidy for certain investments. It is either shown as a value adjustment on the liabilities side (special reserve) or as a reduction of the asset's APC; in either case the subsidy must be identifiable separately from the real APC. Each measure is represented by an <strong>investment support key</strong> defined under Asset Accounting → Special Valuations → Investment Support → Define Investment Support Measures. The key stores:</p>
+<table><thead><tr><th>Attribute</th><th>Content</th></tr></thead><tbody>
+<tr><td>Validity period</td><td>When acquisitions qualify</td></tr>
+<tr><td>Maximum percentage / maximum amount</td><td>Ceiling relative to APC</td></tr>
+<tr><td>Retention period</td><td>How long the asset must be kept</td></tr>
+<tr><td>Repayment type</td><td>For liabilities-side measures: complete, proportional per year, or proportional per period of the retention period</td></tr>
+<tr><td>Depreciation areas</td><td>Where the measure is managed – this decides assets-side vs. liabilities-side treatment</td></tr>
+<tr><td>Account assignment</td><td>Accounts for all related transactions</td></tr>
+<tr><td>Plausibility check</td><td>Rules for assigning the measure to an asset</td></tr>
+</tbody></table>
+<p>All areas of one measure must belong to the same accounting principle; a measure cannot span accounting principles. Hence, if ledgers 0L (IFRS) and 2L (local GAAP) are both updated, two investment support keys are required.</p>
+
+<h4>Marking eligible assets</h4>
+<p>Entering the investment support key in the asset master creates the required depreciation area(s) for that asset. Any number of measures can be managed per asset, but each needs its own area so that, for example, the subsidy share of a partial retirement can be isolated. The class must therefore have all potentially needed areas maintained. With the key on the asset the system can produce a claim list (optionally with automatic posting), run plausibility checks, post the necessary entries on retirement automatically, and flag retention-period issues on retirement or intracompany transfer.</p>
+
+<h4>Generated transaction types</h4>
+<table><thead><tr><th>Transaction type (XX = key)</th><th>Use</th></tr></thead><tbody>
+<tr><td>IXX</td><td>Claiming the support</td></tr>
+<tr><td>KXX</td><td>Post-capitalization of a measure (claim plus proportional value adjustments)</td></tr>
+<tr><td>JXX</td><td>Extraordinary write-off of a liabilities-side measure on retirement without repayment</td></tr>
+</tbody></table>
+<p>Claims are posted manually per asset with <code>ABIF</code> or in bulk with program <code>RAINZU10N</code>.</p>
+
+<h4>Liabilities-side treatment</h4>
+<ul>
+<li>The full APC is depreciated over the useful life; the subsidy sits in a special reserve on the liabilities side and is written off in parallel.</li>
+<li>Requires at least one separate depreciation area posting automatically to FI; several parallel measures need one real-time-posting area each, and parallel currencies need additional areas too.</li>
+<li>Any depreciation key may be used; letting the support area adopt its terms from the local area ensures write-off in line with local law.</li>
+<li><strong>Retirement within the retention period:</strong> use transaction type 201 (retirement due to catastrophe) when no repayment is due – the system writes off the reserve; use a normal retirement type (e.g. 200) when repayment is due – the system posts the repayment plus repayment expense according to the repayment type. If the claim was posted in the same year as the retirement, reverse the claim first.</li>
+</ul>
+
+<h4>Assets-side treatment</h4>
+<ul>
+<li>Allowed when the subsidy need not be shown separately in the balance sheet; APC is reduced by the subsidy and depreciation is based on the reduced amount.</li>
+<li>One measure per asset needs no extra area – it is managed in the area that posts to the G/L. Several measures posted separately need additional areas with the same depreciation terms as the posting area.</li>
+<li>Accounts needed: an APC balance sheet account for the allocation (counterpart of the special reserve account) and a clearing account for the allocation.</li>
+<li>Supported automatically: claiming, and retirement of the subsidy together with the APC. <strong>Not</strong> supported automatically: retirements within the retention period, the related extraordinary write-off and the repayment; these must be posted manually in FI, and no warning is issued when the retention period is violated.</li>
+</ul>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>An investment support key defines validity, maximum, retention period, repayment type, depreciation areas and accounts; one key per accounting principle.</li>
+<li>Entering the key in the asset master creates the support depreciation area(s); each measure needs its own area.</li>
+<li>Transaction types IXX / KXX / JXX are generated; claim with <code>ABIF</code> or <code>RAINZU10N</code>.</li>
+<li>Liabilities side: full APC depreciated, reserve written off, automatic repayment/write-off logic on early retirement (type 201 vs. 200).</li>
+<li>Assets side: APC reduced, simpler, but no automatic handling of early retirements.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercise pages in the source. Self-practice: define an investment support key for one accounting principle, enter it in an asset, claim the subsidy with <code>ABIF</code> and compare the values in the support area and the book area in <code>AW01N</code>.</div>
+
+<h3 class="lesson" id="s4f17-u4-l4">Lesson 4: Parallel Accounting in Asset Accounting</h3>
+<p class="lead">Represent several accounting principles in FI-AA with depreciation areas and post them to the G/L either into parallel ledgers (ledger approach) or onto parallel account sets (accounts approach); handle recognition and valuation differences.</p>
+
+<h4>Mapping options</h4>
+<p>In new Asset Accounting every accounting principle gets its own depreciation area(s); the assignment of an accounting principle to the area says which valuation it represents. Two scenarios exist:</p>
+<table><thead><tr><th></th><th>Ledger approach</th><th>Accounts approach</th></tr></thead><tbody>
+<tr><td>Where values are separated</td><td>Separate ledgers (as in G/L), generally the same accounts</td><td>Separate account sets within one ledger; chart of accounts grows, possibly by an extra digit; two different balance sheet/P&amp;L structures</td></tr>
+<tr><td>Posting indicator of the APC-managing area per valuation</td><td>"Area Posts in Realtime" for leading and all parallel valuations</td><td>Leading valuation: "Area Posts in Realtime"; parallel valuations: "Area Posts APC Immediately, Depreciation Periodically"</td></tr>
+<tr><td>Ledger groups</td><td>One ledger group per accounting principle; ledgers must not overlap</td><td>One ledger group per accounting principle, each containing the leading ledger as representative ledger</td></tr>
+<tr><td>Documents</td><td>Separate accounting-principle-specific documents per valuation, full (not delta) values, real time</td><td>Same</td></tr>
+</tbody></table>
+<p>In both approaches exactly one area per valuation posts APC to the G/L in real time; all areas have equal status and you choose which of the posting areas feeds the leading ledger. One or more areas form a valuation, and all areas of a valuation must carry the same accounting principle.</p>
+
+<h4>Configuration steps (both approaches)</h4>
+<ol>
+<li>Define the ledger group: Financial Accounting Global Settings → Ledgers → Ledger → Define Ledger Group.</li>
+<li>Assign the accounting principle to the ledger group: Ledgers → Parallel Accounting → Assign Accounting Principle to Ledger Groups.</li>
+<li>Assign the accounting principle to the new depreciation area: Asset Accounting → General Valuation → Depreciation Areas → Define Depreciation Areas.</li>
+</ol>
+<p>Note that it is the <strong>accounting principle</strong> – not a ledger or ledger group – that is assigned directly to the depreciation area.</p>
+
+<h4>Differences between accounting principles</h4>
+<p><strong>Recognition (what is capitalized):</strong> an asset capitalized under only some principles is a <em>unilateral asset</em>; it may carry only the areas in which it is really capitalized. Recommended procedure:</p>
+<ol>
+<li>Use separate asset classes for objects not capitalized under all principles (alternative: deactivate areas directly in the asset master).</li>
+<li>Deactivate the non-capitalizing areas in that class: General Valuation → Determine Depreciation Areas in the Asset Class.</li>
+<li>For the deactivated areas maintain the capitalization-differences / non-operating expense account in Assign G/L Accounts (field KTNAIB), so that the amount goes to expense for that principle.</li>
+</ol>
+<p><strong>Valuation at capitalization:</strong> post the vendor invoice with the full amount for all principles, then post an asset-specific credit memo valid for one accounting principle only; that principle's capitalization is reduced and the difference goes to expense. For in-house produced assets, Investment Management's capitalization-value determination lets you set per area the percentage capitalized vs. posted to non-operating expense at settlement; a preliminary settlement can move non-capitalizable costs to cost centers (they then can no longer go to the asset/AuC and appear as cost in all areas). From a CO viewpoint a cost-accounting area must be fully settled. The area of the leading valuation must always exist on the AuC and cannot be deactivated.</p>
+<p><strong>Depreciation:</strong> each area has its own depreciation rules and useful life; depreciation is calculated and posted separately per area – into parallel ledgers or onto parallel accounts depending on the approach.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Parallel accounting in FI-AA = one set of depreciation areas per accounting principle, each area assigned an accounting principle.</li>
+<li>Ledger approach: same accounts, separate ledgers, all APC areas post in real time. Accounts approach: separate accounts in one ledger, parallel areas post APC immediately and depreciation periodically.</li>
+<li>Accounting-principle-specific documents are always posted with full values in real time.</li>
+<li>Unilateral assets: deactivate areas in a dedicated class and maintain the capitalization-difference account (KTNAIB).</li>
+<li>Valuation differences at acquisition are handled with a principle-specific credit memo; depreciation differs per area by design.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercise pages in the source. Self-practice: in <code>OADB</code> review which accounting principle and posting indicator each area of chart Z000 carries, trace the accounting principle to its ledger group, and post an acquisition to observe one document per accounting principle. The unit assessment checks, for example, that two investment support keys are needed for ledgers 0L and 2L, that the transaction types for key Y1 are IY1, KY1 and JY1, and that the accounting principle (not the ledger) is assigned to a depreciation area.</div>
+<h2 class="unit" id="s4f17-u5">Unit 5: Reporting in Asset Accounting</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Run and tailor FI-AA reports with the SAP List Viewer and sort variants, understand the embedded analytics architecture of S/4HANA and its Fiori asset apps, simulate depreciation and transactions for single assets and whole portfolios, and read and configure the asset history sheet.</div>
+
+<h3 class="lesson" id="s4f17-u5-l1">Lesson 1: Executing Various AA Reports Using SAP List Viewer and Sort Variants</h3>
+<p class="lead">Use the ALV functions and sort variants to sort, total and filter asset reports so the portfolio can be reviewed before year-end closing.</p>
+
+<h4>SAP List Viewer (ALV)</h4>
+<p>All asset reports output through the SAP List Viewer, which standardises list handling with the ALV grid control. The functions you use most:</p>
+<ul>
+<li>Hide, insert and rearrange columns.</li>
+<li>Sort any column ascending or descending.</li>
+<li>Build totals and subtotals over one or several columns.</li>
+<li>Save a personal or global <strong>layout</strong> for reuse.</li>
+<li>Filter rows by criteria.</li>
+</ul>
+
+<h4>Sort variants</h4>
+<p>A sort variant bundles up to five sort criteria (ABAP Dictionary fields such as company code, balance sheet account, asset class, cost center) that define grouping and totalling in every FI-AA report. On the report selection screen you also set:</p>
+<table><thead><tr><th>Parameter</th><th>Effect</th></tr></thead><tbody>
+<tr><td>Sort variant</td><td>Group levels used for sorting and subtotals (e.g. 0001 = company code / business area / balance sheet account / asset class).</td></tr>
+<tr><td>Total column / summation level</td><td>Group level at which totals are printed.</td></tr>
+<tr><td>Statistics indicator</td><td>Adds a detailed breakdown of each group total in some lists.</td></tr>
+</tbody></table>
+<p>Sort variants work with any FI-AA report. For the standard reports <code>RABEST_ALV01</code> (asset balances), <code>RAGITT_ALV01</code> (asset history sheet) and <code>RABEWG_ALV01</code> (asset transactions) the fields chosen under "Custom selection" can also be passed into the ALV list as columns.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>ALV gives column control, sorting, totals/subtotals, saved layouts and filters for every asset report.</li>
+<li>A sort variant holds up to five dictionary fields and drives grouping and totals; it is usable in all FI-AA reports.</li>
+<li>Total level and statistics indicator refine the output.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> The extracted course text contains no exercise pages for this unit. Self-practice: run the asset balances report (<code>S_ALR_87011963</code> / <code>RABEST_ALV01</code>) with sort variant 0001 and a totals level, then change the ALV layout (hide columns, subtotal by cost center) and save it.</div>
+
+<h3 class="lesson" id="s4f17-u5-l2">Lesson 2: Analytics Architecture in SAP S/4HANA</h3>
+<p class="lead">Grasp how embedded analytics (CDS views, virtual data model) delivers live operational reporting, and know the Fiori analytical apps for Asset Accounting.</p>
+
+<h4>Embedded analytics</h4>
+<p>S/4HANA Embedded Analytics merges transactions and analytics so that operational reports run on live transactional data without a separate data warehouse. Three user roles are distinguished:</p>
+<table><thead><tr><th>Role</th><th>Tasks</th></tr></thead><tbody>
+<tr><td>IT user</td><td>Develops CDS views, new apps and planning functions.</td></tr>
+<tr><td>Analytics key user</td><td>Builds and maintains queries, predefined reports, KPIs, dashboards and tiles; helps end users find the right reports.</td></tr>
+<tr><td>Analytics end user</td><td>Consumes data in analytical tools, analyses and acts.</td></tr>
+</tbody></table>
+<p>The technical basis is <strong>SAP Core Data Services (CDS) views</strong>, which form a Virtual Data Model (VDM) on top of the transactional and master data tables. CDS views are developed and extended in the ABAP layer; the system generates SQL runtime views in SAP HANA so that reading and transforming data happens inside the database. Analytical artefacts build on each other: an <em>analytical query</em> prepares columns and filters, a <em>report</em> is a table or chart over several measures and dimensions, and a <em>KPI</em> evaluates one leading measure from an aggregated management perspective.</p>
+
+<h4>Fiori app: Asset Accounting Overview</h4>
+<p>A central entry page for the asset accountant with KPIs, trends, filters and navigation to related apps.</p>
+
+<h4>Fiori app: Asset Balances</h4>
+<p>Shows fixed asset balances by criteria such as company code, depreciation area, segment or profit center and explains the net book value as APC minus depreciation. Values are organised in <strong>key figure groups</strong> that bundle key figure codes (acquisitions, retirements, transfers, depreciation). Own groups are defined under Asset Accounting → Information System → Define Key Figure Groups for Asset Balances (Fiori).</p>
+<table><thead><tr><th>Standard key figure group</th><th>Content</th></tr></thead><tbody>
+<tr><td>ABS_DEF</td><td>Planned values</td></tr>
+<tr><td>ABS_POSTED</td><td>Posted values</td></tr>
+<tr><td>DEPR_TOTAL</td><td>Total depreciation</td></tr>
+<tr><td>DEPR_WRUP</td><td>Write-ups</td></tr>
+</tbody></table>
+<p>Per asset the app shows cumulative APC at the reporting date, accumulated depreciation per depreciation type split into posted and not-yet-posted current-year amounts, and the planned book value at period end. Results appear in a grid that can be filtered, re-pivoted by dragging characteristics onto the axes, and exported to Microsoft Excel.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Embedded analytics reports on live data through CDS views (virtual data model) executed in HANA.</li>
+<li>Roles: IT user builds views, key user builds queries/KPIs/tiles, end user consumes.</li>
+<li>Analytical query → report → KPI is the layering of analytical content.</li>
+<li>Asset Balances uses key figure groups (ABS_DEF, ABS_POSTED, DEPR_TOTAL, DEPR_WRUP); custom groups are configured in the Information System Customizing.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercise pages in the source. Self-practice: open the Asset Balances app for the training company code, switch between ABS_POSTED and ABS_DEF, drag Asset Class onto the rows, and export the grid to Excel; then explore the Asset Accounting Overview page.</div>
+
+<h3 class="lesson" id="s4f17-u5-l3">Lesson 3: Executing Depreciation and Transaction Simulation</h3>
+<p class="lead">Forecast depreciation and simulate transactions for one asset in the Asset Explorer, and for many assets with the depreciation simulation report and simulation versions.</p>
+
+<h4>Simulation in the Asset Explorer</h4>
+<table><thead><tr><th>Function</th><th>Use</th></tr></thead><tbody>
+<tr><td>Asterisk (*) in the subnumber field</td><td>Combined view of a main number with all its subnumbers.</td></tr>
+<tr><td>Display depreciation calculation</td><td>Step-by-step explanation of how the amounts were derived.</td></tr>
+<tr><td>Posted values tab</td><td>Planned values of the year next to what has been posted so far.</td></tr>
+<tr><td>Preview / simulation</td><td>Shows how values would change under a simulated transaction or changed depreciation terms, without posting.</td></tr>
+</tbody></table>
+<p>Further options: jump to the FI document, to related objects and to the master record, call reports (own report variants via Goto → Maintain Reports), refresh after changes, and include all subnumbers.</p>
+
+<h4>Depreciation simulation report</h4>
+<p>Program <code>RASIMU_ALV01</code> (the lesson title also refers to its predecessor <code>RASIMU02</code>) forecasts depreciation for a single asset, a part of the portfolio or the whole portfolio and for future fiscal years. "Simulation" here means an experimental change of depreciation parameters that affects valuation without being posted. Planned investments can be included: keep the planned amounts as planned costs on a CO order or project, give it depreciation terms and a planned start-up date, and the report shows the future depreciation of the investment.</p>
+
+<h4>Simulation versions</h4>
+<p>A simulation version describes an alternative depreciation logic: for each depreciation area, asset class and depreciation key you specify the alternative depreciation key and useful life to use in the simulation. A validity interval restricts the version to assets whose capitalization date falls inside the interval.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>The Asset Explorer previews single-asset effects of simulated transactions or term changes and explains the depreciation calculation.</li>
+<li><code>RASIMU_ALV01</code> forecasts depreciation for many assets and future years, optionally including planned investments from CO orders/projects.</li>
+<li>Simulation versions swap depreciation key and useful life per area/class/key within a capitalization-date interval.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercise pages in the source. Self-practice: in <code>AW01N</code> simulate a change of useful life for one asset and compare the planned values; then define a simulation version and run the depreciation simulation report for your asset class over the next three fiscal years.</div>
+
+<h3 class="lesson" id="s4f17-u5-l4">Lesson 4: Understanding the Layout of an Asset History Sheet</h3>
+<p class="lead">Run the asset history sheet, understand its rows and columns (history sheet version or key figure groups), and know how to define your own version.</p>
+
+<h4>Purpose and structure</h4>
+<p>The asset history sheet is the key year-end (or interim) report that reconciles opening balances, movements of the year and closing balances of fixed assets. SAP delivers program <code>RAGITT_ALV01</code> for it; like any asset report it supports sort variants and totals at every group level. Usage options:</p>
+<ul>
+<li>Compact totals list without individual assets.</li>
+<li>Drill down from the totals to single assets and on to the Asset Explorer.</li>
+<li>Start other FI-AA reports through the report-report interface (RRI).</li>
+<li>Define your own <strong>history sheet versions</strong>: at most 10 rows and 8 columns, with headers for each item and rules defining which transaction type groups feed each item. SAP also ships country-specific versions that meet local legal requirements.</li>
+</ul>
+
+<h4>Asset History Sheet Fiori app</h4>
+<p>The app shows the value changes of fixed asset balances in one fiscal year for one depreciation area, so balances can be documented per accounting principle, local regulation or management need. Instead of a history sheet version it uses key figure groups (customisable under Asset Accounting → Information System → Asset History Sheet → Define Key Figure Groups for Asset History Sheet (Fiori)).</p>
+<table><thead><tr><th>Key figure group</th><th>Content</th></tr></thead><tbody>
+<tr><td>AHS</td><td>Posted values</td></tr>
+<tr><td>AHS_PLAN</td><td>Planned values</td></tr>
+<tr><td>AHS_HRY</td><td>Posted values, hierarchical grouping of key figures</td></tr>
+<tr><td>AHS_HRY_PL</td><td>Planned values, hierarchical grouping</td></tr>
+</tbody></table>
+<p>As with Asset Balances you filter, view a grid, re-arrange characteristics on the axes and export to Excel.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>The asset history sheet (<code>RAGITT_ALV01</code>) explains the development from opening to closing balances and is the central year-end asset report.</li>
+<li>History sheet versions (max 10 × 8) map transaction type groups to items; country versions are delivered.</li>
+<li>The Fiori app uses key figure groups AHS / AHS_PLAN / AHS_HRY / AHS_HRY_PL per depreciation area and fiscal year.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercise pages in the source. Self-practice: run the asset history sheet for the current year with sort variant 0001 and the standard version, drill into one asset to the Asset Explorer, then open the Asset History Sheet app with group AHS and reconcile the totals. The unit assessment checks the ALV functions (filters, columns, totals), the KPI / report / analytical query definitions, and the Asset Explorer options (FI document, depreciation calculation, reports – not posting).</div>
+<h2 class="unit" id="s4f17-u6">Unit 6: Legacy Data Transfer</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Know the options for bringing legacy fixed assets into S/4HANA Asset Accounting (manual, Excel upload, BAPI, Migration Cockpit), the role of the transfer date and company code status, and the special rules for assets under construction and for correcting takeover values.</div>
+
+<h3 class="lesson" id="s4f17-u6-l1">Lesson 1: Entering Legacy Data</h3>
+<p class="lead">Transfer legacy asset master data and values into FI-AA manually or automatically, choose the right transfer date, and understand why takeover values in new Asset Accounting are posted documents that can only be corrected by reversal.</p>
+
+<h4>Where the transfer fits</h4>
+<p>After configuration and the definition of the asset class catalogue, the legacy data transfer is the first activity in a new production system. Values are taken over per asset class, and what has to be transferred depends on the transfer date and the other parameters you choose.</p>
+
+<h4>Transfer methods</h4>
+<table><thead><tr><th>Volume</th><th>Method</th><th>Notes</th></tr></thead><tbody>
+<tr><td>Small quantity</td><td>Manual: <code>AS91</code> creates the legacy asset master; <code>ABLDT</code> posts the takeover values</td><td>In new Asset Accounting the values are posted immediately against the transfer clearing account, so the former separate summary write-off step to the G/L is no longer needed. <code>ABLDT</code> uses an input-enabled ALV grid and therefore supports neither batch input nor LSMW recordings (SAP Notes 311440, 554635).</td></tr>
+<tr><td>Several hundred to a few thousand</td><td>Microsoft Excel upload with <code>AS100</code></td><td>Maximum 5,000 assets per file; larger sets are split into several files.</td></tr>
+<tr><td>Large to very large</td><td>BAPI <code>BAPI_FIXEDASSET_OVRTAKE_CREATE</code></td><td>Creates the legacy asset and transfers its values in one step. It only creates <em>new</em> legacy assets; adding values to an existing legacy asset or correcting earlier values is not supported. To change values: reverse the transfer with <code>BAPI_ASSET_REVERSAL_POST</code>, then post again with <code>BAPI_FIXEDASSET_OVRTAKE_POST</code> (SAP Note 2481644).</td></tr>
+<tr><td>Any (S/4HANA)</td><td>Migrate Your Data – Migration Cockpit app</td><td>Project-based migration from SAP source systems or via staging tables (see below).</td></tr>
+</tbody></table>
+<p>The old ECC batch-input / direct-input programs <code>RAALTD01</code> and <code>RAALTD11</code> are no longer the recommended route; the course's assessment lists only AS91/ABLDT, AS100 and the BAPI as valid methods.</p>
+
+<h4>Correcting takeover values</h4>
+<p>Because takeover values are real posted transfer documents, the only way to change them is to reverse the transfer document and post it again. A transfer document can be reversed only if the asset has no follow-on transactions, since the takeover is the value foundation of the asset. If follow-on postings exist: reverse them (preferably in reverse order), reverse the transfer, post the new takeover values, then re-enter the follow-on transactions individually.</p>
+
+<h4>Assets under construction</h4>
+<p>For AuCs you cannot transfer cumulative APC or accumulated depreciation; the open items must be transferred as <strong>transactions</strong>:</p>
+<ul>
+<li>Manually with <code>AB01</code> or, since SAP Note 2294012, with the dedicated transaction <code>ABLDT_OI</code> instead of <code>ABLDT</code>.</li>
+<li>With the BAPI, fill the TRANSACTIONS table rather than CUMULATEDVALUES.</li>
+<li>Line-item-managed AuC transactions use the special legacy transaction types <strong>900</strong> and <strong>910</strong>.</li>
+</ul>
+<p>SAP Note 2208321 covers the details; SAP Note 2304473 explains how to reconcile the legacy transfer with the G/L.</p>
+
+<h4>Company code status and transfer date</h4>
+<ol>
+<li>Set the company code status to "Asset data transfer not yet completed" under Asset Accounting → Asset Data Transfer → Parameters for Data Transfer → Define Transfer Date and Additional Parameters. While the status is "ongoing" you can transfer legacy data but cannot post normal asset transactions.</li>
+<li>Define the transfer date. All legacy values are transferred as they stood on this date; no legacy data can exist in SAP before it. The date may be either the end of the last closed fiscal year or any date within the following fiscal year (a mid-year transfer).</li>
+<li>After the transfer is complete and reconciled, set the status to "transfer completed" so that normal postings become possible.</li>
+</ol>
+<table><thead><tr><th>Transfer date</th><th>What is transferred</th></tr></thead><tbody>
+<tr><td>End of last closed fiscal year</td><td>Master data, historical AuC, cumulative APC and accumulated depreciation as of year end.</td></tr>
+<tr><td>During the current fiscal year</td><td>The above plus the depreciation already posted and the asset transactions of the current year up to the transfer date.</td></tr>
+</tbody></table>
+<p>The transfer updates the G/L account balances through the transfer clearing account; the clearing account is then reconciled against the balances migrated into FI-GL.</p>
+
+<h4>Migrate Your Data – Migration Cockpit</h4>
+<p>The S/4HANA app for migrating business data, directly from certain SAP source systems or through staging tables. With it you create migration projects and monitor them, select the relevant migration objects (for example fixed assets including values), work through the mapping tasks, simulate the migration before loading, and finally migrate and monitor the result.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Methods: <code>AS91</code> + <code>ABLDT</code> (manual), <code>AS100</code> (Excel, up to 5,000 per file), <code>BAPI_FIXEDASSET_OVRTAKE_CREATE</code> (mass), Migration Cockpit.</li>
+<li>Takeover values are posted documents against the transfer clearing account and update the G/L; corrections require reversal and reposting, after removing any follow-on postings.</li>
+<li>AuC values are transferred as transactions (<code>ABLDT_OI</code> / <code>AB01</code>, BAPI TRANSACTIONS table; types 900/910).</li>
+<li>The transfer date is year end of the last closed year or a date in the following year; mid-year transfers also carry current-year depreciation and transactions.</li>
+<li>Company code status "transfer not yet completed" allows legacy postings only; set it to completed afterwards.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> The extracted course text contains no exercise pages for this unit. Self-practice: check the transfer date and company code status in Customizing, create a legacy asset with <code>AS91</code>, post its APC and accumulated depreciation with <code>ABLDT</code>, verify the values in <code>AW01N</code> and the clearing account balance in the G/L. The assessment confirms that the valid methods are AS91/ABLDT, AS100 and the BAPI, that the transfer date can be year end or within the following year, and that the transfer does update G/L balances.</div>
+
+  </div>
+</div>
+<script>document.querySelectorAll('#sidebar nav a').forEach(a=>a.addEventListener('click',()=>document.getElementById('sidebar').classList.remove('open')));</script>
+</body></html>

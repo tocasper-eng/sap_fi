@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TFIN52 Part 2 – Financial Accounting II (ECC)</title><style>
+:root{--sap-orange:#F0AB00;--sap-blue:#0070F2;--sap-dark:#1A2132;--sap-mid:#354A5E;--sap-light:#F5F6F7;--sap-border:#DEDEDE;--sap-text:#32363A;--sap-sub:#556B82;--card:#fff;--sidebar-w:300px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--sap-light:#11181F;--sap-border:#354A5E;--sap-text:#E5E7EA;--sap-sub:#A0B3C8;--card:#1A2132}}
+:root[data-theme="dark"]{--sap-light:#11181F;--sap-border:#354A5E;--sap-text:#E5E7EA;--sap-sub:#A0B3C8;--card:#1A2132}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"72",Arial,sans-serif;background:var(--sap-light);color:var(--sap-text);display:flex;min-height:100vh}
+#sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--sap-dark);color:#fff;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+#sidebar .logo{background:var(--sap-orange);padding:14px 18px;display:flex;gap:10px;align-items:center}
+#sidebar .logo .badge{background:#fff;color:var(--sap-orange);font-weight:900;padding:2px 8px;border-radius:3px}
+#sidebar .logo h1{font-size:13px;color:var(--sap-dark);line-height:1.3}
+#sidebar nav{padding:10px 0;flex:1}
+#sidebar nav a{display:block;padding:7px 18px;color:rgba(255,255,255,.82);text-decoration:none;font-size:12.5px;border-left:3px solid transparent}
+#sidebar nav a:hover{background:rgba(255,255,255,.08);color:#fff}
+#sidebar nav a.unit{font-weight:700;color:var(--sap-orange);margin-top:8px;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+#sidebar nav a.lesson{padding-left:30px}
+#sidebar .back{padding:12px 18px;font-size:12px;border-top:1px solid rgba(255,255,255,.1)}
+#sidebar .back a{color:var(--sap-orange)}
+#main{flex:1;min-width:0}
+#topbar{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--sap-border);padding:12px 28px;display:flex;align-items:center;gap:12px}
+#topbar h2{font-size:15px;font-weight:600;flex:1}
+#menu-toggle{display:none;background:none;border:0;cursor:pointer;width:28px}
+#menu-toggle span{display:block;height:3px;background:var(--sap-text);margin:5px 0;border-radius:2px}
+.badge-new{background:#E8FBEF;color:#1B8C3A;font-size:11px;padding:3px 8px;border-radius:10px;font-weight:700}
+.badge-ecc{background:#FFF8E1;color:#A05A00;font-size:11px;padding:3px 8px;border-radius:10px;font-weight:700}
+#content{padding:28px 36px;max-width:1100px}
+h2.unit{font-size:22px;color:var(--sap-dark);margin:40px 0 6px;padding-top:12px;border-top:3px solid var(--sap-orange)}
+:root[data-theme="dark"] h2.unit,:root:not([data-theme="light"]) h2.unit{color:var(--sap-text)}
+h2.unit:first-of-type{margin-top:0;border-top:0;padding-top:0}
+h3.lesson{font-size:17px;margin:28px 0 10px;color:var(--sap-blue)}
+h4{font-size:14px;margin:16px 0 6px}
+p,li{font-size:13.5px;line-height:1.65}
+ul,ol{margin:6px 0 12px 22px}
+p{margin:6px 0}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13px;background:var(--card)}
+th,td{border:1px solid var(--sap-border);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--sap-dark);color:#fff;font-weight:600}
+.box{padding:12px 16px;border-radius:6px;margin:14px 0;font-size:13px;line-height:1.6;background:var(--card);border-left:4px solid var(--sap-orange)}
+.box.key{border-left-color:var(--sap-blue)}
+.box strong{display:block;margin-bottom:4px}
+.lead{font-size:14px;color:var(--sap-sub);margin-bottom:18px}
+.unit-objectives{background:var(--card);border:1px solid var(--sap-border);border-radius:6px;padding:12px 16px;margin:10px 0 16px}
+code{background:rgba(0,0,0,.06);padding:1px 5px;border-radius:3px;font-size:12.5px}
+@media (max-width:900px){#sidebar{position:fixed;left:calc(-1*var(--sidebar-w));transition:left .2s;z-index:10}#sidebar.open{left:0}#menu-toggle{display:block}#content{padding:18px 16px}}
+</style></head>
+<body>
+<aside id="sidebar">
+  <div class="logo"><div class="badge">SAP</div><h1>TFIN52 Part 2 – Financial Accounting II (ECC)</h1></div>
+  <nav><a class="unit" href="#tfin52_2-u1">Unit 1: Special General Ledger Transactions</a><a class="lesson" href="#tfin52_2-u1-l1">Lesson 1: Managing the Application View for Special General Ledger Transactions</a><a class="lesson" href="#tfin52_2-u1-l2">Lesson 2: Maintaining Special General Ledger Transactions</a><a class="lesson" href="#tfin52_2-u1-l3">Lesson 3: Understanding Purchasing (MM Integration)</a><a class="lesson" href="#tfin52_2-u1-l4">Lesson 4: Understanding Sales and Distribution Integration</a><a class="unit" href="#tfin52_2-u2">Unit 2: Parking Documents</a><a class="lesson" href="#tfin52_2-u2-l1">Lesson 1: Managing Document Parking (Basics) and Hold Documents</a><a class="lesson" href="#tfin52_2-u2-l2">Lesson 2: Processing Parked Documents</a><a class="lesson" href="#tfin52_2-u2-l3">Lesson 3: Managing Document Parking and Workflow</a><a class="unit" href="#tfin52_2-u3">Unit 3: Validations and Substitutions</a><a class="lesson" href="#tfin52_2-u3-l1">Lesson 1: Understanding the Basics of Validation and Substitution</a><a class="lesson" href="#tfin52_2-u3-l2">Lesson 2: Maintaining and Executing Validations</a><a class="lesson" href="#tfin52_2-u3-l3">Lesson 3: Maintaining and Executing Substitutions</a><a class="lesson" href="#tfin52_2-u3-l4">Lesson 4: Using Additional Techniques for Substitutions and Validations</a><a class="unit" href="#tfin52_2-u4">Unit 4: Data Archiving in FI</a><a class="lesson" href="#tfin52_2-u4-l1">Lesson 1: Outlining the Basics and Classifications of Data Archiving</a><a class="lesson" href="#tfin52_2-u4-l2">Lesson 2: Maintaining Data Archiving</a><a class="lesson" href="#tfin52_2-u4-l3">Lesson 3: Executing Data Archiving for Exemplary FI Objects</a><a class="unit" href="#tfin52_2-u5">Unit 5: Document Splitting</a><a class="lesson" href="#tfin52_2-u5-l1">Lesson 1: Configuring Document Splitting</a><a class="unit" href="#tfin52_2-u6">Unit 6: New Asset Accounting</a><a class="lesson" href="#tfin52_2-u6-l1">Lesson 1: Explaining the Functionality and Architecture of New Asset Accounting</a><a class="lesson" href="#tfin52_2-u6-l2">Lesson 2: Configuring New Asset Accounting</a><a class="lesson" href="#tfin52_2-u6-l3">Lesson 3: Using New Asset Accounting</a><a class="lesson" href="#tfin52_2-u6-l4">Lesson 4: Migrating from Classic General Ledger Accounting to New General Ledger Accounting</a></nav>
+  <div class="back"><a href="../index.html">&larr; Back to SAP FI Reference</a></div>
+</aside>
+<div id="main">
+  <div id="topbar"><button id="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')"><span></span><span></span><span></span></button><h2>TFIN52 Part 2 – Financial Accounting II (ECC)</h2><span class="badge-ecc">ECC</span></div>
+  <div id="content">
+  <p class="lead">Unit-by-unit study notes written from the course material. Every lesson of the course is covered in the same order as the original.</p>
+<h2 class="unit" id="tfin52_2-u1">Unit 1: Special General Ledger Transactions</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand why certain receivable/payable transactions (down payments, guarantees, value adjustments) are kept apart from normal receivables and payables via alternative reconciliation accounts, learn the three special G/L classes and three special G/L types, run the customer and vendor down payment cycle and an individual value adjustment, configure your own special G/L indicator, and see how down payments flow through MM purchasing and SD sales.</div>
+
+<h3 class="lesson" id="tfin52_2-u1-l1">Lesson 1: Managing the Application View for Special General Ledger Transactions</h3>
+<p class="lead">Learn what a special G/L transaction is, how it differs from a normal subledger posting, which classes and types exist, and how to carry out down payments, guarantees and individual value adjustments from the application side (SAP ERP ECC).</p>
+
+<h4>Reconciliation accounts: the starting point</h4>
+<p>Every customer or vendor master record carries a <strong>reconciliation account</strong> in its company code segment. Whenever an invoice or credit memo is posted to the subledger (AR or AP), the system simultaneously updates the transaction figures of that reconciliation account in the general ledger. This is what lets you build a balance sheet directly from G/L balances without hunting through the subledger. The reconciliation account number is visible on each FI document.</p>
+
+<h4>Why "special" G/L transactions exist</h4>
+<p>Some AR/AP transactions must not be mixed with ordinary receivables and payables for goods and services, either for internal management reasons or for legal reporting (e.g. down payments received are liabilities, not reductions of receivables; guarantees made only belong in the notes). SAP solves this with a <strong>special G/L indicator</strong> entered on the line item: the posting still goes to the customer/vendor account, but in the G/L it is routed to an <strong>alternative reconciliation account</strong> (a "special G/L account") instead of the one in the master record. The transaction is therefore shown separately both in the subledger (filterable in line item display) and in the G/L.</p>
+
+<h4>Special G/L classes (what the transaction is about)</h4>
+<table><thead><tr><th>Class</th><th>Meaning</th><th>Where in the menu</th></tr></thead><tbody>
+<tr><td>Down payments</td><td>Requested, received, made and cleared down payments; fully integrated with the payment and dunning programs; preconfigured screens</td><td>AR/AP &rarr; Document Entry &rarr; Down Payment</td></tr>
+<tr><td>Bills of exchange</td><td>Country-specific bill of exchange handling with dedicated programs</td><td>AR/AP &rarr; Document Entry &rarr; Bill of Exchange</td></tr>
+<tr><td>Other transactions</td><td>Anything else you choose to route via a special G/L indicator (guarantees, value adjustments, security deposits, your own indicators)</td><td>AR/AP &rarr; Document Entry &rarr; Other</td></tr>
+</tbody></table>
+
+<h4>Special G/L types (how the posting technically behaves)</h4>
+<p>The special G/L indicator's configuration decides which of three posting mechanics is used. These types are often confused with the classes above, so keep them apart.</p>
+<table><thead><tr><th>Type</th><th>Mechanics</th><th>Balance sheet relevance</th><th>Course example</th></tr></thead><tbody>
+<tr><td>1 &ndash; Automatic offsetting entry (statistical)</td><td>Offsetting entry is always generated automatically to a fixed clearing account defined in Customizing; clearing the item also clears the offsetting item</td><td>Notes to the financial statements only (or not shown at all)</td><td>Guarantee of payment made</td></tr>
+<tr><td>2 &ndash; Noted item</td><td>Only ONE line item is created, no offsetting entry, no zero-balance check, no transaction figures updated; the special G/L account always shows zero balance</td><td>Not in G/L balances at all; pure reminder</td><td>Down payment request, bill of exchange payment request</td></tr>
+<tr><td>3 &ndash; Free offsetting entry</td><td>Real G/L posting; the alternative reconciliation account is debited/credited automatically, the user enters the offsetting G/L account (e.g. bank)</td><td>Part of the financial statements</td><td>Down payment received posted against bank</td></tr>
+</tbody></table>
+<p>Noted items are managed as open items on the customer/vendor account and on the special G/L account, so line item display must be active on those accounts. The payment program and dunning program can both pick up noted items (a down payment request can be dunned or collected by direct debit).</p>
+
+<h4>Guarantees of payment (type 1 example)</h4>
+<p>You agree to stand surety for a customer for EUR 10,000. You post a "guarantee made" to the customer with the special G/L indicator; the system books it to the special G/L account "Guarantees of payment made" and automatically to the clearing account for guarantees made. When the liability ends you reverse the statistical posting. Guarantees made appear in the notes to the balance sheet; guarantees received (vendor side, indicator with account type K) are recorded the same way but are not reported. In the training system the guarantee goes to 196100 with automatic offset to 196110.</p>
+
+<h4>Down payment request (type 2 example)</h4>
+<p>A down payment request is a noted item reminding you (or the customer) that a down payment is due. No transaction figures change, so the customer balance is unaffected even though the item appears in the line item list. Customer requests let the payment program collect the amount automatically (requires collection authorization); vendor requests let the payment program pay the down payment. Dunning is also possible.</p>
+
+<h4>Down payment received (type 3 example)</h4>
+<p>The customer pays EUR 11,000 against a request. The incoming payment is recorded on the customer account and on the alternative reconciliation account "Down payments received", with the bank (clearing) account you select as offsetting entry. Because a down payment received before the service is performed is a payable, it must not reduce the receivables reconciliation account; the special G/L account is reported in the payables area. After the invoice is issued the down payment must be transferred (cleared) to the normal reconciliation account.</p>
+
+<h4>Customer down payment procedure</h4>
+<ol>
+<li><strong>Request</strong> the down payment (noted item, indicator F or A as target; <code>F-37</code>). No balances change; payment/dunning program can act on it.</li>
+<li><strong>Receive</strong> the down payment (<code>F-29</code>): shown as a payable on the special G/L account "Down payments received" in the payables area; the receivables reconciliation account is untouched.</li>
+<li><strong>Invoice</strong> the customer when goods/services are delivered (<code>FB70</code>); the system warns that a down payment exists.</li>
+<li><strong>Clear the down payment</strong> against the invoice (<code>F-39</code>): the amount leaves the special G/L account and becomes an ordinary payment on the normal reconciliation account.</li>
+<li><strong>Clear the remaining payment</strong> when the customer settles the balance.</li>
+</ol>
+<p>The vendor side mirrors this: down payment request (<code>F-47</code>) &rarr; down payment made (<code>F-48</code>) &rarr; vendor invoice &rarr; down payment clearing (<code>F-54</code>) &rarr; final payment.</p>
+
+<h4>Individual value adjustment (IVA)</h4>
+<p>At year-end, disputed or doubtful receivables are adjusted individually. The special G/L procedure fits because the adjustment is recorded on the customer account and on the special G/L account "Individual value adjustments for receivables" at the same time. Steps:</p>
+<ol>
+<li>The original receivable is on the customer account (normal reconciliation account, e.g. 140000).</li>
+<li>Post the IVA without tax using indicator <strong>E</strong> and posting key 19 (<code>F-21</code> transfer without clearing): credit customer with indicator E (lands on 142000), debit the expense account "Expense from individual value adjustment" (210100). The expense is now correctly in the income statement.</li>
+<li>After the balance sheet key date the IVA is cleared again, i.e. reversed (<code>FB08</code>).</li>
+<li>If the receivable turns out to be uncollectable, the final write-off is posted to "Expenses for uncollectable receivables" against the regular reconciliation account, not via the special G/L account.</li>
+</ol>
+
+<h4>Transactions used in this lesson</h4>
+<table><thead><tr><th>T-code</th><th>Purpose</th><th>Notes</th></tr></thead><tbody>
+<tr><td><code>F-38</code></td><td>Statistical posting (e.g. guarantee made)</td><td>Posting key 09 + indicator G, doc type DA</td></tr>
+<tr><td>Reverse Statistical Posting</td><td>Cancel a guarantee</td><td>AR &rarr; Document &rarr; Special G/L Transaction</td></tr>
+<tr><td><code>F-37</code></td><td>Customer down payment request</td><td>Target special G/L indicator A</td></tr>
+<tr><td><code>F-29</code></td><td>Post customer down payment</td><td>"Requests" button pulls open requests</td></tr>
+<tr><td><code>FB70</code></td><td>Customer invoice</td><td>System message that a down payment exists</td></tr>
+<tr><td><code>F-39</code></td><td>Clear customer down payment</td><td>Enter invoice reference; assignment field filled identically</td></tr>
+<tr><td><code>F-21</code></td><td>Transfer posting without clearing (IVA)</td><td>PK 19 + indicator E</td></tr>
+<tr><td><code>FB08</code></td><td>Individual reversal</td><td>Reversal reason 01</td></tr>
+<tr><td><code>FBL5N</code></td><td>Customer line item display</td><td>Type selection: normal / special G/L / noted items</td></tr>
+</tbody></table>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>A special G/L indicator redirects a subledger posting from the master-record reconciliation account to an alternative reconciliation account, so the item is shown separately in subledger and G/L.</li>
+<li>Three classes (down payments, bills of exchange, other) describe the business purpose; three types (statistical with automatic offset, noted item, free offsetting entry) describe the posting mechanics.</li>
+<li>Noted items create one line only, update no transaction figures and skip the zero-balance check, yet payment and dunning programs can process them.</li>
+<li>Down payments received are payables and stay off the receivables reconciliation account until cleared against the invoice.</li>
+<li>Individual value adjustments use indicator E with an expense offset; the final write-off bypasses the special G/L account.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 1: post a EUR 6,000 guarantee made (<code>F-38</code>, PK 09, indicator G, customer AC202-##C in company code AC##), view it in <code>FBL5N</code> under special G/L transactions, then reverse the statistical posting. Exercise 2: run the full customer cycle &ndash; EUR 11,000 down payment request (<code>F-37</code>, indicator A, tax 1O), receive it against bank clearing 113109 (<code>F-29</code>, use "Requests"), post a EUR 33,000 invoice to revenue 800200 with terms ZB00 (<code>FB70</code>) and clear the down payment with <code>F-39</code>. Exercise 3: post a back-dated EUR 11,000 invoice to AC202-##B, record a EUR 10,000 IVA with <code>F-21</code> (PK 19, indicator E, expense 210100, tax A0), reverse it with <code>FB08</code> and review all items in <code>FBL5N</code>.</div>
+
+<h3 class="lesson" id="tfin52_2-u1-l2">Lesson 2: Maintaining Special General Ledger Transactions</h3>
+<p class="lead">Understand the Customizing behind special G/L indicators: the special posting keys, the properties of an indicator, account determination for alternative reconciliation accounts and for automatic offsetting entries, and how to create your own indicator.</p>
+
+<h4>Special posting keys</h4>
+<p>Special G/L transactions are entered with dedicated posting keys that are flagged with the "special G/L" attribute. In the standard system these are:</p>
+<table><thead><tr><th>Posting key</th><th>Account type</th><th>Debit/Credit</th></tr></thead><tbody>
+<tr><td>09</td><td>Customer (D)</td><td>Debit special G/L</td></tr>
+<tr><td>19</td><td>Customer (D)</td><td>Credit special G/L</td></tr>
+<tr><td>29</td><td>Vendor (K)</td><td>Debit special G/L</td></tr>
+<tr><td>39</td><td>Vendor (K)</td><td>Credit special G/L</td></tr>
+</tbody></table>
+<p>Whenever one of these keys is used, a special G/L indicator must be supplied in the line item; the system needs it to find the alternative account.</p>
+
+<h4>Alternative reconciliation accounts (special G/L accounts)</h4>
+<p>These are ordinary G/L accounts you create in FI and mark as reconciliation accounts for account type D or K. Unlike normal customer/vendor reconciliation accounts, <strong>line item display is normally switched on</strong>, so you can list the individual special G/L items. The field status group controls the entry screen layout for postings to them.</p>
+
+<h4>What you can adapt</h4>
+<p>Special G/L transactions are delivered preconfigured, but you may change the reconciliation/special G/L account assignments, choose different posting keys or indicators for individual transactions, and change the automatic posting settings (accounts, posting keys, account assignment rules). An indicator is always defined per <strong>account type</strong>: customer down payments and vendor down payments are configured separately even if they share the letter A.</p>
+
+<h4>Properties of a special G/L indicator</h4>
+<table><thead><tr><th>Property</th><th>Effect</th></tr></thead><tbody>
+<tr><td>Noted item</td><td>Transaction updates no account balances (type 2)</td></tr>
+<tr><td>Relevant for credit limit check</td><td>Includes the transaction in the customer credit check; noted items are never included</td></tr>
+<tr><td>Warning on commitments</td><td>User gets a warning when posting to the customer/vendor if such items exist (e.g. "down payment exists" when entering a vendor invoice)</td></tr>
+<tr><td>Target special G/L indicator</td><td>Only for noted items: which indicators may be used when the request is turned into a real posting (standard: down payment request &rarr; A)</td></tr>
+<tr><td>Special G/L transaction class</td><td>Down payment, bill of exchange, or other</td></tr>
+<tr><td>Posting keys</td><td>Debit and credit key from 09/19 (D) or 29/39 (K)</td></tr>
+</tbody></table>
+
+<h4>Account determination</h4>
+<p>Per chart of accounts, each combination of account type + indicator maps every <em>normal</em> reconciliation account to a special G/L account. At posting time the system takes the reconciliation account from the master record, looks up this table and posts to the special G/L account instead. For statistical indicators a second table (accounts for automatic offsetting entry) stores the fixed clearing account per account type + indicator, e.g. DG (customer guarantee made) &rarr; 196110, KG (vendor guarantee received) &rarr; 196410 in chart INT.</p>
+
+<h4>IMG paths (Financial Accounting (New))</h4>
+<ul>
+<li>Accounts Receivable and Accounts Payable &rarr; Business Transactions &rarr; Postings with Alternative Reconciliation Account &rarr; Other Special G/L Transactions &rarr; <strong>Define Alternative Reconciliation Account for Customers</strong> (and for Vendors): indicator properties plus the recon-account/special-G/L-account mapping (<code>FBKP</code>-style maintenance, also <code>OBXR</code>/<code>OBXT</code>).</li>
+<li>Same node &rarr; <strong>Define Accounts for Automatic Offsetting Entry</strong>: clearing accounts for statistical postings.</li>
+</ul>
+
+<h4>Building your own indicator: three patterns</h4>
+<ol>
+<li><strong>Noted item</strong> (e.g. tracking containers lent to customers): create the indicator with the noted-item flag, assign posting keys 09/19, and store an alternative reconciliation account. Nothing else is needed because there is no offsetting entry.</li>
+<li><strong>Statistical item with automatic offsetting entry</strong> (guarantee pattern): store the alternative reconciliation account AND a clearing account in the automatic-offsetting-entry table.</li>
+<li><strong>Transaction with manual offsetting entry</strong> (free offsetting): store the alternative reconciliation account only; the user enters the offsetting G/L account during posting.</li>
+</ol>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Posting keys 09/19 (customers) and 29/39 (vendors) are the special G/L keys; an indicator must accompany them.</li>
+<li>Special G/L accounts are reconciliation accounts for D or K with line item display active.</li>
+<li>The indicator's properties (noted item, credit-limit relevance, warning, target indicator, class) are defined per account type.</li>
+<li>Account determination is per chart of accounts: normal reconciliation account + indicator &rarr; special G/L account; statistical indicators additionally need a fixed offsetting account.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 4: inspect the Customizing of the guarantee-made indicator G (automatic offsetting accounts DG/KG and the alternative reconciliation account mapping for chart INT); then build a container-tracking noted item: create G/L account 196999 in AC## with template 196000 (<code>FS00</code>, remove the alternative account number), create indicator Y "Con##" for account type D with the noted-item flag and posting keys 09/19, map reconciliation account 140000 &rarr; 196999, post a noted item with <code>F-49</code> and check it in <code>FBL5N</code> with noted items selected.</div>
+
+<h3 class="lesson" id="tfin52_2-u1-l3">Lesson 3: Understanding Purchasing (MM Integration)</h3>
+<p class="lead">See how the standard MM three-way match creates FI documents and how, with business function LOG_MMFI_P2P (EhP4/EhP5), down payments can be planned in the purchase order, posted from the Down Payment Monitor and cleared inside Logistics Invoice Verification.</p>
+
+<h4>The three-step (three-way match) procedure</h4>
+<ol>
+<li><strong>Purchase order</strong> &ndash; created in MM only; no FI posting.</li>
+<li><strong>Goods receipt</strong> &ndash; a material document updates stock; an FI document debits the stock or consumption account and credits the GR/IR clearing account.</li>
+<li><strong>Invoice receipt</strong> &ndash; the vendor invoice in Logistics Invoice Verification creates an FI document debiting GR/IR and crediting the vendor.</li>
+</ol>
+<p>Goods receipt and invoice receipt may arrive in either order. GR/IR is managed on an open-item basis so you can check that every invoice has a goods receipt and vice versa. The document types for the FI documents generated by MM are set in configuration.</p>
+
+<h4>Down payments in the procurement process (ECC enhancement packages)</h4>
+<p>Before EhP4 a down payment was a pure FI action that merely referenced the PO number. With business function <strong>LOG_MMFI_P2P</strong> activated (EhP4; EhP5 adds compatibility with active document splitting), the flow becomes:</p>
+<ol>
+<li>Create the PO and record down payment data on the item's Invoice tab: DP category (e.g. V = voluntary down payment), down payment percentage or amount, DP date.</li>
+<li>Post the down payment from the <strong>Down Payment Monitor</strong> (<code>ME2DP</code>): select the PO (red traffic light = open), choose "Down pmnt", which jumps into the vendor down payment posting (<code>F-47</code>/<code>F-48</code> screen) with indicator A prefilled; a warning about the commitment appears.</li>
+<li>Post the goods receipt with reference to the PO (<code>MIGO</code>).</li>
+<li>Enter the vendor invoice in Logistics Invoice Verification (<code>MIRO</code>) with PO reference. The system displays a message that down payments on current assets exist; before posting you can press <strong>Down Payment Clearing</strong>, enter the amount to clear and post invoice and down payment clearing in one step.</li>
+</ol>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Only goods receipt and invoice receipt create FI documents; the PO itself does not.</li>
+<li>GR/IR is an open-item clearing account linking the two postings.</li>
+<li>LOG_MMFI_P2P lets the PO carry down payment terms, <code>ME2DP</code> trigger the FI down payment, and <code>MIRO</code> clear it with the invoice.</li>
+<li>The warning "down payments exist" at invoice entry is the special G/L indicator's "warning on commitments" property in action.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 5: create a PO for vendor 1006 (Blacks AG) in purchasing org 1000, group 100, company code 1000, plant 1000 Hamburg, storage location 0001, one flat screen M-05 at EUR 500/550 with a 10% voluntary down payment on the Invoice tab; post the down payment via <code>ME2DP</code> (tax 0I, indicator A); post the goods receipt; enter the EUR 605 invoice (tax 1I) in <code>MIRO</code>, close the "down payments exist" message, use Down Payment Clearing and post.</div>
+
+<h3 class="lesson" id="tfin52_2-u1-l4">Lesson 4: Understanding Sales and Distribution Integration</h3>
+<p class="lead">Follow the SD order-to-cash cycle and see how a down payment agreement in the sales order's billing plan produces FI noted items and down payments with indicators F and A, up to clearing against the final invoice.</p>
+
+<h4>Phases of a sales transaction</h4>
+<ol>
+<li><strong>Sale</strong> &ndash; the sales order is created; it is a sales document and triggers no FI posting.</li>
+<li><strong>Shipping</strong> &ndash; a delivery document is created; picking via a transfer order in warehouse management; the goods issue creates an MM material document and an FI document (debit cost of goods sold, credit stock). Billing is only possible after the goods issue.</li>
+<li><strong>Billing</strong> &ndash; the billing document in SD prints the invoice and simultaneously creates the FI document (debit customer, credit revenue).</li>
+</ol>
+<p>The <strong>document flow</strong> shows all documents belonging to one transaction, including their status.</p>
+
+<h4>SD/FI down payment process</h4>
+<ol>
+<li>A down payment agreement is stored in the sales order as a <strong>billing plan</strong> with a down payment date.</li>
+<li>When the billing-plan date arrives, a down payment request is billed with billing type <strong>FAZ</strong>. The customer receives a letter stating amount and due date; in FI the request is posted automatically as a noted item with special G/L indicator <strong>F</strong>.</li>
+<li>The incoming payment is posted as a down payment with indicator <strong>A</strong>, selected from the open requests ("Add Down Payment"). It is assigned to the sales order and the request shows as cleared in the SD document flow; the down payment appears among the customer's open items with indicator A.</li>
+<li>With partial or final invoices the down payments are carried over as "down payments to be cleared": FI removes them from the special reconciliation account and places them on the normal reconciliation account from the master record, so they reduce the customer's open receivables.</li>
+</ol>
+
+<table><thead><tr><th>Element</th><th>SD side</th><th>FI side</th></tr></thead><tbody>
+<tr><td>Down payment request</td><td>Billing document type FAZ from billing plan</td><td>Noted item, indicator F</td></tr>
+<tr><td>Down payment received</td><td>Request cleared in document flow</td><td>Open item, indicator A, assigned to sales order</td></tr>
+<tr><td>Partial/final invoice</td><td>Billing document, down payments transferred</td><td>Down payment moved to normal reconciliation account and cleared against invoice</td></tr>
+</tbody></table>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Sales order: no FI posting; goods issue and billing: FI postings.</li>
+<li>SD down payment requests come from the billing plan via billing type FAZ and land in FI as noted items (indicator F).</li>
+<li>The received down payment uses indicator A and is linked to the sales order; the final invoice transfers it to the normal reconciliation account, reducing receivables.</li>
+<li>Use the SD document flow to trace request, payment and invoice.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No separate exercise in this lesson; the unit assessment tests the FI postings created by each SD phase, where the billing document originates, and the effect of received down payments on receivables.</div>
+<h2 class="unit" id="tfin52_2-u2">Unit 2: Parking Documents</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Distinguish holding a document from parking it, learn how parked documents are created, changed, deleted, posted and reported on, and understand how SAP Business Workflow can route a parked document through an amount-release (dual control) procedure.</div>
+
+<h3 class="lesson" id="tfin52_2-u2-l1">Lesson 1: Managing Document Parking (Basics) and Hold Documents</h3>
+<p class="lead">Understand the two ways to save an incomplete FI document without posting it, and why parking is the more powerful option.</p>
+
+<h4>The problem</h4>
+<p>A clerk entering a ten-line document cannot determine the cost center for line nine. The document cannot be posted because it is incomplete, and if the clerk simply leaves the transaction, everything typed so far is lost. Both <strong>Hold Document</strong> and <strong>Park Document</strong> let you keep the data entered so far and finish later.</p>
+
+<h4>Hold Document</h4>
+<ul>
+<li>Temporarily saves the entry, complete or not.</li>
+<li>No document number is assigned; the user types a <strong>temporary name</strong> (e.g. 1000##) when holding and finds the document under that name later (Edit &rarr; Select Held Document, or the Templates tree &rarr; Held Documents).</li>
+<li>No transaction figures updated, and the data is <strong>not available for any evaluation</strong>.</li>
+<li>Can be completed and posted later, or deleted (Edit &rarr; Delete Held Document). Danger: held documents are easily forgotten.</li>
+</ul>
+
+<h4>Park Document</h4>
+<ul>
+<li>Also allows incomplete documents; extensive input checks are skipped.</li>
+<li>A real <strong>document number</strong> is drawn from the document type's number range exactly as for a posting (externally assigned numbers must be supplied).</li>
+<li>No transaction figures are updated, but the data <strong>is</strong> available for real-time evaluations (e.g. amounts from parked documents can be included in the advance return for tax on sales/purchases).</li>
+<li>Available both in the classic posting transactions and in the Enjoy single-screen transactions (<code>FV70</code> customer, <code>FV60</code> vendor, <code>FV50</code> G/L).</li>
+<li>Can be completed, changed, posted or deleted later; must be complete before it becomes an FI document; obsolete parked documents should be deleted.</li>
+<li><strong>Substitutions are not supported</strong> for parked documents; they run only when the document is converted into an accounting document.</li>
+<li>Commonly used to implement the <strong>dual-control principle</strong>: areas of responsibility are modelled through authorizations (one person enters, another checks and posts).</li>
+</ul>
+
+<h4>Hold vs. park at a glance</h4>
+<table><thead><tr><th>Aspect</th><th>Hold</th><th>Park</th></tr></thead><tbody>
+<tr><td>Identifier</td><td>User-defined temporary name</td><td>Document number from document type number range</td></tr>
+<tr><td>Transaction figures</td><td>Not updated</td><td>Not updated</td></tr>
+<tr><td>Available for reporting</td><td>No</td><td>Yes (line item display, tax return, journals)</td></tr>
+<tr><td>Can be incomplete</td><td>Yes</td><td>Yes</td></tr>
+<tr><td>Workflow / dual control</td><td>No</td><td>Yes</td></tr>
+<tr><td>Typical use</td><td>Short interruption at the desk</td><td>Multi-person approval, worklists</td></tr>
+</tbody></table>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Both functions preserve partially entered data without posting; neither updates balances.</li>
+<li>Held documents have no document number and are invisible to reporting; parked documents get a number and are evaluable.</li>
+<li>Parking supports dual control and workflow; holding is a personal scratch pad.</li>
+<li>Substitutions do not run on parked documents.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 6: in <code>FB70</code> enter a EUR 1,100 customer invoice (customer AC202-##, tax 1O), hold it under temporary number 1000##, retrieve it via Edit &rarr; Select Held Document, complete it with revenue account 800200 and post; hold a second document (2000##) and delete it from the Held Documents tree. Then park a similar invoice with <code>FV70</code>, note the number, display it with <code>FBV3</code>, and complete it (800200, profit center NGL_4020) from the Parked Documents tree before posting.</div>
+
+<h3 class="lesson" id="tfin52_2-u2-l2">Lesson 2: Processing Parked Documents</h3>
+<p class="lead">Learn what happens technically when you park, change, post or delete a parked document, which fields can and cannot be changed, and how parked documents appear in reporting.</p>
+
+<h4>Parking details</h4>
+<ul>
+<li>An optional <strong>completeness check</strong> can be run when parking (balance zero? all required fields such as posting key and account filled?).</li>
+<li>Account assignment templates may be used; posting <strong>with reference</strong> to another document is not possible for parking.</li>
+<li>Cross-company-code transactions can be parked: only one parked document is created in the initiating company code; the two real documents with the cross-company number are created at posting.</li>
+<li>Saving a parked document updates no transaction figures, asset values or control totals; no automatic postings (tax, discounts) are generated and the balance is not checked, although the document overview displays the balance.</li>
+</ul>
+
+<h4>Uses and scope</h4>
+<p>Document parking serves three purposes: temporary storage of input values; multilevel models such as dual control and approval procedures; and work distribution via worklists to speed up processing. It is available for customer invoices/credit memos, vendor invoices/credit memos and G/L account postings.</p>
+
+<h4>Changing parked documents</h4>
+<p>Header and item fields and amounts can be changed as often as needed; the <strong>document change rules</strong> that protect posted documents do not apply. Changeable: dates, amounts, accounts, account assignment objects. <strong>Not changeable</strong>: currency, document type, document number, company code. Changes can be made individually (<code>FBV2</code>) or via document/line item lists for several documents, and every change is logged and viewable before or after posting (<code>FBV5</code>, and the "Display of Changed Documents" report with the Parked Documents option).</p>
+
+<h4>Posting parked documents</h4>
+<p>Parked documents are posted individually (<code>FBV0</code> or from the single-screen transaction) or from a selection list; the list afterwards shows which documents posted successfully and lets you post-process the ones that failed (e.g. missing CO assignment). A batch input session can also be generated. When a parked document is converted:</p>
+<ol>
+<li>The normal posting checks run.</li>
+<li>A complete FI document is written to the document database.</li>
+<li>The change history of the parked document is kept.</li>
+<li>The <strong>document number stays the same</strong>.</li>
+<li>Transaction figures are updated.</li>
+<li>The parked document data is deleted; the entering user is recorded in the document header.</li>
+</ol>
+
+<h4>Deleting parked documents</h4>
+<p>Deletion is meant for exceptional cases. The number is not lost: displaying the deleted number in <code>FBV3</code> shows a header with document status <strong>Z</strong> ("parked document that was deleted") and no line items, so there is no gap in the number range.</p>
+
+<h4>Posted vs. parked document</h4>
+<table><thead><tr><th>Criterion</th><th>Posted document</th><th>Parked document</th></tr></thead><tbody>
+<tr><td>Transaction figures updated</td><td>Yes</td><td>No</td></tr>
+<tr><td>Deletion</td><td>Not possible (reverse instead)</td><td>Possible</td></tr>
+<tr><td>Change amounts, accounts, assignments, dates</td><td>No</td><td>Yes</td></tr>
+<tr><td>Subject to document change rules / GAAP</td><td>Yes</td><td>Not relevant</td></tr>
+<tr><td>Visible in reporting</td><td>Yes</td><td>Yes (line item display, document journal)</td></tr>
+</tbody></table>
+
+<h4>Transactions</h4>
+<table><thead><tr><th>T-code</th><th>Function</th></tr></thead><tbody>
+<tr><td><code>FV70</code> / <code>FV60</code> / <code>FV50</code></td><td>Park/edit customer invoice / vendor invoice / G/L document (Enjoy)</td></tr>
+<tr><td><code>FBV2</code></td><td>Change parked document</td></tr>
+<tr><td><code>FBV3</code></td><td>Display parked document</td></tr>
+<tr><td><code>FBV5</code></td><td>Display changes to a parked document</td></tr>
+<tr><td><code>FBV0</code></td><td>Post/delete parked document</td></tr>
+<tr><td>Display of Changed Documents</td><td>G/L Information System report, option "Parked Documents"</td></tr>
+</tbody></table>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Parking skips automatic postings and balance checks but can run an optional completeness check.</li>
+<li>Almost everything in a parked document can be changed except currency, document type/number and company code; change rules do not apply.</li>
+<li>Posting keeps the same document number, runs full checks, updates figures and deletes the parked version.</li>
+<li>Deleting a parked document leaves a status-Z header, so the number range has no gap.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 7: park a EUR 1,100 customer invoice in <code>FV70</code>; change it in <code>FBV2</code> (posting date +1, text "Change") and re-park; view the changes in <code>FBV5</code> and in the Display of Changed Documents report for company codes AC00&ndash;AC20; park another invoice, delete it from the Parked Documents tree, and display the deleted number in <code>FBV3</code> to show status Z without items.</div>
+
+<h3 class="lesson" id="tfin52_2-u2-l3">Lesson 3: Managing Document Parking and Workflow</h3>
+<p class="lead">Get the fundamentals of SAP Business Workflow (dimensions, architecture, events, tasks, work items, Business Workplace) and see how FI uses workflow variants, release groups and subworkflows to implement amount release for parked documents.</p>
+
+<h4>Workflow basics</h4>
+<p>A business process answers five questions, grouped into four process dimensions: <strong>organizational structure</strong> (who does the work), <strong>process structure</strong> (in which order), <strong>function</strong> (what is done) and <strong>information</strong> (which data is used). The process is modelled graphically and stored as parameters; at runtime the workflow manager (the SAP system) performs the organizational tasks, sends the right work at the right time to the right person, supports processes spanning several systems, and provides each recipient with the information needed for the next step. SAP delivers workflow templates that can be used, adapted or replaced by your own.</p>
+
+<h4>Three-tier architecture</h4>
+<table><thead><tr><th>Tier</th><th>Slogan</th><th>Content</th></tr></thead><tbody>
+<tr><td>Business object level</td><td>The right work</td><td>Tasks are methods of business object types in the Business Object Repository (BOR)</td></tr>
+<tr><td>Process level</td><td>At the right time</td><td>Workflow definition = sequence of steps (calls of BOR methods plus control steps such as loops, conditions, container values); maintained in the Workflow Builder</td></tr>
+<tr><td>Organizational level</td><td>For the right employee</td><td>Link to the org structure; possible processors per task, restricted per step; recipients get a work item in their Business Workplace</td></tr>
+</tbody></table>
+
+<h4>Events, tasks, work items</h4>
+<ul>
+<li>A workflow starts with a <strong>triggering event</strong>, defined per object type in the BOR and raised by the application. Example: the account-assignment-approval workflow (template WS0100000 in the course) starts with the event raised when a parked document is saved as complete.</li>
+<li><strong>Tasks</strong> are the steps of the process; each refers to a BOR object type and method. Even a one-step process can be a workflow definition.</li>
+<li>Each task has <strong>possible processors</strong> (groups of employees); in the workflow step you name <strong>responsible processors</strong> and may exclude users. At runtime the system intersects possible and responsible processors, removes exclusions, and sends the <strong>work item</strong> to the result.</li>
+<li>When one processor accepts (reserves) a work item it disappears from the other inboxes; executing it calls the object method. Typical workflow tasks: posting invoices, releasing purchase requisitions, changing material masters, approving leave, creating customers, deleting POs.</li>
+</ul>
+<p>For each step, design decides: which object/method (what work), which processors (who, for dialog steps) and the work item text shown in the recipient's inbox.</p>
+
+<h4>Business Workplace</h4>
+<p>Three areas: the <strong>selection tree</strong> on the left (inbox, outbox with started workflows, documents), the <strong>worklist</strong> top right (work items grouped under the Workflow folder, with special folders for overdue/missed-deadline items), and the <strong>work item preview</strong> bottom right where decisions can already be made. Work items are executed by double-click, which starts the application with the data; attachments (SAPscript, Office, web pages) can be viewed and added. Only one user can process a work item at a time; <strong>Put back</strong> releases a reserved item to status Ready; if explicit confirmation is required, cancelling the end dialog leaves the item as Performed until <strong>Set to completed</strong> is chosen, and until then it can still be executed or forwarded.</p>
+
+<h4>FI configuration for parked-document workflow</h4>
+<ol>
+<li>Create a <strong>workflow variant</strong> for document parking in FI Customizing and specify whether document release is active and from which minimum amount.</li>
+<li>Assign the variant to company codes (Financial Accounting Global Settings (New) &rarr; Global Parameters for Company Code &rarr; Enter Global Parameters, field Workflow variant; course uses variant 1000 "IDES FIPP-WF variant"). A company code without a variant releases nothing; one variant may serve many company codes.</li>
+<li>Optionally give customers/vendors a <strong>release group</strong> in the master record so that different partners follow different release procedures. If none is set, the initial (blank) release group is used.</li>
+<li>The <strong>release approval path</strong> is derived from workflow variant + document type + release group.</li>
+<li>Release approval path + amount determine the <strong>subworkflow</strong> and the releasing user(s).</li>
+</ol>
+<table><thead><tr><th>Subworkflow template</th><th>Release levels</th><th>Control principle</th></tr></thead><tbody>
+<tr><td>WS10000052</td><td>Single-level</td><td>One releaser</td></tr>
+<tr><td>WS10000053</td><td>Two-level</td><td>Dual control</td></tr>
+<tr><td>WS10000054</td><td>Three-level</td><td>Triple control</td></tr>
+</tbody></table>
+<p>The subworkflow is triggered when the parked document is first saved ("Save as completed"). The parked document's <strong>Workflow tab</strong> shows that release is required and which approval path applies; the originator can follow progress in Business Workplace &rarr; Outbox &rarr; Started Workflows &rarr; Workflow Log (with the Processor view listing who may release). The releaser finds the item under Inbox &rarr; Workflow &rarr; grouped by task "Release Amount", executes it, checks the document and presses Release; afterwards the document can be posted.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Workflow = four process dimensions, three-tier architecture (BOR objects, process definition, organization), started by events and executed via work items.</li>
+<li>Recipients = intersection of a task's possible processors and the step's responsible processors minus exclusions; one person reserves a work item, others lose it until it is put back.</li>
+<li>In FI, a workflow variant assigned to the company code activates amount release; release approval path = variant + document type + release group; path + amount select the subworkflow (1-, 2- or 3-level).</li>
+<li>Standard release subworkflows: WS10000052/53/54.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 8: confirm workflow variant 1000 in the global parameters of company code AC##; park a EUR 700 vendor invoice with <code>FV60</code> (vendor AC202-##, tax 1I, expense 400200, cost center T-A20A##) using Save as completed; inspect the Workflow tab in the document display (<code>FB03</code>/document list) and the workflow log from the Business Workplace outbox; log on as the release user WF-FI-1, open Inbox &rarr; Workflow &rarr; Release Amount, execute the work item and release the document.</div>
+<h2 class="unit" id="tfin52_2-u3">Unit 3: Validations and Substitutions</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Learn how the validation and substitution tools check or replace field values at document entry: application areas, callup points, the Boolean formula editor, activation per company code; then build a line-item validation, a constant and a field-to-field substitution, and finally reuse logic through rules and sets.</div>
+
+<h3 class="lesson" id="tfin52_2-u3-l1">Lesson 1: Understanding the Basics of Validation and Substitution</h3>
+<p class="lead">Understand what validation and substitution do, the five steps needed to put one into operation, which application areas and callup points exist in FI, and how the formula editor and activation work.</p>
+
+<h4>Validation vs. substitution</h4>
+<table><thead><tr><th></th><th>Validation</th><th>Substitution</th></tr></thead><tbody>
+<tr><td>Purpose</td><td>Check entered values / value ranges before posting so only valid data is accepted</td><td>Replace entered values with other values when a condition is met</td></tr>
+<tr><td>Definition</td><td>Boolean rules, syntax-checked by the system</td><td>Prerequisite (Boolean) + replacement value(s)</td></tr>
+<tr><td>Outcome</td><td>Message whose type decides whether the user may continue or must correct</td><td>Field content is overwritten silently</td></tr>
+</tbody></table>
+<p>Both run through the Rule Manager at the moment of entry; both are needed because standard table/master-data checks cannot cover company-specific rules (e.g. "this account only with this cost center").</p>
+
+<h4>Five steps to operate a validation or substitution</h4>
+<ol>
+<li>Choose the <strong>application area</strong>.</li>
+<li>Choose the <strong>callup point</strong>.</li>
+<li>Define the validation/substitution (steps with prerequisite, check/replacement, message).</li>
+<li><strong>Assign</strong> it to an organizational unit (company code for FI; company code or company for FI-SL; controlling area for CO).</li>
+<li><strong>Activate</strong> it for the callup point.</li>
+</ol>
+
+<h4>Application areas</h4>
+<p>Area + callup point define the field pool available for prerequisites and checks, and together they determine the <strong>Boolean class</strong> (which dimensions and message classes may be used).</p>
+<table><thead><tr><th>Key</th><th>Area</th><th>Remark</th></tr></thead><tbody>
+<tr><td>FI</td><td>Financial Accounting</td><td></td></tr>
+<tr><td>CO</td><td>Cost Accounting</td><td></td></tr>
+<tr><td>AM</td><td>Asset Accounting</td><td></td></tr>
+<tr><td>GL</td><td>Special Purpose Ledger</td><td></td></tr>
+<tr><td>CS</td><td>Consolidation</td><td>Validations only</td></tr>
+<tr><td>PS</td><td>Project System</td><td></td></tr>
+<tr><td>RE</td><td>Real Estate</td><td></td></tr>
+<tr><td>PC</td><td>Profit Center Accounting</td><td>Substitutions only</td></tr>
+<tr><td>GA</td><td>Allocations (FI-SL)</td><td>Substitutions only</td></tr>
+</tbody></table>
+<p>SD is not an application area. Each application decides which structures and fields it releases.</p>
+
+<h4>Callup points in FI</h4>
+<table><thead><tr><th>Callup point</th><th>Scope</th><th>Available fields</th><th>Typical use</th></tr></thead><tbody>
+<tr><td>0001 Document header</td><td>BKPF</td><td>Header fields (document type, dates, user)</td><td>Posting date vs. document date</td></tr>
+<tr><td>0002 Line item</td><td>BSEG (+ header fields of 0001)</td><td>Item fields plus header fields for cross-checks</td><td>Account/cost center combination; account only with certain document types</td></tr>
+<tr><td>0003 Complete document</td><td>Whole document</td><td>Numeric fields only, with matrix operators</td><td>Totals, averages, comparisons across lines</td></tr>
+</tbody></table>
+<p>Matrix operators for callup point 3 (a blank must separate keyword and opening parenthesis): <code>SUM ( )</code> document total, <code>AVG ( )</code> average, <code>MAX ( )</code> and <code>MIN ( )</code> largest/smallest line value, <code>GROUP BY</code> to compare groups of totals.</p>
+
+<h4>Formula editor</h4>
+<p>Rules are built from operands (table fields, sets, exits, constants), logical operators (AND, OR, NOT) and comparison operators. The editor checks syntax step by step, including parentheses, so only correct statements can be saved. Default view shows short descriptions; <em>Settings &rarr; Technical names</em> shows table-field names; <em>Expert mode</em> lets you type the statement directly.</p>
+
+<h4>Assignment and activation</h4>
+<ul>
+<li>One validation/substitution can serve several company codes, but per company code and callup point only <strong>one</strong> validation and one substitution can be active.</li>
+<li>Activation levels: <strong>0</strong> inactive, <strong>1</strong> active for dialog and batch input, <strong>2</strong> active except for batch input.</li>
+</ul>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Validation checks and messages; substitution replaces. Both are Boolean-driven and run at entry.</li>
+<li>Area + callup point &rarr; Boolean class &rarr; usable fields and message classes.</li>
+<li>FI has three callup points: header, line item, complete document (numeric matrix checks only).</li>
+<li>Assign to company code, then activate per callup point with level 0/1/2; one active object per company code and callup point.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercise in this lesson; the concepts are applied in Exercises 9&ndash;11 of the following lessons.</div>
+
+<h3 class="lesson" id="tfin52_2-u3-l2">Lesson 2: Maintaining and Executing Validations</h3>
+<p class="lead">Build a validation step by step (prerequisite, check, message), know the message types and the Boolean syntax options, and activate and test it with a real posting.</p>
+
+<h4>Structure of a validation</h4>
+<p>A validation contains up to <strong>999 steps</strong>. Each step has three parts:</p>
+<ol>
+<li><strong>Prerequisite</strong> &ndash; when true, the step is relevant.</li>
+<li><strong>Check</strong> &ndash; evaluated by the Rule Manager; if the check is FALSE the message is raised.</li>
+<li><strong>Message</strong> &ndash; from a message class (course uses Z1), with up to four placeholders (&amp;) filled from fields you assign as message variables.</li>
+</ol>
+<table><thead><tr><th>Message type</th><th>Behaviour</th></tr></thead><tbody>
+<tr><td>I</td><td>Information, processing continues</td></tr>
+<tr><td>W</td><td>Warning, user may continue</td></tr>
+<tr><td>E</td><td>Error, entry must be corrected</td></tr>
+<tr><td>A</td><td>Cancel (abort) the transaction</td></tr>
+</tbody></table>
+<p>Course example (callup point 2): if account 473110 is used, the check verifies the cost center is not an administration cost center; otherwise an error forces a correction.</p>
+
+<h4>Boolean statement techniques</h4>
+<table><thead><tr><th>Technique</th><th>Example</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Field vs. field</td><td><code>BKPF-BUDAT &lt;&gt; BKPF-BLDAT</code></td><td>Posting date differs from document date</td></tr>
+<tr><td>Field vs. constant</td><td><code>BKPF-BLART = 'SA'</code></td><td>Document type must be SA</td></tr>
+<tr><td>Partial field</td><td><code>BSEG-HKONT :3:</code>, <code>:1-3:</code>, <code>:3-:</code></td><td>Only digit 3 / digits 1&ndash;3 / digit 3 to end of the account number (blank before first colon; numbers are positions)</td></tr>
+<tr><td>Pattern</td><td><code>BSEG-KOSTL LIKE '*3*3'</code></td><td>* = any string, + = exactly one character</td></tr>
+</tbody></table>
+<p>Simple statements can be combined with AND/OR/NOT into complex ones.</p>
+
+<h4>Maintenance path and activation</h4>
+<ul>
+<li>IMG: Financial Accounting (New) &rarr; Financial Accounting Global Settings (New) &rarr; Tools &rarr; Validation/Substitution &rarr; <strong>Validation in Accounting Documents</strong> (activation table <code>OB28</code>); Environment &rarr; Validation opens the maintenance tool (<code>GGB0</code>).</li>
+<li>In the tree choose the callup point (Line Item), create the validation, add a step, fill prerequisite and check with the formula editor (select structure BSEG, field, operator, constant), maintain the message via Environment &rarr; Maintain messages, enter the message number and message variables (e.g. BSEG-HKONT for &amp;1).</li>
+<li><strong>Simulate</strong> (Validation &rarr; Simulate) with test values before activating.</li>
+<li>Activate with New Entries: company code, callup point 2, validation name, activation level 1.</li>
+</ul>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Step = prerequisite + check + message; message issued only when prerequisite true and check false.</li>
+<li>Message types I/W/E/A escalate from informative to abort; up to four &amp; variables.</li>
+<li>Partial-field (:n-m:) and LIKE pattern checks extend simple comparisons.</li>
+<li>Always simulate, then activate in <code>OB28</code> per company code and callup point.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 9: create validation G##-VAL "Telephone costs" at FI callup point 2 with step "Account/cost center check": prerequisite account 473110 or 473120, check cost center = T-A20F##, error message 2## in class Z1 with the account as variable; simulate with a wrong cost center, activate for AC## at level 1 in <code>OB28</code>, then post a EUR 400 vendor invoice (vendor T-F00A00, tax V0, item screen variant with cost center) using the wrong cost center T-A20B## to trigger the error and correct it to T-A20F##.</div>
+
+<h3 class="lesson" id="tfin52_2-u3-l3">Lesson 3: Maintaining and Executing Substitutions</h3>
+<p class="lead">Define a substitution (prerequisite + replacement) with the three substitution methods, understand which fields may be substituted, and activate and verify a profit-center substitution.</p>
+
+<h4>Structure of a substitution</h4>
+<p>Up to 999 steps; each step has a <strong>prerequisite</strong> and one or more <strong>replacements</strong>. When the prerequisite is true, the entered value(s) are replaced and processing continues; when false, nothing happens. A single step can replace several fields. The syntax for prerequisites is the same as for validations and may use rules and sets. Example: fill the Functional Area depending on cost center type.</p>
+
+<h4>Substitution methods</h4>
+<p>The target field must be <strong>released for substitution</strong> by the application (the "Substitutable fields" dialog lists them per Boolean class, e.g. class 009 for FI line items). For each selected field you pick a method:</p>
+<table><thead><tr><th>Method</th><th>What happens</th><th>Course example</th></tr></thead><tbody>
+<tr><td>Constant value</td><td>Field set to a fixed value</td><td>Profit center 060 (or PC00) when revenue account 810201/810301 is combined with material T-IC-F1001&ndash;T-IC-F1003 (or special region N-001/S-001)</td></tr>
+<tr><td>Exit</td><td>Customer ABAP form routine computes the value</td><td>Complex derivations</td></tr>
+<tr><td>Field&ndash;field assignment</td><td>Content of a source field copied into the target field</td><td>Business area copied into the Assignment field under certain conditions</td></tr>
+</tbody></table>
+
+<h4>Maintenance path and activation</h4>
+<ul>
+<li>IMG: Financial Accounting (New) &rarr; Financial Accounting Global Settings (New) &rarr; Tools &rarr; Validation/Substitution &rarr; <strong>Substitution in Accounting Documents</strong> (activation table <code>OBBH</code>); Environment &rarr; Substitution opens the tool (<code>GGB1</code>).</li>
+<li>Create the substitution under Line Item, Insert Step, choose field BSEG-PRCTR, method Constant value, define the prerequisite in the formula editor, enter the constant under Substitutions.</li>
+<li>Simulate (Substitution &rarr; Simulate); note that simulation input is case-sensitive.</li>
+<li>Activate in <code>OBBH</code>: since only one substitution per company code and callup point may be active, overwrite the existing entry (Z0001 in the course) with your substitution, level 1.</li>
+<li>Verify by posting and checking the Profit Center in the coding block ("More" button) and in the posted document.</li>
+</ul>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Substitution step = prerequisite + replacement(s); multiple fields may be replaced in one step.</li>
+<li>Only fields released by the application can be substituted; methods are constant, exit or field-to-field.</li>
+<li>Activation in <code>OBBH</code> replaces the single active substitution for the company code/callup point.</li>
+<li>Parked documents are not substituted until they are posted (see Unit 2).</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 10: create substitution G##SUB1 "Profit center substitution" at callup point 2 with step "Profit Center &lt;&lt; PC00": prerequisite (account 810201 or 810301) AND (special region N-001 or S-001), constant PC00 for BSEG-PRCTR; simulate; activate for AC## callup point 2 by replacing Z0001 in <code>OBBH</code>; post a customer invoice with <code>F-22</code> (type DR, customer T-F00A00, PK 50 to 810201, special region N-001) and confirm PC00 in the coding block and in the posted document.</div>
+
+<h3 class="lesson" id="tfin52_2-u3-l4">Lesson 4: Using Additional Techniques for Substitutions and Validations</h3>
+<p class="lead">Use rules to package reusable Boolean logic and sets to replace long value lists, and combine them in a substitution; note SAP's advice to maintain these objects in development and transport them.</p>
+
+<h4>Rules</h4>
+<ul>
+<li>A rule is a named Boolean statement that can be used inside a prerequisite, a check, or another rule. Technically it is just a prerequisite/check stored separately.</li>
+<li>Use a rule when the logic is complex or needed in several places (e.g. the same prerequisite in a validation and a substitution). Example: <code>RULE1 AND BKPF-BLART &lt;&gt; 'SB'</code> &ndash; the system evaluates RULE1 first, then the document type condition.</li>
+<li>Rule names have at most <strong>11 characters</strong>. Rules can also be used in matrix validations at callup point 3.</li>
+</ul>
+
+<h4>Sets</h4>
+<ul>
+<li>A set is a flexible, centrally maintained data structure for ordered value lists and hierarchies, originating in FI-SL and used in validations, substitutions, ledger selection, allocations (assessment/distribution), planning, roll-ups and currency conversion.</li>
+<li>For performance, prefer basic or single-dimension sets over long OR chains or user exits.</li>
+<li>Syntax: <code>table-field IN set-name</code>, e.g. check that a user in set USER-GROUP posts only to accounts in set ACCOUNT-MANAGEMENT.</li>
+<li><strong>Multisets</strong> combine sets over several fields (dimensions) for cross-validation, e.g. administrative accounts 476510/476520/476530 must be posted with cost centers 1000/1100/1200/1300.</li>
+<li>Sets are created with <code>GS01</code> (Special Purpose Ledger &rarr; Tools &rarr; Set Maintenance): set name, table (BSEG), set type Basic set, field name (HKONT, MATNR), description and value list.</li>
+</ul>
+
+<h4>Transport recommendation</h4>
+<p>Define validations, substitutions and rules only in the development or test system and transport them to production.</p>
+
+<h4>Combining rules and sets</h4>
+<ol>
+<li>Create basic sets for the value lists (accounts, materials).</li>
+<li>Create a rule at the relevant callup point whose definition is <code>BSEG-HKONT IN set1 AND BSEG-MATNR IN set2</code> (sets picked via the Set directory button).</li>
+<li>Create the substitution step and use the rule (Rules tab in the formula editor) as prerequisite; enter the constant.</li>
+<li>Simulate (choose structure BSEG as data view), activate in <code>OBBH</code>, test with a posting.</li>
+</ol>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Rules = reusable named Boolean logic (max. 11 characters), usable in prerequisites, checks, other rules and matrix validations.</li>
+<li>Sets = central value lists/hierarchies; <code>field IN set</code> is faster and cleaner than long OR lists; multisets allow multi-dimensional cross checks.</li>
+<li>Build sets with <code>GS01</code>, rules and substitutions with <code>GGB1</code>, activate with <code>OBBH</code>.</li>
+<li>Maintain in DEV/QA and transport; do not create these objects directly in production.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 11: create basic sets G##-REVENUE (BSEG-HKONT: 810201, 810301, 810401) and G##-MATERIAL (BSEG-MATNR: T-AS601&ndash;T-AS603) in <code>GS01</code>; create rule GR##-RULE1 at FI callup point 2 as HKONT IN G##-REVENUE AND MATNR IN G##-MATERIAL; create substitution G##SUB2 "Profit Center Substitution &lt;&lt; PC01" using the rule as prerequisite and constant PC01 for BSEG-PRCTR; simulate; replace the active substitution for AC##/callup point 2 in <code>OBBH</code>; post a customer invoice with <code>F-22</code> to one of the revenue accounts with a listed material in the coding block and confirm PC01 (add the profit center column in document display).</div>
+<h2 class="unit" id="tfin52_2-u4">Unit 4: Data Archiving in FI</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand what data archiving is (and is not), why it is done, how the Basis, cross-object and object-specific Customizing fit together with FI-specific runtimes, and then run the archiving procedure for the three FI examples: documents (FI_DOCUMNT), G/L transaction figures (FI_TF_GLF) and G/L master records (FI_ACCOUNT).</div>
+
+<h3 class="lesson" id="tfin52_2-u4-l1">Lesson 1: Outlining the Basics and Classifications of Data Archiving</h3>
+<p class="lead">Define data archiving, separate it from reorganization, backup and document storage, and understand the motives, the division of roles and the three-step archiving process.</p>
+
+<h4>Definition</h4>
+<p>Data archiving moves complete data objects consistently out of the SAP database tables into archive files held outside the database (typically on an external storage system). Because a business object is spread over many tables, SAP bundles the logically related tables into an <strong>archiving object</strong>; the archiving programs then write every table entry belonging to the object together, so nothing is left behind and business consistency is guaranteed. Archived data is compressed, archiving runs <strong>online</strong> (no system shutdown), and only data from <strong>completed business processes</strong> may be archived (test data rarely reaches that state).</p>
+
+<h4>What archiving is not</h4>
+<table><thead><tr><th>Term</th><th>Meaning</th><th>Relation to archiving</th></tr></thead><tbody>
+<tr><td>Reorganization</td><td>Historically (R/2) either physical deletion of application data or DB reorganization (unload/reload to optimise disk layout)</td><td>Different purpose; archiving keeps data readable</td></tr>
+<tr><td>Backup / restore</td><td>Copy of the whole database to recover after a failure, taken at fixed intervals</td><td>Independent of archiving; must still run regularly</td></tr>
+<tr><td>Document storage</td><td>Electronic storage of documents (scans etc.) outside SAP with a link in the system</td><td>Storage target for archive files, but not archiving itself</td></tr>
+</tbody></table>
+
+<h4>Why archive</h4>
+<ul>
+<li>Technical: better and stable response times, less database administration effort (backup, recovery), shorter downtime for upgrades, recoveries and offline backups. Larger databases cost more at every query and every upgrade.</li>
+<li>Legal and business: country-specific retention rules, access for auditors and tax authorities, possible reuse of data. Archives are hardware- and software-independent so they remain readable after upgrades.</li>
+</ul>
+
+<h4>Roles and goals</h4>
+<p>Archiving is executed by <strong>system administrators</strong>, not by FI application managers; the FI application manager coordinates with the department and auditors, confirms retention periods, performs FI-specific Customizing and monitors the process. Administrators want the smallest possible database, the FI department wants the most data online: archiving is a negotiated compromise. Long-term goals: keep database volume roughly constant and archive proactively rather than reactively; plan archiving from the start of the implementation because volumes grow quickly after go-live.</p>
+
+<h4>The archiving process</h4>
+<ol>
+<li><strong>Write</strong>: the write program reads the data to be archived and creates one or more archive files.</li>
+<li><strong>Store</strong>: the archive files are placed in an external storage system and administered so they can be found later.</li>
+<li><strong>Delete</strong>: the deletion program reads the archive file and only then removes the corresponding records from the database.</li>
+</ol>
+<p>Writing and deleting alone is not enough; the files must be stored and managed so they remain accessible.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Archiving = consistent removal of complete business objects via archiving objects into readable archive files; runs online.</li>
+<li>It is neither a backup, nor a reorganization, nor document storage, though archive files are usually kept in a storage system.</li>
+<li>Motives: performance, administration effort, downtime, and legal retention with auditor access.</li>
+<li>Three steps: write, store, delete (delete reads the archive first).</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercise in this lesson.</div>
+
+<h3 class="lesson" id="tfin52_2-u4-l2">Lesson 2: Maintaining Data Archiving</h3>
+<p class="lead">Learn the anatomy of an archiving object, the three Customizing layers (Basis, cross-object, object-specific) plus FI-specific account-type and document-type runtimes, and the checks the FI archiving programs perform.</p>
+
+<h4>Archiving object</h4>
+<p>The smallest unit that can be archived and deleted completely. It consists of:</p>
+<ul>
+<li><strong>Data declaration</strong>: all database tables that make up the application object.</li>
+<li><strong>Customizing settings</strong>: object-specific parameters for the procedure.</li>
+<li><strong>Programs</strong>: a write program (sequentially writes objects to archive files), a deletion program (deletes what has been read from the archive), and a display/read program.</li>
+</ul>
+
+<h4>Customizing layers</h4>
+<p>All reached via the <em>Customizing</em> button in <code>SARA</code> (Tools &rarr; Administration &rarr; Administration &rarr; Data Archiving).</p>
+<table><thead><tr><th>Layer</th><th>Who</th><th>Content</th><th>Transaction / path</th></tr></thead><tbody>
+<tr><td>1. Basis Customizing</td><td>Basis</td><td>Logical file path (e.g. ARCHIVE_GLOBAL_PATH) mapped to a physical path per OS (e.g. &lt;P=DIR_GLOBAL&gt;\&lt;FILENAME&gt;); logical file name (e.g. ARCHIVE_DATA_FILE) with physical name pattern and path</td><td><code>FILE</code></td></tr>
+<tr><td>2. Cross-archiving-object Customizing</td><td>Basis</td><td>Server group for background processing; switch the data archiving monitor on/off; alert handling</td><td>SAP NetWeaver &rarr; Application Server &rarr; System Administration &rarr; Data Archiving</td></tr>
+<tr><td>3. Archiving-object-specific Customizing</td><td>Basis / FI support</td><td>Logical file name for the object, maximum archive file size, whether the deletion program starts automatically after a file is closed, one variant each for test and production run of the deletion program</td><td>Same path, or <code>SARA</code> &rarr; Customizing &rarr; Technical Settings</td></tr>
+<tr><td>FI application-specific Customizing</td><td>FI</td><td>Account type life and document type life (runtimes)</td><td>Financial Accounting (New) &rarr; FA Global Settings (New) &rarr; Tools &rarr; Archiving &rarr; Accounting Document Archiving</td></tr>
+</tbody></table>
+<p>The <strong>data archiving monitor</strong> (<code>SAR_SHOW_MONITOR</code>) shows all archiving objects that have run, details of each session, progress bars and open alerts; it only works if cross-object Customizing allows the write/delete programs to update monitoring information.</p>
+
+<h4>Archiving logic: what the FI programs check</h4>
+<table><thead><tr><th>Object</th><th>Prerequisites checked</th></tr></thead><tbody>
+<tr><td>Transaction figures</td><td>No period of the fiscal years to be archived is still open for posting</td></tr>
+<tr><td>Bank master</td><td>Deletion indicator set; bank no longer used</td></tr>
+<tr><td>G/L accounts</td><td>Deletion indicator set; no transaction figures left (already archived); no documents left; items cleared for open-item-managed accounts</td></tr>
+<tr><td>Customers / vendors</td><td>Deletion indicator set; no transaction figures left; no documents left</td></tr>
+<tr><td>Documents</td><td>Document type runtime maintained and exceeded; account runtime maintained and exceeded</td></tr>
+</tbody></table>
+<p>Master data can only leave the system if the department has set a deletion indicator in the master record, which proves the record is no longer needed.</p>
+
+<h4>Document archiving runtimes</h4>
+<ul>
+<li><strong>Account type life</strong>: per company code, account type and account interval, a minimum number of days (the "life") plus the <strong>secondary index runtime</strong>. For account types D and K enter the <em>reconciliation account</em> numbers in the interval. The most precise entry wins (entries with * are least precise). Index runtime must be &ge; account runtime; as long as the archive index exists, documents and line items can still be displayed from the archive.</li>
+<li><strong>Document type life</strong>: per company code and document type, a minimum number of days. Missing entries or empty values default to <strong>9999 days</strong>.</li>
+<li>Reference dates: posting date (clearing date for open-item-managed accounts) compared with the <strong>key date</strong> of the run. The longer of document-type and account-type runtime decides how long a document stays.</li>
+</ul>
+<p>Course examples: account runtime 90 days for customers and vendors, 60 days for G/L accounts, 360 days for promotional-gift accounts (audited at year end), 180 days for reconciliation account 140100 in company code 0001. Document type runtime: 30 days for all (* / *), 90 days for KR in 0001, 120 days for closing-entry type SB in all company codes.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>An archiving object = tables + Customizing + write/delete/display programs; <code>DB15</code> and <code>AOBJ</code> show which tables belong to which object.</li>
+<li>Basis defines logical paths/file names (<code>FILE</code>); cross-object settings cover server group and monitor; object-specific settings cover file size, deletion variants and automatic deletion.</li>
+<li>FI adds account-type and document-type runtimes; the more precise entry wins, default is 9999 days, index runtime &ge; account runtime.</li>
+<li>Master data needs a deletion flag and no remaining figures/documents; transaction figures need closed periods.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 12: list FI archiving objects and their tables with <code>DB15</code> (object FI_DOCUMNT, tables with deletion); in <code>FILE</code> (via <code>SARA</code> &rarr; Customizing &rarr; Cross-Client File Names/Paths) check logical path ARCHIVE_GLOBAL_PATH with its Windows physical path and logical file name ARCHIVE_DATA_FILE with its physical name pattern; view cross-object and FI_DOCUMNT-specific Customizing in the NetWeaver IMG; display account type life and document type life under Accounting Document Archiving.</div>
+
+<h3 class="lesson" id="tfin52_2-u4-l3">Lesson 3: Executing Data Archiving for Exemplary FI Objects</h3>
+<p class="lead">Run an archiving session in <code>SARA</code> (variant, user, start time, spool), monitor it, and apply it to FI documents, G/L transaction figures and G/L master records, in the recommended order documents &rarr; transaction figures &rarr; master data.</p>
+
+<h4>Scheduling an archiving run</h4>
+<p>The run is a background job started from <code>SARA</code> with the <strong>Write</strong> button. The program selects data objects, checks each against its constraints, and writes archivable objects to the file; if automatic deletion is configured, the deletion job starts as soon as a file is closed, otherwise you schedule deletion later and select the archive files to process.</p>
+<ol>
+<li><strong>Archiving variant</strong>: selection of data plus test or production mode (variants can usually be reused only after the jobs are deleted).</li>
+<li><strong>Execution user</strong>: needs authorization object <code>S_ARCHIVE</code> (restrictable per archiving object), authorizations for the application transactions, and background authorization <code>S_BTCH_JOB</code>.</li>
+<li><strong>Start time</strong>: as for any standard background job (e.g. Immediate).</li>
+<li><strong>Spool parameters</strong>: logs can be long, so avoid immediate printing (course uses output device LP01 without immediate output).</li>
+</ol>
+
+<h4>FI archiving objects</h4>
+<table><thead><tr><th>Archiving object</th><th>Content</th></tr></thead><tbody>
+<tr><td>FI_DOCUMNT</td><td>FI documents</td></tr>
+<tr><td>FI_ACCOUNT</td><td>G/L account master records</td></tr>
+<tr><td>FI_ACCRECV</td><td>Customer master records</td></tr>
+<tr><td>FI_ACCPAYB</td><td>Vendor master records</td></tr>
+<tr><td>FI_TF_GLC / FI_TF_GLF</td><td>G/L transaction figures (classic / New G/L)</td></tr>
+<tr><td>FI_TF_DEB</td><td>Customer transaction figures</td></tr>
+<tr><td>FI_TF_CRE</td><td>Vendor transaction figures</td></tr>
+<tr><td>FI_BANKS</td><td>Bank master</td></tr>
+<tr><td>FI_PAYRQ</td><td>Payment requests</td></tr>
+<tr><td>FI_SCHECK</td><td>Checks</td></tr>
+</tbody></table>
+<p><code>AOBJ</code> lists per object which tables are archived and which are only deleted: for FI_DOCUMNT the secondary index tables BSAD, BSAK, BSAS and BSIS are deleted, not archived. Retrieval (reload) programs exist, and every session writes administration data.</p>
+
+<h4>Monitoring</h4>
+<ul>
+<li>Background tools: job log and spool list (<code>SM37</code>, reachable from <code>SARA</code> via Job overview); jobs are named ARV_&lt;object&gt;_WRI&lt;timestamp&gt;.</li>
+<li>CCMS monitor sets / data archiving monitor.</li>
+<li>Logs: application-specific log if provided (down to document level), otherwise the standard log with number of objects, tables, entries and file sizes. Spool clean-up deletes logs, so store them externally.</li>
+<li><code>SARA</code> &rarr; Administration shows a short log per archiving session; the job log names the file and OS path created.</li>
+</ul>
+
+<h4>Archiving FI documents (FI_DOCUMNT)</h4>
+<p>The program checks header and items; if any check fails, the whole document stays.</p>
+<ul>
+<li>Header: document type runtime exceeded; minimum number of days in system exceeded; documents with withholding tax stay at least <strong>455 days</strong>; recurring, parked and sample documents are ignored.</li>
+<li>Items: no open items (only cleared items or items on accounts without OI management); account type runtime exceeded.</li>
+<li>The <strong>key date</strong> per run is the reference for all runtimes; default is the execution date.</li>
+</ul>
+<p>Archived documents remain readable through the Archive Development Kit (ADK) read programs; <code>FB03</code> asks whether to include archived data and shows the document with the message that it is already archived. The <strong>archive search strategy</strong> in the processing options controls how archives are searched (speed vs. hit accuracy). Write program: FI_DOCUMNT_WRI; selection by company code, document number, fiscal year/period, document type, minimum days, key date; processing options test/production mode, detail log, log output (list and application log).</p>
+
+<h4>Archiving G/L transaction figures (FI_TF_GLF)</h4>
+<p>Transaction figures are the debit and credit totals per account and period from which the financial statements are built; they stay in the system at least two years. They can be archived only when <strong>all posting periods of the fiscal year are closed</strong> (close them in Open and Close Posting Periods for the relevant variant, course: 9000). Write program FI_TF_GLF_WRI selects ledger (0L), company code, account, record type (actual and plan) and "to fiscal year". After deletion the balance display (<code>FAGLB03</code>) for that year is empty.</p>
+
+<h4>Archiving FI master data (FI_ACCOUNT)</h4>
+<p>G/L accounts, customers, vendors and banks can be archived when the business agrees and legal requirements are met. Typical sequence: first set a <strong>posting block</strong>, later set the <strong>deletion flag</strong> (chart of accounts segment and/or company code segment, <code>FS00</code> &rarr; Mark for deletion). The deletion flag is a hard prerequisite, so authorization to set it should be restricted. Write program for FI_ACCOUNT selects chart of accounts (INT), company code and account; the company code segment and optionally the chart of accounts segment are archived; afterwards <code>FS00</code> reports that the account is not available.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li><code>SARA</code> write job = variant (test/production) + user with S_ARCHIVE and S_BTCH_JOB + start time + spool parameters; monitor via Job overview/<code>SM37</code>, spool list, job log and the archiving monitor.</li>
+<li>Order: documents first (they block everything else), then transaction figures, then master data.</li>
+<li>Documents need expired document-type and account-type runtimes, no open items, 455 days if withholding tax; parked/recurring/sample documents are never archived.</li>
+<li>Transaction figures require closed posting periods; master data requires deletion flags and no remaining figures or documents.</li>
+<li>Archived documents stay displayable (ADK, archive index, search strategy).</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 13: in <code>SARA</code>/<code>F48A</code> for FI_DOCUMNT set technical settings (logical file ARCHIVE_DATA_FILE, delete job start automatically, deletion variants TEST_B_## / PROD_B_##), maintain account type life (AC##, D, 1&ndash;999999, life 5, index 5) and document type life (AC##, SA, 5); find the document on account 1112## via G/L line items, run write variant Write_B_T## in test mode, inspect spool and job log, run Write_B_P## in production mode, then display the document in <code>FB03</code> to see the "already archived" message. Exercise 14: check balances of 113101 for FY-2 in <code>FAGLB03</code>, set FI_TF_GLF technical settings and variants, close periods for FY-2 if needed, run Write_## (test) and Write_##_P (production) for ledger 0L, account 113101, to FY-2, check spool/job log and re-display balances. Exercise 15: create G/L account 1111## from template 113100 in <code>FS00</code>, set deletion flags in chart of accounts and company code, maintain FI_ACCOUNT technical settings and deletion variants, run Write_S_T## (test) and Write_S_TP## (production) for chart INT / AC## / 1111##, review spool and job log, and confirm in <code>FS00</code> that the account no longer exists.</div>
+<h2 class="unit" id="tfin52_2-u5">Unit 5: Document Splitting</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand why New G/L document splitting exists (complete balance sheets for segment, profit center or business area), master its basic Customizing (characteristics, activation, inheritance, constants), read the general ledger view and expert mode, distinguish active, passive and zero-balance splitting, and build your own splitting method, business transaction variant and rule, including with the EhP4 wizards.</div>
+
+<h3 class="lesson" id="tfin52_2-u5-l1">Lesson 1: Configuring Document Splitting</h3>
+<p class="lead">Explain the purpose and mechanics of document splitting in New General Ledger Accounting (SAP ERP ECC 6.0), configure the basic settings, analyse postings in the general ledger view and expert mode, and create customer-specific splitting rules.</p>
+
+<h4>Motivation</h4>
+<p>International requirements such as segment reporting need financial statements below company code level. A vendor invoice whose expense lines carry two different segments only has the segment on the expense lines; the vendor (payable) line and the tax line have none. Document splitting <strong>projects the G/L characteristics onto every line</strong> of the document (in the general ledger view) so that a complete balance sheet per characteristic can be produced. The same applies to Profit Center and Business Area. Document splitting is only needed when you want a <strong>balance sheet</strong> for a characteristic; if an income statement is enough, do not activate it.</p>
+
+<h4>Process steps and supporting mechanisms</h4>
+<ol>
+<li><strong>Passive split</strong>: when clearing (e.g. a payment), the account assignments of the cleared items are copied to the clearing lines.</li>
+<li><strong>Active (rule-based) split</strong>: lines without assignment (vendor, tax, cash) are split according to the base lines defined in a splitting rule.</li>
+<li><strong>Zero-balance clearing lines</strong>: if a characteristic does not balance to zero within the document (e.g. a transfer from profit center A to B), the system adds clearing lines on a zero-balance clearing account so that both the document and each dimension balance.</li>
+</ol>
+<p><strong>Inheritance</strong> and <strong>default account assignment (constant)</strong> work between steps 2 and 3. SAP Note 1085921 documents splitting with worked examples.</p>
+
+<h4>Basic Customizing</h4>
+<p>IMG: Financial Accounting (New) &rarr; General Ledger Accounting (New) &rarr; Business Transactions &rarr; Document Splitting.</p>
+<table><thead><tr><th>Activity</th><th>What you set</th><th>Notes</th></tr></thead><tbody>
+<tr><td>Define Document Splitting Characteristics for General Ledger Accounting</td><td>Characteristics (Business Area, Profit Center, Segment, customer field) with indicators <strong>Zero balance</strong> and <strong>Mandatory field</strong>; optional partner field</td><td>Proposed from the assigned New G/L scenarios; a customer field must be added to totals table FAGLFLEXT and assigned to at least one ledger</td></tr>
+<tr><td>Activate Document Splitting</td><td>Client-wide activation, splitting method (copy of 0000000012, e.g. Z000000012), <strong>Inheritance</strong> flag, standard account assignment via constant; deactivation per company code</td><td>Inheritance recommended; requires complete and correct master data (cost center &rarr; profit center &rarr; segment)</td></tr>
+<tr><td>Edit Constants for Nonassigned Processes</td><td>Default characteristic values used when nothing can be derived</td><td>Optional</td></tr>
+<tr><td>Classify G/L Accounts for Document Splitting</td><td>Item category per account or interval (some categories derive from account type)</td><td></td></tr>
+<tr><td>Classify Document Types for Document Splitting</td><td>Business transaction + variant per document type</td><td>e.g. KR &rarr; 0300/0001, DZ/KZ &rarr; 1000/0001</td></tr>
+<tr><td>Define Zero-Balance Clearing Account</td><td>Account for the automatic clearing lines</td><td></td></tr>
+<tr><td>Extended Document Splitting &rarr; Define Splitting Method / Define Document Splitting Rule / Assign Splitting Method</td><td>Customer method, rules, assignment (one method per client)</td><td>Rules directly via <code>GSP_RD</code></td></tr>
+</tbody></table>
+
+<h4>Zero balance and Mandatory field indicators</h4>
+<ul>
+<li>Neither set: the system still tries to enrich all lines; if it cannot, the document is posted anyway, possibly unbalanced per characteristic or with empty characteristics. No characteristic balance sheet is possible.</li>
+<li><strong>Zero balance</strong> set: each posting balances to zero per characteristic (clearing lines are generated if needed). Postings with an <em>initial</em> value are still allowed; those initial values appear as a pseudo "default" in the characteristic balance sheets.</li>
+<li><strong>Mandatory field</strong> set in addition: no G/L-view line may be left without the characteristic, so the sum of all characteristic balance sheets equals the company code balance sheet. Set <strong>both</strong> when the characteristic is a reporting entity needing a full balance sheet (SAP Note 826357 for Profit Center).</li>
+<li>Setting only Mandatory field without Zero balance is not recommended (e.g. HCM postings only obey the Zero balance flag; SAP Note 1039346). If you merely want receivables/payables by profit center without full balance sheets, set neither.</li>
+</ul>
+
+<h4>Rule-based (active) splitting: the building blocks</h4>
+<table><thead><tr><th>Element</th><th>Meaning</th><th>Customer-definable?</th></tr></thead><tbody>
+<tr><td>Document splitting method</td><td>Set of all splitting rules; standard 0000000012 (same as 0000000002 with follow-up costs online) covers most cases</td><td>Yes (copy of standard)</td></tr>
+<tr><td>Business transaction</td><td>General classification of a process (e.g. 0300 vendor invoice, 1000 payments, 0000 unspecified)</td><td>No</td></tr>
+<tr><td>Business transaction variant</td><td>Specific version of a business transaction, assigned to document types</td><td>Yes</td></tr>
+<tr><td>Item category</td><td>Classification of posting lines (e.g. 01000 balance sheet account, 02000 customer, 02100 customer special G/L, 03000 vendor, 04000 cash account, 05100 taxes, 20000 expense, 30000 revenue); derived from account type or classified per account</td><td>Classification yes, categories no</td></tr>
+<tr><td>Document splitting rule</td><td>Per method + business transaction + variant: which item categories are to be split and on which base item categories</td><td>Yes</td></tr>
+</tbody></table>
+<p>Example: vendor invoice KR (0300/0001) with two expense lines (477000, 417000, different assignments) and 10% tax. The vendor line (03000) and tax line (05100) are "items to be split" with base item category 20000 (expense), so they are split in proportion to the expense lines and each characteristic balances to zero.</p>
+
+<h4>Simulation and expert mode</h4>
+<p>Since ERP 6.0 you can simulate both the data entry view and the <strong>general ledger view</strong> before posting (Document &rarr; Simulate General Ledger). The <strong>Expert Mode</strong> button shows the splitting method, the document type used for derivation, business transaction and variant, the item category of each line and which lines served as base for each split. Use it to diagnose errors that would otherwise terminate the posting.</p>
+
+<h4>Passive splitting (follow-up processes)</h4>
+<p>When an invoice is paid (manually or by the payment run), the payment document inherits the invoice's account assignments: the vendor clearing line, the cash discount lines and the bank line are split in the same ratio as the original invoice. The standard rule for payments of vendor invoices is delivered. In the vendor line item display the invoice and payment look as before; only the G/L view shows the split. A residual item created by a partial payment is likewise split passively in the invoice's ratio.</p>
+
+<h4>Inheritance</h4>
+<p>If all account-assigned lines of a document carry the <em>same</em> characteristic values, inheritance copies these values to the remaining lines (bank, tax, petty cash) even without a matching splitting rule, so simple documents balance per characteristic without extra Customizing.</p>
+
+<h4>Zero-balance creation and corrections</h4>
+<p>Reposting an amount from one segment to another produces clearing lines on the zero-balance clearing account. If an invoice was posted and paid with a wrong segment, correct expense and vendor items manually; note that customer/vendor lines cannot receive a profit center by manual entry (it must come from splitting), so vendor-to-vendor or customer-to-customer adjustments are not possible and a clearing account must be used instead.</p>
+
+<h4>Typical posting errors</h4>
+<ul>
+<li>No base item category defined for the Cash Account (or VAT) item category in the business transaction/variant assigned to the document type (e.g. SA with 0000/0001).</li>
+<li>Segment or profit center cannot be inherited because assignments are not unique.</li>
+</ul>
+<p>Remedy: either use a document type with a suitable business transaction (an <code>FB50</code> posting that is really a payment should use a type classified as Payments 1000) or modify/create a rule, which requires a customer-defined splitting method first.</p>
+
+<h4>Creating a customer method and rule</h4>
+<ol>
+<li>Define a new splitting method (Extended Document Splitting &rarr; Define Document Splitting Method).</li>
+<li>Copy the standard rules with their item categories into it (Define Document Splitting Rule).</li>
+<li>Assign the new method (valid for all company codes in the client).</li>
+<li>Adjust or add rules/variants as required and classify the relevant document types.</li>
+</ol>
+
+<h4>Wizards (business function FIN_GL_CI_2, EhP4)</h4>
+<ul>
+<li><strong>Configure Document Splitting</strong> (<code>FAGL_WZ_SPLIT_CONF</code>): guides through classifying G/L accounts and document types, defining characteristics for G/L and CO, zero-balance clearing account, post-capitalization of cash discount to assets, constants, activation and a Customizing check.</li>
+<li><strong>Create Document Splitting Rule</strong> (<code>FAGL_WZ_NEW_RULE</code>): create a business transaction variant, take over assigned item categories, copy an existing rule, edit the rule (items to be split / base item categories), assign a document type, optionally simulate the rule against an already posted document.</li>
+</ul>
+<p>The wizards are support tools only; you still need to understand splitting and must test every process using a document type you re-assign.</p>
+
+<h4>Course example: customer down payment split across profit centers</h4>
+<p>A customer down payment (DZ, 1000/0001) of EUR 11,000 with two down payment lines (2,200 to PC 1000 and 8,800 to PC 1402) splits the customer special G/L lines (170000, item category 02100) and tax lines 1:4, but the bank line (04000) is not split and the document cannot be posted, because in the standard rule 02100 is not a base item category for 04000. Solution: copy DZ to a new document type (e.g. AJ), create variant Z0## of business transaction 1000 by copying rule 1000/0001, add base item category 02100 for item category 04000, and assign the new document type to the new variant. The down payment then splits correctly.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Document splitting enriches every G/L-view line with the splitting characteristics so that balance sheets per segment/profit center/business area are possible; activate it only when a balance sheet is required.</li>
+<li>Three mechanisms: passive split (clearing), active rule-based split (method &rarr; business transaction &rarr; variant &rarr; rule &rarr; item categories), zero-balance clearing lines; inheritance and constants fill the gaps.</li>
+<li>Set Zero balance AND Mandatory field together for a full characteristic balance sheet; activation is client-wide with deactivation per company code; one splitting method per client, always a copy of 0000000012.</li>
+<li>Simulate the general ledger view and use Expert Mode to see document type, business transaction/variant, item categories and base lines.</li>
+<li>Customer rules need a customer method; the EhP4 wizards (FIN_GL_CI_2) help but do not replace testing.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 16: check that Segment is a splitting characteristic with Zero balance and Mandatory field; activate splitting for company code AA## (remove the Inactive flag) with method 0000000012 and inheritance; post a EUR 2,200 vendor invoice (vendor 210##, 404000, cost center T-F05A##, tax 1I) in <code>FB60</code>, simulate the G/L view and read in Expert Mode: document type KR, business transaction 0300, variant 0001, base item category 20000, payable 160000 split by the expense base lines; then post an EUR 11,000 invoice split 4,400/6,600 between cost centers T-F05A## (segment SEG##) and T-F05B## (profit center 1402, segment SEGA) and see 6 G/L-view lines instead of 4, sort/subtotal by segment, save layout L2, and confirm in <code>FBL1N</code> that the subledger still shows one open item. Exercise 17: pay the EUR 11,000 invoice manually with <code>F-53</code> (KZ, bank 113102, EUR 10,670 with EUR 330 discount) and observe passive splitting in the G/L simulation. Exercise 18: verify the assigned (customer) splitting method, create customer 210## from reference 1000, attempt the EUR 11,000 down payment (<code>F-29</code>, indicator A, bank 113109, 2,200 to PC 1000 and 8,800 to PC 1402) and analyse in Expert Mode why the bank line is not split; check rule 1000/0001 (04000 lacks base 02100); copy DZ to document type A?, run the Create Document Splitting Rule wizard (variant Z0##, copy 1000/0001, add base item category 02100 under Cash Account, assign A?), verify in Classify Document Types and Define Document Splitting Rule, and re-post the down payment with the new type.</div>
+<h2 class="unit" id="tfin52_2-u6">Unit 6: New Asset Accounting</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand what new Asset Accounting (FI-AA New, ECC EhP7 with New G/L) changes compared with classic FI-AA: equal-ranking depreciation areas assigned to ledger groups, real-time parallel documents via a technical clearing account, the Customizing adjustments it requires, how asset transactions and the Asset Explorer behave; and, finally, what a migration from classic to New General Ledger Accounting involves and how the SAP General Ledger Migration service supports it.</div>
+
+<h3 class="lesson" id="tfin52_2-u6-l1">Lesson 1: Explaining the Functionality and Architecture of New Asset Accounting</h3>
+<p class="lead">Describe the improvements new Asset Accounting brings over classic FI-AA and the new posting architecture based on an operational entry document and ledger-group-specific valuation documents.</p>
+
+<h4>Why new Asset Accounting</h4>
+<p>Classic FI-AA was built around depreciation area 01 as the fixed "leading" area and needed <em>delta depreciation areas</em> to represent a parallel valuation under the New G/L ledger approach; APC values of parallel areas were posted periodically. New Asset Accounting removes these constraints.</p>
+<table><thead><tr><th>Topic</th><th>Classic FI-AA</th><th>New FI-AA</th></tr></thead><tbody>
+<tr><td>Leading valuation</td><td>Hard-coded to area 01</td><td>Flexible; all depreciation areas have equal status</td></tr>
+<tr><td>Parallel valuation</td><td>Real area + delta area per additional accounting principle</td><td>One depreciation area per valuation posting full values; delta areas only for reporting</td></tr>
+<tr><td>Posting of parallel values</td><td>Periodic APC posting (ASKB)</td><td>Real time, one document per accounting principle/ledger group</td></tr>
+<tr><td>Documents</td><td>One FI document</td><td>Operational entry document plus LG-specific valuation documents, always separate per accounting principle</td></tr>
+<tr><td>Valuation-specific postings</td><td>Limited</td><td>New transactions to restrict a posting to a ledger group or a depreciation area</td></tr>
+<tr><td>Fiscal year variants</td><td>Same</td><td>Ledger groups may use different FYVs provided start and end dates coincide</td></tr>
+<tr><td>Integration</td><td></td><td>Smooth link to parallel valuation of cost of goods manufactured: parallel APC valuation starts when an AuC is settled/activated</td></tr>
+</tbody></table>
+<p>For each accounting principle exactly one depreciation area posts in real time (exception: investment support areas on the liabilities side, where one of them is designated as the real-time poster).</p>
+
+<h4>New posting architecture</h4>
+<ol>
+<li>The <strong>operational entry document</strong> (e.g. the vendor invoice part) posts to the <strong>technical clearing account for integrated asset acquisition</strong>, without a ledger group, so it hits all ledgers. It never updates the asset; the asset master is used only for checks (completeness, posting allowed).</li>
+<li>From it the system derives one <strong>valuation document per ledger group</strong>. Each clears the technical clearing account in its own view (so the account always has zero balance) and posts to the asset reconciliation account, updating the asset subledger with the values of that accounting principle.</li>
+</ol>
+<p>Prerequisites for activating new Asset Accounting (figure): New General Ledger Accounting active, the ledger approach or accounts approach for parallel accounting set up consistently, the required business function (FIN_AA_PARALLEL_VAL) switched on, and the Customizing adjustments of Lesson 2 completed; the switch can be set to "in preparation" before full activation.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Depreciation areas are equal; area 01 is no longer forced to be leading and delta areas are obsolete for posting.</li>
+<li>Every accounting principle is posted in real time with its own document; one real-time area per valuation.</li>
+<li>Integrated acquisitions use an operational document on the technical clearing account plus LG-specific valuation documents that update the asset.</li>
+<li>Postings can be restricted to one ledger group or depreciation area with new transactions.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercise in this lesson.</div>
+
+<h3 class="lesson" id="tfin52_2-u6-l2">Lesson 2: Configuring New Asset Accounting</h3>
+<p class="lead">Know the new FI-AA Customizing menu and the mandatory adjustments: ledger group assignment and posting indicators per depreciation area, value/parameter takeover rules, parallel currencies, quantity-update area, technical clearing account and alternative document types.</p>
+
+<h4>Required Customizing changes</h4>
+<table><thead><tr><th>Setting</th><th>Transaction / path</th><th>Rule in new FI-AA</th></tr></thead><tbody>
+<tr><td>Assign ledger group to each depreciation area</td><td><code>OADB</code> (FA (New) &rarr; Asset Accounting (New) &rarr; General Valuation &rarr; Depreciation Areas &rarr; Define Depreciation Areas)</td><td>Every area, including non-posting and statistical ones, gets an LG; ledgers may not overlap between LGs; per company code all active ledgers belong to exactly one LG; within the areas of one LG only one area manages and posts APC</td></tr>
+<tr><td>Posting indicator "Posting in G/L"</td><td><code>OADB</code></td><td>Only four values; all APC-managing areas must post in real time; periodic posting reserved for special legal cases; delta areas no longer post (reporting only)</td></tr>
+<tr><td>Value takeover</td><td><code>OABC</code></td><td>Only between areas of the same LG; the real-time area of an LG cannot take over values from another area; no more "lower area number" restriction</td></tr>
+<tr><td>Parameter takeover</td><td><code>OABD</code></td><td>Same LG rule as value takeover</td></tr>
+<tr><td>Parallel currencies</td><td>FI ledger/company code currencies vs. FI-AA areas</td><td>A depreciation area must exist for every parallel currency of the corresponding ledger; otherwise the switch stays at "In Preparation" and cannot be activated</td></tr>
+<tr><td>Depreciation area for quantity update</td><td>Chart of depreciation level</td><td>Choose which area triggers the quantity update in the asset master</td></tr>
+<tr><td>Technical clearing account for integrated asset acquisition</td><td>Account determination</td><td>See requirements below; may be defined per account determination</td></tr>
+<tr><td>Alternative document type for LG-specific documents</td><td>Document type Customizing in FI-AA (New)</td><td>Operational part posted with entered type (no LG); valuation documents can use another type, e.g. AA</td></tr>
+<tr><td>Revenue distribution on retirement</td><td>Company code setting</td><td>Choose distribution by APC or by net book value</td></tr>
+<tr><td>Transaction types</td><td></td><td>No longer restrict transaction types to depreciation areas (only via BAdI)</td></tr>
+</tbody></table>
+
+<h4>Technical clearing account requirements</h4>
+<ul>
+<li>Balance sheet account, defined as reconciliation account for account type A (assets).</li>
+<li>Line item display inactive.</li>
+<li>Not used in any other FI-AA account determination.</li>
+<li>"Posting without tax allowed" flag set.</li>
+</ul>
+<p>It is posted by asset acquisitions and investment support measures. Separate technical clearing accounts per account determination are possible, e.g. when different field status behaviour is needed per asset balance sheet account.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Core change: every depreciation area is assigned to a ledger group (<code>OADB</code>); one APC-posting real-time area per LG.</li>
+<li>Value and parameter takeover (<code>OABC</code>/<code>OABD</code>) are allowed only inside one LG and never into the real-time area.</li>
+<li>Parallel currencies in FI and FI-AA must match before activation.</li>
+<li>The technical clearing account is an A-type reconciliation account without line items and without other uses; LG-specific documents may get an alternative document type.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercise in this lesson; the assessment asks at which level new FI-AA is activated (client), which configuration options exist (quantity-update area, alternative document types, APC/NBV revenue distribution, but not restricting transaction types to areas) and that all 15 of 15 depreciation areas must be assigned to a ledger group.</div>
+
+<h3 class="lesson" id="tfin52_2-u6-l3">Lesson 3: Using New Asset Accounting</h3>
+<p class="lead">Post and analyse asset transactions in the new architecture: integrated acquisition with activation differences, deactivated depreciation areas, ledger-group-specific retirements, the depreciation run and the Asset Explorer.</p>
+
+<h4>Documents created by an integrated acquisition</h4>
+<ul>
+<li><strong>Operational entry document</strong>: vendor against technical clearing account, posted with the entered document type, no ledger group; asset data used only for checks.</li>
+<li><strong>Valuation document parts</strong>, one per accounting principle / ledger group (possibly with a different document type such as AA): technical clearing account against asset reconciliation account; the asset subledger is updated.</li>
+<li>In document display switch valuations with the <em>Ledger Groups</em> button and currency types with the <em>Display Currency</em> button.</li>
+</ul>
+<p><strong>Activation differences</strong>: if an amount is capitalised under one accounting principle but not under another (e.g. EUR 200 not capitalised under local GAAP), the system creates the operational document, two LG-specific documents and a third document that posts the non-capitalised EUR 200 to expense for the local GAAP ledger.</p>
+<p>Further rules: the technical clearing account always balances to zero; accounting-principle-specific documents are always created; a different asset reconciliation account per accounting principle is possible; the technical clearing account is posted even if an accounting principle is not represented on the asset; if <em>no</em> accounting principle is represented by an area posting APC online, an error is raised (changeable to a warning, in which case only statistical areas are updated).</p>
+
+<h4>Deactivated depreciation areas</h4>
+<p>Only the relevant accounting principles are represented on an asset or asset class through their depreciation areas, and FI-AA postings affect only those. P&amp;L postings for the other accounting principles are handled manually. If an accounting principle is not represented by an online APC-posting area, the posting is redirected to the "account for non-operating expense" (T095-KTNAIB).</p>
+
+<h4>New document display</h4>
+<p>All documents produced by one business transaction and valid for one valuation are shown together. Example cross-company acquisition: operational AP document in company code FIAA (no LG), the equivalent document in company code FIA1 (no LG), and the LG-specific valuation document for the asset in FIA1; select "0L + Initial" to see the leading valuation.</p>
+
+<h4>Transactions used</h4>
+<table><thead><tr><th>Task</th><th>Menu / T-code</th><th>Notes</th></tr></thead><tbody>
+<tr><td>Create asset</td><td>Fixed Assets &rarr; Asset &rarr; Create &rarr; Asset (<code>AS01</code>)</td><td>Asset class 3000, company code 1000, cost center, useful life per area</td></tr>
+<tr><td>Integrated acquisition with vendor</td><td>Posting &rarr; Acquisition &rarr; External Acquisition &rarr; With Vendors (<code>F-90</code>)</td><td>PK 31 vendor, PK 70 asset with transaction type 100; simulate &rarr; Asset Accounting button &rarr; scroll ledger groups (Initial+L5, Initial+L6)</td></tr>
+<tr><td>Partial scrapping for one ledger group</td><td>Posting &rarr; Retirement &rarr; Asset Retirement by Scrapping (<code>ABAVN</code>)</td><td>Enter Ledger Group 0L on transaction data; partial retirement amount, reference "from current-year acquisitions"</td></tr>
+<tr><td>Depreciation run</td><td>Periodic Processing &rarr; Depreciation Run &rarr; Execute (<code>AFAB</code>)</td><td>Test mode, unplanned posting run, period 12</td></tr>
+<tr><td>Asset Explorer</td><td>Asset &rarr; Asset Explorer (<code>AW01N</code>)</td><td>Folders per ledger group with their depreciation areas; planned values and posted documents per area</td></tr>
+</tbody></table>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>An integrated acquisition yields one operational document and one valuation document per accounting principle; activation differences generate an extra expense document for the affected ledger.</li>
+<li>The technical clearing account nets to zero in every ledger group.</li>
+<li>Retirements and other postings can be restricted to a ledger group; the Asset Explorer then shows them only under that LG's depreciation areas.</li>
+<li>Depreciation run and Asset Explorer keep their classic functionality but are organised by ledger group.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 19: create asset Asset## in class 3000, company code 1000, cost center 1000, useful life 15 in areas 60, 61 and 63. Exercise 20: enter a EUR 10,000 vendor invoice (vendor 1000, PK 31, tax V0) with PK 70 / transaction type 100 to the asset via <code>F-90</code>, simulate in the Asset Accounting view, browse the ledger-group views and post. Exercise 21: post a EUR 1,000 partial scrapping (<code>ABAVN</code>) restricted to ledger group 0L from current-year acquisitions. Exercise 22: run an unplanned depreciation posting run in test mode for company code 1000, period 12 (<code>AFAB</code>). Exercise 23: open the asset in <code>AW01N</code>, compare area 63 (tax balance sheet) and area 01 (book depreciation) and note that the scrapping appears only in the 0L areas.</div>
+
+<h3 class="lesson" id="tfin52_2-u6-l4">Lesson 4: Migrating from Classic General Ledger Accounting to New General Ledger Accounting</h3>
+<p class="lead">Distinguish legacy data transfer from migration, know the questions and sequencing of a New G/L migration project, the phase model with its dates, and the components of the mandatory SAP General Ledger Migration service.</p>
+
+<h4>Legacy data transfer vs. migration</h4>
+<p>A new implementation with subsequent legacy data transfer and a migration from classic to New G/L are both separate projects with full project phases. Neither is a simple table swap: both have technical and process-related dimensions. SAP Note 756146 describes the default configuration and activation of New G/L (new installations have New G/L active by default).</p>
+
+<h4>Setting up a migration project</h4>
+<ul>
+<li>Which SAP components are in use (FI-SL, PCA, cost-of-sales ledger, business area balance sheets)?</li>
+<li>Is parallel accounting (several accounting principles) required?</li>
+<li>Target configuration: which FI characteristics (segment, profit center, ...) should New G/L carry; period accounting or cost-of-sales accounting for the P&amp;L?</li>
+</ul>
+<p>Sequence for existing customers: first the technical upgrade to SAP ERP as its own project; then the New G/L implementation project, of which data migration is one part. Do not combine the migration with a chart-of-accounts conversion or other complex changes. New G/L is activated at <strong>client level</strong>, so all company codes of the client migrate together.</p>
+
+<h4>Phase model</h4>
+<table><thead><tr><th>Phase</th><th>Content</th></tr></thead><tbody>
+<tr><td>Phase 0</td><td>Old fiscal year before the migration date; only balances/open items are carried over, not every document (open items may need BAdI post-processing for document splitting in scenarios 3 and 5)</td></tr>
+<tr><td>Phase 1</td><td>From migration date (start of new fiscal year) until activation: postings continue in classic G/L; documents are checked by the <strong>document splitting validation</strong> so they can later be transferred to New G/L</td></tr>
+<tr><td>Phase 2</td><td>After activation of New G/L: documents of phase 1 are reposted into New G/L with splitting; productive operation in New G/L</td></tr>
+</tbody></table>
+<p>Date example (fiscal year = calendar year, today 23 March 20XX): recommended migration date 1 January 20XX+1, earliest possible 1 January 20XX, sample activation 1 May 20XX+1, document splitting validation active as soon as possible and no later than 1 January 20XX+1. If today is 23 October 20XX the realistic migration date may slip to 1 January 20XX+2 depending on scenario and readiness; 1 January 20XX is only theoretical.</p>
+
+<h4>SAP General Ledger Migration service</h4>
+<p>The service is obligatory and supports (but does not run) the customer's project; consulting is not included. Components:</p>
+<table><thead><tr><th>Component</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>SAP General Ledger Migration service</td><td>The overall SAP service for migrating data from classic to New G/L</td></tr>
+<tr><td>Scenario validation / system analysis session (SV)</td><td>Checks that the ordered migration package fits the customer's business scenario, using data extracted from the customer system</td></tr>
+<tr><td>Migration Cockpit</td><td>Customer UI: <strong>Migration Monitor</strong> (status and results) and <strong>Process Tree</strong> (Customizing-like list of all steps, assembled per scenario/package)</td></tr>
+<tr><td>Test validation session (TV)</td><td>Technical plausibility checks of the migrated data</td></tr>
+</tbody></table>
+<p>Migration scenarios 1&ndash;5 (from classic G/L) are taught in course AC212; scenarios 6, 7 and 8 cover subsequent implementation of additional New G/L functions (e.g. a non-leading ledger, SAP Note 1378630; changing the leading accounting principle, SAP Note 1330451) and also require the service plus enhancement packages/business functions. The migration web page (service.sap.com/glmig) collects the information needed before starting.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Migration to New G/L is a project in its own right, after the technical upgrade and without other structural changes in parallel; activation is client-wide.</li>
+<li>Phase model: phase 0 balances only, phase 1 classic postings validated for splitting, phase 2 New G/L live; migration date = start of a fiscal year.</li>
+<li>The SAP General Ledger Migration service (SV session, Migration Cockpit with Monitor and Process Tree, TV session) is mandatory and secures data consistency.</li>
+<li>Scenarios 1&ndash;5: classic to New G/L; scenarios 6&ndash;8: adding functions to an active New G/L.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercise in this lesson; the assessment checks that not every phase-0 document is transferred, that the Process Tree (not the Migration Monitor) mirrors Customizing, that the service reduces project risk, and the migration web page address.</div>
+
+  </div>
+</div>
+<script>document.querySelectorAll('#sidebar nav a').forEach(a=>a.addEventListener('click',()=>document.getElementById('sidebar').classList.remove('open')));</script>
+</body></html>

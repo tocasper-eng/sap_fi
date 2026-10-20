@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S4F15 – Financial Closing (S/4HANA)</title><style>
+:root{--sap-orange:#F0AB00;--sap-blue:#0070F2;--sap-dark:#1A2132;--sap-mid:#354A5E;--sap-light:#F5F6F7;--sap-border:#DEDEDE;--sap-text:#32363A;--sap-sub:#556B82;--card:#fff;--sidebar-w:300px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--sap-light:#11181F;--sap-border:#354A5E;--sap-text:#E5E7EA;--sap-sub:#A0B3C8;--card:#1A2132}}
+:root[data-theme="dark"]{--sap-light:#11181F;--sap-border:#354A5E;--sap-text:#E5E7EA;--sap-sub:#A0B3C8;--card:#1A2132}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"72",Arial,sans-serif;background:var(--sap-light);color:var(--sap-text);display:flex;min-height:100vh}
+#sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--sap-dark);color:#fff;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+#sidebar .logo{background:var(--sap-orange);padding:14px 18px;display:flex;gap:10px;align-items:center}
+#sidebar .logo .badge{background:#fff;color:var(--sap-orange);font-weight:900;padding:2px 8px;border-radius:3px}
+#sidebar .logo h1{font-size:13px;color:var(--sap-dark);line-height:1.3}
+#sidebar nav{padding:10px 0;flex:1}
+#sidebar nav a{display:block;padding:7px 18px;color:rgba(255,255,255,.82);text-decoration:none;font-size:12.5px;border-left:3px solid transparent}
+#sidebar nav a:hover{background:rgba(255,255,255,.08);color:#fff}
+#sidebar nav a.unit{font-weight:700;color:var(--sap-orange);margin-top:8px;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+#sidebar nav a.lesson{padding-left:30px}
+#sidebar .back{padding:12px 18px;font-size:12px;border-top:1px solid rgba(255,255,255,.1)}
+#sidebar .back a{color:var(--sap-orange)}
+#main{flex:1;min-width:0}
+#topbar{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--sap-border);padding:12px 28px;display:flex;align-items:center;gap:12px}
+#topbar h2{font-size:15px;font-weight:600;flex:1}
+#menu-toggle{display:none;background:none;border:0;cursor:pointer;width:28px}
+#menu-toggle span{display:block;height:3px;background:var(--sap-text);margin:5px 0;border-radius:2px}
+.badge-new{background:#E8FBEF;color:#1B8C3A;font-size:11px;padding:3px 8px;border-radius:10px;font-weight:700}
+.badge-ecc{background:#FFF8E1;color:#A05A00;font-size:11px;padding:3px 8px;border-radius:10px;font-weight:700}
+#content{padding:28px 36px;max-width:1100px}
+h2.unit{font-size:22px;color:var(--sap-dark);margin:40px 0 6px;padding-top:12px;border-top:3px solid var(--sap-orange)}
+:root[data-theme="dark"] h2.unit,:root:not([data-theme="light"]) h2.unit{color:var(--sap-text)}
+h2.unit:first-of-type{margin-top:0;border-top:0;padding-top:0}
+h3.lesson{font-size:17px;margin:28px 0 10px;color:var(--sap-blue)}
+h4{font-size:14px;margin:16px 0 6px}
+p,li{font-size:13.5px;line-height:1.65}
+ul,ol{margin:6px 0 12px 22px}
+p{margin:6px 0}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13px;background:var(--card)}
+th,td{border:1px solid var(--sap-border);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--sap-dark);color:#fff;font-weight:600}
+.box{padding:12px 16px;border-radius:6px;margin:14px 0;font-size:13px;line-height:1.6;background:var(--card);border-left:4px solid var(--sap-orange)}
+.box.key{border-left-color:var(--sap-blue)}
+.box strong{display:block;margin-bottom:4px}
+.lead{font-size:14px;color:var(--sap-sub);margin-bottom:18px}
+.unit-objectives{background:var(--card);border:1px solid var(--sap-border);border-radius:6px;padding:12px 16px;margin:10px 0 16px}
+code{background:rgba(0,0,0,.06);padding:1px 5px;border-radius:3px;font-size:12.5px}
+@media (max-width:900px){#sidebar{position:fixed;left:calc(-1*var(--sidebar-w));transition:left .2s;z-index:10}#sidebar.open{left:0}#menu-toggle{display:block}#content{padding:18px 16px}}
+</style></head>
+<body>
+<aside id="sidebar">
+  <div class="logo"><div class="badge">SAP</div><h1>S4F15 – Financial Closing (S/4HANA)</h1></div>
+  <nav><a class="unit" href="#s4f15-u1">Unit 1: Financial Closing Overview</a><a class="lesson" href="#s4f15-u1-l1">Lesson 1: Explaining the Periodic Closing Process</a><a class="unit" href="#s4f15-u2">Unit 2: Financial Statements</a><a class="lesson" href="#s4f15-u2-l1">Lesson 1: Managing Financial Statements</a><a class="lesson" href="#s4f15-u2-l2">Lesson 2: Using SAP S/4HANA Reporting Options</a><a class="unit" href="#s4f15-u3">Unit 3: Fixed and Current Assets</a><a class="lesson" href="#s4f15-u3-l1">Lesson 1: Executing Closing Activities Within Asset Accounting</a><a class="lesson" href="#s4f15-u3-l2">Lesson 2: Managing Closing Activities in Materials Management</a><a class="unit" href="#s4f15-u4">Unit 4: Receivables and Payables</a><a class="lesson" href="#s4f15-u4-l1">Lesson 1: Creating Balance Confirmations</a><a class="lesson" href="#s4f15-u4-l2">Lesson 2: Managing the Foreign Currency Valuation</a><a class="lesson" href="#s4f15-u4-l3">Lesson 3: Managing Value Adjustments</a><a class="lesson" href="#s4f15-u4-l4">Lesson 4: Regrouping Receivables and Payables</a><a class="unit" href="#s4f15-u5">Unit 5: Profit and Loss</a><a class="lesson" href="#s4f15-u5-l1">Lesson 1: Explaining Cost of Sales Accounting</a><a class="lesson" href="#s4f15-u5-l2">Lesson 2: Posting Accruals and Deferrals</a><a class="lesson" href="#s4f15-u5-l3">Lesson 3: Accruals Management – Manual Accruals</a><a class="lesson" href="#s4f15-u5-l4">Lesson 4: Accruals Management – Purchase Order Accruals</a><a class="unit" href="#s4f15-u6">Unit 6: Ledger Group-Specific Postings</a><a class="lesson" href="#s4f15-u6-l1">Lesson 1: Posting Ledger Group-Specific FI Documents</a><a class="unit" href="#s4f15-u7">Unit 7: Technical, Organizational, and Documentary Closing Activities</a><a class="lesson" href="#s4f15-u7-l1">Lesson 1: Managing Technical Steps During Period-End Closing</a><a class="lesson" href="#s4f15-u7-l2">Lesson 2: Executing the Balance Audit Trail</a><a class="lesson" href="#s4f15-u7-l3">Lesson 3: Explaining the Purpose of Document Splitting in G/L Accounting</a><a class="unit" href="#s4f15-u8">Unit 8: Financial Closing Cockpit</a><a class="lesson" href="#s4f15-u8-l1">Lesson 1: Managing the Financial Closing Cockpit</a><a class="unit" href="#s4f15-u9">Unit 9: Intercompany Reconciliation</a><a class="lesson" href="#s4f15-u9-l1">Lesson 1: Intercompany Matching and Reconciliation (Overview)</a></nav>
+  <div class="back"><a href="../index.html">&larr; Back to SAP FI Reference</a></div>
+</aside>
+<div id="main">
+  <div id="topbar"><button id="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')"><span></span><span></span><span></span></button><h2>S4F15 – Financial Closing (S/4HANA)</h2><span class="badge-new">S/4HANA</span></div>
+  <div id="content">
+  <p class="lead">Unit-by-unit study notes written from the course material. Every lesson of the course is covered in the same order as the original.</p>
+<h2 class="unit" id="s4f15-u1">Unit 1: Financial Closing Overview</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand the overall shape of the periodic (month-end) and year-end closing process in SAP S/4HANA, and in which order the technical, operational, managerial and external-reporting activities have to run.</div>
+
+<h3 class="lesson" id="s4f15-u1-l1">Lesson 1: Explaining the Periodic Closing Process</h3>
+<p class="lead">Learn how the closing process is staged over time (pre-closing on the last days of the old month, then managerial close, then closing for external reporting) and which application component is responsible for each step.</p>
+
+<h4>Business context</h4>
+<p>The scenario is that of a project team member who has to define <em>which</em> closing activities are performed in the SAP system and <em>when</em>. The course starts with the SAP S/4HANA Finance learning journey (the visual roadmap of courses for Financial Accounting) and then presents the closing process as a sequence of phases. The key idea is that closing is not one program but a choreography of many steps in different components (FI, MM, HR, SD, CO, AA), and the order matters because later steps depend on the values produced by earlier ones.</p>
+
+<h4>Month-end (periodic) closing: three phases</h4>
+<p><strong>Phase 1 – Pre-closing activities (last day of the old month).</strong> These prepare the ledgers so that period-end valuations can run on complete data.</p>
+<table><thead><tr><th>Component</th><th>Pre-closing activity</th></tr></thead><tbody>
+<tr><td>Technical</td><td>Open the new posting period in FI; close the old period in MM; close the FI subledgers; preliminary close of the G/L.</td></tr>
+<tr><td>FI</td><td>Purchase-order accruals, manual accruals/deferrals, recurring entries, bad-debt expense in AR.</td></tr>
+<tr><td>MM</td><td>Maintain the GR/IR clearing account; post material revaluations.</td></tr>
+<tr><td>HR</td><td>Post payroll results to FI.</td></tr>
+<tr><td>SD</td><td>Post goods issues for customer deliveries so cost of sales and stock are complete.</td></tr>
+</tbody></table>
+<p><strong>Phase 2 – Managerial closing.</strong> Controlling runs its period-end allocations and repostings (assessments, distributions, settlements). Afterwards the old accounting period is locked, and the G/L is re-opened only for the adjustment postings that the external close still needs.</p>
+<p><strong>Phase 3 – Closing for external reporting.</strong></p>
+<ul>
+<li>FI: valuation of open items in foreign currency (and the other balance-sheet valuations).</li>
+<li>Technical: final closing of the previous period.</li>
+<li>FI/CO: produce the document-based reports – tax reports, asset history sheet for external purposes, management reports for internal use.</li>
+</ul>
+
+<h4>Year-end closing</h4>
+<p>In the last period of the fiscal year the normal month-end steps are supplemented by annual activities. Again the material distinguishes pre-closing steps from external-reporting steps.</p>
+<table><thead><tr><th>Component</th><th>Year-end pre-closing activity</th></tr></thead><tbody>
+<tr><td>Technical</td><td>Open the first period of the new fiscal year in FI; run the central balance carryforward in FI (this also moves the FI-AA subledger into the new year).</td></tr>
+<tr><td>MM</td><td>Physical inventory count (may also be done monthly).</td></tr>
+<tr><td>PP / CO</td><td>Update product cost estimates (often done more frequently).</td></tr>
+<tr><td>MM</td><td>Lowest-value determination and LIFO/FIFO valuation of stocks.</td></tr>
+<tr><td>AA</td><td>Asset valuations and investment support.</td></tr>
+<tr><td>FI</td><td>Balance confirmations with customers and vendors.</td></tr>
+</tbody></table>
+<p>Year-end activities for external reporting: GR/IR clearing account analysis, regrouping (reclassification) of receivables and payables, reconciliation of the prior year with the new year and other adjustment postings; the technical final close of the old period for AR, AP and G/L; and the creation of the external and internal reports.</p>
+
+<h4>Golden rule: subledgers before the general ledger</h4>
+<p>Every subledger (AR, AP, and especially Asset Accounting) has to be closed for a fiscal year before the general ledger is closed. Ignoring this produces inconsistencies between subledger and G/L balances; SAP Note 619969 documents the issue for FI-AA. This rule explains why the technical steps in the tables above are always listed first.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Closing is a sequence: pre-closing (complete the operational postings) → managerial close (CO allocations, lock the period) → external close (valuations, final period close, reports).</li>
+<li>Pre-closing is spread across FI, MM, HR and SD; the managerial close belongs to CO; valuations and reports belong to FI/CO.</li>
+<li>Year-end adds balance carryforward, physical inventory, stock valuation (lowest value, LIFO/FIFO), asset valuation, balance confirmations and regrouping.</li>
+<li>Technical closing activities include opening/closing periods and locking the old period.</li>
+<li>Always close the subledgers before the G/L; FI-AA is the most sensitive case.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> This unit has no hands-on exercise, only a short self-assessment: recognise which month-end activities serve external purposes (foreign currency valuation, reports, closing the old period – not goods issues) and confirm that locking the old period is a technical closing activity.</div>
+<h2 class="unit" id="s4f15-u2">Unit 2: Financial Statements</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Be able to run the financial statement report, build and maintain financial statement versions (classic and via Manage Global Hierarchies), and know the SAP S/4HANA reporting tools – embedded analytics, the multidimensional balance sheet app and SAP Analytics Cloud – that consume them.</div>
+
+<h3 class="lesson" id="s4f15-u2-l1">Lesson 1: Managing Financial Statements</h3>
+<p class="lead">Understand the financial statement version (FSV) as the structure that turns G/L account balances into a balance sheet and P&amp;L, and learn how to create and maintain FSVs both in the Fiori app Manage Global Hierarchies and with the classic transactions.</p>
+
+<h4>What a financial statement version is</h4>
+<p>An FSV is a hierarchical reporting structure that tells the financial statement program which accounts belong to which balance-sheet or P&amp;L item, in what order, with which texts and with which totals. Because the format of statements differs by audience, you can define as many versions as you like (tax authorities, internal management, external investors, different GAAPs). The same version can be used for the structured balance list, for planning and for drill-down reporting, and when you run it you can add parameters to report at company code, business area, segment or profit center level.</p>
+<p>An FSV controls:</p>
+<ul>
+<li>the items to include and their sequence and hierarchy;</li>
+<li>the descriptive text for each item;</li>
+<li>which chart(s) of accounts and which individual accounts feed each item;</li>
+<li>which totals/subtotals are displayed.</li>
+</ul>
+
+<h4>Two maintenance tools</h4>
+<table><thead><tr><th>Tool</th><th>Nature</th><th>Where it is used</th></tr></thead><tbody>
+<tr><td>Maintain Financial Statement Versions (Fiori) = <code>OB58</code> / <code>FSE2</code></td><td>"Classic" FSV stored in table T011</td><td>Classic ABAP reports such as RFBILA00 (the classic Financial Statements report)</td></tr>
+<tr><td>Manage Global Hierarchies (Fiori, since S/4HANA 1809)</td><td>Hierarchy of type "Financial Statement Version", stored in the HRRP* runtime tables</td><td>SAP Fiori analytical reporting (e.g. Balance Sheet / Income Statement apps)</td></tr>
+</tbody></table>
+<p>Manage Global Hierarchies is the single entry point for many hierarchy types: cost centers, profit centers, functional areas, G/L account hierarchies (FSVs) and hierarchies for Group Reporting. It is meant for <em>reporting</em> hierarchies only – not for planning – and there is no synchronisation between a hierarchy built here and the "native" hierarchy of the respective application (e.g. a standard cost center hierarchy). The app is delivered to several business roles: General Ledger Accountant (SAP_BR_GL_ACCOUNTANT), Overhead Cost Accountant, G/L Accountant – Intercompany (SAP_BR_RECON_ACCOUNTANT), Group Accountant and Cash Management Specialist; the hierarchy types each role sees are governed by its business catalogs.</p>
+<p>Features of the Global Hierarchies app worth remembering:</p>
+<ul>
+<li>Create, edit, copy, import, activate and deactivate hierarchies, with status control (draft vs. active).</li>
+<li>Time frames: a hierarchy ID can have several validity periods; time dependency is kept on the top node only, and the report's key date selects the frame.</li>
+<li>Drag-and-drop editing, spreadsheet export/import, node texts in several languages, change logs.</li>
+<li>Semantic tags on nodes and accounts (used by KPI content), aging attributes on nodes for reporting-based reclassification, and custom extensibility (custom hierarchies, fields, logic).</li>
+</ul>
+
+<h4>Creating an FSV in Manage Global Hierarchies</h4>
+<ol>
+<li>Choose "+" (create), pick hierarchy type <em>Financial Statement Version</em>, enter ID (four characters), description, chart of accounts and validity, and create.</li>
+<li>Alternatively select an existing FSV, choose Copy → New Hierarchy, and give it a new four-digit ID – useful for reorganisations or new reporting needs.</li>
+<li>Build the hierarchy levels: assign items (nodes) to each level – the program totals each node – and at the lowest level assign the G/L accounts (or functional areas) whose names and balances are listed. The "+" next to a node adds a subnode or an account; the "…" menu offers Fast Entry to add many subnodes/accounts at once.</li>
+<li>Activate the hierarchy. On activation the system checks that the validity does not overlap with another time frame of the same hierarchy.</li>
+</ol>
+
+<h4>Special items every FSV must contain</h4>
+<table><thead><tr><th>Special item</th><th>Role</th><th>Editable?</th></tr></thead><tbody>
+<tr><td>Assets</td><td>Top node of the asset side</td><td>Yes</td></tr>
+<tr><td>Liabilities and Equity</td><td>Top node of the liabilities side</td><td>Yes</td></tr>
+<tr><td>Net result: Profit</td><td>Where a calculated net profit is shown</td><td>Fixed</td></tr>
+<tr><td>Net result: Loss</td><td>Where a calculated net loss is shown</td><td>Fixed</td></tr>
+<tr><td>Profit and loss result</td><td>Balance of all accounts not under Assets/Liabilities/Notes/Not assigned</td><td>Fixed</td></tr>
+<tr><td>Not assigned</td><td>Accounts not mapped to any item are listed here by the report</td><td>Fixed</td></tr>
+<tr><td>Financial Statement Notes</td><td>Accounts that are disclosed only in the notes</td><td>Yes</td></tr>
+</tbody></table>
+<p>The report computes net profit/loss only from the accounts assigned under Assets and Liabilities &amp; Equity. Accounts under Notes or Not assigned are excluded from the net result and also from the P&amp;L result, which is formed from the remaining accounts. Moving an account into the Notes item is therefore the way to keep it out of the P&amp;L result.</p>
+
+<h4>Accounts with fluctuating balances (debit/credit indicators)</h4>
+<p>For each account (or group of accounts) under an item you set whether its balance is to be shown when it is a debit balance, a credit balance, or both. A bank account that may be in credit or overdraft is typically assigned to two items: under an asset item with the <em>debit</em> indicator only, and under a liability item with the <em>credit</em> indicator only (the two nodes are "contra items" containing the same accounts). An account that always appears in the same place gets both indicators. The decision is made on the joint balance of all accounts listed under the item.</p>
+
+<h4>Time frames</h4>
+<p>You can copy an FSV to a new time frame (same ID and description, new validity) to reflect organisational changes. The course example: an Office Supplies account sits under the "Supplies" node in January 2018 and under the "Admin" node from February 2018 onwards; the key date chosen at report time determines which structure is used.</p>
+
+<h4>Classic FSVs and Fiori reporting</h4>
+<p>Classic FSVs (<code>OB58</code>/<code>FSE2</code>, table T011) are still maintained in S/4HANA but cannot be consumed directly by Fiori analytics. Two bridges exist:</p>
+<ol>
+<li><strong>Import</strong> the classic FSV into Manage Global Hierarchies (Import Hierarchy function) and continue maintaining it there with all the app's features.</li>
+<li><strong>Replicate</strong> the classic FSV into the HRRP* tables as a runtime hierarchy that Fiori reports can select. Replication can be triggered in the back end with <code>HRRP_REP</code> (report FINS_REPLICATION_HIER_N, schedulable) or by saving in <code>OB58</code>/<code>FSE2</code> with the option "Activate after modifying"; in Fiori with the app Replicate Runtime Hierarchy (F1478) or the Manage/Change Financial Statement Versions apps with the same activation option.</li>
+</ol>
+<p>The reverse direction does not exist: a hierarchy created in Manage Global Hierarchies cannot be pushed back into T011, so classic reports like RFBILA00 cannot use it (see SAP Notes 3064994 and 3064950).</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>An FSV defines items, hierarchy, texts, account assignment and totals; many versions can coexist for different audiences.</li>
+<li>Seven special items are mandatory; only Assets, Liabilities &amp; Equity and Notes can be edited; net result is derived from Assets/Liabilities accounts only.</li>
+<li>Debit/credit indicators let a fluctuating account (bank) appear on the asset or liability side depending on its balance; contra items share the same accounts.</li>
+<li>Manage Global Hierarchies (1809+) is the Fiori tool for FSVs with time frames, status, import/export and semantic tags; it serves reporting only.</li>
+<li>Classic FSVs must be imported or replicated (<code>HRRP_REP</code>, F1478, "Activate after modifying") before Fiori reports can use them; the reverse is not possible.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Locate the FSV configuration, display and change an existing version and create a new one: use Manage Global Hierarchies (type Financial Statement Version) or <code>OB58</code>/<code>FSE2</code>, add nodes and G/L accounts with Fast Entry, set debit/credit indicators for a bank account, activate the hierarchy and run the financial statement report for your company code.</div>
+
+<h3 class="lesson" id="s4f15-u2-l2">Lesson 2: Using SAP S/4HANA Reporting Options</h3>
+<p class="lead">Get an overview of the analytics architecture of SAP S/4HANA (embedded analytics on CDS views), the Fiori app Balance Sheet / Income Statement – Multidimensional, and SAP Analytics Cloud as the cloud BI, planning and predictive tool.</p>
+
+<h4>Embedded analytics and user roles</h4>
+<p>SAP S/4HANA Embedded Analytics merges transactional processing and analytics so that operational reports run on live transactional data without a separate data warehouse. The analytics roadmap distinguishes three user groups:</p>
+<table><thead><tr><th>User</th><th>Typical work</th></tr></thead><tbody>
+<tr><td>IT user</td><td>Develops CDS views, new apps and planning functions.</td></tr>
+<tr><td>Analytics key user</td><td>Builds and maintains queries, predefined reports, KPIs, dashboards and tiles; makes them findable for end users.</td></tr>
+<tr><td>Analytics end user</td><td>Consumes the data with the analytical UIs, analyses and acts.</td></tr>
+</tbody></table>
+<p>Technically the content is a Virtual Data Model (VDM) of Core Data Services (CDS) views on top of the S/4HANA transactional and master data tables. CDS views are created and extended in the ABAP layer, and the system generates SQL runtime views in SAP HANA so that reading and transforming data is pushed down into the database.</p>
+
+<h4>Balance Sheet / Income Statement – Multidimensional</h4>
+<p>This Fiori app produces balance sheets and P&amp;L statements using an FSV from Manage Global Hierarchies, for the operational, local or global chart of accounts. From a statement line you can drill to the G/L account line items and even to customer or supplier line items, and the result can be exported to Excel or PDF.</p>
+
+<h4>SAP Analytics Cloud (SAC)</h4>
+<p>SAC is SAP's self-service analytics solution on the SAP HANA Cloud Platform / Business Technology Platform. It bundles business intelligence, planning and predictive analytics in one product, and can be used independently of other SAP applications. Points the lesson stresses:</p>
+<ul>
+<li>Planning: financial and operating plans can be built and linked on one platform.</li>
+<li>Predictive: machine learning surfaces new insights during analysis and allows modelling complex future scenarios.</li>
+<li>Deployment: SAC is delivered as SaaS, hosted and updated by SAP. With an on-premise SAP HANA system the user calls SAC in the browser and data is accessed through a reverse proxy (live connectivity) – the data stays inside the company. For non-HANA sources data is replicated to the cloud and leaves the corporate network.</li>
+<li>Business content: SAP delivers financial reporting content (stories and a Digital Boardroom) built on live connectivity to S/4HANA. The CDS view that exposes the financial KPIs identifies them with semantic tags (which is why FSV nodes carry semantic tags). The Digital Boardroom shows the real-time financial situation for current and previous year with KPIs grouped under Growth, Profitability and Liquidity, and can be plugged in out-of-the-box.</li>
+</ul>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Embedded analytics = real-time operational reporting on CDS views (VDM) executed in SAP HANA; three personas: IT user, key user, end user.</li>
+<li>The multidimensional Balance Sheet / Income Statement app reports on any chart of accounts, drills to line items and exports to Excel/PDF.</li>
+<li>SAC combines BI, planning and predictive analytics as SaaS; live connectivity keeps on-premise HANA data in-house, other sources are replicated.</li>
+<li>Delivered SAC finance content uses semantic tags from the FSV to compute KPIs (Growth, Profitability, Liquidity).</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Run the Balance Sheet / Income Statement – Multidimensional app for the demo company code with the FSV created in Lesson 1, change the chart-of-accounts view, drill down from a statement item to G/L line items and export the result. The unit's self-assessment also checks the FSV special items, the organisational levels available for statements (business area, company code, segment) and the three analytics user roles.</div>
+<h2 class="unit" id="s4f15-u3">Unit 3: Fixed and Current Assets</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Carry out the closing steps for fixed assets (depreciation run, fiscal year change via balance carryforward, year-end closing, asset history sheet) and for current assets in Materials Management (physical inventory, GR/IR clearing account analysis, balance-sheet valuation of raw materials, WIP and finished goods).</div>
+
+<h3 class="lesson" id="s4f15-u3-l1">Lesson 1: Executing Closing Activities Within Asset Accounting</h3>
+<p class="lead">Learn the sequence of period-end and year-end activities in FI-AA and how each of them affects General Ledger Accounting.</p>
+
+<h4>Overview of asset closing</h4>
+<p>Asset Accounting records assets by quantity and value and posts every change automatically; at closing, some of these values have to be completed or adjusted for legal reporting. Year-end closing in FI-AA has two kinds of drivers: <em>legal requirements</em> (what tax authorities and GAAP demand) and <em>technical/organisational requirements</em> (what the system and the accounting organisation need to move into a new year cleanly).</p>
+<p>The year-end sequence is:</p>
+<ol>
+<li>Fiscal year change in FI-AA – performed by the central Balance Carryforward program of FI-GL (there is no separate asset transaction any more).</li>
+<li>Physical inventory of assets, posting of the adjustments found, and the depreciation posting run which posts depreciation to the G/L.</li>
+<li>Creation of the asset history sheet.</li>
+</ol>
+<p>Country-specific procedures may add further steps.</p>
+
+<h4>Depreciation posting run</h4>
+<p>The run is started from the Fiori app <em>Schedule Asset Accounting Jobs</em>. It posts the following value types:</p>
+<table><thead><tr><th>Value type posted</th><th>Comment</th></tr></thead><tbody>
+<tr><td>Ordinary depreciation</td><td>Book and cost-accounting depreciation.</td></tr>
+<tr><td>Special tax depreciation</td><td>Including allocation to and write-off of special depreciation reserves.</td></tr>
+<tr><td>Unplanned depreciation</td><td>And other manually planned depreciation.</td></tr>
+<tr><td>Imputed interest</td><td>Cost-accounting interest on capital tied up.</td></tr>
+<tr><td>Revaluation</td><td>Of APC, below or above accumulated depreciation.</td></tr>
+</tbody></table>
+<p>Postings go directly to the FI accounts and to the account assignment objects of the assets. Only one <em>real</em> CO object (e.g. cost center) receives the posting; further objects can be posted statistically. Always run a test run first: it lists errors such as locked cost centers in an error list so that they can be corrected before the update run.</p>
+
+<h4>Fiscal year change</h4>
+<p>From the point of view of FI-AA, the G/L balance carryforward <em>is</em> the fiscal year change: the cumulative asset values of the old year are carried into the new year, after which asset postings with a reference date in the new year are possible, while the old year still remains open for postings. Constraint: the year change cannot be executed before the last period of the old fiscal year has been reached.</p>
+
+<h4>Year-end closing in FI-AA</h4>
+<p>Preparation: check depreciation lists and the asset history sheet, then post depreciation; if you change any depreciation values afterwards, repeat the depreciation run. The year-end closing program then checks two things: that depreciation is posted completely, and that all assets are complete and error-free. If no errors are found, the last closed fiscal year is updated per depreciation area and ledger, and the closed years are locked against further postings from Asset Accounting.</p>
+
+<h4>Asset history sheet</h4>
+<p>The asset history sheet is the central closing report in FI-AA. Like the balance sheet, its layout depends on national requirements, so several history sheet versions can be defined. A version is organised in history sheet groups, typically: opening book values, acquisitions, retirements, repostings (transfers), depreciation, and closing book values. Imputed interest is not a history sheet group.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Order: balance carryforward (= fiscal year change) → inventory adjustments and depreciation run → asset history sheet → year-end closing program.</li>
+<li>The depreciation run (Schedule Asset Accounting Jobs) posts ordinary, special, unplanned depreciation, imputed interest and revaluations; test run first.</li>
+<li>Fiscal year change is only possible once the last period of the old year is reached; the old year stays open.</li>
+<li>Year-end closing checks completeness of depreciation and assets, then locks the year per depreciation area/ledger.</li>
+<li>The asset history sheet is version-dependent and grouped (opening values, acquisitions, retirements, repostings, depreciation, closing values).</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Execute a depreciation test run and update run in Schedule Asset Accounting Jobs, run the central balance carryforward (Carry Forward Balances app) to open the new asset year, display the asset history sheet for the company code, and run the FI-AA year-end closing in test mode to see the checks it performs.</div>
+
+<h3 class="lesson" id="s4f15-u3-l2">Lesson 2: Managing Closing Activities in Materials Management</h3>
+<p class="lead">Understand how MM closing supplies the balance-sheet values for current assets: counting stock (physical inventory), cleaning up the GR/IR clearing account, and valuing raw materials, work in process and finished goods for the key date.</p>
+
+<h4>Physical inventory</h4>
+<p>The physical inventory determines the <em>quantities</em> shown as stock on the balance sheet. Three methods are supported:</p>
+<table><thead><tr><th>Method</th><th>How it works</th></tr></thead><tbody>
+<tr><td>Continuous inventory</td><td>Counting is spread across the whole fiscal year; every material is counted at least once a year.</td></tr>
+<tr><td>Periodic inventory</td><td>Everything is counted on the balance sheet key date; the warehouse is blocked for movements during the count.</td></tr>
+<tr><td>Cycle counting</td><td>Materials are counted at intervals defined by the cycle counting indicator in the material master (e.g. A-items more often).</td></tr>
+</tbody></table>
+<p>The counted quantity becomes the new book quantity; the difference is posted in MM and flows to FI. For a stock shortfall the FI posting is debit "expense from inventory differences", credit the stock (value adjustment) account.</p>
+
+<h4>Procurement postings: three-step reconciliation</h4>
+<ol>
+<li><strong>Purchase order</strong> – MM only, nothing is posted in FI.</li>
+<li><strong>Goods receipt</strong> – material document in MM plus FI document: debit stock or consumption account, credit GR/IR clearing account.</li>
+<li><strong>Invoice receipt</strong> – invoice verification in MM plus FI document: debit GR/IR clearing account, credit vendor.</li>
+</ol>
+<p>Steps 2 and 3 may occur in either order. The GR/IR account therefore shows, per PO item, whether goods have been invoiced and invoices have been matched by goods.</p>
+
+<h4>GR/IR clearing account maintenance and analysis</h4>
+<p>When quantities and prices of GR and IR match, the items clear automatically. Items stay open when a GR or IR is missing, amounts differ, the PO was created with an outdated price, or delivery costs were posted to the wrong GR/IR account. Resolving these is a manual exception process that often delays the close. SAP S/4HANA for Goods and Invoice Receipt Reconciliation (apps <em>Monitor GR/IR Account Reconciliation</em> and <em>Intelligent Goods and Invoice Receipt Account Reconciliation</em>) presents all data on one screen, documents processing status, and a machine-learning proposal service suggests the next step, a priority and a probable root cause for each unmatched item.</p>
+<p>Two different activities must be distinguished:</p>
+<ul>
+<li><strong>Maintaining</strong> the GR/IR account (MM, <code>MR11</code>-type activity): clearing quantity differences when no further delivery or invoice is expected. Recommended monthly.</li>
+<li><strong>Analysing/regrouping</strong> the GR/IR account (FI, program for GR/IR analysis): on the key date, any PO item with a non-zero balance represents either goods invoiced but not yet delivered (a receivable from the vendor) or goods delivered but not yet invoiced (a payable). The program transfers these balances to a "GR/IR – invoiced but not delivered" or "GR/IR – delivered but not invoiced" account via an adjustment account, so that they appear on the correct balance-sheet side, and automatically reverses the posting on the first day of the next period because the regrouping would distort day-to-day processing. The GR/IR account and its adjustment account are then shown in the balance-sheet appendix (notes).</li>
+</ul>
+
+<h4>Stock valuation: the three groups</h4>
+<table><thead><tr><th>Group</th><th>Price control</th><th>Balance sheet value</th></tr></thead><tbody>
+<tr><td>Raw materials, supplies, consumables (RSC)</td><td>Externally procured → moving average price</td><td>Quantity × current moving average price (then lowest-value checks).</td></tr>
+<tr><td>Work in process (WIP)</td><td>Internally produced → standard price</td><td>Not visible on the key date without the WIP calculation and settlement steps.</td></tr>
+<tr><td>Finished goods (FG)</td><td>Standard price</td><td>Quantity × standard price from the cost estimate.</td></tr>
+</tbody></table>
+
+<h4>RSC valuation (lowest value principle)</h4>
+<ol>
+<li><strong>Balance sheet valuation</strong>: lowest value determination by market price (report RMNIWE00) and/or by rate of movement and range of coverage (RMNIWE10/RMNIWE20). Methods can be used alone (single-level) or chained (multilevel).</li>
+<li><strong>Value determination</strong>: market prices are derived from goods receipts or invoice receipts; slow movers and materials with long coverage can be devalued by percentages.</li>
+<li><strong>Price update</strong>: the determined values can be written to price fields in the material master; if a new standard price is set the balance sheet value follows directly and step 4 is unnecessary.</li>
+<li><strong>Revaluation of total</strong>: <code>MRN9</code> (Fiori tile <em>Balance Sheet Values by Account</em>) aggregates balance-sheet values per account and company code; with the Database Update flag additional buttons appear to update material prices and to post the <em>delta</em>.</li>
+</ol>
+<p><strong>Delta posting</strong> automates the adjustment: the difference between the computed balance-sheet value and the book value on the stock accounts is posted, keeping the original assignment to plant, profit center, segment, business area. Prerequisites:</p>
+<ul>
+<li>Set up the delta run: IMG <em>Materials Management → Valuation and Account Assignment → Balance Sheet Valuation Procedures → Set Up Delta Run for Balance Sheet Valuation</em>. Besides document type and header text you must assign an <strong>accounting principle</strong> (so the posting reaches only the ledgers of the ledger group linked to that principle – parallel accounting) and an <strong>account modifier</strong> for MM account determination; both are mandatory. Accounting principles are defined under <em>Financial Accounting → Financial Accounting Global Settings → Ledgers → Parallel Accounting</em>.</li>
+<li>Maintain a number range for material ledger documents of transaction type MY (<em>Maintain Number Ranges for Material Ledger Documents</em>).</li>
+<li>Delta accounts are set in MM account determination under transaction keys <strong>BSD</strong> (delta balance sheet) and <strong>UMD</strong> (offsetting entry).</li>
+</ul>
+<p>Because the account modifier steers account determination, several valuation approaches (e.g. different GAAPs) can be run in one period and shown on separate accounts. <code>MRN9DELTA</code> (tile <em>Delta Runs for Balance Sheet Valuation</em>) checks, analyses and reverses delta postings.</p>
+
+<h4>WIP valuation</h4>
+<p>Example: a production order with six operations, four of them partially confirmed on the key date, goods not yet in the warehouse. Procedure:</p>
+<ol>
+<li>Calculate WIP on the key date.</li>
+<li>Settle the production order: WIP appears on the balance sheet and the change in stock is posted in the P&amp;L.</li>
+<li>After the key date the order is finally confirmed and settled: the WIP is cancelled (key-date posting reversed in the next period), finished goods appear in stock and the order is credited.</li>
+</ol>
+<p>WIP can be computed at <em>actual costs</em> (debit of actual costs minus credit for partial deliveries) or at <em>target costs</em> (remaining quantity per operation × planned costs from the current standard or version-specific cost estimate, typical for repetitive manufacturing). Customizing determines which cost components are capitalised.</p>
+
+<h4>Finished goods valuation</h4>
+<ol>
+<li>Costing run (<code>CK11N</code> for a material with quantity structure); the costing variant decides whether it is a book or tax inventory costing.</li>
+<li>Value determination / price update as configured; e.g. if RSC inputs were devalued by lowest-value determination, the new cost estimate reflects the lower product cost.</li>
+<li>Revaluation of total with <code>MRN9</code> if the standard price in the material master was not updated.</li>
+</ol>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Physical inventory fixes quantities (continuous, periodic, cycle counting); differences post to an inventory-difference expense against stock.</li>
+<li>Three-step reconciliation PO → GR → IR runs through the GR/IR clearing account; maintain it monthly in MM and analyse/regroup it in FI at the key date with automatic reversal.</li>
+<li>Non-zero GR/IR balances are either "invoiced not delivered" (asset) or "delivered not invoiced" (liability).</li>
+<li>RSC: lowest value (market price, movement rate, coverage) → price update or <code>MRN9</code> delta posting (needs accounting principle, account modifier, BSD/UMD, MY number range).</li>
+<li>WIP is calculated and settled at the key date and reversed next period; FG are valued via costing run and standard price.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Analyse the GR/IR clearing account for the demo company code (GR/IR regrouping program with reversal date on the first day of the next period) and review open items in Monitor GR/IR Account Reconciliation; display balance sheet values by account with <code>MRN9</code>, review delta-run parameters in Customizing and check delta documents with <code>MRN9DELTA</code>.</div>
+<h2 class="unit" id="s4f15-u4">Unit 4: Receivables and Payables</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Perform the closing activities on customer and vendor accounts: send and evaluate balance confirmations, valuate foreign currency open items and balance sheet accounts (including the ledger approach and delta logic), post individual and flat-rate value adjustments for doubtful receivables, and regroup receivables/payables by remaining term, affiliated company and changed reconciliation account.</div>
+
+<h3 class="lesson" id="s4f15-u4-l1">Lesson 1: Creating Balance Confirmations</h3>
+<p class="lead">Know the order of AR/AP closing steps and how the balance confirmation programs produce letters, reply slips, reconciliation lists and result lists for auditors.</p>
+
+<h4>AR/AP closing sequence</h4>
+<ol>
+<li>At the start of the new fiscal year run the central balance carryforward of FI-GL, which also carries customer and vendor balances forward (it can be run separately for customers and vendors).</li>
+<li>Block the posting periods of the old year and open the special periods for closing entries.</li>
+<li>Confirm balances, valuate foreign currency documents, post value adjustments and regroup receivables/payables.</li>
+<li>Close the special periods once the confirmations are complete.</li>
+</ol>
+<p>Country-specific additional steps may apply.</p>
+
+<h4>Balance confirmation process</h4>
+<p>The system generates balance confirmation letters with reply slips for any selection of customers and vendors, plus a reconciliation list and a results table. Letters go to the business partners; the lists go to a "control center" (internal or external audit). Partners check the balance and reply to the control center, which compares the replies to the reconciliation list.</p>
+<table><thead><tr><th>Element</th><th>Detail</th></tr></thead><tbody>
+<tr><td>Programs</td><td>SAPF130D (customers), SAPF130K (vendors); SAPF130D_PDF / SAPF130K_PDF for PDF forms.</td></tr>
+<tr><td>Procedures</td><td>Balance confirmation (partner confirms or objects), balance notification (information only), balance request (partner states the balance).</td></tr>
+<tr><td>Lists per company code</td><td>Checklist (what was sent), error list (problems during evaluation), optional results list (number of replies, total amounts).</td></tr>
+<tr><td>Other options</td><td>Selection cover sheet per run; reminders for overdue replies by entering the partners together with the old issue and reply dates.</td></tr>
+<tr><td>Customizing</td><td>Reply address: one or more address IDs per company code (e.g. 0001 = internal audit), entered on the report selection screen; the field may also stay blank.</td></tr>
+</tbody></table>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>AR/AP closing: carry forward → block periods / open special periods → confirm, valuate, adjust, regroup → close special periods.</li>
+<li>Three procedures: confirmation, notification, request; produced by SAPF130D/K (PDF variants exist).</li>
+<li>Checklists and error lists are per company code, not per client; several reply address IDs can be configured.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Run the customer balance confirmation program for a few customers of the demo company code with a key date, review the letters and the reconciliation list, and check the Customizing of the reply address (address ID of the internal audit department).</div>
+
+<h3 class="lesson" id="s4f15-u4-l2">Lesson 2: Managing the Foreign Currency Valuation</h3>
+<p class="lead">Understand why and how foreign currency open items and foreign currency balance sheet accounts are revalued at the key date with program FAGL_FCV, how valuation areas, methods and accounting principles are configured (ledger approach), and how the delta posting logic avoids reversal documents.</p>
+
+<h4>Scope and basic mechanics</h4>
+<p>Foreign currency valuation runs <em>before</em> the financial statements are created. It covers (a) G/L balance sheet accounts kept in a foreign currency, valued at balance level, and (b) open items of customers, vendors and open-item-managed G/L accounts posted in foreign currency, valued line by line. Program <code>FAGL_FCV</code> (Fiori app Perform Foreign Currency Valuation) handles both. In the standard logic the valuation document is reversed automatically on the first day of the following month by the same program, regardless of valuation area; to avoid reversals you have to switch to the delta logic (below).</p>
+<p>Why it is needed: an open item of USD 500 was translated to EUR 600 at entry. If the rate differs at the key date, the program revalues the item with the new rate, stores the difference in a valuation table and posts "expense/revenue from valuation" against an <strong>adjustment account</strong>. The adjustment account is used because reconciliation accounts cannot be posted to directly; it is shown on the same balance-sheet line as the reconciliation account. In the next period the posting is reversed so that later valuations and the final clearing are based on the original amount; the key date is the posting date and reversal is the following day unless another date is set.</p>
+<p>Features of <code>FAGL_FCV</code>: parallel data selection and parallel processing; logs of test runs are kept (Outputs and Technical Settings tab); a simulation run can post its result to a simulation extension ledger for reporting (see Unit 6).</p>
+
+<h4>Customizing: valuation areas, methods and accounting principles</h4>
+<p>A run requires an FI <strong>valuation area</strong>, which must exist in Customizing and carry a valuation method; neither can be created during the run. The valuation area is an FI object (not an FI-AA depreciation area) and is also the vehicle for parallel reporting; if only the local approach is needed one area suffices. Linking valuation areas to an accounting principle is mandatory for balance valuations and whenever several ledgers exist, optional for open-item valuation in a single ledger.</p>
+<table><thead><tr><th>Step (ledger approach)</th><th>IMG path (Financial Accounting → …)</th></tr></thead><tbody>
+<tr><td>Have leading ledger plus at least one non-leading ledger</td><td>Financial Accounting Global Settings → Ledgers</td></tr>
+<tr><td>Define valuation areas</td><td>General Ledger Accounting → Periodic Processing → Valuate → Define Valuation Areas</td></tr>
+<tr><td>Define valuation methods</td><td>… → Valuate → Define Valuation Methods</td></tr>
+<tr><td>Define accounting principles</td><td>Financial Accounting Global Settings → Ledgers → Parallel Accounting → Define Accounting Principles</td></tr>
+<tr><td>Assign accounting principle to valuation area</td><td>… → Valuate → Assign Valuation Areas and Accounting Principles</td></tr>
+<tr><td>Assign accounting principle to ledger group</td><td>… → Parallel Accounting → Assign Accounting Principle to Ledger Groups</td></tr>
+<tr><td>Account determination</td><td>… → Valuate → Foreign Currency Valuation → Prepare Automatic Postings for Foreign Currency Valuation</td></tr>
+<tr><td>Number range for run IDs</td><td><code>FAGL_FCV_SNRO</code> – one interval per client, number 01, as large as possible</td></tr>
+<tr><td>Delta logic</td><td>… → Valuate → Activate Delta Logic (view V_FAGL_FCV_DELTA)</td></tr>
+</tbody></table>
+<p>The <strong>valuation method</strong> (time-dependent) specifies the valuation procedure – lowest value principle, strict lowest value principle, always valuate, revalue only – the document type for the differences, and the exchange rate type/basis. (A "high rate of interest principle" does not exist.) In practice several areas with technically identical local methods may be needed.</p>
+<p><strong>Account determination</strong> for open-item accounts defines, per reconciliation account, the accounts for valuated (unrealised) gains and losses, the adjustment account, and the realised gain/loss accounts posted when items are cleared. In the ledger solution the same accounts serve all ledgers, so the valuation area field in account determination can stay blank. Foreign currency <em>balance sheet accounts</em> instead use the exchange rate difference key in the G/L account master to find their gain/loss accounts.</p>
+
+<h4>Delta posting logic</h4>
+<p>Some countries forbid reversing year-end valuation postings in the next year. A valuation area can be switched to delta logic: only one document is posted, no reversal; the item is revalued only if the rate has changed, and then only for the difference to the previous valuation. Differences are stored in table FAGL_BSBW_HISTRY. Realised differences work as follows:</p>
+<ol>
+<li>When a foreign currency invoice is cleared, the clearing document is posted identically in all ledgers, so the "realised" difference it shows is simply invoice rate vs. clearing rate.</li>
+<li>In the next valuation run the correct realised difference per valuation area is computed from the history table and the actual clearing-date rate, and posted against the realised exchange rate account.</li>
+<li>That correction normally carries the valuation run date (month end); setting the indicator "use clearing date as reversal date" moves it to the clearing date – but only use it when necessary, since the program cannot guarantee that period is open; if it is closed the posting lands in a batch input session.</li>
+</ol>
+<p>The lesson's summary figure compares the posting pattern over several periods for the lowest value principle (only devaluations, up to original value) versus the strict lowest value principle (every drop below the previous valuation is posted).</p>
+
+<h4>Foreign currency balance sheet accounts</h4>
+<p>Select the accounts on the G/L Account Balances tab of <code>FAGL_FCV</code>. Depending on method and balance sign the account may be devalued or revalued; the run can be repeated with the same selection, and transactions posted since the last run are included in the current one.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li><code>FAGL_FCV</code> valuates foreign currency open items (line level) and balance sheet accounts (balance level) before the statements; standard logic reverses on the next day.</li>
+<li>Valuation area + valuation method (procedure, document type, rate type) + accounting principle → ledger group is the ledger-approach chain; areas are FI objects, not depreciation areas.</li>
+<li>Postings go to adjustment accounts (reconciliation accounts cannot be posted directly) and unrealised gain/loss accounts; realised differences arise at clearing.</li>
+<li>Delta logic posts a single cumulative document without reversal, tracked in FAGL_BSBW_HISTRY; optional clearing-date correction.</li>
+<li>Run-ID number range via <code>FAGL_FCV_SNRO</code>; simulation results can go to an extension ledger.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Post a foreign currency vendor invoice, maintain a new exchange rate, then run Perform Foreign Currency Valuation (<code>FAGL_FCV</code>) in test and update mode for the valuation area of the demo company code; check the valuation and reversal documents, the log, and the Customizing of valuation area, method and account determination.</div>
+
+<h3 class="lesson" id="s4f15-u4-l3">Lesson 3: Managing Value Adjustments</h3>
+<p class="lead">Learn the options for writing down doubtful receivables: individual value adjustments via a special G/L transaction, automatic flat-rate individual adjustments with program SAPF107V, and manual G/L postings.</p>
+
+<h4>Three ways to post value adjustments</h4>
+<table><thead><tr><th>Option</th><th>Technique</th><th>Typical use</th></tr></thead><tbody>
+<tr><td>Individual value adjustment</td><td>Special G/L transaction <strong>E</strong> on the customer account, posted to the special G/L account "individual value adjustments for receivables"</td><td>A specific doubtful customer (e.g. insolvency proceedings)</td></tr>
+<tr><td>Flat-rate individual value adjustment</td><td>Program SAPF107V (additional valuations) with valuation adjustment keys</td><td>Percentage write-down of overdue receivables by age</td></tr>
+<tr><td>Manual flat-rate adjustment</td><td>G/L document: expense from flat-rate value adjustment / value adjustment account</td><td>When the amount is determined outside the system</td></tr>
+</tbody></table>
+
+<h4>Individual value adjustment life cycle</h4>
+<p>The special G/L method is suited to doubtful receivables because the adjustment stays visible on the customer account while hitting a separate G/L account. Later: (1) once the receivable is either paid or confirmed uncollectible, reverse the individual adjustment; (2) if uncollectible, clear the item from the customer account against the "depreciation of receivables" (bad debt write-off) account; (3) correct the output tax that was charged on the original invoice.</p>
+
+<h4>Flat-rate individual value adjustment with SAPF107V</h4>
+<ol>
+<li>In AR Customizing define a <strong>valuation adjustment key</strong> with the overdue period in days and the bad debt expense percentage.</li>
+<li>Maintain account determination: adjustment account and bad debt expense account for doubtful receivables.</li>
+<li>Assign the valuation adjustment key in the <strong>customer master</strong> (not on the document) of every customer to include.</li>
+<li>Run the periodic valuation: the program produces a proposal that can be edited; when accepted it is transferred to the G/L, posting on the key date and reversing one day later.</li>
+</ol>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Individual adjustments use special G/L indicator E so customer account and G/L remain linked.</li>
+<li>Flat-rate adjustments are driven by a valuation adjustment key (days overdue, percentage) assigned in the customer master; SAPF107V proposes, you confirm, the system posts and reverses.</li>
+<li>Write-offs clear the receivable to a bad-debt account and require a sales tax correction.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Post an individual value adjustment for a doubtful customer with special G/L transaction E, display the customer line items with special G/L items, and review the valuation adjustment key, account determination and the SAPF107V proposal for the demo customers.</div>
+
+<h3 class="lesson" id="s4f15-u4-l4">Lesson 4: Regrouping Receivables and Payables</h3>
+<p class="lead">Understand why receivables and payables must be reclassified for the balance sheet (debit-balance vendors, credit-balance customers, remaining term, affiliated companies, changed reconciliation accounts) and how program FAGL_CL_REGROUP and the reporting-based reclassification of Manage Global Hierarchies do it.</p>
+
+<h4>Why regroup</h4>
+<ul>
+<li>Receivables and payables must be shown separately: a vendor with a debit balance at the key date belongs in receivables, a customer with a credit balance in payables.</li>
+<li>Many countries require grouping by remaining life (e.g. under 1 year, 1–5 years, over 5 years).</li>
+<li>Payables/receivables to affiliated companies must be disclosed separately.</li>
+<li>If a reconciliation account was changed in the master record during the year, open items still sit on the old account.</li>
+</ul>
+<p>All these transfer postings are made by a program at the key date against <strong>adjustment accounts</strong> (reconciliation accounts cannot be posted directly) and are reversed on the first day of the next period because daily processing does not need them. Different legal requirements can be served by posting the results of valuation and regrouping to different accounts that are picked up by different FSVs.</p>
+
+<h4>Program FAGL_CL_REGROUP (Balance Sheet Supplement – OI Analysis)</h4>
+<ul>
+<li>Sorts receivables and payables by remaining life and posts the transfers.</li>
+<li>Makes adjustment postings for changed reconciliation accounts (indicator on the Parameters tab) – the report shows all items at the key date under the new reconciliation account.</li>
+<li>Decides where transfers are needed on the basis of the <strong>sort method</strong> defined in Customizing, where you select which cases (debit-balance vendors, credit-balance customers, remaining-term intervals) are to be regrouped. Without these selections the program posts nothing.</li>
+</ul>
+
+<h4>Reporting-based reclassification (Manage Global Hierarchies)</h4>
+<p>An FSV maintained in Manage Global Hierarchies can carry reclassification attributes, so the balance sheet report itself shows receivables/payables by remaining term without adjustment postings:</p>
+<ol>
+<li>Define an aging set with category REC – Reclassification: IMG <em>Financial Accounting → General Ledger Accounting → Periodic Processing → Advanced Valuation in General Ledger Accounting → General Settings → Define Aging Increments for Advanced Valuation</em>.</li>
+<li>Assign the aging set to the FSV on its Hierarchy tab.</li>
+<li>Assign the aging increments to the relevant balance sheet subnodes.</li>
+<li>Add the G/L accounts to be sorted to these subnodes.</li>
+</ol>
+<p>This does not replace <code>FAGL_CL_REGROUP</code>; it is a way to report by remaining life <em>before</em> the period-end postings have been made.</p>
+
+<h4>Affiliated companies</h4>
+<p>If a business partner is both customer and vendor and belongs to the group (e.g. another company code), enter the same company ID in the <strong>Trading Partner</strong> field of both master records and use alternative reconciliation accounts ("receivables from / payables to affiliated companies"). In Customizing assign adjustment accounts to these special reconciliation accounts so that the regrouping program nets and discloses them correctly.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Regrouping = key-date transfer postings via adjustment accounts, reversed next period; driven by sort methods in Customizing.</li>
+<li><code>FAGL_CL_REGROUP</code> handles remaining term, debit/credit balance swaps, affiliated companies and changed reconciliation accounts.</li>
+<li>Reconciliation accounts can be changed during the year; the program re-presents open items under the new account.</li>
+<li>Aging sets (category REC) on Global-Hierarchy FSVs allow reporting by remaining life without postings – a complement, not a replacement.</li>
+<li>Trading partner plus alternative reconciliation accounts identify intercompany receivables/payables.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Run <code>FAGL_CL_REGROUP</code> (Regroup Receivables/Payables app) for the demo company code at the period key date with a sort method that regroups vendors with debit balances and payables by remaining term; inspect the transfer and reversal documents and the adjustment accounts, and compare with the aging-set reclassification in the FSV report.</div>
+<h2 class="unit" id="s4f15-u5">Unit 5: Profit and Loss</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand the two ways of presenting the P&amp;L (period accounting vs. cost of sales accounting with functional areas), know how classic accrual/deferral documents and recurring entries work, and master SAP S/4HANA Accruals Management – manual accruals and automatic purchase order accruals – including its Customizing.</div>
+
+<h3 class="lesson" id="s4f15-u5-l1">Lesson 1: Explaining Cost of Sales Accounting</h3>
+<p class="lead">Distinguish period accounting from cost of sales accounting and learn how the functional area is derived so that expenses can be reported by function.</p>
+
+<h4>Two P&amp;L formats, one operating result</h4>
+<table><thead><tr><th></th><th>Period accounting</th><th>Cost of sales accounting</th></tr></thead><tbody>
+<tr><td>Output side</td><td>Sales revenue ± change in inventory (total output of the period)</td><td>Sales revenue only; inventory changes are not shown</td></tr>
+<tr><td>Expense side</td><td>Total costs of the period grouped by <em>expense type</em> (material, personnel, depreciation …) – shows how costs split across production factors</td><td>Cost of sales grouped by <em>function</em> (production, sales, administration, R&amp;D …); cost of goods manufactured is recognised at goods issue</td></tr>
+<tr><td>Extra requirement</td><td>None</td><td>The <strong>functional area</strong> characteristic on every P&amp;L line</td></tr>
+</tbody></table>
+<p>Which format is used is either dictated by law or chosen by the company for business reasons such as international comparability. The operating result is identical in both.</p>
+
+<h4>Functional areas</h4>
+<p>A functional area is an organisational unit that splits postings on the <em>same</em> expense account into different report items. Example from the course: personnel expense charged to production belongs in the gross result, whereas personnel expense of administration appears under overhead. Functional areas therefore also tell you which business activity caused each expense.</p>
+<p>Cost of sales accounting is part of the Universal Journal (ACDOCA). The functional area in a journal entry is filled by, in order of priority:</p>
+<ol>
+<li>Manual entry (highest priority).</li>
+<li>Substitution rules.</li>
+<li>The functional area in the master record of the P&amp;L account.</li>
+<li>The functional area in the master record of the CO object (cost center, order …).</li>
+</ol>
+<p>The system should be configured so that manual entry is normally unnecessary and the value comes from the CO object, the account or a substitution.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Period accounting groups costs by nature and shows inventory changes; cost of sales accounting groups costs by function and recognises COGS at goods issue.</li>
+<li>Both give the same operating result; the choice is legal or strategic.</li>
+<li>Cost of sales accounting needs the functional area on P&amp;L lines, stored in ACDOCA.</li>
+<li>Derivation priority: manual → substitution → P&amp;L account master → CO object master.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f15-u5-l2">Lesson 2: Posting Accruals and Deferrals</h3>
+<p class="lead">Understand why expenses and revenues must be shifted into the period they economically belong to, and how this is done with accrual/deferral documents that are reversed automatically, or with recurring entries.</p>
+
+<h4>Accrual vs. deferral</h4>
+<ul>
+<li><strong>Accrual</strong>: the expense or revenue belongs to the current period but the invoice (and the posting) will only arrive in a later period – e.g. a service consumed this month, billed next month.</li>
+<li><strong>Deferral</strong>: the invoice is posted now, but part or all of the expense/revenue belongs to future periods – e.g. prepaid rent.</li>
+</ul>
+<p>Technique: post an accrual/deferral document at period end and reverse it later; the reversal date stored in the original document becomes the posting date of the reversal. When a manual accrual document is entered, reversal reason and reversal date must be specified (the user name is not entered). If the same accrual recurs, use the recurring entry program (Fiori: Manage Recurring Journal Entries).</p>
+
+<h4>Course examples</h4>
+<p><strong>Warehouse lease (deferral)</strong>: rent EUR 500/month, three months paid on 1 December: Dr Occupancy costs 1,500 / Cr Bank 1,500. On 31 December only one month has been used, so Dr Prepaid expense (accrued income) 1,000 / Cr Occupancy costs 1,000. On 1 January the document is reversed: Dr Occupancy costs 1,000 / Cr Prepaid expense 1,000, so the expense lands in the new year.</p>
+<p><strong>Annual invoice received in period 7 (accrual)</strong>: an invoice of 120 for goods used all year must be spread as 10 per period. For periods 1–6 six accruals of 10 are posted before the invoice arrives; after the invoice (period 7) the remaining 50 is distributed over the last five months.</p>
+<p><strong>Recurring accruals</strong>: each period the same amount is posted Dr Expense / Cr Other payables – or Cr Provisions if the reason or amount is uncertain and can only be estimated. The credit balance on the payables/provision account grows each period until the invoice arrives.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Accruals pull expense/revenue forward into the current period before the invoice; deferrals push already posted amounts into future periods.</li>
+<li>Accrual/deferral documents carry a reversal reason and date and are reversed automatically in the following period.</li>
+<li>Identical periodic amounts are handled with recurring entries; certain obligations go to other payables, uncertain ones to provisions.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Post an accrual/deferral document (Post General Journal Entries / <code>FBS1</code>) with a reversal reason and reversal date for the demo company code, run the reversal (<code>F.81</code> / Reverse Accrual/Deferral Documents), and create a recurring entry document with Manage Recurring Journal Entries, then execute the recurring entry run.</div>
+
+<h3 class="lesson" id="s4f15-u5-l3">Lesson 3: Accruals Management – Manual Accruals</h3>
+<p class="lead">Get to know the SAP S/4HANA Accrual Engine and its Manual Accruals application: how contract-like basis data (accrual objects) is maintained and how the periodic posting run turns it into journal entries.</p>
+
+<h4>Why an Accrual Engine</h4>
+<p>Traditional accrual processes pull data from spreadsheets, e-mails and contracts, which means high manual effort, many errors and poor auditability. SAP S/4HANA Accruals Management calculates, reviews and posts accruals automatically. You work with an application component (Manual Accruals or Purchase Order Accruals) that feeds the engine; the engine then performs the periodic postings – like driving a car without touching the engine directly.</p>
+<p>The S/4HANA Accrual Engine is fully integrated into the G/L: all G/L currencies are supported, its postings exist only as Universal Journal line items in ACDOCA, it follows the fiscal year variant of the ledgers, and standard reversal (<code>FB08</code>, <code>F.80</code>) works. Posting schemas allow complex postings with more than two lines.</p>
+
+<h4>The two manual accrual processes</h4>
+<ol>
+<li><strong>Maintain basis data</strong>: contracts are stored as time-dependent accrual objects containing everything needed for the postings.</li>
+<li><strong>Periodic accrual run</strong>: accrual objects are selected; the engine reads ACDOCA to see what has already been posted for each accrual item and posts the difference as normal FI documents.</li>
+</ol>
+
+<h4>Accrual objects</h4>
+<table><thead><tr><th>Element</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Accrual object</td><td>One accrual case (e.g. a contract) with validity start/end; category and number cannot be changed later.</td></tr>
+<tr><td>Accrual item</td><td>One line per object; several allowed. Holds total amount, ledger group, quantity, accrual method and account assignments (CO objects).</td></tr>
+<tr><td>Accrual item type</td><td>Customizing object that controls processing and defines the kind of expense/revenue.</td></tr>
+<tr><td>Accrual method</td><td>Customizing rule that spreads the lump sum over periods.</td></tr>
+<tr><td>Opening posting</td><td>Optional (Customizing): posts the total amount to an accrual account when the object is created.</td></tr>
+</tbody></table>
+<p>Transaction <code>ACACTREE02</code> displays accrual objects; here you can attach files or notes (e.g. the contract or an Excel sheet), see the Calculated Accruals tab, download Excel templates for mass upload of accruals, and reverse the postings of one single object. Changes to fields are time-sliced: each change is valid from its Valid From date, and the drop-down shows the separate validity intervals. The optional review/approval process (built for PO accruals) is available but normally not needed for manual accruals.</p>
+
+<h4>Posting and reversing</h4>
+<p><code>ACEPOSTINGRUN</code> posts the periodic amounts for any Accrual Engine application; enter application component <strong>ACAC</strong> for manual accruals. Postings are identifiable by reference procedure ACES4 and can be reversed with <code>FB08</code> or <code>F.80</code> – but since one journal entry may bundle several accrual objects, a single object is better reversed from <code>ACACTREE02</code>. If an object is ended prematurely, the closing posting books the residual not yet covered by periodic postings and sets the accrual account balance to zero.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Accruals Management replaces spreadsheet accruals with engine-calculated, auditable postings stored only in ACDOCA.</li>
+<li>Manual Accruals = maintain accrual objects (items, methods, item types, time slices) + periodic run <code>ACEPOSTINGRUN</code> (component ACAC).</li>
+<li>Engine postings carry reference procedure ACES4; reverse per object in <code>ACACTREE02</code> rather than per journal entry.</li>
+<li>Accrual objects support attachments, Excel upload and optional review/approval.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Create a manual accrual object with one accrual item (amount, method, cost center) in the Manual Accruals app / <code>ACACTREE01</code>, display the calculated accruals, run <code>ACEPOSTINGRUN</code> for component ACAC and the current period, and inspect the resulting journal entry and its reversal option in <code>ACACTREE02</code>.</div>
+
+<h3 class="lesson" id="s4f15-u5-l4">Lesson 4: Accruals Management – Purchase Order Accruals</h3>
+<p class="lead">Learn how the Purchase Order Accruals application transfers PO items into the Accrual Engine, calculates accruals as planned minus actual costs, lets owners/controllers/G/L accountants review and approve them, posts them periodically, and how all of this is configured in <code>ACEIMG</code>.</p>
+
+<h4>Business need and use cases</h4>
+<p>As soon as a liability to a supplier exists but the cost has not yet been posted, an accrual is required so that cost hits the right period; amounts are typically known only at period end. Use cases differ by how receipts are recorded:</p>
+<table><thead><tr><th>Purchase scenario</th><th>How planned costs are proposed</th><th>Actual costs come from</th></tr></thead><tbody>
+<tr><td>Consumables/services, no goods receipt</td><td>Delivery schedule (past delivery dates assumed received) or straight-line between start and end date</td><td>Supplier invoices</td></tr>
+<tr><td>Consumables/services, non-valuated GR</td><td>Same</td><td>Supplier invoices (GR posts no value)</td></tr>
+<tr><td>Consumables, valuated GR</td><td>Delivery schedule; accrual only if a due delivery has not been GR-posted</td><td>Goods receipts</td></tr>
+<tr><td>Services with service entry sheets</td><td>Straight-line over PO item start/end date (no schedule exists)</td><td>Service entry sheets (valued like GR)</td></tr>
+</tbody></table>
+<p>Start/end dates appear on PO items of the Lean Services type (product type group 2 – Service). Not relevant for accruals: stock purchases (no cost yet), fixed-asset purchases (cost arises later via depreciation) and intercompany stock transfers (no external supplier).</p>
+
+<h4>Process flow: Transfer → Calculate → Review/Approve → Post</h4>
+<ol>
+<li><strong>Transfer</strong>: when a PO item is created the system checks the PO transfer variant and, if relevant, creates an accrual object (= PO) with subobjects (= PO items per account assignment). Transfer is <em>online</em> at PO creation or <em>offline</em> via <code>POAC_MM2ACE_TRANSFER</code> or the job template "Transfer Purchase Orders to Accrual Engine" in the Fiori app Schedule Accruals Jobs (also used at go-live for existing POs and after Customizing changes).</li>
+<li><strong>Calculate</strong>: planned costs (item type PLNCST) from delivery schedule or linearisation; actual costs (ACTCST) from GR, invoices or service entry sheets before the key date; accruals (ACCRL) = plan – actual, floored at zero. View per PO in <code>POACTREE03</code> / Fiori Display Purchase Order Accruals.</li>
+<li><strong>Review / Approve</strong>: first generate proposals with <code>ACEPROPOSALRUN</code> (job template "Propose Period Amounts"), normally after the last GR/invoice of the period. Review by PO owner (My Inbox work item or <code>FACRARVWBU</code>), optionally by controller (<code>FACRARVWCO</code>); approval by G/L accountant (<code>FACRAAPPRVGL</code>). Machine learning flags whether a proposed amount is reliable. Review is optional (unreviewed proposals are posted); approval is binding (only approved amounts are posted); both together give dual control. Reviewers/approvers can change proposed accruals or planned costs.</li>
+<li><strong>Post</strong>: <code>ACEPOSTINGRUN</code> or job template "Periodic Posting Run". Reverse with <code>FB08</code>/<code>F.80</code> (reference procedure ACES4) or per object on the Postings tab of <code>POACTREE03</code>.</li>
+</ol>
+<p>Roles: the PO owner (goods recipient, requisitioner or PO creator) knows the PO best; controllers care because accruals consume cost center budgets; G/L accountants because they affect the P&amp;L.</p>
+
+<h4>Lifecycle example (course figure)</h4>
+<p>PO with deliveries in the current year, non-valuated GRs, accrual object created automatically. (1) Periodic postings PP in periods 1–3. (2) A supplier invoice posted later triggers a utilization posting UP, adding lines to the invoice document (online mode). (3) At year end some invoices are missing, so accruals remain. (4) Controlling manually releases part of the remainder (RP) because less cost is expected. (5) The final invoice is posted and the purchaser sets "Final Invoice" on the PO item; the object gets status F (prematurely finished) and the rest is released automatically (FP). (6) The FP posting is executed by the next periodic run.</p>
+
+<h4>Customizing (<code>ACEIMG</code>, Accruals Management IMG)</h4>
+<p>Two layers: general Accrual Engine settings (prerequisite) and PO-accrual-specific settings. IMG root: <em>Financial Accounting → General Ledger Accounting → Business Transactions → Accruals Management</em>.</p>
+<table><thead><tr><th>Setting</th><th>Content</th></tr></thead><tbody>
+<tr><td>Accrual item types</td><td>One per amount to calculate. Recommended three-step approach: PLNCST (planned), ACTCST (actual), ACCRL (= PLNCST – ACTCST, positive only). All three need an entry in "Item Type Settings for Ledger Group incl. Representative Ledger" with identical ledger group, posting frequency (e.g. monthly = last day of month) and currency handling. Reversal posting type: negative or inverse posting.</td></tr>
+<tr><td>Currency handling</td><td>Only the PO currency (currency type 00, transaction currency) is available; must be set to A – calculated by the Accrual Engine; representative ledger is assigned automatically.</td></tr>
+<tr><td>Accrual methods</td><td>SAP-delivered distribution logics for planned costs; technical methods ZERO_AMNT (object obsolete, e.g. PO item deleted → accrual set to zero), DERIVED, PLN-ACT.</td></tr>
+<tr><td>PO selection</td><td>"Define Accrual Item Types and Methods for MM Purchase Order Items": entries per purchasing document type + item category decide which PO items get accrual subobjects at all; also holds the online/offline PO transfer variant; "Assign company code to transfer variant".</td></tr>
+<tr><td>Accrual classification</td><td>SDELS (default; lifetime from delivery schedule) and SPERP (lifetime from performance period; Lean Service / enhanced limit items, item category E, product type group 2 → linearisation between start and end date). Fixed by SAP. Determines start/end dates and, with doc type/item category, the item types and methods.</td></tr>
+<tr><td>Review / approval</td><td>Activated per company code, accrual item type and ledger group via checkboxes Review Active and Approval Required – only for the planned-costs item type and only for currency type 00. Fiori workflow scenario WD78500077 (activate via <code>SM30</code>, view V_SWF_FLEX_SCACT), configured in Manage Workflows for PO Accruals Review.</td></tr>
+<tr><td>Time interval variants</td><td>Start/end date-time per fiscal period (identified by its last day) in which review/approval is allowed; a current setting maintainable in production; can be set as default.</td></tr>
+<tr><td>Threshold variants</td><td>Optional. Above upper threshold → review/approval required; below lower threshold → not posted; in between → auto-approved.</td></tr>
+<tr><td>Posting schema</td><td>"Accrual Postings → Define Posting Schema": number of lines, symbolic accounts, line item types. For PP one line must have type 9003 on a balance sheet (accrual) account – the engine sums 9003 lines of the year to know what is already accrued; type 9000 is the offsetting (expense) line. Delivered: SAP_ACE_PP, SAP_ACE_UP, SAP_ACE_RP …</td></tr>
+<tr><td>Transaction type assignment</td><td>Item type → Accruals Management transaction type (PP periodic, UP utilization, RP/FP release, UL/FL/RL late variants) → posting schema. IP (opening posting) is for manual accruals only. Indicators Post Periodically (via posting run) and Post Online (UP lines added to the invoice/GR document); both may be set without double posting. If UP has no schema, corrections happen with the next PP.</td></tr>
+<tr><td>Post deltas vs. full amounts</td><td>Delta: only the change vs. earlier periods. Full: reverse previous amount, post full amount with last day of period as translation date. Recommendation: deltas, at least for UP/UL/FP/FL; full postings acceptable for PP.</td></tr>
+<tr><td>Account determination</td><td>Basic account determination table ("Create and Edit Basic Account Determination") or BAdI ES_ACE_DOCUMENT_ACCDET_CUST. For PO accruals only symbolic account PER_ACCR_ACCNT (accrual account) must be mapped; the expense account comes from the PO item, with PER_OFFSTNG_ACCNT as fallback.</td></tr>
+</tbody></table>
+<p>SAP Note 2812479 documents the full configuration and posting logic. Side note: utilization and release postings also work for manual accruals if ACTCST (and for plan-minus-actual also PLNCST) item types exist; the accrual object can be referenced on invoice (<code>FB60</code>, <code>F-43</code>, <code>MIRO</code>) or journal entry (<code>FB50</code>, <code>F-02</code>) line items once the field is enabled in the G/L account field status (<code>OB14</code>, additional account assignments).</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>PO accruals = Transfer → Calculate → Review/Approve → Post; the accrual object is the PO, subobjects are PO items per account assignment.</li>
+<li>Accrual = planned costs (schedule or straight-line) minus actual costs (GR, invoice, SES), never negative; item types PLNCST/ACTCST/ACCRL make this transparent.</li>
+<li>Stock, fixed-asset and intercompany POs are excluded via document type/item category selection; classification SDELS vs. SPERP sets the lifetime.</li>
+<li>Review is optional, approval mandatory when active; thresholds and time intervals limit the workload; ML rates reliability.</li>
+<li>Posting schema line type 9003 must hit a balance sheet accrual account; only PER_ACCR_ACCNT needs account determination; prefer delta postings.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Create a service PO (Lean Service, start/end dates) in Manage Purchase Orders, check that an accrual object was created (Display Purchase Order Accruals / <code>POACTREE03</code>), run <code>ACEPROPOSALRUN</code>, review the proposal as PO owner (<code>FACRARVWBU</code>), post with <code>ACEPOSTINGRUN</code>, then walk through <code>ACEIMG</code>: item types, transfer variant, review/approval flags, posting schema and account determination.</div>
+<h2 class="unit" id="s4f15-u6">Unit 6: Ledger Group-Specific Postings</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand parallel accounting with standard and extension ledgers in the Universal Journal and be able to post FI documents that update only a specific ledger group.</div>
+
+<h3 class="lesson" id="s4f15-u6-l1">Lesson 1: Posting Ledger Group-Specific FI Documents</h3>
+<p class="lead">Learn how the ledger solution models several accounting principles, what extension ledgers add, how ledger groups bundle ledgers for valuation runs, and what has to be configured to post to non-leading ledgers only.</p>
+
+<h4>Parallel accounting</h4>
+<p>Globalised creditors and partners expect statements under an internationally recognised standard (IFRS, US GAAP) in addition to the local GAAP, so companies must report under several sets of rules. SAP offers two modelling options in G/L accounting: the <em>account approach</em> (separate accounts per GAAP) and the <em>ledger approach</em> (separate ledgers storing the different valuations). The ledger approach is not the same as the old Special Purpose Ledger (FI-SL).</p>
+
+<h4>Standard ledgers</h4>
+<p>A leading ledger (0L) plus non-leading ledgers each represent one accounting principle. Deciding which GAAP sits in the leading ledger is a fundamental choice; customers upgrading to S/4HANA are advised not to change the leading view during the conversion but, if ever, in a separate project.</p>
+
+<h4>Extension ledgers</h4>
+<ul>
+<li>An extension ledger stores only <em>delta</em> postings and points to an underlying standard ledger (or to another extension ledger – ledgers can be stacked).</li>
+<li>Reporting on the extension ledger shows underlying ledger + deltas, so no data is duplicated and nothing has to be reconciled.</li>
+<li>Typical use: management adjustments on top of legal data (IFRS or local GAAP); also the simulation extension ledger used by <code>FAGL_FCV</code> for simulated valuations (Unit 4).</li>
+<li>Configuration is minimal – a master record; several extension ledgers can share one underlying ledger.</li>
+<li>Extension ledgers live in the Universal Journal like standard ledgers and may have their own posting period variant, so the standard ledger can already be closed while the extension ledger stays open for adjustments.</li>
+</ul>
+
+<h4>Ledger groups</h4>
+<p>The course scenario: foreign currency valuation must be run for both US GAAP and IFRS.</p>
+<table><thead><tr><th>Option</th><th>Set-up</th><th>Effect</th></tr></thead><tbody>
+<tr><td>1</td><td>Two valuation areas, two accounting principles, each linked to its ledger (0L, L5)</td><td>Valuation program runs twice, each run updates one ledger</td></tr>
+<tr><td>2</td><td>One valuation area "International", one accounting principle, linked to ledger group L7 containing 0L and L5</td><td>Program runs once; results are written to all ledgers in L7</td></tr>
+</tbody></table>
+<p>Ledger groups are defined under <em>Financial Accounting → Financial Accounting Global Settings → Ledgers → Ledger → Define Ledger Group</em>. They are an optional convenience: the system automatically creates one ledger group per ledger with the same name, so nobody is forced to define groups. When a document is entered with the Ledger Group field filled, it is posted only to the ledgers in that group; if the field is empty, it goes to all ledgers.</p>
+
+<h4>Posting to non-leading ledgers only</h4>
+<p>If a ledger group consists solely of non-leading ledgers, a document type must be defined for the entry view in that ledger (<em>Financial Accounting Global Settings → Document → Document Types → Define Document Types for Entry View in a Ledger</em>) with its own number range. The general ledger view is always ledger-specific. Typical apps: Post General Journal Entries with ledger group, or <code>FB50L</code> / <code>FB01L</code>.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Parallel accounting = statements under several GAAPs; S/4HANA supports account approach and ledger approach (leading + non-leading ledgers).</li>
+<li>Extension ledgers hold deltas on top of a base ledger, need almost no configuration, can be stacked and have their own period variant.</li>
+<li>Ledger groups let one valuation run or one posting update several ledgers at once; one automatic group exists per ledger.</li>
+<li>A filled Ledger Group field restricts the document to those ledgers; non-leading-only groups need a document type for the entry view in the ledger.</li>
+<li>Do not change the leading ledger's GAAP as part of an S/4HANA conversion.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Post a ledger group-specific journal entry (Post General Journal Entries or <code>FB50L</code>) to a non-leading ledger group for the demo company code, display the document in both entry view and general ledger view, compare the account balance per ledger (Display G/L Account Balances with ledger selection), and review the ledger group and document type Customizing.</div>
+<h2 class="unit" id="s4f15-u7">Unit 7: Technical, Organizational, and Documentary Closing Activities</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Execute the technical side of the close – balance carryforward, opening/closing posting periods, FI/CO period locks – produce the balance audit trail as documentation before archiving, and understand why document splitting is needed for profit center and segment balance sheets.</div>
+
+<h3 class="lesson" id="s4f15-u7-l1">Lesson 1: Managing Technical Steps During Period-End Closing</h3>
+<p class="lead">Know the sequence of general ledger closing operations, how the balance carryforward treats each account type, and how posting periods are defined and controlled.</p>
+
+<h4>General ledger closing sequence</h4>
+<ol>
+<li>At the start of the new fiscal year run the balance carryforward for G/L, customer, vendor and asset accounts.</li>
+<li>Block the old year's normal posting periods; open the special periods for closing entries.</li>
+<li>Valuate foreign currency documents, post accruals, analyse and regroup the GR/IR clearing account.</li>
+<li>Close the special periods.</li>
+<li>Run the balance audit trail and create the financial statements for documentation.</li>
+<li>Produce statutory reporting messages.</li>
+</ol>
+<p>Country-specific variations exist. Remember the principle from Unit 1: all subledgers, FI-AA in particular, must be closed before the G/L fiscal year is closed; otherwise serious inconsistencies in G/L balances can arise.</p>
+
+<h4>Balance carryforward (Fiori Carry Forward Balances / <code>FAGLGVTR</code>)</h4>
+<table><thead><tr><th>Account type</th><th>What happens</th></tr></thead><tbody>
+<tr><td>Balance sheet accounts</td><td>Balances carried into period 0 of the new year with all account assignments (default).</td></tr>
+<tr><td>Customer / vendor accounts</td><td>Carried forward automatically together with the G/L accounts of the leading ledger; can also be run separately (program SAPF010).</td></tr>
+<tr><td>P&amp;L accounts</td><td>Balances transferred to the retained earnings account(s) defined under <em>Financial Accounting → General Ledger Accounting → Master Data → G/L Accounts → Preparations → Define Retained Earnings Account</em>.</td></tr>
+<tr><td>Fixed asset accounts</td><td>All G/L-relevant and statistical asset values are carried forward per asset, account and ledger to the same accounts; must be run for every representative ledger. The FI-AA carryforward happens automatically only after the G/L carryforward succeeded; the system then recalculates planned depreciation for all assets in the new year (rerun manually if errors occur).</td></tr>
+</tbody></table>
+
+<h4>Posting periods and the fiscal year variant</h4>
+<p>The posting date entered in a document determines its posting period. The fiscal year variant defines the start and end of the fiscal year, the number of normal periods (up to 16), the number of special periods (the remainder up to 16) and the period lengths.</p>
+
+<h4>Posting period control (<code>OB52</code> / Manage Posting Periods)</h4>
+<p>The posting period table opens and closes periods; any number can be open simultaneously. Columns:</p>
+<ul>
+<li><strong>Posting period variant</strong> – assigned to company codes, so several company codes can be opened/closed in one step.</li>
+<li><strong>Account type</strong> – controls open periods per account type.</li>
+<li><strong>Interval 1 and 2</strong> – period ranges that are open (e.g. current period and special periods).</li>
+<li><strong>Interval 3</strong> – in S/4HANA used for postings from CO to FI; if empty, intervals 1 and 2 apply to them too.</li>
+</ul>
+<table><thead><tr><th>Account type</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>+</td><td>All accounts – defines the maximum range for every other type</td></tr>
+<tr><td>A</td><td>Assets</td></tr>
+<tr><td>D</td><td>Customers</td></tr>
+<tr><td>K</td><td>Vendors</td></tr>
+<tr><td>S</td><td>G/L accounts</td></tr>
+<tr><td>M</td><td>Materials</td></tr>
+<tr><td>V</td><td>Contract accounts</td></tr>
+</tbody></table>
+<p>Periods listed are open, all others closed; the specific account type lines can only narrow the range given in the "+" line. Because FI and CO are unified in S/4HANA, CO-relevant FI postings and FI-relevant CO postings need both the FI period open (<code>FAGL_EHP4_T001B_COFI</code> for interval 3) and the CO period lock released (<code>OKP1</code>).</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Order: carry forward → block old periods / open special periods → valuations, accruals, GR/IR → close special periods → audit trail and statements → statutory messages.</li>
+<li>Balance carryforward moves balance sheet, AR/AP and asset balances to the new year and P&amp;L balances to retained earnings; FI-AA follows G/L automatically and recalculates depreciation.</li>
+<li>Fiscal year variant: up to 16 periods split into normal and special periods; posting date determines the period.</li>
+<li>Posting period variant + account type (+, A, D, K, S, M, V) with three intervals; interval 3 serves CO→FI postings; also unlock CO via <code>OKP1</code>.</li>
+<li>Close subledgers before the G/L.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Run the balance carryforward for the demo company code and ledger (Carry Forward Balances / <code>FAGLGVTR</code>) in test mode and check the retained earnings account; maintain the posting period variant in Manage Posting Periods (<code>OB52</code>) to close the old period for account types D and K while keeping S open, and check the CO period lock with <code>OKP1</code>.</div>
+
+<h3 class="lesson" id="s4f15-u7-l2">Lesson 2: Executing the Balance Audit Trail</h3>
+<p class="lead">Understand the purpose of the balance audit trail as the documentary evidence of how account balances evolved, to be produced before documents are archived.</p>
+
+<h4>Concept</h4>
+<p>The balance audit trail lists, for a chosen period, the opening balance of each account and all the changes up to the closing balance – essentially a compact journal per account in list form. It serves two purposes: documenting posting information and document status for a fiscal year, and providing a statement for external auditors.</p>
+<p>Legislation requires that balances can be justified by their documents for several years. While the documents are in the database this is trivial; but to reduce system load older documents are archived and deleted. Therefore the balance audit trail must be generated (and stored) <em>before</em> archiving, so that balances remain explainable afterwards. Programs exist for G/L accounts and for customers/vendors (open item and balance-based variants).</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>The balance audit trail shows opening balance, movements and closing balance per account for a period.</li>
+<li>It is a documentary closing activity for audits and legal retention.</li>
+<li>Always run it before documents are archived and deleted.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Execute the G/L balance audit trail (accumulated balance audit trail, <code>S_ALR_87012289</code>-type reports or Fiori) for the demo company code and fiscal year, review the opening balance, movements and closing balance of an account, and compare with the account balance display.</div>
+
+<h3 class="lesson" id="s4f15-u7-l3">Lesson 3: Explaining the Purpose of Document Splitting in G/L Accounting</h3>
+<p class="lead">See why document splitting is needed to produce complete balance sheets for entities below company code (segment, profit center) and how it enriches and splits vendor, tax and payment lines without changing data entry.</p>
+
+<h4>The problem</h4>
+<p>A vendor invoice has expense lines with account assignments (cost center → profit center → segment) but the vendor and tax lines have none. For a segment balance sheet the payable and the tax must nevertheless be attributed to the segments. Document splitting solves this in the general ledger view only.</p>
+
+<h4>Course example</h4>
+<p>Vendor invoice with 10 % tax, two expense lines on account 61003000 with different cost centers (hence different segments). The user enters the vendor once. In the <em>entry view</em> there is one vendor line and one tax line; in the <em>general ledger view</em> both are split in proportion to the expense lines, so that segment 1000_B carries its share of the payable (EUR 2,200 in the example). The balance per segment is zero. The subledger (AP) still shows a single open item – splitting is invisible there.</p>
+
+<h4>Mechanics</h4>
+<ul>
+<li><strong>Enrichment / inheritance</strong>: lines without an account assignment inherit the splitting (balancing) characteristics – e.g. segment, profit center – from the lines that have them.</li>
+<li><strong>Active split</strong>: vendor and tax lines are split according to splitting rules based on the assigned expense lines; the online check ensures each characteristic balances to zero, without altering the user's entry process.</li>
+<li><strong>Follow-up processes</strong>: when the invoice is paid (with 3 % cash discount in the example), the payment document is split according to the rules of the original invoice, so bank, discount and payable lines carry the same characteristics. In line item display, invoice and payment appear as cleared items exactly as before.</li>
+</ul>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Document splitting enables balance sheets per segment/profit center by projecting characteristics onto payable, receivable, tax, bank and discount lines.</li>
+<li>Entry view stays unchanged; only the general ledger view is split; subledgers show one open item.</li>
+<li>Splitting characteristics are inherited to lines without account assignment and must balance to zero.</li>
+<li>Follow-up documents (payments, clearings) are split according to the originating document.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Post a vendor invoice with two expense lines on different cost centers/segments for the demo company code (<code>FB60</code> / Create Incoming Invoices), display the journal entry and switch between entry view and general ledger view to see the split vendor and tax lines, then pay it and check that the payment document is split the same way.</div>
+<h2 class="unit" id="s4f15-u8">Unit 8: Financial Closing Cockpit</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand what the SAP S/4HANA Financial Closing Cockpit (FCC) adds to the close, how templates, task groups, tasks, dependencies and task lists are configured, and how tasks are executed, monitored and documented.</div>
+
+<h3 class="lesson" id="s4f15-u8-l1">Lesson 1: Managing the Financial Closing Cockpit</h3>
+<p class="lead">Learn the benefits of orchestrating the closing process in the FCC, walk through its six-step configuration procedure, and see how released task lists are scheduled, executed with dependencies and analysed.</p>
+
+<h4>What the FCC is and when to use it</h4>
+<p>The FCC is a structured interface for executing the many transactions and programs that make up a complex, recurring process such as the period-end close – for a single company code or across several organisational units. All stakeholders start or monitor their tasks there, see the status of automatically scheduled jobs and report issues. It pays off when:</p>
+<ul>
+<li>activities recur every period;</li>
+<li>several responsible people are involved;</li>
+<li>the steps follow a fixed chronological order or have dependencies;</li>
+<li>everyone needs one uniform interface;</li>
+<li>the status of all periodic activities must be transparent to all parties;</li>
+<li>the closing tasks must be documented for later checks (compliance).</li>
+</ul>
+<p>Users can set a manual status, document that a task was checked and confirm that a transaction has been performed. From the task list you reach status information, issues, job logs, spool lists and application logs, whether tasks ran automatically or manually.</p>
+
+<h4>Building blocks</h4>
+<table><thead><tr><th>Element</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Closing hierarchy</td><td>Organisational structure (e.g. controlling area → company codes) along which the close is organised.</td></tr>
+<tr><td>Task list template</td><td>Generic, reusable structure of the whole process based on the hierarchy; 10-character key.</td></tr>
+<tr><td>Task folders</td><td>Substructures for organisational levels inside the template; defaults can be stored per organisational level.</td></tr>
+<tr><td>Task groups</td><td>Structured sets of folders and tasks usable across templates – enable mass changes and cover several companies with similar tasks.</td></tr>
+<tr><td>Tasks</td><td>Individual activities with a chronological position.</td></tr>
+<tr><td>Dependencies</td><td>Predecessor relationships checked at run time.</td></tr>
+<tr><td>Task list</td><td>Concrete instance of a template for a key date / fiscal year / period with parameter values.</td></tr>
+<tr><td>List display and monitor</td><td>Processing view of all tasks; graphical monitor of sequence, status, dependencies and critical path.</td></tr>
+<tr><td>Smart Business apps</td><td>KPIs: Close Progression, Plan/Actual Comparison, Close Delays, Erroneous Tasks, Omitted Tasks, Delayed Tasks.</td></tr>
+</tbody></table>
+
+<h4>Task types</h4>
+<p>Tasks are reached centrally from <code>FCLOCO</code> or the Fiori app Process Closing Tasks (Classic). Types: notes (manual steps), transactions, programs, jobs (program + variant), workflow (for chains of programs with variants that should run automatically), Business Automation Enabler (formerly SAP CPS), external jobs, remote tasks, tasks in other SAP systems and automation in other SAP systems.</p>
+
+<h4>Configuration procedure</h4>
+<ol>
+<li><strong>Create a template</strong>: Template/Task List → Create → Create Template; enter the 10-character key, choose a closing hierarchy, add a description. The template header shows the time-dependent selection variables; the system proposes a template structure from all organisational objects of the hierarchy (e.g. controlling areas with their company codes and sub-folders). Scope should mirror the overall process and organisational units, not application silos. Templates can also be copied.</li>
+<li><strong>Create task groups</strong> for cross-template maintenance and mass changes.</li>
+<li><strong>Create tasks</strong>: define the activities in chronological order within the org structure; structure transactions and programs.</li>
+<li><strong>Define dependencies</strong>: on the Dependencies tab enter the upstream programs/transactions of each task; the sequence is enforced during processing.</li>
+<li><strong>Create a task list</strong>: open the template, choose Create Periodic Task List, enter Key Date, Fiscal Year and Posting Period. The task list takes the template's name, is filed under the template by key date, and automatically fills the time-related parameters of the program variants from its header. Depending on the closing type chosen, only the tasks allowed for that type are transferred.</li>
+<li><strong>Release the task list</strong> by setting the status to Released; only then can it be used in the application and its tasks selected and scheduled.</li>
+</ol>
+<p>Compliance: <code>FCLOCOT</code> separates the roles of the group-level closing planner (maintains templates) and the local closing manager, who can only derive task lists from the approved template.</p>
+
+<h4>Execution and analysis</h4>
+<p>After release, tasks are selected and scheduled in the FCC. In the list display you see every task's details and processing status and can jump to its detail list, where you can check or process the spool request, job log, batch input session and status changes. Dependencies make sure a task does not start before its predecessors are finished.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>The FCC gives all closing stakeholders one interface with status, logs, documentation and KPIs – ideal for recurring, multi-person, sequence-dependent processes.</li>
+<li>Procedure: template → task groups → tasks → dependencies → task list (key date, year, period) → release.</li>
+<li>Task groups enable mass changes across templates; workflow tasks automate chains of programs with variants.</li>
+<li>Task lists inherit time parameters from their header; <code>FCLOCO</code> processes tasks, <code>FCLOCOT</code> restricts local users to deriving lists from the template.</li>
+<li>Detail lists expose spool, job log, batch input sessions and status history for audit.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> In <code>FCLOCO</code> / Process Closing Tasks (Classic) create a template with the company code hierarchy, add a task folder with a program task (e.g. foreign currency valuation with a variant) and a note task, define a dependency between them, derive a periodic task list for the current period, release it, schedule and execute the tasks and review their job logs and spool.</div>
+<h2 class="unit" id="s4f15-u9">Unit 9: Intercompany Reconciliation</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Get an overview of SAP S/4HANA Intercompany Matching and Reconciliation (ICMR): why intercompany differences delay the close, how matching methods and reconciliation cases are configured, and which Fiori apps run matching, manage assignments and report reconciliation status.</div>
+
+<h3 class="lesson" id="s4f15-u9-l1">Lesson 1: Intercompany Matching and Reconciliation (Overview)</h3>
+<p class="lead">Understand the ICMR architecture – real-time matching of Universal Journal items in SAP HANA without ETL – and the configuration objects (data source, matching method, matching rules, reconciliation case, display groups, tolerances) behind the matching and reconciliation apps.</p>
+
+<h4>Business problem</h4>
+<p>With more mergers and acquisitions, groups suffer from a lack of transparency between legal entities, which makes reconciling intercompany transactions expensive and slow and delays the close. Differences typically arise from timing, currency and similar causes, and the focal point is AR against AP. Ideally variances are fixed at the source, early in the closing process. ICMR supports exactly this early, continuous analysis from company close to corporate close.</p>
+
+<h4>Key features</h4>
+<ul>
+<li>Flexible definition of matching and reconciliation rules; user-defined organisational dimensions.</li>
+<li>Matching reads the source data directly (Universal Journal or external data) – no ETL – and runs in SAP HANA, so very large volumes are processed in minutes; real-time reconciliation and error detection.</li>
+<li>Fiori apps to manage assignments at aggregate or line-item level, with in-app communication and workflow.</li>
+<li>Automatic discrepancy adjustment, optionally with approval: attach a workflow scenario to the reason code; standard scenario WS78500087 is delivered and configured in Manage Workflows – Intercompany Variance Adjustment.</li>
+<li>Reason codes and recommended solutions are recorded for matched and nearly matched items with variances, to explain them and to automate resolution.</li>
+<li>Result: faster month-end close and higher visibility of the reconciliation process; supports continuous accounting.</li>
+</ul>
+
+<h4>Configuration objects</h4>
+<table><thead><tr><th>Object</th><th>Content</th></tr></thead><tbody>
+<tr><td>Data source</td><td>SAP delivers SF_JOURNAL_ENTRIES_03 (intercompany journal entries for accounting: ACDOCA, entity pair company / trading partner company) and SF_JOURNAL_ENTRIES_02 (for consolidation: ACDOCA plus consolidation journal ACDOCU, entity pair consolidation unit / partner unit). Filters (e.g. ledger, G/L account) narrow the set.</td></tr>
+<tr><td>Matching method</td><td>A collection of matching rules that matches items between two data sets. Each rule filters the data source into two data slices and applies rule expressions; agreeing items receive an assignment number, the rest fall through to the next rule. Rules can be exact-match, suggested or exceptional-match patterns. Attribute "Behaves like master data": if set, the method is master data (maintained directly in production or exported/imported); if not, it is configuration transported via transport requests and changeable only in the source system.</td></tr>
+<tr><td>Reconciliation case</td><td>Mapped one-to-one to a matching method; consists of display groups that aggregate the matched data for the overview and balance reports.</td></tr>
+<tr><td>Display group</td><td>Two sides – leading unit and partner unit – each summing a filtered subset (e.g. AP of the company vs. AR of the trading partner, filtered to posting keys 01 and 31), plus tolerance settings (amount or percentage per amount type). Subgroups (e.g. AR by product/service account) refine the analysis. One display group must be the leading group, whose leading amount drives the status in the overview and later the elimination difference. Two display groups with exactly opposite sides can be paired to allow a netting view.</td></tr>
+</tbody></table>
+<p>Prerequisite noted in the course: fiscal year variants and charts of accounts of the entities must be aligned for meaningful comparison.</p>
+
+<h4>Process and apps</h4>
+<ol>
+<li><strong>Run matching</strong> on the continuously arriving documents – manually from Define Matching Methods, Manage Assignments – By Matching Method or Manage Assignments – By Reconciliation Case, or as recurring background jobs via Schedule Matching Runs. Matching results are stored in table ICADOCM.</li>
+<li><strong>Manage Assignments – By Reconciliation Case</strong>: choose the case, fill the mandatory filters (display group, amount field, currency plus data-source fields), choose Go to list unassigned items of the leading unit and its partners, choose Auto Match to apply all rules sequentially, then review the Assignments table. Actions on items:
+ <ul>
+ <li><em>Assign</em>: manual match where rules do not apply (e.g. equal amounts in different currencies due to a posting slip); items get an assignment number.</li>
+ <li><em>Communicate</em>: Add Note (public comment, optional due date → status Note Added; overdue items flagged red), Send Notification (to selected recipients via the Fiori launchpad, status Notification Sent), Set to Done (clears due date and alarm).</li>
+ <li>Adjust or approve variances (auto-adjustment with optional workflow approval).</li>
+ </ul></li>
+<li><strong>Reconciliation Balances</strong>: YTD and period amounts of the selected organisational units and their partner units with differences for a fiscal year/period and reconciliation case; netting available when display groups are paired; drill-down to matching items and original documents.</li>
+<li><strong>Reconciliation Status Overview</strong>: line-item matching status and aggregated reconciliation status per case, period and organisational unit. The matching status is derived from the leading display group: for AR → AP, the Not Assigned count of a company = its unassigned AR items + unassigned AP items of its trading partners (the two "Unassigned" tables of Manage Assignments) – not all AR/AP items of the company. Items with status 00 New have not yet been processed by the matching engine and are not counted. The Details arrow leads to Reconciliation Balances.</li>
+</ol>
+<p>Status determination compares the differences between company and trading partner postings with the tolerances of the display group, resulting in different reconciliation statuses.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>ICMR matches intercompany items directly on ACDOCA (or ACDOCU) in SAP HANA, in real time and without ETL, to catch differences early and shorten the close.</li>
+<li>Configuration chain: data source → matching method (rules, slices) → reconciliation case → display groups (sides, tolerances, leading group, pairing for netting).</li>
+<li>Matching runs manually or scheduled and fills ICADOCM; unmatched items are handled with Assign, notes, notifications and (approved) auto-adjustments (workflow WS78500087).</li>
+<li>Reconciliation Balances shows YTD/period amounts and differences; Reconciliation Status Overview aggregates status based on the leading display group.</li>
+<li>Matching methods can be master data or transportable configuration.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> The unit is an overview with no hands-on exercise; the self-assessment focuses on the business challenge (lack of transparency between legal entities after mergers and acquisitions). For practice, open Define Matching Methods and a reconciliation case in the demo system, run Auto Match in Manage Assignments – By Reconciliation Case for a company / trading partner pair, add a note to an unmatched item and check the result in Reconciliation Status Overview and Reconciliation Balances.</div>
+
+  </div>
+</div>
+<script>document.querySelectorAll('#sidebar nav a').forEach(a=>a.addEventListener('click',()=>document.getElementById('sidebar').classList.remove('open')));</script>
+</body></html>

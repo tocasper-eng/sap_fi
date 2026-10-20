@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TFIN52 Part 1 – Financial Accounting II (ECC)</title><style>
+:root{--sap-orange:#F0AB00;--sap-blue:#0070F2;--sap-dark:#1A2132;--sap-mid:#354A5E;--sap-light:#F5F6F7;--sap-border:#DEDEDE;--sap-text:#32363A;--sap-sub:#556B82;--card:#fff;--sidebar-w:300px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--sap-light:#11181F;--sap-border:#354A5E;--sap-text:#E5E7EA;--sap-sub:#A0B3C8;--card:#1A2132}}
+:root[data-theme="dark"]{--sap-light:#11181F;--sap-border:#354A5E;--sap-text:#E5E7EA;--sap-sub:#A0B3C8;--card:#1A2132}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"72",Arial,sans-serif;background:var(--sap-light);color:var(--sap-text);display:flex;min-height:100vh}
+#sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--sap-dark);color:#fff;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+#sidebar .logo{background:var(--sap-orange);padding:14px 18px;display:flex;gap:10px;align-items:center}
+#sidebar .logo .badge{background:#fff;color:var(--sap-orange);font-weight:900;padding:2px 8px;border-radius:3px}
+#sidebar .logo h1{font-size:13px;color:var(--sap-dark);line-height:1.3}
+#sidebar nav{padding:10px 0;flex:1}
+#sidebar nav a{display:block;padding:7px 18px;color:rgba(255,255,255,.82);text-decoration:none;font-size:12.5px;border-left:3px solid transparent}
+#sidebar nav a:hover{background:rgba(255,255,255,.08);color:#fff}
+#sidebar nav a.unit{font-weight:700;color:var(--sap-orange);margin-top:8px;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+#sidebar nav a.lesson{padding-left:30px}
+#sidebar .back{padding:12px 18px;font-size:12px;border-top:1px solid rgba(255,255,255,.1)}
+#sidebar .back a{color:var(--sap-orange)}
+#main{flex:1;min-width:0}
+#topbar{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--sap-border);padding:12px 28px;display:flex;align-items:center;gap:12px}
+#topbar h2{font-size:15px;font-weight:600;flex:1}
+#menu-toggle{display:none;background:none;border:0;cursor:pointer;width:28px}
+#menu-toggle span{display:block;height:3px;background:var(--sap-text);margin:5px 0;border-radius:2px}
+.badge-new{background:#E8FBEF;color:#1B8C3A;font-size:11px;padding:3px 8px;border-radius:10px;font-weight:700}
+.badge-ecc{background:#FFF8E1;color:#A05A00;font-size:11px;padding:3px 8px;border-radius:10px;font-weight:700}
+#content{padding:28px 36px;max-width:1100px}
+h2.unit{font-size:22px;color:var(--sap-dark);margin:40px 0 6px;padding-top:12px;border-top:3px solid var(--sap-orange)}
+:root[data-theme="dark"] h2.unit,:root:not([data-theme="light"]) h2.unit{color:var(--sap-text)}
+h2.unit:first-of-type{margin-top:0;border-top:0;padding-top:0}
+h3.lesson{font-size:17px;margin:28px 0 10px;color:var(--sap-blue)}
+h4{font-size:14px;margin:16px 0 6px}
+p,li{font-size:13.5px;line-height:1.65}
+ul,ol{margin:6px 0 12px 22px}
+p{margin:6px 0}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13px;background:var(--card)}
+th,td{border:1px solid var(--sap-border);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--sap-dark);color:#fff;font-weight:600}
+.box{padding:12px 16px;border-radius:6px;margin:14px 0;font-size:13px;line-height:1.6;background:var(--card);border-left:4px solid var(--sap-orange)}
+.box.key{border-left-color:var(--sap-blue)}
+.box strong{display:block;margin-bottom:4px}
+.lead{font-size:14px;color:var(--sap-sub);margin-bottom:18px}
+.unit-objectives{background:var(--card);border:1px solid var(--sap-border);border-radius:6px;padding:12px 16px;margin:10px 0 16px}
+code{background:rgba(0,0,0,.06);padding:1px 5px;border-radius:3px;font-size:12.5px}
+@media (max-width:900px){#sidebar{position:fixed;left:calc(-1*var(--sidebar-w));transition:left .2s;z-index:10}#sidebar.open{left:0}#menu-toggle{display:block}#content{padding:18px 16px}}
+</style></head>
+<body>
+<aside id="sidebar">
+  <div class="logo"><div class="badge">SAP</div><h1>TFIN52 Part 1 – Financial Accounting II (ECC)</h1></div>
+  <nav><a class="unit" href="#tfin52_1-u1">Unit 1: Organizational Structures</a><a class="lesson" href="#tfin52_1-u1-l1">Lesson 1: Assigning a Chart of Accounts and a Chart of Depreciation to a Company Code</a><a class="lesson" href="#tfin52_1-u1-l2">Lesson 2: Assigning Management Accounting Objects to Fixed Assets</a><a class="lesson" href="#tfin52_1-u1-l3">Lesson 3: Defining How Depreciation Areas Post to the General Ledger</a><a class="lesson" href="#tfin52_1-u1-l4">Lesson 4: Understanding the Importance of Asset Classes in Fixed Assets</a><a class="unit" href="#tfin52_1-u2">Unit 2: Master Data</a><a class="lesson" href="#tfin52_1-u2-l1">Lesson 1: Explaining the Components of an Asset Class</a><a class="lesson" href="#tfin52_1-u2-l2">Lesson 2: Creating and Changing Master Data in Asset Accounting</a><a class="lesson" href="#tfin52_1-u2-l3">Lesson 3: Carrying Out Mass Changes to Asset Master Data Using a Worklist</a><a class="unit" href="#tfin52_1-u3">Unit 3: Asset Transactions</a><a class="lesson" href="#tfin52_1-u3-l1">Lesson 1: Creating Acquisitions</a><a class="lesson" href="#tfin52_1-u3-l2">Lesson 2: Posting Asset Acquisitions with the Profit Center and Segment Characteristics</a><a class="lesson" href="#tfin52_1-u3-l3">Lesson 3: Posting Non-Integrated Asset Acquisitions and Understanding the Integration with Materials Management (MM)</a><a class="lesson" href="#tfin52_1-u3-l4">Lesson 4: Posting Integrated and Non-Integrated Asset Retirements</a><a class="lesson" href="#tfin52_1-u3-l5">Lesson 5: Performing Transfers Within Company Code and Intercompany Asset Transfers</a><a class="lesson" href="#tfin52_1-u3-l6">Lesson 6: Representing, Distributing, and Settling Assets Under Construction</a><a class="lesson" href="#tfin52_1-u3-l7">Lesson 7: Entering and Analyzing Unplanned Depreciation</a><a class="unit" href="#tfin52_1-u4">Unit 4: Periodic Processing and Valuation</a><a class="lesson" href="#tfin52_1-u4-l1">Lesson 1: Defining Depreciation Areas, Keys, Calculation, and Posting</a><a class="lesson" href="#tfin52_1-u4-l2">Lesson 2: Executing Programs for Fiscal Year Change and Year-End Closing in Asset Accounting</a><a class="lesson" href="#tfin52_1-u4-l3">Lesson 3: Using the Accounts Approach for Parallel Accounting in Asset Accounting (FI-AA)</a><a class="lesson" href="#tfin52_1-u4-l4">Lesson 4: Processing Impairment Postings in Subledger Assets</a><a class="unit" href="#tfin52_1-u5">Unit 5: Information System (Asset Accounting)</a><a class="lesson" href="#tfin52_1-u5-l1">Lesson 1: Executing Various Asset Accounting Reports Using SAP List Viewer and Sort Variants</a><a class="lesson" href="#tfin52_1-u5-l2">Lesson 2: Executing Depreciation and Transaction Simulation</a><a class="lesson" href="#tfin52_1-u5-l3">Lesson 3: Understanding the Layout of an Asset History Sheet</a><a class="unit" href="#tfin52_1-u6">Unit 6: Standard Reports in Financial and Management Accounting</a><a class="lesson" href="#tfin52_1-u6-l1">Lesson 1: Using the Information Systems</a><a class="lesson" href="#tfin52_1-u6-l2">Lesson 2: Using Report Variants and Variables</a><a class="unit" href="#tfin52_1-u7">Unit 7: SAP List Viewer</a><a class="lesson" href="#tfin52_1-u7-l1">Lesson 1: Using the SAP List Viewer</a><a class="lesson" href="#tfin52_1-u7-l2">Lesson 2: Editing a Display Variant</a><a class="lesson" href="#tfin52_1-u7-l3">Lesson 3: Using Additional Selection Criteria in Financial (FI) Reports</a><a class="unit" href="#tfin52_1-u8">Unit 8: Drilldown Reporting</a><a class="lesson" href="#tfin52_1-u8-l1">Lesson 1: Introducing Drilldown Reports</a><a class="lesson" href="#tfin52_1-u8-l2">Lesson 2: Navigating in Classic Drilldown Reports</a><a class="lesson" href="#tfin52_1-u8-l3">Lesson 3: Navigating in Graphical Drilldown Reports</a><a class="lesson" href="#tfin52_1-u8-l4">Lesson 4: Optimizing Report Execution</a><a class="lesson" href="#tfin52_1-u8-l5">Lesson 5: Creating a Basic Drilldown Report</a><a class="lesson" href="#tfin52_1-u8-l6">Lesson 6: Using Variables with Drilldown Reports</a><a class="lesson" href="#tfin52_1-u8-l7">Lesson 7: Exporting Data</a><a class="lesson" href="#tfin52_1-u8-l8">Lesson 8: Adding Calculations to Drilldown Reports</a><a class="lesson" href="#tfin52_1-u8-l9">Lesson 9: Using Key Figure Schemes and Characteristic Hierarchies in Profitability Analysis Reporting</a><a class="lesson" href="#tfin52_1-u8-l10">Lesson 10: Connecting Drilldown Reports</a></nav>
+  <div class="back"><a href="../index.html">&larr; Back to SAP FI Reference</a></div>
+</aside>
+<div id="main">
+  <div id="topbar"><button id="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')"><span></span><span></span><span></span></button><h2>TFIN52 Part 1 – Financial Accounting II (ECC)</h2><span class="badge-ecc">ECC</span></div>
+  <div id="content">
+  <p class="lead">Unit-by-unit study notes written from the course material. Every lesson of the course is covered in the same order as the original.</p>
+<h2 class="unit" id="tfin52_1-u1">Unit 1: Organizational Structures</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand the organizational building blocks that classic Asset Accounting (FI-AA) in SAP ERP ECC relies on – client, company code, business area, chart of accounts and chart of depreciation – and learn how depreciation areas, CO objects and asset classes connect the asset subledger to the general ledger and to Management Accounting.</div>
+
+<h3 class="lesson" id="tfin52_1-u1-l1">Lesson 1: Assigning a Chart of Accounts and a Chart of Depreciation to a Company Code</h3>
+<p class="lead">Learn what the FI-AA organizational units are, what a chart of depreciation is, and how a company code becomes usable for Asset Accounting by receiving a chart of depreciation.</p>
+
+<h4>Organizational units relevant to FI-AA</h4>
+<table><thead><tr><th>Unit</th><th>Meaning for FI-AA</th></tr></thead><tbody>
+<tr><td>Client</td><td>Top of the system hierarchy; settings here apply to every company code. Charts of depreciation and asset classes exist at this level.</td></tr>
+<tr><td>Company code</td><td>Self-contained accounting unit that produces the legally required balance sheet and P&amp;L. Each company code uses exactly one chart of accounts and one chart of depreciation.</td></tr>
+<tr><td>Business area</td><td>Internal reporting unit for which an internal balance sheet and P&amp;L can be produced. Must be defined first under <em>Enterprise Structure → Definition → Financial Accounting → Define Business Area</em>.</td></tr>
+</tbody></table>
+<p>The course notes that with new General Ledger Accounting active, document splitting is what makes complete balances possible for business areas (profit center and segment are the standard characteristics for which this works out of the box). Document splitting is deliberately <em>not</em> activated for the training company codes (AA##), because it is irrelevant for understanding how FI-AA works; the activation status is visible with <code>FAGL_ACTIVATION</code>. New G/L does, however, offer an alternative way of handling parallel accounting (ledger approach), which forces a different FI-AA configuration – this is covered in Unit 4 and in course AC210.</p>
+
+<h4>Chart of accounts versus chart of depreciation</h4>
+<p>The <strong>chart of accounts</strong> holds all G/L accounts; FI-AA simply reuses the operative chart of accounts assigned to the company code in FI. It can be shaped for global, industry or country needs.</p>
+<p>The <strong>chart of depreciation</strong> is the FI-AA-specific structure. It bundles the valuation rules a country requires for depreciating and valuing assets, and because these rules are country-specific, SAP ships sample charts of depreciation per country (0DE for Germany, 0US for the USA, 0GB for the UK, and so on). You never use a sample directly; you copy it into your own chart of depreciation and adapt it. Several company codes may share one chart of depreciation and one chart of accounts, but every company code has exactly one of each.</p>
+<p>Within a chart of depreciation, each <strong>depreciation area</strong> (two-digit numeric key) represents one valuation view. Area <strong>01</strong> is the <em>leading</em> depreciation area and normally mirrors local accounting principles; it has a special role throughout the course. Further areas can represent:</p>
+<ul>
+<li>tax balance sheet valuation</li>
+<li>cost-accounting (costing-based) valuation</li>
+<li>valuation in another currency or according to another approach, e.g. group valuation / IFRS / US GAAP for consolidated statements</li>
+<li>capital tax valuation</li>
+<li>derived differences between book and tax depreciation</li>
+</ul>
+<p>The point of having several areas is that the same asset portfolio must be valued differently for different audiences: local book depreciation, tax authorities (where a different valuation is allowed), internal cost accounting, and parallel accounting for a group balance sheet.</p>
+<p>Training-system specifics: in Germany the exercises copy chart of depreciation <strong>1AC</strong> (a copy of 0DE plus a few extra values) because the 0DE in the training system differs from the standard; US classes may use <strong>1ACU</strong> (near copy of 0US).</p>
+
+<h4>Making a company code an FI-AA company code</h4>
+<ol>
+<li>Create and configure the company code in FI (global parameters, fiscal year variant, etc.).</li>
+<li>Assign a chart of depreciation to it – ideally as a separate project step.</li>
+<li>Enrich the company code with the remaining FI-AA Customizing (number ranges, account assignment, screen layouts, …).</li>
+</ol>
+<p>Only then can assets be created and posted for that company code. A company code without a chart of depreciation cannot use FI-AA at all – which may be intentional, e.g. a small company code that manages its fixed assets in an external system.</p>
+
+<h4>Configuration paths</h4>
+<table><thead><tr><th>Activity</th><th>IMG path (Financial Accounting (New) → Asset Accounting → …)</th></tr></thead><tbody>
+<tr><td>Copy a sample chart of depreciation</td><td>Organizational Structures → Copy Reference Chart of Depreciation/Depreciation Areas → <em>Copy Reference Chart of Depreciation</em> (Organizational object → Copy org. object, from 1AC to AA##)</td></tr>
+<tr><td>Rename the copy</td><td>same node → <em>Specify Description of Chart of Depreciation</em></td></tr>
+<tr><td>Remove unneeded areas</td><td>same node → <em>Copy/Delete Depreciation Areas</em> (in class: areas 10, 41, 51 may be deleted)</td></tr>
+<tr><td>Link to company code</td><td>Organizational Structures → Assign Chart of Depreciation to Company Code (column ChrtDep)</td></tr>
+</tbody></table>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Client → company code → business area; the company code is the legal reporting unit and the anchor for FI-AA.</li>
+<li>Chart of accounts = G/L accounts (shared with FI); chart of depreciation = country-specific valuation rules, made of depreciation areas.</li>
+<li>Charts of depreciation live at client level; copy a country sample (0XY), never use it directly; many company codes can share one.</li>
+<li>Area 01 is the leading area and posts to the G/L in real time.</li>
+<li>Without an assigned chart of depreciation a company code cannot run FI-AA.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 1: copy chart of depreciation 1AC to AA## via the IMG copy function, change its description, delete depreciation areas 10, 41 and 51, and assign AA## to company code AA##. Reflection questions confirm that the chart of depreciation is client-level, that sample charts can be adapted, and that several company codes may share one chart.</div>
+
+<h3 class="lesson" id="tfin52_1-u1-l2">Lesson 2: Assigning Management Accounting Objects to Fixed Assets</h3>
+<p class="lead">See which Controlling objects can be stored in an asset master record and which of them can receive the depreciation that FI-AA posts.</p>
+<h4>CO objects in the asset master</h4>
+<p>FI-AA is integrated with Management Accounting through account assignment objects in the asset master record. The CO objects belong to the controlling area, so they may be valid for one or several company codes. The "genuine" CO objects you can enter are:</p>
+<table><thead><tr><th>Object</th><th>Nature of the assignment</th></tr></thead><tbody>
+<tr><td>Cost center</td><td>Real account assignment; the usual receiver of depreciation.</td></tr>
+<tr><td>Internal order</td><td>Real or statistical.</td></tr>
+<tr><td>Activity type</td><td>Purely statistical information.</td></tr>
+</tbody></table>
+<p>Objects from other applications that carry controlling functionality can be assigned as well: WBS elements, real estate objects, maintenance orders (statistical only) and Public Sector Management objects.</p>
+<h4>Where depreciation can be posted</h4>
+<p>Depreciation from any depreciation area can flow to: a cost center; a real order; cost center plus statistical order; a WBS element; cost center plus statistical WBS element; a real estate object; or PSM objects. A single asset can never be split between two cost centers. If an asset's cost must be shared, assign it to a real internal order and settle that order periodically to the receiving cost centers.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Cost center, internal order and activity type are the original CO objects in the asset master; cost elements are not assigned there.</li>
+<li>Activity type and maintenance order are statistical only.</li>
+<li>One asset → at most one cost center; use an order with settlement to distribute depreciation.</li>
+</ul></div>
+
+<h3 class="lesson" id="tfin52_1-u1-l3">Lesson 3: Defining How Depreciation Areas Post to the General Ledger</h3>
+<p class="lead">Decide, per depreciation area, which values (APC, depreciation, none) are transferred to FI and how, and link each area to a financial statement version for asset reporting.</p>
+<h4>Why not every area posts</h4>
+<p>FI-AA is a subledger: each asset carries values in several depreciation areas, but financial statements are only needed for some of them. Customizing therefore defines for each area whether and how values reach the G/L (classic "accounts approach", where each parallel valuation has its own set of G/L accounts).</p>
+<table><thead><tr><th>Indicator</th><th>Posting behaviour</th></tr></thead><tbody>
+<tr><td>0</td><td>Area does not post to FI (reporting only).</td></tr>
+<tr><td>1</td><td>Posts asset values (APC) in real time; depreciation periodically. Mandatory for area 01.</td></tr>
+<tr><td>2</td><td>Posts asset values and depreciation periodically.</td></tr>
+<tr><td>3</td><td>Posts depreciation only, periodically.</td></tr>
+<tr><td>4</td><td>Posts asset values directly (immediately) and depreciation periodically.</td></tr>
+</tbody></table>
+<p>Area 01 posts APC online. Traditionally area 01 represents local GAAP, but increasingly companies put the international accounting principle (IFRS/US GAAP) into area 01 so that it is the view updated in real time. Areas other than 01 can push APC to FI either periodically through program <code>RAPERB2000</code> (periodic APC posting) or directly (indicator 4). Depreciation is never posted in real time – it is always a periodic run with <code>RAPOST2000</code>.</p>
+<h4>Financial statement versions for asset reports</h4>
+<p>Values of different areas can be routed to different balance sheet and P&amp;L accounts, and any number of financial statement versions (FSV) can be defined per chart of accounts in G/L Customizing. To let asset reports group assets by financial statement item, each depreciation area must know which FSV applies: IMG <em>Financial Accounting (New) → Asset Accounting → Integration with General Ledger Accounting → Specify Financial Statement Version for Asset Reports</em>. The report then shows the items when you select a sort variant containing the financial statement item field (structure ANLAV, field ERGSO).</p>
+<h4>Related configuration</h4>
+<table><thead><tr><th>Activity</th><th>IMG path (Financial Accounting (New) → Asset Accounting → …)</th></tr></thead><tbody>
+<tr><td>Set the posting indicator per area</td><td>Integration with General Ledger Accounting → Define How Depreciation Areas Post to General Ledger</td></tr>
+<tr><td>FSV per area</td><td>Integration with General Ledger Accounting → Specify Financial Statement Version for Asset Reports</td></tr>
+<tr><td>Currency of an area</td><td>Valuation → Currencies → Define Depreciation Areas for Foreign Currencies</td></tr>
+</tbody></table>
+<p>Course example (chart AA##): area 01 posts in real time, area 20 (cost-accounting) posts only depreciation, all other areas do not update the G/L. Areas 30/31 are the consolidated-balance-sheet areas and receive FSV CAUS; the others get INT. Areas 31 and 32, which report in group currency, are set to USD.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Posting indicators 0–4 control what each depreciation area sends to FI; area 01 must post APC in real time.</li>
+<li>Depreciation is always periodic (<code>RAPOST2000</code>); periodic APC of non-leading areas uses <code>RAPERB2000</code>.</li>
+<li>Reporting-only areas (indicator 0) are perfectly valid.</li>
+<li>Assign an FSV to every area so asset reports can show financial statement items via sort variant field ERGSO.</li>
+<li>Depreciation areas can carry their own currency, e.g. group currency USD.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 2: inspect (not change) the posting indicators of chart AA## and identify the real-time area, the depreciation-only area and the reporting-only areas; assign FSV INT to all areas except 30/31 which get CAUS; set areas 31 and 32 to USD under Valuation → Currencies.</div>
+
+<h3 class="lesson" id="tfin52_1-u1-l4">Lesson 4: Understanding the Importance of Asset Classes in Fixed Assets</h3>
+<p class="lead">Understand why the asset class is the central classification and control object for fixed assets and what it carries.</p>
+<h4>Role of the asset class</h4>
+<p>Every asset belongs to exactly one asset class (buildings, vehicles, fixtures and fittings, machines, …). Asset classes are defined at client level and are the main criterion for classifying assets: assets that appear under different balance sheet items (buildings vs. machines) must be in different classes. Special classes exist for assets under construction, low-value assets, intangibles such as patents or software, and leased assets.</p>
+<h4>Structure of an asset class</h4>
+<p>An asset class has two main sections:</p>
+<ul>
+<li><strong>Master data section</strong> – default values for master record fields plus control data: account determination, number range interval and screen layout rule.</li>
+<li><strong>Depreciation data section</strong> – per depreciation area, proposed depreciation terms (key, useful life, …). Individual areas can be deactivated for a class, and proposed terms can be overwritten when an asset is created.</li>
+</ul>
+<p>Because one asset class can be linked to several charts of depreciation, a group can keep a globally uniform class catalog while depreciation rules differ per country.</p>
+<p>Scope note: FI-AA covers the financial valuation of tangible/intangible assets. Technical asset management belongs to Plant Maintenance (Enterprise Asset Management); financial instruments are handled in Treasury and Risk Management (Accounting → Financial Supply Chain Management).</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Asset class = main classification criterion; one asset ↔ one class; classes exist client-wide.</li>
+<li>Control data in the class: account determination, number range, screen layout; plus default depreciation terms per area.</li>
+<li>A class can be assigned to many charts of depreciation, supporting a uniform global catalog.</li>
+<li>Insurance type is not a control element of the class.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No hands-on exercise in this lesson. Unit assessment questions check: company code as independent accounting unit; which CO objects go in the asset master (activity type, order, cost center – not cost element); no double cost-center assignment; FSV per area; asset class control data; class usable with several charts of depreciation; classes at client level.</div>
+<h2 class="unit" id="tfin52_1-u2">Unit 2: Master Data</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Take the asset class apart – account determination, number ranges, screen layout rules for master data and depreciation areas, user fields, and the special AuC and low-value-asset classes – then use it to create, change and mass-change asset master records in classic FI-AA, including subnumbers, time-dependent data and the link to PM equipment.</div>
+
+<h3 class="lesson" id="tfin52_1-u2-l1">Lesson 1: Explaining the Components of an Asset Class</h3>
+<p class="lead">Understand each control element inside an asset class – account determination, number range, screen layouts, user-field defaults – and the particularities of the AuC and LVA classes, so that the class can act as a reliable template for future asset master records.</p>
+
+<h4>Account determination</h4>
+<p>The account determination key in the class is the bridge between an asset's values and the G/L accounts that receive its APC and depreciation postings. One key can serve different strategies:</p>
+<ul>
+<li>With a very small class catalog the key could simply equal the balance sheet account number (rare in practice).</li>
+<li>Several similar classes can share one key and therefore post to one balance sheet account.</li>
+<li>If company codes use different operative charts of accounts, a single key is enough: the G/L accounts are maintained per chart of accounts behind the same key.</li>
+</ul>
+<p>Accounts are maintained under <em>Financial Accounting (New) → Asset Accounting → Integration with General Ledger Accounting → Assign G/L Accounts</em> (<code>AO90</code>), per chart of accounts and account determination. For every area that posts depreciation you need extra accounts: accumulated depreciation, depreciation expense and write-up revenue for ordinary and unplanned depreciation, optionally accounts for revaluation and for interest in the cost-accounting area. Course example in chart INT: key 20000 (class 2000/2100) posts acquisitions to balance sheet account 11000 and cost-accounting depreciation (area 20) to expense account 481000.</p>
+
+<h4>Number assignment</h4>
+<table><thead><tr><th>Type</th><th>Behaviour</th></tr></thead><tbody>
+<tr><td>Internal</td><td>System takes the next free number of the interval assigned to the class.</td></tr>
+<tr><td>External</td><td>User or an external system supplies the number.</td></tr>
+</tbody></table>
+<p>Intervals are defined per company code (<em>Organizational Structures → Asset Classes → Define Number Range Interval</em>, <code>AS08</code>; quickest setup is Utilities → Copy from an existing company code such as 1000). Alternatively a company code can borrow the intervals of another one via <em>Specify Number Assignment Across Company Codes</em> (field No. CoCd) – convenient but then the ranges are shared.</p>
+
+<h4>Screen layout rule for master data</h4>
+<p>Each class references a screen layout rule (maintained under <em>Master Data → Screen Layout → Define Screen Layout for Asset Master Data</em>), which works on logical field groups (General data, Posting information, Time-dependent data, Allocations, Insurance, …) and controls three things per field:</p>
+<table><thead><tr><th>Control</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Field selection</td><td>Required / optional / display / suppressed – trims the master record to what the class needs and forces key control data.</td></tr>
+<tr><td>Maintenance level</td><td>Where the field may be maintained: asset class, main asset number or subnumber.</td></tr>
+<tr><td>Reference</td><td>Whether the field content is copied when an asset is created with reference to another asset.</td></tr>
+</tbody></table>
+<p>Course findings: class 2100 uses rule 2000; under rule 3000 "Description 1" is <em>not</em> copied from the reference, whereas Insurance Type is.</p>
+<p>Additional account assignment objects (cost center, order, WBS element, real estate object, PSM objects, and from EHP5 profit center and segment) only appear in the master record after being activated under <em>Integration with General Ledger Accounting → Additional Account Assignment Objects → Activate Account Assignment Objects</em>; the screen layout then decides whether they are mandatory. Besides cost-accounting depreciation, APC can also be posted statistically to investment orders or WBS elements – needed for the direct capitalization scenario of Investment Management and for budget monitoring of asset purchases.</p>
+<p>The <strong>tab layout</strong> (number and names of tab pages and which logical field groups sit on each) can also be defined per asset class.</p>
+
+<h4>Screen layout for depreciation areas</h4>
+<p>In the depreciation data section (<code>OAYZ</code>, <em>Valuation → Determine Depreciation Areas in the Asset Class</em>) each area of the class gets its own screen layout rule – SAP delivers 1000 and 2000 – plus proposed depreciation key and useful life, and areas can be deactivated. The rule's maintenance level fixes how uniformly valuation is controlled:</p>
+<table><thead><tr><th>Maintenance level</th><th>Effect</th></tr></thead><tbody>
+<tr><td>Asset class</td><td>Terms fixed in the class; identical for all assets of the class.</td></tr>
+<tr><td>Main asset number</td><td>Class values are proposed and may be changed in the master record; subnumbers inherit from the main number.</td></tr>
+<tr><td>Asset subnumber</td><td>Each subnumber may have its own depreciation terms.</td></tr>
+</tbody></table>
+<p>Course findings: class 2100 proposes key LINK in all areas except area 20 (LINA); class 3000 uses rule 1000 in all areas; in rule 1000 the depreciation key is a required field. The course works at class level (<code>OAYZ</code>) and asset level (<code>AS02</code>).</p>
+
+<h4>Further class functions</h4>
+<ul>
+<li><strong>Copy class from reference</strong> (<code>OAOA</code>, Edit → Copy As): copies master data section <em>and</em> depreciation section; a class created without reference has only the master data section and the depreciation section must be configured afterwards.</li>
+<li><strong>User fields</strong> with definable allowed values, usable as report selection criteria: evaluation groups 1–5 (1–4 are four characters, 5 is eight), environmental protection indicator, reason for investment, asset super number (groups several assets, e.g. a production line).</li>
+<li><strong>Default values</strong> in the class: user fields, insurance, net worth tax, leasing, depreciation key / useful life / index series per area.</li>
+</ul>
+
+<h4>Special classes: AuC and LVA</h4>
+<p><strong>Assets under construction</strong> need their own class and G/L account because they are shown separately in the balance sheet. Depreciation key 0000 prevents depreciation in the balance sheet areas; special tax depreciation and investment support remain possible; down payments can be posted through AP; and credit memos after full capitalization work only if negative APC is allowed in the area detail screen. The class setting "Status of AuC" decides between summary settlement and line-item settlement – class 4000 in the training system settles by line item. Larger investments are handled with investment measures (orders/projects) in Investment Management.</p>
+<p><strong>Low-value assets</strong> are checked against a country-specific maximum amount. Individual management and collective management (several items in one record, requiring a base unit of measure in <code>OAOA</code>) need separate classes. Maximum amounts per company code/area and the check type per class are set under <em>Valuation → Amount Specifications (Company Code/Depreciation Area) → Specify Max. Amount for Low-Value Assets + Asset Classes</em>; separate limits exist for normal postings and purchase-order acquisitions. In class, area 15 of AA## gets EUR 1,000 and class 3005 checks against the value-based maximum.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Account determination (per chart of accounts) links class → G/L accounts for APC, depreciation, write-ups, revaluation, interest.</li>
+<li>Number range intervals are company-code specific, internal or external, or shared across company codes.</li>
+<li>Screen layout rules govern field status, maintenance level and reference copying; depreciation areas have their own rules (1000/2000) whose maintenance level sets how far terms may deviate from the class.</li>
+<li>Copying a class copies both sections; class 4000 (AuC) uses key 0000 and line-item settlement; LVA classes check a maximum amount and may be managed individually or collectively.</li>
+<li>Account assignment objects must be activated before they appear in the master record.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercises 3–9: copy the asset number range of company code 1000 to AA## (or share it via cross-company-code assignment); explore classes in <code>OAOA</code> (class 3000 control parameters, number range 03; key 20000 → account 11000, area 20 expense 481000 in <code>AO90</code>); check screen layout rules 2000/3000 for required and reference fields; use <code>OAYZ</code> to inspect depreciation keys and rules per area; copy class 2100 to MA## "Special Machines ##"; compare class 4000's AuC settings; set the LVA limit for area 15 and verify class 3005's check.</div>
+
+<h3 class="lesson" id="tfin52_1-u2-l2">Lesson 2: Creating and Changing Master Data in Asset Accounting</h3>
+<p class="lead">Create asset master records (from a class, from a reference, in bulk, as subnumbers), maintain time-dependent data, trace changes, and understand the FI-AA ↔ PM equipment link.</p>
+<h4>Ways to create an asset</h4>
+<ol>
+<li><strong>From an asset class</strong> (<code>AS01</code>): enter company code and class; the class supplies the defaults; fill required fields; on save the system assigns the number.</li>
+<li><strong>From a reference asset</strong>: often gives better defaults than the class alone, but beware of copying unwanted data such as the capitalization date (the screen layout's reference flags decide what is copied).</li>
+<li><strong>Multiple similar assets</strong>: enter "Number of similar records" on the initial screen; after saving, the Maintain pushbutton lets you vary description, inventory number, business area, cost center and evaluation groups 1–5 per asset before creating them.</li>
+</ol>
+<h4>Subnumbers</h4>
+<p>An asset consisting of components can be split into subnumbers (<code>AS11</code>, also with "number of similar subnumbers"). Typical reasons: separately tracking subsequent acquisitions in later years (e.g. buildings), managing component values separately, or technical splits. The class decides whether subnumbers are numbered internally or externally (external is handy during legacy transfer, switch to internal afterwards), and the screen layout's maintenance level decides whether subnumbers may carry their own depreciation terms.</p>
+<h4>Personal value list</h4>
+<p>Since release 4.6 frequently used assets appear in a personal value list on F4. It can be disabled via <code>AS02</code> → Settings → Interface; existing entries must be deleted before the general search help shows again.</p>
+<h4>Time-dependent data</h4>
+<p>Assignments to CO objects (cost center, project), shift factor and shutdown indicator are stored as time intervals because they influence cost allocation and depreciation. On the Time-dependent tab, "More Intervals" → "Add interval" creates a new validity period from a given date; the course moves a photocopier from cost center T-F05A## to T-F05B## for 1 June – 31 October and back on 1 November.</p>
+<h4>Change documents</h4>
+<p>Every master record change produces a change document (changed fields, number of changes per field, user, old/new values), viewable from <code>AS02</code>/<code>AS03</code> via Environment → Change documents → On asset, or with report <code>RAAEND01</code> (Information System → Preparations for closing → International → Changes to Asset Master Records). Many assets at once → mass change (Lesson 3).</p>
+<h4>Depreciation areas in the master record</h4>
+<p>The asset's depreciation section is filled from the class and can be adjusted per area (key, useful life, depreciation start). Some values come from the acquisition posting; extra parameters such as index series, variable depreciation portion and scrap value are mainly relevant for the cost-accounting area. SAP ERP 6.0 allows selected depreciation terms to be time-dependent.</p>
+<h4>Asset and equipment (PM)</h4>
+<p>Several PM equipment records may point to one asset, but each equipment belongs to one asset only. Since 4.6C the two can be kept synchronous: an equipment can be created automatically with the asset (copying e.g. company code and inventory number), and changes on either side update the other; a workflow can notify the PM manager. Configuration: <em>Master Data → Automatic Creation of Equipment Master Records</em> (SAP Notes 370884, 549929).</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li><code>AS01</code> create, <code>AS02</code> change, <code>AS03</code> display, <code>AS11</code> subnumber; mass creation via "number of similar records".</li>
+<li>Reference creation copies only fields flagged as reference fields – check the capitalization date.</li>
+<li>Cost center, shift and shutdown are time-dependent intervals; every change is logged in a change document (<code>RAAEND01</code>).</li>
+<li>Equipment ↔ asset synchronization integrates FI-AA with Plant Maintenance.</li>
+<li>Report <code>S_ALR_87012056</code> / <code>RAANLA_ALV01</code> lists unposted assets.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 10: create forklifts in class 3100 (one from the class, one with reference), a photocopier in class 3000, five PCs in class 3200 with inventory numbers via mass creation, buildings (1100), ten machines (2100), fax (3000), company cars (3100), an AuC (4000), special machines (MA##), optionally an LVA coffee machine (3005), and deliberately a car in the wrong class 3000 for later correction; rename PC 1 with <code>AS02</code>, add subnumbers Monitor/Keyboard with <code>AS11</code>; list them with the Directory of Unposted Assets (sort variant 0013). Exercise 11: add cost-center intervals to the copier and review change documents.</div>
+
+<h3 class="lesson" id="tfin52_1-u2-l3">Lesson 3: Carrying Out Mass Changes to Asset Master Data Using a Worklist</h3>
+<p class="lead">Change many asset master records at once by combining a substitution rule with a worklist generated from an asset report.</p>
+<h4>Concept</h4>
+<p>Mass changes run from the FI-AA application menu (Environment → Worklist) and only need the application authorization – no workflow task assignment in Customizing is required. The change logic is a <strong>substitution rule</strong> with two parts: <em>prerequisites</em> (conditions selecting the records, built in the form editor or in expert mode using table/field names) and <em>substitutions</em> (constant values, field-to-field assignments or user exits). SAP Note 210897 covers substitutions for time-dependent data.</p>
+<h4>Procedure</h4>
+<ol>
+<li>Define the substitution (<code>OA02</code> → Substitution → Create), insert a step, pick the field (e.g. Evaluation group 3 = ANLA-ORD43), set the prerequisite (e.g. asset class = MA##) and the constant value.</li>
+<li>Assign the substitution to the company code (same transaction, New Entries: company code, sequence number, substitution).</li>
+<li>Run any asset report (e.g. Directory of Unposted Assets) or Environment → Worklist → Generate, select the assets, choose <em>Create Worklist</em>.</li>
+<li>Give the worklist a name and a purpose (standard task such as "Change asset w/o dialog (bulk change)"), choose the substitution; the system returns a work queue number.</li>
+<li>Edit and release the worklist with <code>AR31</code> (Environment → Worklist → Edit), refresh until status Completed.</li>
+<li>Verify with <code>AS03</code> or a report.</li>
+</ol>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Mass change = substitution rule (prerequisite + substitution) applied to a worklist of assets.</li>
+<li><code>OA02</code> maintains rules and their company-code assignment; <code>AR31</code> processes worklists.</li>
+<li>Worklists are generated from any asset report's result list.</li>
+<li>Changing a class default does not touch existing assets – that is what the mass change is for.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 12: define evaluation group 3 value 99## (<em>Master Data → User Fields → Define 4-Character Evaluation Groups</em>), store it as default in class MA## (<em>Enter Your User Fields in Asset Class</em>) and confirm the proposal on the Allocations tab in <code>AS01</code>; then create substitution Z## in <code>OA02</code> (prerequisite class = MA##, constant 99## for ORD43), assign it to AA##, build a worklist from the Directory of Unposted Assets (sort variant 0007) with task "Change asset w/o dialog", release it in <code>AR31</code>, and check in <code>AS03</code> that only MA## assets changed.</div>
+<h2 class="unit" id="tfin52_1-u3">Unit 3: Asset Transactions</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Master the day-to-day business transactions of classic FI-AA in ECC – integrated and non-integrated acquisitions (including MM and the profit center/segment characteristics), retirements, intracompany and intercompany transfers, settlement of assets under construction and unplanned depreciation – and learn to read the results in the Asset Explorer and the asset history sheet.</div>
+
+<h3 class="lesson" id="tfin52_1-u3-l1">Lesson 1: Creating Acquisitions</h3>
+<p class="lead">Post an external asset acquisition integrated with Accounts Payable, understand what the posting does to the asset master and the FI document, and analyze the result in the Asset Explorer.</p>
+<h4>FI-AA as a subledger</h4>
+<p>Like AP and AR, Asset Accounting is a subledger: every posting to an asset simultaneously updates the G/L reconciliation (balance sheet) account determined through account determination, so subledger and G/L are always reconciled. The reconciliation accounts must be set up jointly with the asset department before go-live.</p>
+<h4>Ways to post an external acquisition</h4>
+<table><thead><tr><th>Variant</th><th>When used</th><th>Remark</th></tr></thead><tbody>
+<tr><td>FI-AA integrated with AP (<code>F-90</code>)</td><td>Invoice is at hand, no purchase order</td><td>One document posts asset and vendor; satisfies FI and FI-AA at once.</td></tr>
+<tr><td>Automatic offsetting entry (<code>ABZON</code>)</td><td>Invoice not yet received, or AP has already posted it separately</td><td>Offsets to a clearing account that must be cleared later.</td></tr>
+<tr><td>Clearing the offsetting entry (<code>F-91</code>)</td><td>AP posted first against the clearing account</td><td>Asset posting clears the clearing account; order of the two steps may be reversed.</td></tr>
+<tr><td>MM integration</td><td>Procurement via purchase order</td><td>Asset capitalized in Logistics (goods or invoice receipt) – Lesson 3.</td></tr>
+</tbody></table>
+<p>In-house production is capitalized via an Investment Management measure (order/project) settled to an AuC and then to the final asset. Less common: a CO order already charged with the invoice is settled to the asset.</p>
+<h4>Transaction types</h4>
+<p>Every asset posting carries a transaction type (e.g. 100 external acquisition, 030 acquisition in group area). It tells the asset history sheet and other reports what kind of movement it is and whether it concerns current-year or prior-year values, and can be restricted to specific depreciation areas. Transaction types are grouped into fixed transaction type groups; SAP delivers all needed types, customers may copy them in Customizing under <em>Asset Accounting → Transactions</em>.</p>
+<h4>Document splitting remark</h4>
+<p>With new G/L, document splitting can build complete balance sheets per profit center, business area or segment (the standard splitting characteristics). It is not part of FI-AA logic and is not active in company code AA## (see AC210).</p>
+<h4>Asset Explorer (<code>AW01N</code>)</h4>
+<p>Central analysis screen: a tree of depreciation areas (icons distinguish real and derived areas), header with company code/main number/subnumber, a jump to master data, tabs for planned values, posted values, comparison across years and areas, and parameters; the "objects related to the asset" area links to cost center, G/L account, vendor, purchase order, equipment. Functions: transparent depreciation calculation with key details, jump to FI document, multi-year/multi-area value development, currency translation, call-up of asset reports, print/export, and simulation of transactions and changed depreciation terms.</p>
+<h4>Effect of the first acquisition on the master record</h4>
+<ul>
+<li>Capitalization date and date of initial acquisition are set from the <strong>asset value date</strong>.</li>
+<li>Acquisition year and period come from the <strong>posting date</strong>.</li>
+<li>The ordinary depreciation start date per area is derived from the asset value date through the period control of the depreciation key and stored in the master record.</li>
+<li>With AP integration the vendor is written to the Origin tab.</li>
+<li>Default asset value dates per transaction can be set in Customizing. Posting date and asset value date must lie in the same fiscal year.</li>
+</ul>
+<p>Planned annual depreciation and interest are computed from the depreciation start date and the terms and updated with each further posting.</p>
+<h4>FI document basics</h4>
+<p>The document type (two characters, client-wide; defaults via <code>OBU1</code>) carries the number range key, the allowed account types and the gross/net indicator. Number range intervals themselves are company-code specific (<code>FBN1</code>; use year 9999 if not year-dependent). "Net" document types (AN, KN) deduct the expected cash discount from the capitalized amount immediately via a cash discount clearing account; "gross" types (AA, KR) capitalize the full amount. Without document splitting, program <code>SAPF181</code> (P&amp;L adjustment) later corrects the APC for discount actually taken or not taken; with active document splitting the correction is immediate and SAPF181 is unnecessary.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Integrated acquisition <code>F-90</code>: posting key 31 vendor, 70 asset with transaction type 100.</li>
+<li>Asset value date drives capitalization and depreciation start; posting date drives acquisition year/period; both in one fiscal year.</li>
+<li>Transaction types classify every movement for the asset history sheet.</li>
+<li>Net vs. gross document types concern cash discount handling, not tax; <code>SAPF181</code> corrects APC in classic/non-split scenarios.</li>
+<li><code>AW01N</code> is the one-stop analysis tool with jumps to documents, master data and reports.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 13: create vendor 305## with <code>FK01</code> (reference 1000), post the forklift acquisition on 7 January with <code>F-90</code> (type KN, EUR 55,000 incl. 10% tax code 1I, TType 100), then in <code>AW01N</code> find the balance sheet account, the depreciation start date (1 January), compare planned depreciation in areas 01 vs. 20 (different because of different keys/useful lives), call the Asset Acquisition report and jump to the master record to see the capitalization data and vendor on the Origin tab.</div>
+
+<h3 class="lesson" id="tfin52_1-u3-l2">Lesson 2: Posting Asset Acquisitions with the Profit Center and Segment Characteristics</h3>
+<p class="lead">Understand how profit center and segment get into asset postings, what EHP5 "Segment Reporting" for FI-AA changes, how to configure it, and how to fill the new fields for assets that already exist.</p>
+<h4>Background</h4>
+<p>With new G/L, profit center, segment and business area are stored in the G/L totals and balance sheets can be produced for them (with document splitting). For asset postings these characteristics must therefore be carried in the FI document.</p>
+<h4>Before EHP5: derivation from the CO object</h4>
+<p>Up to SAP ERP 6.0 EHP4 the asset master had no profit center/segment fields; the FI document derived them from the asset's CO object (cost center, order). This required the account assignment type "APC Values Posting" for the CO objects in the APC-posting area (01) under <em>Integration with General Ledger Accounting → Additional Account Assignment Objects → Specify Account Assignment Types for Account Assignment Objects</em> (<code>ACSET</code>). Weaknesses: no uniqueness check in the master data, G/L–subledger reconciliation by profit center not guaranteed (substitutions could change the profit center in the document; the CO object's profit center could be changed without any FI correction), and internal logic decided when several CO objects with different profit centers were assigned.</p>
+<h4>EHP5: Segment Reporting for fixed assets</h4>
+<ol>
+<li>Activate business function <strong>FIN_GL_REORG_1</strong> in <code>SFW5</code> (requires new G/L; irreversible; also enables profit center reorganization, which needs an SAP LT license only if used – SAP Note 1534197).</li>
+<li>Activate <em>Integration with General Ledger Accounting → Segment Reporting → Activate Segment Reporting</em>. Profit center and segment then appear in the table of additional account assignment objects (XACTIVE) with the <strong>Agreement</strong> indicator (XIDENT) set, meaning the value used in the posting must equal the master record value and cannot be changed during posting.</li>
+<li>The fields become available in the screen layout (logical field group Time-dependent data) and can be suppressed if not required (e.g. segment).</li>
+<li>Maintain account assignment type "APC Values Posting" for profit center and segment in every area that posts APC (<code>ACSET</code>); otherwise derivation fails and even the earlier settings for cost center/order stop working.</li>
+<li>Ensure the field status of the asset G/L accounts and of the posting keys has profit center and segment as optional (IMG nodes under <em>Change the Field Status Variant of the Asset G/L Accounts</em>).</li>
+</ol>
+<p>Technically EHP4 already added the fields to table ANLZ; EHP5 plus business function plus activation are needed to see them. In the master record the profit center is derived from the cost center and the segment from the profit center (check with <code>KS03</code>/<code>KE53</code>); entering a second CO object with a different profit center raises error AIST009. New G/L scenario FIN_AASEG is only needed if FIN_CONS is not assigned – it stores the consolidation transaction type (RMVCT) in FAGLFLEXT, enabling an asset-history-sheet-like Power List in G/L. Segment cannot be shown in the Asset Explorer (not a BOR object), but both fields are available for FI-AA validations/substitutions and BW.</p>
+<h4>Existing assets: FAGL_ASSET_MASTERDATA_UPD</h4>
+<p>After activation all existing assets have empty profit center/segment and, if APC account assignment types are maintained, cannot be posted to. Either maintain time-dependent data manually (<code>AS02</code>, e.g. re-enter the business area to trigger derivation) or run program <code>FAGL_ASSET_MASTERDATA_UPD</code> (<em>Segment Reporting → Fill Master Data for Segment Reporting</em>): test mode online, productive run in background only; two spool lists show from which CO object the values were derived and which assets were updated (green) or not (red). Prerequisites: "Reorganization for Fixed Assets" inactive and the Balance sheet flag (XBILA) for profit center/segment inactive. Old FI documents are not corrected by this program.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Pre-EHP5 derivation from CO objects is error-prone; EHP5 stores profit center and segment in the asset master (ANLZ) with the Agreement indicator enforcing consistency.</li>
+<li>Activation chain: FIN_GL_REORG_1 → Activate Segment Reporting → screen layout → <code>ACSET</code> APC Values Posting for PC/segment → field status.</li>
+<li>Error AIST009 flags non-unique profit centers across CO objects in one asset.</li>
+<li><code>FAGL_ASSET_MASTERDATA_UPD</code> fills the new fields for legacy assets (background productive run).</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 14: check the Segment Reporting activation, create "New machine" in class 2100 with cost center T-F05B## (profit center 1402, segment SERV derived), try changing the profit center to 1100 and read the error, attempt an <code>F-90</code> acquisition (profit center empty – cancel), maintain APC Values Posting for Profit Center and Segment in area 01, repeat the posting (EUR 11,000, tax 1I), display the document with layout /AC_1 and set it as default, and check the profit center via Administration in the Asset Explorer. Exercise 15: derive the fields for Machine 01 manually in <code>AS02</code>, then run FAGL_ASSET_MASTERDATA_UPD in test and background productive mode and read the spool lists.</div>
+
+<h3 class="lesson" id="tfin52_1-u3-l3">Lesson 3: Posting Non-Integrated Asset Acquisitions and Understanding the Integration with Materials Management (MM)</h3>
+<p class="lead">Post acquisitions through a clearing account when invoice and asset arrive at different times, and follow the purchase order – goods receipt – invoice receipt chain that capitalizes an asset from MM.</p>
+<h4>Acquisition with automatic offsetting entry</h4>
+<p>When the invoice arrives before the asset, or the asset is in use before the invoice exists, the two halves are posted separately through a G/L clearing account with open item management: AP posts debit clearing / debit tax / credit vendor; FI-AA posts debit asset / credit clearing (<code>ABZON</code>). The clearing account is cleared afterwards manually or with program <code>SAPF124</code>, or immediately with <code>F-91</code> (Clearing Offsetting Entry) when the second half is entered. Since release 4.6 <code>ABZON</code> can also create the asset master during posting (New Asset radio button) and post to several assets or to a main number with all its subnumbers in one step (Multiple assets / Subnumbers pushbuttons). Asset documents are reversed with <code>AB08</code>; LVA postings above the configured maximum are rejected, and a subsequent acquisition on an LVA fails with an explanatory error.</p>
+<h4>MM integration</h4>
+<ol>
+<li>Purchase requisition, and asset master if needed (<code>AS01</code>).</li>
+<li>Purchase order (<code>ME21N</code>) with account assignment category <strong>A</strong>; the asset number is entered on the item's Account Assignment tab (the asset could even be created from the PO, rarely done in practice). On the Delivery tab the GR is flagged valuated or non-valuated.</li>
+<li>Goods receipt (<code>MIGO</code>): with a <strong>valuated GR</strong> the asset is capitalized at GR with the PO value; later invoice differences generate adjustment postings on the asset. With a <strong>non-valuated GR</strong> nothing is posted yet, but the GR date becomes the capitalization date.</li>
+<li>Invoice receipt (<code>MIRO</code>): for a non-valuated GR this capitalizes the asset, creates line items and updates values; for a valuated GR it posts the difference (course example: PO 2,000, invoice 1,995 → a –5 adjustment on the asset).</li>
+</ol>
+<p>In the Asset Explorer a PO is visible under "objects related to the asset" before any value is posted; no capitalization date exists until a value posting occurs.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li><code>ABZON</code> = acquisition with automatic offsetting entry to a clearing account; <code>F-91</code> clears the clearing account in the same step; <code>SAPF124</code> clears automatically.</li>
+<li><code>ABZON</code> can create the asset on the fly and post to multiple assets/subnumbers at once.</li>
+<li>MM chain: PO with account assignment A → GR → IR; valuated GR capitalizes at GR, non-valuated GR capitalizes at invoice but keeps the GR date as capitalization date.</li>
+<li>Invoice/PO differences produce adjustment postings on a valuated asset.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 16: post EUR 100,000 to Machine 01 with <code>ABZON</code>; machines 02–05 with various dates (03 and 04 together via Multiple assets in the previous year; 05 with a prior-year APC plus EUR 10,000 current-year subsequent cost); forklift 2 in the previous year; a new car in class 3100 created during posting; the PC with subnumbers (1,000/500/20) via Subnumbers; reverse Machine 01 with <code>AB08</code> (reason 01) and repost EUR 150,000; optionally test the LVA limit (1,200 rejected, 800 accepted, later 100 rejected). Exercise 17 (optional, company code 1000): asset in class 3200, PO in <code>ME21N</code> (account assignment A, net 2,000), check <code>AW01N</code>, GR in <code>MIGO</code>, invoice in <code>MIRO</code> for 1,995 + 10% tax, observe the –5 adjustment.</div>
+
+<h3 class="lesson" id="tfin52_1-u3-l4">Lesson 4: Posting Integrated and Non-Integrated Asset Retirements</h3>
+<p class="lead">Retire assets completely or partially – with revenue and customer, with revenue without customer, or by scrapping – and understand how the system computes proportional value adjustments and gain/loss.</p>
+<h4>Integrated retirement (<code>F-92</code>)</h4>
+<p>You post a customer invoice (posting key 01) against the revenue-from-asset-sale account (posting key 50, course account 820000) and tick <strong>Asset retirement</strong> on that G/L line. A dialog asks for asset number, retirement transaction type, asset value date (retirement date) and either complete retirement or the portion retired (amount, percentage or quantity). The system then posts the APC retirement, reverses the proportional accumulated depreciation up to the retirement period (determined from the asset value date via the period control of the depreciation key), clears the revenue against the asset retirement clearing account and books the gain or loss automatically. Course illustration: complete sale resulting in a loss of EUR 1,300. Gain/loss = revenue – (APC retired – value adjustments retired). Revenue and clearing accounts can be shown in the notes to the financial statements.</p>
+<h4>Retirement variants</h4>
+<table><thead><tr><th>Variant</th><th>Transaction</th></tr></thead><tbody>
+<tr><td>With revenue and customer (integrated)</td><td><code>F-92</code></td></tr>
+<tr><td>With revenue, no customer</td><td><code>ABAON</code> (Retirement w/revenue → No Customer)</td></tr>
+<tr><td>Without revenue (scrapping)</td><td><code>ABAVN</code></td></tr>
+<tr><td>Mass retirement</td><td>Worklist with purpose "retirement without revenue" or "sale with revenue", enter revenue distribution, release</td></tr>
+<tr><td>Several assets in one manual retirement transaction</td><td>Multiple-asset selection in the posting transaction</td></tr>
+</tbody></table>
+<p>All three single variants can be complete or partial. A complete retirement deactivates the asset (deactivation date set in the master record; visible also in the linked equipment). Retirements appear on the asset history sheet with separate transaction types for current-year and prior-year acquisitions.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Integrated retirement is triggered by the Asset retirement checkbox on the revenue line in <code>F-92</code>.</li>
+<li>Retirement period comes from the asset value date; depreciation up to that period is calculated and the proportional value adjustment reversed automatically.</li>
+<li>Gain/loss is computed from APC, accumulated depreciation and revenue.</li>
+<li><code>ABAVN</code> scraps without revenue; worklists handle mass retirements.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 18: create customer 305## (<code>FD01</code>, reference 1000); sell Machine 03 completely on 1 July with <code>F-92</code> (DR, 11,000 gross with output tax 1O, revenue account 820000, Asset retirement, complete retirement) and inspect the document and asset history sheet; sell 60% of Machine 04 (percentage rate 60); post a prior-year acquisition to PC 02 and scrap it with <code>ABAVN</code>, then confirm deactivation in the Asset Explorer and equipment.</div>
+
+<h3 class="lesson" id="tfin52_1-u3-l5">Lesson 5: Performing Transfers Within Company Code and Intercompany Asset Transfers</h3>
+<p class="lead">Move asset values between master records inside one company code (e.g. wrong class) and between company codes within or across legal entities, controlled by transfer variants and transfer methods.</p>
+<h4>Intracompany transfer (<code>ABUMN</code>)</h4>
+<p>Reasons: an asset was created in the wrong class, part of an asset must be split off, or an AuC is to be moved to a finished asset (for which the dedicated settlement function is more convenient). The system uses transfer variant 4; the variant determines the transaction types recorded on sending and receiving asset. Field transfer rules copy data from the old to the new master record, and the acquisition transaction type controls how the depreciation start date is carried over. Setting the asset value date to 1 January of the current year makes the receiving asset take over the full-year depreciation; the Origin tab of the new asset shows the original asset, and expired/remaining useful life are carried (course: one year expired, four remaining; value adjustment of EUR 20,000 transferred).</p>
+<h4>Intercompany transfer (<code>ABT1N</code>)</h4>
+<p>Posts retirement in the sender and acquisition in the receiver in one step, optionally creating the receiving asset (New Asset + Master Data pushbutton, with the sender as reference). The system determines the <strong>relationship type</strong> from the company IDs of the two company codes (check under <em>Transactions → Intercompany Asset Transfers → Automatic Intercompany Asset Transfers → Define Transfer Variants → Check Company ID of Company Codes</em>; exceptions via customer exit):</p>
+<table><thead><tr><th>Relationship type</th><th>Meaning</th><th>Standard treatment</th></tr></thead><tbody>
+<tr><td>02</td><td>Both company codes belong to the same company (ID) – legally dependent</td><td>Treated as intracompany transfer: transaction types 3xx, gross method, no revenue</td></tr>
+<tr><td>01</td><td>Different companies within the group – legally independent</td><td>Retirement/acquisition with revenue, trading partner recorded</td></tr>
+</tbody></table>
+<p>The company is the smallest unit that must produce individual financial statements by commercial law.</p>
+<h4>Transfer methods</h4>
+<table><thead><tr><th>Method</th><th>Value capitalized on the receiver</th><th>Revenue entry</th></tr></thead><tbody>
+<tr><td>Gross</td><td>Historical APC and accumulated depreciation are carried over</td><td>Not required</td></tr>
+<tr><td>Net</td><td>Net book value of the sender</td><td>Required; equals NBV if no gain/loss</td></tr>
+<tr><td>New value</td><td>Amount of the sales revenue</td><td>Required</td></tr>
+</tbody></table>
+<p>Transfer variants combine transaction types and method; SAP's standard variants cover about 80% of cases (SAP Note 327088; mass transfers SAP Note 379944). Variant 1 = gross within a company; variant 7 = gross equivalent of variant 2 for cross-company transfers with correct depreciation on both sides even mid-year. Own variants may be defined if the enterprise structure differs. Where the two company codes use different charts of depreciation, <strong>cross-company depreciation areas</strong> (client-wide key plus description, no own control parameters) map the areas onto each other; if you define any, you must define them for every transferred area, otherwise "*" acts as generic mapping.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li><code>ABUMN</code> transfers within a company code (variant 4); check Origin tab and useful life on the receiver.</li>
+<li><code>ABT1N</code> handles intercompany transfers in one document pair linked by a cross-company document number; relationship type derives from company IDs.</li>
+<li>Gross method carries history without revenue; net and new value methods require revenue (NBV or sales price).</li>
+<li>Transfer variant 7 is preferred over 2 for mid-year cross-company transfers; cross-company depreciation areas align differing charts of depreciation.</li>
+<li>Trading partner (VBUND) and transaction type (ANBWA) can be added to the document layout.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 19: post EUR 60,000 (20 January PY) to the wrongly classed car, create "Car 3100" in class 3100, transfer with <code>ABUMN</code> (asset value date 1 January CY) and verify the EUR 20,000 value adjustment, Origin tab and useful life. Exercise 20: transfer that car to the trainer's company code AA00 (same company 1000) with <code>ABT1N</code>, variant 1, new asset with cost center T-F05E00; find transaction type 300 and the cross-company number. Exercise 21: capitalize a car with EUR 50,000 on 1 January PY, transfer it on 31 December CY to AA31 (company AC305) with variant 7, revenue = NBV from area 01 (EUR 30,000), new asset with cost center T-F05A31; add Transaction Type and Trading Partner columns to the document display.</div>
+
+<h3 class="lesson" id="tfin52_1-u3-l6">Lesson 6: Representing, Distributing, and Settling Assets Under Construction</h3>
+<p class="lead">Manage the construction phase of an asset in a separate AuC master record and capitalize it to one or more finished assets by line-item settlement.</p>
+<h4>Two phases, two master records</h4>
+<p>An asset is shown under different balance sheet items while under construction and during its useful life, so FI-AA uses an AuC master record (class 4000) for the first phase and completed assets for the second. Moving values across is the <strong>capitalization</strong> of the AuC. An AuC can be managed as a normal asset for summary settlement or with <strong>line item management</strong> for line-item settlement; large investment measures with internal activities are better handled in Investment Management.</p>
+<h4>Line-item settlement procedure</h4>
+<ol>
+<li>Assign a settlement profile (standard <strong>AI</strong>) to the company code: <em>Transactions → Capitalization of Assets under Construction → Define/Assign Settlement Profiles</em>.</li>
+<li>Post acquisitions to the AuC (e.g. <code>ABZON</code>, with posting texts).</li>
+<li><code>AIAB</code> (Capitalize Asset u. Construction → Distribute): list the line items (layout 3SAP shows texts), select items with the same distribution and enter distribution rules (receiver asset, percentage or amount).</li>
+<li>Execute settlement (<code>AIBU</code>, via Environment → Execute Settlement) in test run, then update run.</li>
+</ol>
+<p>Only items with a rule are settled; you need not settle everything at once nor 100% of each item. The system credits the AuC with different transaction types for current-year and prior-year acquisitions, and the receiving assets show the capitalized values in the asset history sheet (<code>S_ALR_87011990</code>, sort variant 0013).</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>AuC = separate balance sheet item and separate master record; capitalization transfers it to completed assets.</li>
+<li>Settlement profile AI must be assigned to the company code before <code>AIAB</code>/<code>AIBU</code> can be used.</li>
+<li>Distribution rules per line item allow partial and multi-receiver settlement; always test run first.</li>
+<li>Different credit transaction types reflect prior-year vs. current-year acquisitions on the AuC.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 22: assign profile AI to AA##; post three acquisitions to the AuC (10,000 on 1 Jan PY, 60,000 on 1 Oct PY, 35,000 on 1 Feb CY) with texts; in <code>AIAB</code> settle the 60,000 item fully to Machine 07 and the other two 70%/30% to Machines 08/09; run settlement in test then update mode; confirm in <code>AW01N</code> that the AuC is fully credited (two different transaction types) and view Machines 07–09 in the asset history sheet.</div>
+
+<h3 class="lesson" id="tfin52_1-u3-l7">Lesson 7: Entering and Analyzing Unplanned Depreciation</h3>
+<p class="lead">Record a one-off, unplanned reduction in value for an individual asset, differentiated by depreciation area, and understand why it is only noted until the depreciation run.</p>
+<h4>Concept</h4>
+<p>Besides the depreciation scheduled by the depreciation key, you may enter unplanned depreciation manually (<code>ABAA</code>, Posting → Manual Value Correction → Unplanned Depreciation). The transaction type signals the intent – <strong>640</strong> for unplanned depreciation on prior-year acquisitions, <strong>650</strong> on current-year acquisitions – and a dialog (Line Items pushbutton) lets you enter different amounts per depreciation area, e.g. a higher amount in book depreciation than in cost-accounting or none in tax. The posting only plans the depreciation: no FI document exists until the periodic depreciation posting run (<code>RAPOST2000</code>) posts it together with ordinary depreciation. Manual depreciation is listed in the report Information System → Explanations for P&amp;L → International → Manual Depreciation.</p>
+<h4>Restricting transaction types to areas</h4>
+<p>Under <em>Transactions → Acquisitions → Define Transaction Types for Acquisitions → Limit Transaction Types to Depreciation Areas</em> a transaction type can be limited to specific areas; e.g. type 030 posts only to the group areas 30 and 31. Such postings are entered with <code>ABSO</code> (Miscellaneous).</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li><code>ABAA</code> with type 640/650 records unplanned depreciation per area; amounts may differ by area.</li>
+<li>No FI document is created until the depreciation run – the Asset Explorer shows the planned value only.</li>
+<li>Transaction types can be confined to selected depreciation areas (030 → areas 30/31), posted via <code>ABSO</code>.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 23: post unplanned depreciation on the second forklift with <code>ABAA</code> type 640 (1,000 in area 01, 500 in area 20), check in <code>AW01N</code> that no FI document exists, note that type 650 applies to current-year acquisitions; inspect the area restriction of type 030 in Customizing, post EUR 100,000 to PC 03 with <code>ABSO</code> type 030 and see values only in areas 30 and 31.</div>
+<h2 class="unit" id="tfin52_1-u4">Unit 4: Periodic Processing and Valuation</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand how classic FI-AA values assets over time – depreciation areas, depreciation keys and calculation methods, the period-interval-based Depreciation Engine with time-dependent terms, cost-accounting interest and index series, the depreciation run – and how the periodic close works: fiscal year change, year-end closing, periodic APC posting for parallel valuation under the accounts approach, and impairment postings through worklists.</div>
+
+<h3 class="lesson" id="tfin52_1-u4-l1">Lesson 1: Defining Depreciation Areas, Keys, Calculation, and Posting</h3>
+<p class="lead">Configure depreciation areas and depreciation keys, understand how the new depreciation calculation derives planned amounts (including time-dependent terms, interest and replacement values), and execute and analyze the depreciation posting run.</p>
+
+<h4>Periodic processing in FI-AA</h4>
+<p>Periodic tasks include: passing planned depreciation and interest to CO primary cost planning via a report; investment support (subsidies for assets flagged with an investment support key, posted manually per asset); inflation management for high-inflation countries; and the Schedule Manager for defining, scheduling and monitoring recurring jobs.</p>
+
+<h4>Configuring depreciation areas</h4>
+<p>Each area (two-digit numeric key) is defined under <em>Valuation → Depreciation Areas → Define Depreciation Areas</em> (<code>OADB</code>). The definition decides whether and how APC, proportional value adjustments and depreciation reach the G/L (posting indicator), whether the area is reporting-only, what purpose it serves (balance sheet, cost accounting, tax), how values may develop (APC only, positive and/or negative net book value), and how posting values and depreciation terms are inherited from other areas (<em>Specify Transfer of APC Values</em> / <em>Specify Transfer of Depreciation Terms</em>). Per area you also decide which depreciation types are allowed (<em>Depreciation → Ordinary Depreciation → Determine Depreciation Areas</em>, likewise for special and unplanned depreciation). Changing a term in one area may be forced one-to-one into others if a transfer rule is set – the system warns on save.</p>
+
+<h4>Depreciation types</h4>
+<table><thead><tr><th>Type</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Ordinary</td><td>Planned wear-and-tear reduction of value.</td></tr>
+<tr><td>Special</td><td>Purely tax-driven percentage depreciation, possibly staggered within a concession period, independent of actual wear.</td></tr>
+<tr><td>Unplanned</td><td>One-off reduction due to unusual events such as damage.</td></tr>
+<tr><td>Unit-of-production</td><td>Depreciation driven by actual output or usage (kilometres, units produced).</td></tr>
+</tbody></table>
+
+<h4>Depreciation key and calculation methods</h4>
+<p>Since release 4.6 a depreciation key (<code>AFAMA</code>, <em>Depreciation → Valuation Methods → Depreciation Key → Maintain Depreciation Key</em>) is a chart-of-depreciation-specific bundle of calculation methods, replacing the old internal calculation keys:</p>
+<table><thead><tr><th>Method</th><th>Controls</th></tr></thead><tbody>
+<tr><td>Base method</td><td>Depreciation type, calculation type (e.g. percentage from useful life), treatment after end of life.</td></tr>
+<tr><td>Declining-balance method</td><td>Multiplication factor and maximum/minimum percentage for declining-balance keys.</td></tr>
+<tr><td>Maximum amount method</td><td>Caps the depreciation amount up to a date.</td></tr>
+<tr><td>Multilevel method</td><td>Levels by acquisition year / year / period with base value and percentage (e.g. 3% of APC).</td></tr>
+<tr><td>Period control method (<code>AFAMP</code>)</td><td>Period control keys for acquisition, subsequent acquisition, retirement and transfer – determines the depreciation start/end period from the asset value date.</td></tr>
+</tbody></table>
+<p>Keys migrated from older releases must be set to status active in <code>AFAMA</code>. Advantages: country rules per chart of depreciation, fewer keys, keys usable as defaults per company code or area. The methods assigned to a key can be displayed from <code>AFAMA</code>, the master record or the Asset Explorer. Customizing changes to a key do not recalculate existing assets automatically – trigger recalculation per asset in <code>AS02</code> or for all with program <code>RAAFAR00</code> (<code>AFAR</code>). Course example: copying GL20 to GL30 with a new multilevel method A## (9999/999/12, base value 01, 3%) implements the German reduction of straight-line building depreciation from 4% to 3% (SAP Note 328780); a EUR 1,000,000 building then depreciates EUR 30,000 per year and is fully written off in CY+33.</p>
+
+<h4>New depreciation calculation (Depreciation Engine)</h4>
+<p>With SAP ERP 6.0 and Enterprise Extension <strong>EA-FIN</strong> active, depreciation is calculated per <strong>period interval</strong> instead of per transaction. The engine looks at how long one reference value (APC or net book value) is valid in the year: no transactions → one interval (periods 1–12); each transaction or term change opens a new interval according to the period control. Results often equal the old logic (especially in Germany, where subsequent acquisitions are treated as of the start of the year), but can differ where pro-rata treatment is used (e.g. Japan) – see SAP Notes 965032 and 1121965. Transaction <code>AW01_AFAR</code> shows what the old logic would compute. An automatic changeover method is not standard but possible via BAdI FAA_DC_CUSTOMER.</p>
+<p><strong>Time-dependent depreciation terms:</strong> depreciation key, useful life (years/periods), variable depreciation portion, absolute and percentage scrap value can be maintained in intervals (detail screen of the area in <code>AS02</code> → More Intervals / Add Interval), analogous to time-dependent master data; the intervals are visible in the Asset Explorer (SAP Notes 1398629, 981222). Without time-dependent terms a change affects all open and future years; with them only future periods from the interval start. Changes that violate area rules are silently cut back ("reduction of calculated depreciation") – e.g. shortening the useful life only in area 01 would make the derived area 03 (= 02 − 01) positive, which its definition forbids, so the change has no effect.</p>
+
+<h4>Cost-accounting depreciation area</h4>
+<p>Area 20 may calculate imputed interest and may depreciate below zero / after the planned useful life (settings in the area definition). Typical terms: key LINA (straight-line from replacement value, pro rata, with curb and interest), index series indexing APC (e.g. 103%, effective from the second year), interest 10% on half the APC, depreciation after planned life end, depreciation below NBV zero (area must allow negative NBV, possibly via a changeover key), and the <strong>curb</strong> – after the planned life the rate drops from 1/10 to 1/11, 1/12 … so depreciation slowly decreases. <strong>Imputed interest</strong> requires: area allows interest, company code/area set to post interest (posting rules), a key with interest calculation methods; interest is posted with the depreciation run to the accounts of the area's account determination and additionally to the asset's cost center or order. <strong>Index series</strong> (<em>Special Valuation → Revaluation of Fixed Assets → Indexed Replacement Values → Define Index Series</em>, index class) hold index figures per fiscal year; if missing the system uses a simulated annual rate. The series is defaulted from the class or set in the asset's Valuation tab; revaluation can also apply to accumulated depreciation and interest, and you choose whether to post APC revaluation only or also depreciation/interest to the G/L.</p>
+
+<h4>Depreciation run (RAPOST2000)</h4>
+<p>Periodic Processing → Depreciation Run → Execute (<code>AFAB</code>) posts ordinary, special (incl. reserves), unplanned and manual depreciation, imputed interest and revaluation, writing FI documents directly to the G/L plus CO documents for additional account assignments. Run types: planned posting run, repeat run, restart, unplanned posting run (e.g. several periods at once). The test run performs all checks (unlike old <code>RABUCH00</code>) and lists errors with red lights: locked cost centers, missing account assignment types ("account requires assignment to a CO object"), missing accounts, wrong period relative to the posting cycle, missing posting cycle settings; simulated FI documents can be opened from the log. The productive log is <code>RAPOST2001</code> (Display Log), with a jump to the Schedule Manager monitor; the Asset Explorer's Posted Values tab shows posted periods and links to the depreciation document.</p>
+<p>Prerequisite settings:</p>
+<ol>
+<li>Area definition allows posting of depreciation (<em>Define Depreciation Areas</em>).</li>
+<li>Depreciation accounts in account determination (<em>Assign G/L Accounts</em>).</li>
+<li>Document type for depreciation (standard <strong>AF</strong>) per company code (<em>Post Depreciation to General Ledger Accounting → Specify Document Type for Posting of Depreciation</em>; external number ranges: SAP Note 890976).</li>
+<li>Intervals and posting rules per area (<code>OAYR</code>): monthly/quarterly/semi-annual/annual, plus flags such as post interest, post revaluation.</li>
+<li>Activate account assignment objects (cost center KOSTL, order CAUFN, WBS element PS_PSP_PNR2, profit center PRCTR, segment …).</li>
+<li>Account assignment type <strong>Depreciation Run</strong> per company code/area/object (<code>ACSET</code>); with segment reporting active, PRCTR and SEGMENT need it explicitly in every depreciating area. <code>AACCOBJ</code> / <code>RAACCOBJ01</code> lists active objects.</li>
+</ol>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Depreciation key = base + declining-balance + maximum amount + multilevel + period control methods (<code>AFAMA</code>); key changes need <code>AFAR</code>/<code>AS02</code> recalculation.</li>
+<li>Area definition governs posting indicator, allowed depreciation types, NBV rules and transfer of terms/values between areas.</li>
+<li>EA-FIN Depreciation Engine calculates by period intervals and enables time-dependent key, useful life, variable portion and scrap value.</li>
+<li>Area 20: interest, index series/replacement value, curb and depreciation below zero.</li>
+<li><code>RAPOST2000</code> (<code>AFAB</code>) needs document type AF, posting rules (<code>OAYR</code>), accounts and account assignment types (<code>ACSET</code>); test run catches errors; log via <code>RAPOST2001</code>.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 24: check which areas allow ordinary depreciation, post EUR 12,000 to a class 3000 asset (LINR → EUR 4,000 planned), switch areas 01/02 to LINK and 2 years (→ EUR 6,000), find the transfer-of-terms rules. Exercise 25: inspect keys in <code>AFAMA</code>, build GL30 with multilevel method A## (3%), post EUR 1,000,000 to a building, change GD50 → GL30 and verify EUR 30,000 p.a. Exercise 26: add a time-dependent interval from 1 July CY+1 (LINR, 12 years) in areas 01/02 and compare with <code>AW01_AFAR</code>. Exercise 27: post EUR 7,000 to a class 3200 asset, study area 20 revaluation/interest, create index series AA## (100, −10 points p.a., then 105% simulated) and assign it on the Valuation tab. Exercise 28: maintain Depreciation Run account assignment types (KOSTL in area 20; PRCTR/SEGMENT in 01 and 20), check document type AF and monthly posting rules, flag post interest for area 20, test run January PY with asset list, unplanned test run for period 12 with document simulation, background update run, review log (<code>RAPOST2001</code>, Schedule Manager) and Machine 03 in <code>AW01N</code>; name the two settings needed to depreciate to WBS elements (activate PS_PSP_PNR2, assign Depreciation Run type in area 20).</div>
+
+<h3 class="lesson" id="tfin52_1-u4-l2">Lesson 2: Executing Programs for Fiscal Year Change and Year-End Closing in Asset Accounting</h3>
+<p class="lead">Distinguish the technical fiscal year change from the accounting year-end close in FI-AA and run both, including the periodic APC posting that must precede the close.</p>
+<h4>Fiscal year change (RAJAWE00, <code>AJRW</code>)</h4>
+<p>Opens new annual value fields for every asset of a company code so that postings in the new year are possible. It may be started in the last period of the current year, must be run for the whole company code, and can only move to year N+1 if year N−1 is already closed. It has nothing to do with closing the books.</p>
+<h4>Year-end closing (RAJABS00, <code>AJAB</code>)</h4>
+<p>Preparation: check depreciation lists and the asset history sheet, post depreciation completely, run <code>RAPERB2000</code> in update mode at least once for areas that post APC periodically, correct via simulation, mass changes or adjustment postings, and re-run depreciation if values changed. <code>AJAB</code> then checks that depreciation and APC are fully posted and that no asset is incomplete or erroneous; if clean, it records the last closed fiscal year per depreciation area and blocks asset postings to closed years. Re-opening a year (Undo → Entire Company Code, <code>OAAQ</code>; per area <code>OAAR</code>) requires running <code>AJAB</code> again to close it. Path: Periodic Processing → Year-End Closing → Execute.</p>
+<h4>Periodic APC posting (RAPERB2000, <code>ASKB</code>)</h4>
+<p>Since release 4.7 EE 1.10 / ECC 5.0 the program posts APC of periodically posting areas straight to the (group) balance sheet accounts without a batch-input session. It needs a dedicated document type with internal numbering (SAP delivers none; the course uses "AP"): define it under <em>Post Depreciation to General Ledger Accounting → Specify Document Type for Posting of Depreciation → Define Document Types</em>, create the number range interval via Number Range Information (SAP Note 890976), and assign it under <em>Post APC Values Periodically to General Ledger Accounting → Specify Document Type for Periodic Posting of Asset Values</em>. The test run yields an ALV log with document simulation. Without the document type the program refuses to start, and without a completed update run the year-end close reports that periodic postings are still open.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Fiscal year change (<code>AJRW</code>) is technical – it opens value fields; year-end closing (<code>AJAB</code>) is the accounting close.</li>
+<li><code>AJAB</code> only succeeds when depreciation and periodic APC (<code>ASKB</code>/<code>RAPERB2000</code>) are fully posted; it sets the last closed year and blocks postings.</li>
+<li>Periodic APC posting needs its own internally numbered document type assigned per company code.</li>
+<li>Undo a close with <code>OAAQ</code>, then close again with <code>AJAB</code>.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 29: test run <code>AJAB</code> for the previous year (fails – periodic postings open), test run <code>ASKB</code> (fails – no document type), assign document type AP for AA##, rerun <code>ASKB</code> test and background update, then <code>AJAB</code> test and background update, and confirm the closed year in <code>OAAQ</code>.</div>
+
+<h3 class="lesson" id="tfin52_1-u4-l3">Lesson 3: Using the Accounts Approach for Parallel Accounting in Asset Accounting (FI-AA)</h3>
+<p class="lead">Represent a second accounting principle (IFRS, US GAAP, tax) in FI-AA with the accounts approach: an extra depreciation area posting to a separate set of G/L accounts, either periodically or directly.</p>
+<h4>Mapping options</h4>
+<p>With new G/L you may choose the ledger approach or the accounts approach; with classic G/L only the accounts approach is available, which is why this course covers it. The accounts approach is SAP-recommended as purely account-based and supported by all applications, but it is maintenance-heavy: an additional set of group accounts (often one extra digit in the chart of accounts), two separate balance sheet/P&amp;L structures, an additional depreciation area that posts APC periodically or directly, and the periodic program <code>RAPERB2000</code>.</p>
+<h4>Customizing steps</h4>
+<ol>
+<li>Create the group G/L accounts (<code>FS00</code>, with template; clear the alternative account number and the asset reconciliation indicator where appropriate; adjust field status group e.g. G013 → G001 for the expense account).</li>
+<li>Copy area 01 to a new area (course: <strong>60</strong>, "Parallel valuation") under <em>Define Depreciation Areas</em> and set the posting indicator to 2 (APC and depreciation periodically) or 4 (APC directly, depreciation periodically).</li>
+<li>Assign the periodic APC document type (AP) to the company code.</li>
+<li>Activate area 60 in the asset classes (<em>Determine Depreciation Areas in the Asset Class</em>, remove Deact flag, set default useful life e.g. 5 years).</li>
+<li>Enter the group accounts for area 60 in account determination (<em>Assign G/L Accounts</em>): APC account 8011000, contra/clearing 8199990, capitalization differences 8204000, accumulated depreciation 8011010, expense 8211100, optionally retirement clearing/gain/loss/scrap accounts.</li>
+<li>With segment reporting active, maintain account assignment types APC Values Posting and Depreciation Run for PRCTR and SEGMENT in area 60 (<code>ACSET</code>).</li>
+</ol>
+<p>Populating a new area for already existing assets normally requires a consulting project (SAP Note 888564; program <code>RAFABNEW</code> alone is insufficient). Different values per area on acquisition are entered with the old transaction <code>ABZO</code> (Line Items → change amount of area 60), whereas <code>ABZON</code> posts identical values to all areas.</p>
+<h4>Periodic vs. direct posting</h4>
+<table><thead><tr><th>Aspect</th><th>Periodic (indicator 2)</th><th>Direct (indicator 4)</th></tr></thead><tbody>
+<tr><td>When posted</td><td>Collectively by <code>RAPERB2000</code> (<code>ASKB</code>)</td><td>One document per asset transaction, immediately after the area 01 real-time document</td></tr>
+<tr><td>Posting keys</td><td>40/50</td><td>40/50 (not 70/75)</td></tr>
+<tr><td>Accounts</td><td>Group accounts, not reconciliation accounts</td><td>Same</td></tr>
+<tr><td>Document type</td><td>Periodic APC document type of the company code</td><td>Same document type; if direct posting fails the next <code>RAPERB2000</code> run posts it</td></tr>
+<tr><td>Visibility</td><td>Log of <code>ASKB</code></td><td>Shown with a reference number in the <code>ASKB</code> test log; reachable from the Asset Explorer; many more documents</td></tr>
+</tbody></table>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Accounts approach = parallel depreciation area + parallel G/L accounts; works with classic and new G/L.</li>
+<li>Steps: accounts → copy area → activate in classes → account determination → document type → account assignment types.</li>
+<li>Indicator 2 posts APC via <code>RAPERB2000</code>; indicator 4 posts each transaction directly with posting keys 40/50 to non-reconciliation accounts.</li>
+<li><code>ABZO</code> allows area-specific acquisition values; retrofitting a new area for old assets is a project.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 30: create seven-digit group accounts 8011000, 8011010, 8199990, 8204000, 8211100 (optional retirement accounts) with <code>FS00</code>; copy area 01 to area 60 with indicator 2; activate it in class 2100 (5 years); verify/enter the accounts in account determination 20000; add PRCTR/SEGMENT account assignment types for area 60; create asset "Press" and post EUR 100,000 with <code>ABZO</code> entering EUR 10,000 in area 60; test run <code>ASKB</code> with document simulation (check 7-digit accounts and document type AP); switch area 60 to indicator 4, post EUR 10,000 with <code>ABZON</code>, see the direct-posting reference in the <code>ASKB</code> test log, then run <code>ASKB</code> productively in background; a depreciation test run shows area 60 depreciation on the group accounts.</div>
+
+<h3 class="lesson" id="tfin52_1-u4-l4">Lesson 4: Processing Impairment Postings in Subledger Assets</h3>
+<p class="lead">Record an IFRS/US GAAP impairment on the assets of a cash-generating unit using the FI-AA worklist task "Impairment Posting", implemented technically as revaluation posted by the depreciation run.</p>
+<h4>Business background</h4>
+<p>If an asset's carrying amount exceeds its recoverable amount, it must be impaired. The recoverable amount is determined for the single asset or, if not possible, for its <strong>cash-generating unit</strong> (CGU) – the smallest identifiable group of assets generating largely independent cash inflows. IFRS and US GAAP require at least an annual assessment, earlier when triggering events occur. SAP has no CGU object and does not perform the impairment test; it only posts the result (course example: carrying amount EUR 48,000, recoverable EUR 30,000, impairment distributed over the CGU's assets).</p>
+<h4>Enabling the worklist task</h4>
+<p>Business function <strong>FIN_GL_CI_3</strong> (EHP5) adds the worklist task Impairment Posting; it does not require FIN_GL_CI_1/2 nor new G/L, so impairment also works with classic G/L. No new Customizing objects exist – existing settings are checked or adapted:</p>
+<table><thead><tr><th>Setting</th><th>Where / what</th></tr></thead><tbody>
+<tr><td>Revaluation allowed in the area</td><td><em>Special Valuation → Revaluation of Fixed Assets → Revaluation for the Balance Sheet → Determine Depreciation Areas</em>; impairment is posted either as revaluation of accumulated depreciation or as negative APC revaluation (course: only area 60 carries international values; with the ledger approach also delta areas). Line texts in the Asset Explorer can be renamed to "impairment" via <em>Information System → Configure Asset Value Display</em>.</td></tr>
+<tr><td>Four transaction types</td><td>Copies ZI1 (from 891) and ZI2 (from 897) for impairment of accumulated depreciation; ZI3 (from 893) and ZI4 (from 892) for negative APC revaluation. With the new depreciation calculation change the transaction type groups 81/82 to A1/A2 so planned depreciation is recalculated from the impairment period; with the old calculation keep 81/82 (recalculation only next year). Reversals use the opposite pair; expense and revenue must share one account. Limit the types to the permitted areas.</td></tr>
+<tr><td>Asset history sheet</td><td>No standard group is delivered: define a history sheet group (e.g. Z1), assign it to ZI1–ZI4 and to the history sheet version (<em>Information System → Asset History Sheet</em>).</td></tr>
+<tr><td>Account determination</td><td><em>Assign G/L Accounts</em>: revaluation balance sheet account (asset reconciliation) and offsetting P&amp;L account for the area; add new accounts to the FSV and, with document splitting, to item categories.</td></tr>
+<tr><td>Posting rules</td><td><code>OAYR</code>: tick <strong>Post revaluation</strong> for company code/area, otherwise the worklist completes but <code>RAPOST2000</code> posts only ordinary depreciation.</td></tr>
+<tr><td>Period control</td><td><code>AFAMP</code>: period control key for revaluation in the key's period control method (same as retirement is fine); not needed with the old calculation.</td></tr>
+</tbody></table>
+<h4>Posting procedure</h4>
+<ol>
+<li>Build a worklist from any asset report, e.g. <code>AR01</code> (RABEST_ALV01) for the CGU's assets, choosing task <strong>Impairment Posting</strong>.</li>
+<li>In the Impairment Posting dialog enter the amount and the distribution basis: Net Book Value (default, proportional), Imp. from NBV (write down to zero), or User-Defined via BAdI.</li>
+<li>Edit and release the worklist in <code>AR31</code>; the display shows per asset the new NBV (e.g. APC 10,000, ordinary depreciation 2,000, impairment 3,000 → NBV 5,000).</li>
+<li>The impairment is posted by the next <code>RAPOST2000</code> run for the period derived from the worklist posting date. In the Asset Explorer area 60's revaluation row shows the amount while the balance column shows 0.00 (revaluation of accumulated depreciation); other areas are untouched.</li>
+</ol>
+<p>The posting log then shows the different value types per area: 01 ordinary depreciation only; 20 ordinary depreciation plus interest; 60 ordinary depreciation plus revaluation of ordinary depreciation.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Impairment = recoverable amount below carrying amount, assessed per asset or CGU; the test itself happens outside SAP.</li>
+<li>FIN_GL_CI_3 adds the Impairment Posting worklist task, usable even with classic G/L.</li>
+<li>Technically it is revaluation: area allows revaluation, transaction types ZI1–ZI4 (groups A1/A2 with the new calculation), accounts, Post revaluation in <code>OAYR</code>, period control for revaluation.</li>
+<li>Amounts are posted by <code>RAPOST2000</code>, not by the worklist release.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No hands-on exercise; the lesson walks through a demo: worklist from <code>AR01</code> for three CGU assets, Impairment Posting task distributing EUR 18,000 (48,000 → 30,000) by net book value, release in <code>AR31</code>, review in the Asset Explorer and the depreciation run log. Unit assessment covers two-digit area keys, depreciation types per area, key methods, time-dependent parameters (not the start date), index series, what <code>RAPOST2000</code> posts (not parallel APC), fiscal year change timing and the checks of <code>RAJABS00</code>.</div>
+<h2 class="unit" id="tfin52_1-u5">Unit 5: Information System (Asset Accounting)</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Learn how the FI-AA information system is organised and how to run its reports with the SAP List Viewer and sort variants; forecast depreciation for one asset in the Asset Explorer or for many assets with program RASIMU02 (including simulation versions); and run and understand the asset history sheet, the key year-end report of Asset Accounting.</div>
+
+<h3 class="lesson" id="tfin52_1-u5-l1">Lesson 1: Executing Various Asset Accounting Reports Using SAP List Viewer and Sort Variants</h3>
+<p class="lead">Run standard FI-AA reports from the Asset Accounting area menu, use the SAP List Viewer (ALV) to shape the output, and use sort variants to define how the list is sorted and totalled.</p>
+
+<h4>Where the reports live: the area menu</h4>
+<p>The FI-AA information system is the reporting branch of the Asset Accounting area menu, which you reach with transaction <code>ASMN</code>. Area menus are themselves maintainable objects: with <code>SE43</code> you can display or change an area menu (e.g. to add your own reports to the tree). In the SAP Easy Access menu the path is Accounting → Financial Accounting → Fixed Assets → Information System → Reports on Asset Accounting, with sub-folders such as Asset Balances, Depreciation Forecast, Notes to Financial Statements and Tools.</p>
+
+<h4>SAP List Viewer (ALV) in asset reports</h4>
+<p>All FI-AA standard reports output their results through the SAP List Viewer, which gives every report the same look and the same set of interactive functions (the ALV grid control with its toolbar icons). This matters because you learn the handling once and can apply it to every asset report. The main things you can do in the list:</p>
+<ul>
+<li>Hide, insert and rearrange columns.</li>
+<li>Sort any column ascending or descending.</li>
+<li>Build totals and subtotals over one or several columns.</li>
+<li>Filter the list to show only rows meeting a condition.</li>
+<li>Save the result as a <strong>layout</strong> (display variant), user-specific or global, and recall it later.</li>
+<li>Extend the field catalogue of FI-AA ALV reports with additional asset master fields via the <code>FIAA_SALVTAB_*</code> structures (customer include), so almost any master-data field can be shown as a column.</li>
+<li>Send a list by SAP mail (List → Mail Recipient) directly from the report screen.</li>
+</ul>
+
+<h4>Sort variants</h4>
+<p>A sort variant decides the grouping and totalling hierarchy of an asset report. It contains up to five sort levels, each referring to an ABAP Dictionary field (for example company code, business area, cost center, asset class, profit center, segment). Every FI-AA report accepts a sort variant on its selection screen, so one and the same balance list can be presented by cost center for Controlling, by asset class for the balance sheet, or by profit center/segment for segment reporting.</p>
+<table><thead><tr><th>Sort variant (examples used in the course)</th><th>Grouping</th></tr></thead>
+<tbody>
+<tr><td>0013</td><td>Company code / asset class (standard for balance-sheet style lists)</td></tr>
+<tr><td>0014</td><td>Company code / cost center</td></tr>
+<tr><td>0016</td><td>Company code / profit center</td></tr>
+<tr><td>0024</td><td>Company code / segment – delivered as of SAP ERP 6.05 without any business function having to be activated</td></tr>
+</tbody></table>
+<p>Two further parameters on the report selection screen interact with the sort variant:</p>
+<ul>
+<li><strong>Total column / total level</strong> – the group level down to which totals are printed (e.g. only company-code totals, or totals per cost center as well). Choosing "group totals only" suppresses the individual asset lines and gives a compact totals list; "List assets" shows every asset.</li>
+<li><strong>Statistics indicator</strong> – in some reports produces an additional breakdown of each group total.</li>
+</ul>
+<p>Since EHP6 (SAP ERP 6.0) it is also possible to filter on a column that is a sort criterion (see SAP Note 1496486). Another useful selection-screen tool is <strong>Dynamic Selections</strong> (Edit → Dynamic Selections), which lets you add any master-record field, such as the asset description, as an additional selection condition with wildcards (e.g. <code>*20*</code>).</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>The FI-AA information system is the reporting part of area menu <code>ASMN</code>; area menus are edited with <code>SE43</code>.</li>
+<li>All asset reports use ALV: columns, sorting, filters, totals and saved layouts behave identically in every report.</li>
+<li>A sort variant (max. five Dictionary fields) controls grouping and totalling and can be used with any FI-AA report; 0024 delivers company code/segment reporting.</li>
+<li>Extra master-data columns can be added through the <code>FIAA_SALVTAB_*</code> structures; extra selection fields through Dynamic Selections.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 31 analyses the asset portfolio of company code AA## with the asset balance report (program RABEST_ALV01, <code>S_ALR_87011963</code>, "Asset Balances by Asset Number"): run it with sort variant 0014 (cost centers) and 0016 (profit centers), mail the list to a colleague via List → Mail Recipient, compare 0016 with 0024 (segments), sort the Acquisition Value column descending, save the result as user-specific layout VAR## and re-apply it via Settings → Layout → Choose, and finally use Edit → Dynamic Selections on the Description field with a wildcard pattern to find assets containing the group number.</div>
+
+<h3 class="lesson" id="tfin52_1-u5-l2">Lesson 2: Executing Depreciation and Transaction Simulation</h3>
+<p class="lead">Forecast how an asset's values will develop – including the effect of changed depreciation terms or additional transactions – with the Asset Explorer for a single asset and with program RASIMU02 (optionally driven by a simulation version) for whole groups of assets.</p>
+
+<h4>Why simulate?</h4>
+<p>Before year-end closing, accounting may want to know how the balance sheet would look if depreciation parameters were changed or if planned investments were realised. Simulation means an experimental change to depreciation terms (key, useful life) that is evaluated without posting anything. It can be applied to a single asset, part of the portfolio, or the entire portfolio.</p>
+
+<h4>Simulation in the Asset Explorer (<code>AW01N</code>)</h4>
+<p>The Asset Explorer is the central evaluation tool for one asset master record. Its functions that are relevant here:</p>
+<table><thead><tr><th>Function</th><th>What it gives you</th></tr></thead>
+<tbody>
+<tr><td>Asterisk <code>*</code> in the sub-number field</td><td>Combined view of a main number together with all its sub-numbers</td></tr>
+<tr><td>Display depreciation calculation</td><td>Detailed trace of how the system arrived at the depreciation amounts</td></tr>
+<tr><td>Posted values tab</td><td>Planned values for the fiscal year next to the amounts actually posted so far</td></tr>
+<tr><td>Comparisons tab</td><td>Value development over several fiscal years (quickest way to see the next five years)</td></tr>
+<tr><td>Preview / simulation</td><td>Shows how values would change with simulated depreciation terms or simulated transactions</td></tr>
+</tbody></table>
+<p>Other navigation options from the Asset Explorer: jump to the FI document, to related objects (cost center, order, equipment…), to the master record, call reports (your own report variants can be assigned via Goto → Maintain Reports), refresh after changes, and show values including all sub-numbers.</p>
+<p>Simulation workflow in the Asset Explorer:</p>
+<ol>
+<li>Choose <strong>Switch on simulation</strong>.</li>
+<li>On the Parameters tab change the depreciation terms (e.g. useful life 004 instead of 005) per depreciation area.</li>
+<li>Read the new planned values on the Planned values tab.</li>
+<li>To add a hypothetical posting, use <strong>Trans. Simulation</strong> in the simulation area: enter document/posting/asset value date, document type (AA), amount and transaction type (100 for an acquisition) and copy it into the simulation.</li>
+</ol>
+<p>Course example: an acquisition of EUR 50,000 on a company car (class 3100) with a five-year straight-line key gives EUR 10,000 depreciation per year; shortening the useful life to four years in areas 01 and 02 raises it to EUR 12,500; a simulated subsequent acquisition of EUR 20,000 on 30 June shows its effect immediately in the planned values.</p>
+
+<h4>Depreciation simulation for many assets: program RASIMU02</h4>
+<p>Report <code>S_ALR_87012936</code> (Depreciation Forecast → Depreciation on Capitalized Assets, program RASIMU02) forecasts depreciation for a selection of assets (company code, asset class …) up to a report date that may lie several fiscal years in the future. Important options under "All Selections":</p>
+<ul>
+<li><strong>Evaluation period</strong> – fiscal year (annual planned depreciation) or month (monthly amounts for the current year).</li>
+<li><strong>Simulation version</strong> – substitutes alternative depreciation terms for the run.</li>
+<li><strong>Treatment of capitalizations in the current fiscal year (orders/WBS elements)</strong> – by default all values are taken as of the start of the fiscal year, so an asset capitalised during the year shows no values. Selecting "Reduce the basis for depreciation simulation of planned investments by capitalization" (or not using FY-start values) makes such assets visible. This logic avoids double counting an investment both as a planned value on an order/project and as a capitalisation on the asset (SAP Note 333818). If only active assets are simulated, the "use asset values as of FY start" setting is irrelevant and ignored.</li>
+</ul>
+<p>Integration: planned capital investments can be included in the forecast. The planned amounts are managed as plan costs on an internal order or WBS element in CO/Investment Management; by assigning depreciation terms and a planned start-up date to the order or project, the program shows their future depreciation. RASIMU02 is therefore equally useful for IM colleagues running large investment measures.</p>
+
+<h4>Simulation versions (<code>OAV7</code>)</h4>
+<p>A simulation version (Information System → Tools → Simulation Versions) describes a change of depreciation logic for many assets at once. Within the version you create <strong>simulation rules</strong>: for each depreciation area, asset class and (optionally) original depreciation key you state the alternative depreciation key and/or useful life. A validity interval restricts the rule to assets whose capitalisation date falls inside the interval. The version is then entered on the RASIMU02 selection screen.</p>
+<table><thead><tr><th>Rule field</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td>Area</td><td>Depreciation area the substitution applies to (e.g. 01, 02)</td></tr>
+<tr><td>Class</td><td>Asset class (e.g. 3100)</td></tr>
+<tr><td>Dep. key (from / to)</td><td>Alternative key, e.g. DG30 instead of LINR</td></tr>
+<tr><td>Useful life</td><td>Alternative life (left unchanged in the exercise)</td></tr>
+<tr><td>Validity interval</td><td>Capitalisation-date range of assets to include</td></tr>
+</tbody></table>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Asset Explorer (<code>AW01N</code>): Comparisons tab for multi-year values; Switch on simulation + Parameters tab for changed terms; Trans. Simulation for hypothetical postings.</li>
+<li>Program RASIMU02 (<code>S_ALR_87012936</code>) forecasts depreciation for many assets, annually or monthly, into future years.</li>
+<li>Simulation versions (<code>OAV7</code>) hold substitution rules (area/class/key → alternative key/life) and are used by RASIMU02 for mass what-if analysis.</li>
+<li>Assets capitalised in the current year only appear in the simulation if the FY-start-value logic is adjusted; this prevents double counting with planned investments on orders/projects.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 32: post a EUR 50,000 acquisition with <code>ABZON</code> to a company car, inspect five-year values in <code>AW01N</code> (Comparisons tab), simulate a four-year life (annual depreciation 10,000 → 12,500) and a EUR 20,000 subsequent acquisition with Trans. Simulation. Then run RASIMU02 (<code>S_ALR_87012936</code>) for company code AA##, class 3100, report date 31.12.CY+2, switch the evaluation period to Month, create simulation version ## in <code>OAV7</code> with rules area 1/2, class 3100, key DG30, and rerun RASIMU02 with the version – noticing that the current-year asset only shows values after changing the "treatment of capitalizations in current fiscal year" option.</div>
+
+<h3 class="lesson" id="tfin52_1-u5-l3">Lesson 3: Understanding the Layout of an Asset History Sheet</h3>
+<p class="lead">Run the asset history sheet (program RAGITT_ALV01), understand how its rows and columns are structured, and know what can be configured in your own history sheet versions.</p>
+
+<h4>What the asset history sheet is</h4>
+<p>The asset history sheet is the most important FI-AA year-end report (it can also be run at interim dates). It reconciles the opening values of the fixed assets with the closing values by showing the movements of the year – acquisitions, retirements, transfers, post-capitalisations, write-ups, depreciation – separately for APC and accumulated depreciation. It supports the notes to the financial statements and is required in many legal environments, which is why SAP delivers country-specific history sheet versions that meet local statutory layouts.</p>
+
+<h4>How it is used</h4>
+<ul>
+<li>Like any FI-AA report it accepts a sort variant and a total level, so it can be produced as a compact totals list (group totals only) without single assets, or with every asset listed.</li>
+<li>From the totals list you can drill down (double-click a group row) to the individual assets, and from an asset into the Asset Explorer.</li>
+<li>Through the report-report interface (RRI) you can branch to other FI-AA reports from the history sheet.</li>
+<li>Program: RAGITT_ALV01, menu Information System → Reports on Asset Accounting → Notes to Financial Statements → International → Asset History Sheet (<code>S_ALR_87011990</code>). Key parameters: company code, report date, sort variant, history sheet version (e.g. 0001), list assets / group totals only.</li>
+</ul>
+
+<h4>Structure and own versions</h4>
+<p>A history sheet version is a grid of history sheet items (rows = e.g. APC, accumulated depreciation; columns = e.g. opening balance, acquisitions, retirements, transfers, depreciation for the year, closing balance). When you define your own version you:</p>
+<ul>
+<li>stay within the maximum size of 10 rows by 8 columns;</li>
+<li>store the header text of every history sheet item;</li>
+<li>define how each item is filled – which transaction type groups and value types feed each cell (e.g. transaction types of the acquisition group go to the "Acquisitions" column of the APC row).</li>
+</ul>
+<p>Because the values are driven by transaction type groups, the history sheet is only correct if transaction types are assigned to the right groups – an important point when customers create their own transaction types.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>The asset history sheet (RAGITT_ALV01, <code>S_ALR_87011990</code>) reconciles opening and closing asset values via the year's movements and is the central year-end/notes report.</li>
+<li>It works with any sort variant, can be shown as totals only or per asset, and allows drill-down to single assets, the Asset Explorer and other reports via the RRI.</li>
+<li>History sheet versions are max. 10 × 8 items with own headers and item-fill rules; SAP delivers country-specific versions.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 33: run the asset history sheet (<code>S_ALR_87011990</code>) for company code AA## with sort variant 0013 and history sheet version 0001, first with "List assets", then with "group totals only", and double-click the company-code total to drill down to the individual assets.</div>
+<h2 class="unit" id="tfin52_1-u6">Unit 6: Standard Reports in Financial and Management Accounting</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Find your way around the information systems of FI (G/L, A/R, A/P, FI-AA) and CO, run the standard reports delivered by SAP, understand how report names are built, and make reporting repeatable by saving selection screens as report variants – including selection variables (TVARV table variables and dynamic date calculation) that keep variants from going stale.</div>
+
+<h3 class="lesson" id="tfin52_1-u6-l1">Lesson 1: Using the Information Systems</h3>
+<p class="lead">Locate the standard reports of Financial and Management Accounting in the SAP Easy Access menu, recognise the report families by their technical names, and run typical FI and CO reports with drill-down to the originating documents.</p>
+
+<h4>Where standard reports are found</h4>
+<p>SAP ships a large number of ready-made reports. They are reachable in three ways:</p>
+<ul>
+<li>Every application (G/L, A/R, A/P, Asset Accounting, Cost Center Accounting …) has its own <strong>Information System</strong> node in its menu branch. The information system is part of the application's area menu, which can be displayed or changed with <code>SE43</code> (e.g. area menu <code>ASMN</code> for Asset Accounting).</li>
+<li>The SAP main menu contains a global Information System node with the General Report Selection, grouping standard reports by application.</li>
+<li>Reports can be placed into role-based user menus, so an end user only sees the reports belonging to the role.</li>
+</ul>
+<p>If you know (or can guess) the technical program name, System → Services → Reporting (<code>SA38</code>) opens the ABAP program execution screen; F4 help with a wildcard such as <code>RF*</code> lists the Financials programs. Many reports carry report documentation (Report Group Documentation icon) that explains their purpose and parameters.</p>
+
+<h4>Report name conventions in FI</h4>
+<p>Most delivered FI reports are classic ABAP programs whose names encode the object they evaluate. Knowing the prefixes helps you find and remember reports:</p>
+<table><thead><tr><th>Prefix</th><th>Reports for</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td>RFK…</td><td>Vendors (A/P)</td><td>RFKKVZ00 – vendor account list</td></tr>
+<tr><td>RFD…</td><td>Customers (A/R)</td><td>RFDKVZ00 – customer account list; RFDUML00 – customer sales</td></tr>
+<tr><td>RFS…</td><td>G/L accounts</td><td>RFSKVZ00 – G/L account list</td></tr>
+<tr><td>RFB…</td><td>Documents</td><td>RFBELJ00 – compact document journal; RFBILA00 – financial statements</td></tr>
+</tbody></table>
+
+<h4>What the information systems offer</h4>
+<p>A key property of the Financials information system is that posted data can be evaluated immediately and traced to its origin: from a totals report you go to the line-item report, and from a line item to the original document. The same drill chain exists in CO.</p>
+<table><thead><tr><th>Information system</th><th>Report headings / contents</th></tr></thead>
+<tbody>
+<tr><td>Accounts Payable</td><td>Vendor balances, vendor items, master data, payment transactions</td></tr>
+<tr><td>Accounts Receivable</td><td>Analogous customer groupings; e.g. RFDUML00 (customer sales) can produce a current or historical customer list sorted by sales when sales intervals are entered under Additional Selections (single values and ranges, including and excluding)</td></tr>
+<tr><td>General Ledger</td><td>Account balance reports show, per account and period: totals by reporting period, carry-forward balance at year start, totals for the carry-forward period, debit/credit totals of the reporting period and debit/credit balances; at the end a total per company code and a grand total per local currency. A sort method with summarisation levels (e.g. business area, G/L account) can be chosen</td></tr>
+<tr><td>Asset Accounting</td><td>The asset history sheet is the most complete closing evaluation; its structure follows country-specific legal requirements, so several versions exist. Columns: book values at fiscal-year start, acquisitions, retirements, adjustment postings, depreciation, book values at year end</td></tr>
+<tr><td>Management Accounting</td><td>Reports built with Report Writer, Report Painter, drilldown reporting or SAP List Viewer; standard reports are delivered in client 000 and may have to be imported into the working client. Every posting is summarised into totals records by cost element and cost object, which is what makes evaluation fast; from a summary report you open the line-item report and from a line item the source document</td></tr>
+</tbody></table>
+
+<h4>Following a document from CO back to FI</h4>
+<p>A primary posting in FI that carries a cost center creates both an FI document and a CO document. In a CO line-item report you select the line (or double-click it) and choose Environment → Source Document to see the document of the sending application, e.g. the FI document. Environment → Accounting Documents opens a dialog listing all accounting documents created together with that line item. This is the integration point between FI and CO reporting: the same business transaction can be analysed from either side.</p>
+
+<h4>Example reports used in the course</h4>
+<table><thead><tr><th>Report</th><th>Transaction</th><th>Typical parameters</th></tr></thead>
+<tbody>
+<tr><td>Financial statements (RFBILA00), actual/actual comparison, General Ledger Reports (New)</td><td><code>S_ALR_87012284</code></td><td>Company code 1000, FS version INT, language EN, reporting year/periods 1–16, comparison year previous year periods 1–16, output as ALV tree control (folders)</td></tr>
+<tr><td>Cost Centers: Actual/Plan/Variance</td><td><code>S_ALR_87013611</code></td><td>Controlling area 1000, fiscal year, periods 1–12, plan version 0, cost center group H1000, cost element group OAS</td></tr>
+</tbody></table>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Each application has its own Information System node; area menus are maintained with <code>SE43</code>; <code>SA38</code> runs any report by program name.</li>
+<li>FI report prefixes: RFK vendors, RFD customers, RFS G/L accounts, RFB documents.</li>
+<li>FI and CO information systems allow drill-down from totals to line items to the original document (Environment → Source Document / Accounting Documents).</li>
+<li>CO offers several report tools (Report Writer/Painter, drilldown, ALV); standard CO reports come from client 000.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 34: run the financial statement report RFBILA00 (<code>S_ALR_87012284</code>) for company code 1000 with FS version INT, comparing current with previous year, periods 1–16, as an ALV tree; then run the cost center actual/plan/variance report (<code>S_ALR_87013611</code>) for controlling area 1000, periods 1–12, plan version 0, cost center group H1000 and cost element group OAS.</div>
+
+<h3 class="lesson" id="tfin52_1-u6-l2">Lesson 2: Using Report Variants and Variables</h3>
+<p class="lead">Save selection criteria as report variants, control the selection screen through variant attributes, and replace static values with selection variables (TVARV table variables and dynamic date calculation) so variants stay valid over time.</p>
+
+<h4>Report variants</h4>
+<p>A variant is a saved set of selection-screen entries for a particular report. Instead of retyping company code, document ranges, dates etc. every time, you fill the selection screen once and choose Goto → Variants → Save as Variant. A report can have many variants (e.g. for RFKKVZ00 one for domestic and one for foreign vendors). When the report is started, the variant is fetched with Get Variant; if only one variant exists for the user it is proposed automatically, otherwise a list appears. Variants are also the prerequisite for background jobs.</p>
+
+<h4>Variant attributes</h4>
+<p>On the Variant Attributes screen you give the variant a name and description and decide how it behaves:</p>
+<table><thead><tr><th>Attribute</th><th>Effect</th></tr></thead>
+<tbody>
+<tr><td>Only for background processing</td><td>Variant cannot be used online, only in jobs</td></tr>
+<tr><td>Protect variant</td><td>Only the creator may change it</td></tr>
+<tr><td>Only display in catalog</td><td>System variant is not offered in F4 help, only in the variant catalog</td></tr>
+<tr><td>Per selection field: Protect field</td><td>Value is fixed and cannot be changed by the user</td></tr>
+<tr><td>Per field: Hide field</td><td>Field is not shown on the selection screen</td></tr>
+<tr><td>Per field: Required field</td><td>User must enter a value</td></tr>
+<tr><td>Per field: Selection variable (type T or D)</td><td>Value is supplied by a variable at run time instead of being stored statically</td></tr>
+</tbody></table>
+
+<h4>Selection variables – why and which</h4>
+<p>Static values make some variants useless over time: a fixed posting-date range must be changed by hand every month even though a variant is used. Selection variables solve this. Two types are supported (not for every selection field):</p>
+<table><thead><tr><th>Type</th><th>Indicator</th><th>How it works</th></tr></thead>
+<tbody>
+<tr><td>Table variable from TVARV(C)</td><td><code>T</code></td><td>A named variable stored in table TVARVC holding a single value, a selection option or an interval (e.g. a list of company codes). Maintained from the Variant Attributes screen via Environment → Maintain Selection Variables. Once created, the same variable can be used in variants of any report, so a central list is maintained once and reused everywhere</td></tr>
+<tr><td>Dynamic date calculation</td><td><code>D</code></td><td>The date is computed at run time from a delivered rule such as "current date", "first quarter of previous year", "first day of current month". Only possible if the selection field is of type date (D). When you switch a field from T to D, the variable-name field closes for free text and the rule must be picked from the F4 list</td></tr>
+</tbody></table>
+<p>Steps to make a variant dynamic:</p>
+<ol>
+<li>Fill the selection screen and choose Goto → Variants → Save as Variant.</li>
+<li>In the attributes table, enter <code>D</code> (or <code>T</code>) in the Selection variable column of the field.</li>
+<li>Pick the date rule (for D) or the TVARV variable name (for T, F4 only) in the Name of Variable column.</li>
+<li>Set protection/hide/required flags as needed and save; confirm overwriting if the variant already exists.</li>
+</ol>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>A variant stores selection-screen values for reuse and for background jobs; several variants per report are normal.</li>
+<li>Variant attributes can protect the whole variant, protect/hide/require individual fields and restrict use to background processing.</li>
+<li>Type T selection variables read values from table TVARVC and can be shared across reports; type D variables compute dates dynamically at run time.</li>
+<li>Dynamic date calculation requires a date-type selection field.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 35: via <code>SA38</code> create variant CA700-## for the compact document journal RFBELJ00 (company code 1000, document range 0100000000–0199999999, current year, ledger 0L) and run it; extend the document selection with two further ranges using Multiple Selection; change the attributes so the company code is protected, fiscal year is required and preset to the previous year, all fields except posting date are hidden, and posting date uses dynamic date calculation "first quarter previous year". Then build a variant for the vendor list RFKKVZ00 (A/P Information System → Master Data → Vendor List) selecting account group LIEF via Dynamic Selections and city Berlin via search help, create TVARVC variable CA700_GR## containing company codes 1000, 2000, 2200, 3000, 4000, 5000, 6000 (Environment → Maintain Selection Variables), assign it as type T variable to the company code field and verify by running the report with the variant.</div>
+<h2 class="unit" id="tfin52_1-u7">Unit 7: SAP List Viewer</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Master the SAP List Viewer (ALV) as the common output tool of FI line-item reports – sorting, totalling, filtering, switching between classic list and grid, viewing lists with SAP Crystal Reports, setting user defaults – learn how standard, initial and user-specific layouts interact, and exploit the extra selection options (search help, item status, worklists, head office/branch, net due date, assignment field) of the FI line-item displays.</div>
+
+<h3 class="lesson" id="tfin52_1-u7-l1">Lesson 1: Using the SAP List Viewer</h3>
+<p class="lead">Display FI line-item lists with the SAP List Viewer, apply its generic interactive functions, optionally render ALV lists with the SAP Crystal Reports viewer, and control the list design through user settings.</p>
+
+<h4>What the SAP List Viewer is</h4>
+<p>The SAP List Viewer (ALV) is a generic display tool: a program hands it prepared data and ALV renders a standardised, ergonomic list. Because the same tool is used throughout the system, users meet one uniform interface with the same icons everywhere. It can show simple lists and hierarchical-sequential lists (header with sub-items). Crucially, the layout can be changed <em>after</em> the data has been selected – no re-run of the report is needed to add a column, sort or subtotal – and the changed layout can be saved as a display variant (layout).</p>
+
+<h4>Generic functions</h4>
+<ul>
+<li>Select one or several columns (Ctrl-click) and move or hide them.</li>
+<li>Sort ascending or descending; multi-level sorts via the Define Sort Order dialog (e.g. document type ascending, then document date descending).</li>
+<li>Set and delete filters on any column (e.g. only document type SA, only amounts up to EUR 40).</li>
+<li>Total a column and build subtotals per other columns (e.g. subtotal by document type or by net due date); sub-subtotals work the same way.</li>
+</ul>
+
+<h4>Working with documents from the list</h4>
+<p>FI line-item lists are not read-only. From a list you can:</p>
+<ol>
+<li>Select an item and choose Display Document to see the details.</li>
+<li>Choose Change Document to change it; selecting several items performs a mass change across all their documents.</li>
+<li>Choose Refresh List to see the result; if a change is not visible, a change-error log pushbutton explains why.</li>
+</ol>
+<p>Whether the jump goes to the document item view or to the document overview is a checkbox in the accounting editing options (<code>FB00</code>).</p>
+
+<h4>Classic list vs. grid control</h4>
+<p>Line-item lists can be displayed in two designs (Settings → Switch List); for some other lists the switch is not available, so this is a special feature of the line-item display:</p>
+<table><thead><tr><th>Design</th><th>Characteristics</th></tr></thead>
+<tbody>
+<tr><td>ALV classic list</td><td>Simple list with predefined row/column formatting; header can show the icon keys</td></tr>
+<tr><td>ALV grid control</td><td>Spreadsheet-like grid; column widths adapt to content; richer toolbar</td></tr>
+</tbody></table>
+<p>The chosen design is stored in user parameter <code>FIT_ALVC</code>, so after switching once the system opens the list in that design at every later logon. These defaults are visible and changeable on the Line Items tab of transaction <code>FB00</code> (accounting editing options) or directly in the user parameters with <code>SU3</code>.</p>
+
+<h4>SAP Crystal Reports viewer for ALV lists</h4>
+<p>Any ALV grid list can be displayed with the SAP Crystal Reports viewer, which turns the list into a formatted, WYSIWYG report (print output looks exactly like the screen). The report can also be downloaded, edited in the Crystal Reports designer and uploaded again. Benefits named in the course: professional-looking reports, on-report sorting and parameters for end users, less IT effort through interactive reports, data mash-ups, time saved in design, and embedding in Java/.NET applications. Prerequisites:</p>
+<ol>
+<li>SAP NetWeaver 7.02 or higher.</li>
+<li>Crystal Reports viewer for SAP Business Suite applications installed on every front end.</li>
+<li>Customizing for SAP NetWeaver → Application Server → SAP List Viewer (ALV) → Maintain SAP GUI-Specific Settings (for ALV grid) and/or Maintain Web Dynpro ABAP-Specific Settings, flag "Allow Crystal Reports".</li>
+</ol>
+<p>Then the Crystal Reports entry appears on the View tab of the ALV layout definition. Example used: customer line items for customers 1171/1172 in company code 1000 via <code>FBL5N</code>, switched to grid control, then viewed with Crystal Reports.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>ALV is the standard, generic list tool; layout changes (columns, sort, filter, totals) happen on the already selected data and can be saved as layouts.</li>
+<li>From FI line-item lists you can display and (mass) change documents and refresh the list.</li>
+<li>Classic list vs. grid control is a user choice saved in parameter <code>FIT_ALVC</code>; defaults are maintained in <code>FB00</code> (Line Items tab) or <code>SU3</code>.</li>
+<li>With NetWeaver 7.02, an installed viewer and the "Allow Crystal Reports" flag, ALV grids can be rendered with SAP Crystal Reports.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 36: display open items of G/L account 113101 in company code 1000 with <code>FAGLL03</code> (Display/Change Items (New)); sort by document date descending; define a two-level sort (document type ascending, document date descending) via the sort dialog; sort by Assignment; subtotal by document type; and set a filter so only document type SA remains.</div>
+
+<h3 class="lesson" id="tfin52_1-u7-l2">Lesson 2: Editing a Display Variant</h3>
+<p class="lead">Understand the hierarchy of standard, initial, default and user-specific layouts in ALV, and build your own display variant by choosing and arranging columns.</p>
+
+<h4>Kinds of layouts</h4>
+<table><thead><tr><th>Layout type</th><th>Naming / scope</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>SAP standard layouts</td><td>Delivered, e.g. <code>1SAP</code>, <code>1SAP-C</code>, <code>4SAP</code></td><td>Available to everyone</td></tr>
+<tr><td>Customer standard (global) layouts</td><td>Name starts with <code>/</code></td><td>Usable by all users; created by saving a layout without the user-specific flag</td></tr>
+<tr><td>User-specific layouts</td><td>Any other name, saved with "User-specific"</td><td>Visible only to the creator</td></tr>
+</tbody></table>
+
+<h4>Which layout is used when the list opens?</h4>
+<p>The system determines the starting layout in a clear precedence order:</p>
+<ol>
+<li>If nothing is configured, the predefined default layout <code>1SAP</code> is used.</li>
+<li>If a layout is flagged as the <strong>ALV initial layout</strong> in layout management (Settings → Layout → Administration), it replaces 1SAP for all users.</li>
+<li>A <strong>default layout in the user's parameters</strong> – maintainable per FI ledger (G/L, customer, vendor) in the accounting editing options – overrides the initial layout for that user.</li>
+<li>A layout entered explicitly on the selection screen, or chosen inside the list, overrides everything for that run. The editing options can be set so that the last-used layout is remembered for the next call.</li>
+</ol>
+
+<h4>Changing a layout</h4>
+<p>Change Layout opens a dialog with two panes: Displayed Columns (left) and Column Set (right, all available fields). You move fields between the panes with the arrow buttons, order the displayed columns with the up/down and "to start" buttons, and can sort the column set alphabetically or search it. Save As stores the result as a layout with a technical name and description, optionally user-specific and optionally as default.</p>
+<p>For the FI line-item reports <code>FBL1N</code>/<code>FBL3N</code>/<code>FBL5N</code> (FBL*N) the Column Set can be extended with <strong>special fields</strong> – additional fields from the document or master record that are not in the standard structure. This is done in Customizing (SAP Note 112312) and is realised through a Business Transaction Event, so it is not a modification of the standard.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Global layouts start with <code>/</code>; user-specific layouts carry any other name and are private.</li>
+<li>Precedence: explicit choice &gt; user-parameter default (per ledger) &gt; ALV initial layout &gt; delivered 1SAP.</li>
+<li>Layouts are edited in the Change Layout dialog (Displayed Columns vs. Column Set) and saved with Save As.</li>
+<li>FBL*N reports can get extra "special fields" via a Business Transaction Event (SAP Note 112312) without modifying the standard.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 37: run the CO report Cost Centers: Actual Line Items (<code>KSB1</code>) for controlling area 1000, cost center group H1000 and the full year 2006 with layout 1SAP; switch to layout 4SAP; in Change Layout add Cost Center at the beginning and Cost Element Name directly after Cost Element; save as user-specific layout GR## ("Group ##") and confirm it appears under Select Layout.</div>
+
+<h3 class="lesson" id="tfin52_1-u7-l3">Lesson 3: Using Additional Selection Criteria in Financial (FI) Reports</h3>
+<p class="lead">Use the full set of selection options on the FI line-item display screens (<code>FBL1N</code>, <code>FBL3N</code>/<code>FAGLL03</code>, <code>FBL5N</code>): account selection with search help and worklists, item status (open/cleared/all), head office and branch handling, net-due-date selection, icon keys and the assignment field as a sort field.</p>
+
+<h4>Structure of the selection screen</h4>
+<p>The line-item selection screen has three blocks plus output options:</p>
+<table><thead><tr><th>Block</th><th>Content</th></tr></thead>
+<tbody>
+<tr><td>Account selection</td><td>Which G/L, customer or vendor accounts in which company codes – single values, intervals, multiple selection with inclusion/exclusion; optionally worklists</td></tr>
+<tr><td>Selection using search help</td><td>Choose accounts indirectly via search help attributes (see below)</td></tr>
+<tr><td>Line item selection</td><td>Status (open / cleared / all) and type (normal, noted, parked, special G/L, customer/vendor items in the G/L view …)</td></tr>
+<tr><td>List output</td><td>Layout to start with and maximum number of items</td></tr>
+</tbody></table>
+
+<h4>Worklists</h4>
+<p>A worklist is a predefined group of accounts (or company codes) that can be entered instead of individual accounts. In the editing options you set "Worklists available"; the selection screen then shows worklist input fields when "Worklist input fields active" is chosen. Worklist contents are maintained with <code>OB55</code>.</p>
+
+<h4>Search-help attributes available</h4>
+<table><thead><tr><th>Line-item list</th><th>Search-help options</th></tr></thead>
+<tbody>
+<tr><td>G/L account</td><td>Account number in chart of accounts (also with company code), account name/long text, accounts with deletion or blocking indicators, keywords, alternative account numbers</td></tr>
+<tr><td>Vendor</td><td>General data (search term, postal code, city, name, number), by country, by company code, by personnel number, by purchasing/material/plant reference</td></tr>
+<tr><td>Customer</td><td>General data (search term, postal code, city, name, number), by country, by company code, by account group, customers with rental agreement, by sales group or plant reference, head-office customers</td></tr>
+</tbody></table>
+
+<h4>Item status selection</h4>
+<table><thead><tr><th>Option</th><th>What is shown</th></tr></thead>
+<tbody>
+<tr><td>Open items at key date</td><td>Items that are, or were, open on the key date (today proposed). Backdating the key date shows the status as of that past date; items posted after the key date are excluded, and items cleared after the key date appear as open again</td></tr>
+<tr><td>Cleared items</td><td>Items cleared up to the clearing date entered plus items still open on the key date; without dates, all cleared items</td></tr>
+<tr><td>All items</td><td>Open and cleared items, optionally restricted by a posting-date range</td></tr>
+</tbody></table>
+
+<h4>Head office and branch</h4>
+<p>Some industries order locally through branches but pay centrally through a head office. SAP separates the goods flow (branch) from the money flow (head office): items posted to a branch account are automatically transferred to the head-office account. On the selection screen the Branch/Head Office indicator triggers a dialog per branch account asking whether the branch may display the items managed at the head office; if the dialog is switched off, the setting in the "Items managed at head office" field is applied automatically.</p>
+
+<h4>Net due date, icon keys</h4>
+<p>If "Selection by net due date" is activated in the user's editing options, the selection screen offers additional input fields to select items by net due date – handy for dunning and payment analysis. In the header of the classic list, keys for the icons can be displayed: item status (open, parked, cleared) and due-date status (overdue, due, not due); whether the keys appear is again an editing option.</p>
+
+<h4>Assignment field as sort field</h4>
+<p>When a document is posted, the assignment field (18 characters) of each line item is filled automatically according to the <strong>sort key</strong> in the account's master record. A sort key can combine up to four fields within the 18 characters – e.g. document number (10) plus posting date (6). Examples: sort key "purchase order number" on a customer/vendor account fills the assignment with the PO number; a cost center sort key on a G/L account fills the assignment with the cost center posted. Because line-item lists are typically sorted by assignment, the sort key decides how a user sees and clears items.</p>
+<p>SD integration: an SD billing document creates an FI document with a different number. The reference and assignment fields of the FI invoice are copied from the SD billing document, and in SD copying control you decide which numbers (purchase order, sales order, delivery, billing document) go into reference and which into assignment. These fields can then be used as selection criteria in FI to find the FI document belonging to an SD invoice.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Accounts can be selected directly, via multiple selection, via search-help attributes or via worklists (<code>OB55</code>).</li>
+<li>Open items are evaluated as of a key date; backdating shows the historical open-item status.</li>
+<li>Head office/branch accounts separate goods flow from payment flow; the selection screen controls whether branch users see head-office items.</li>
+<li>The assignment field is filled from the master-record sort key (up to four fields, 18 characters) and drives the default sort of line-item lists; SD reference/assignment are copied into FI for cross-component search.</li>
+<li>Net-due-date selection and icon keys are enabled in the user's editing options (<code>FB00</code>).</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 38: in <code>FBL5N</code> display open items of customer 1033 in company code 1000 as of today; sort the Assignment column; filter amounts in local currency up to EUR 40 and remove the filter again; choose layout 1SAP-C and subtotal by net due date; switch to grid design (Settings → Switch List); add Payment Date and Terms of Payment columns right after the Cleared/Open symbol via Change Layout; and save the result as user-specific layout CA700-## named "Payment Data" without making it the default.</div>
+<h2 class="unit" id="tfin52_1-u8">Unit 8: Drilldown Reporting</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand drilldown reporting as the interactive analysis tool of Financials (FI-GL, PCA, A/R, A/P, CO-PA, Special Purpose Ledger): its output types and function levels, navigation in classic and graphical reports with analysis functions (ABC, exceptions, currency, number format), background execution and data extracts, and the construction of own reports – basic reports, forms (single axis, two axes), global/local and text variables, cell formulas, key figure schemes, characteristic hierarchies and the report-to-report interface.</div>
+
+<h3 class="lesson" id="tfin52_1-u8-l1">Lesson 1: Introducing Drilldown Reports</h3>
+<p class="lead">Know what drilldown reporting is, which report types and data areas it covers, how the function levels restrict users, and which three output types a report can be run in.</p>
+
+<h4>What drilldown reporting is</h4>
+<p>Drilldown reporting is an online, interactive analysis tool built into SAP ERP Financials. SAP delivers standard drilldown reports for G/L (new G/L, table FAGLFLEXT), Profit Center Accounting, Accounts Payable and Accounts Receivable, and the tool is also used to build reports for Profitability Analysis (costing-based and account-based CO-PA) and the Special Purpose Ledger. You slice a dataset by any <strong>characteristic</strong> of the area (company code, business area, customer, product …) and look at any <strong>key figures</strong>; you can show several objects for one key figure or several key figures for one object, and do variance analyses such as plan/actual, year-on-year or object comparisons. SAP Graphics, SAP mail, printing, and Microsoft Word/Excel are connected to it. Forms for drilldown reports are created with the Report Painter.</p>
+
+<h4>Report types by content (FI)</h4>
+<table><thead><tr><th>Type</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td>Financial statement analysis</td><td>Based on a financial statement version; any number of plan/actual variance analyses (annual, half-year, quarterly, monthly)</td></tr>
+<tr><td>Key figure reports</td><td>Use only the FS items needed to compute ratios, e.g. equity ratio (equity : total capital), debt-equity ratio (external : own capital), capitalization ratio (fixed assets : total assets); formulas via the integrated formula interpreter</td></tr>
+<tr><td>Balance display / line item analysis</td><td>Customer and vendor drilldown reports</td></tr>
+</tbody></table>
+<p>By structure there are basic reports (simple fixed layout, no form) and form reports (complex structure and formatting, based on a form).</p>
+
+<h4>Function levels</h4>
+<p>Drilldown functions are grouped in three levels so that each user sees only what they need. The level is set in user parameter <code>RLV</code> (0 = all functions, 1 = level 1, 2 = level 2) and can be switched in the report via Extras → Additional functions.</p>
+<table><thead><tr><th>Level</th><th>Scope</th><th>For whom</th></tr></thead>
+<tbody>
+<tr><td>Level 1</td><td>Basic navigation in the characteristic hierarchy of a predefined report, detail list functions; no report maintenance, no list-setting changes, no Excel connection</td><td>Occasional users of fixed form reports</td></tr>
+<tr><td>Level 2</td><td>All navigation functions plus Excel list viewer, PC download, graphics, display changes, hierarchy functions, exceptions; no report maintenance, no custom print layout</td><td>Analysts who need all analysis functions</td></tr>
+<tr><td>All functions (0)</td><td>Level 2 plus print preparation, saving reports, defining exceptions, report maintenance from within the report</td><td>Report designers / power users</td></tr>
+</tbody></table>
+
+<h4>Output types</h4>
+<table><thead><tr><th>Output type</th><th>Characteristics and use</th></tr></thead>
+<tbody>
+<tr><td>Graphical report output</td><td>Several views (drilldown list, detail list, graphic, navigation block) at once on one screen; configurable output areas, HTML template for the header area with company logo, header/footer; drag and drop navigation</td></tr>
+<tr><td>Classic drilldown</td><td>One list at a time; you define whether the drilldown list or the detail list is the basic list and whether headers/footers print</td></tr>
+<tr><td>Object list (SAP List Viewer)</td><td>Report shown as an ALV list; allows several characteristic values in the lead column, ALV filter/sort/layouts, and conversion to XXL (spreadsheet) format</td></tr>
+</tbody></table>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Drilldown reporting analyses FI, PCA, A/R, A/P, CO-PA and FI-SL data interactively by characteristics and key figures.</li>
+<li>FI report types: financial statement analysis, key figure (ratio) reports, balance display/line item analysis.</li>
+<li>Three function levels (user parameter <code>RLV</code>) restrict what a user may do inside a report.</li>
+<li>Three output types: graphical, classic, object list (ALV); forms are drawn with Report Painter.</li>
+</ul></div>
+
+<h3 class="lesson" id="tfin52_1-u8-l2">Lesson 2: Navigating in Classic Drilldown Reports</h3>
+<p class="lead">Move between drilldown list and detail list, swap characteristics, format currency and numbers, and apply the analysis functions (ABC analysis, cumulative curve, classification, exceptions) in the classic output format.</p>
+
+<h4>Drilldown list and detail list</h4>
+<p>A classic report consists of a navigation block (the free characteristics), a drilldown list (rows = values of one characteristic, columns = key figures) and a detail list (all key figures of one object as defined in the form).</p>
+<ol>
+<li>Drilldown → detail: select a row with the hotspot (Select Line) and choose Detail List, or choose Detail List and then the object.</li>
+<li>Detail → drilldown: choose Drilldown List in the navigation block, then pick a free characteristic.</li>
+<li>Back to basic list returns to the start list; interactive settings such as number format are kept.</li>
+<li>Exchange characteristics: click the current drilldown characteristic in the list header, then the characteristic in the navigation block that should replace it; they swap places. Double-clicking a row value drills down to the next characteristic in the sort order.</li>
+</ol>
+<p>Note on the new G/L: all FI-GL forms and reports read table FAGLFLEXS, the reporting view of the totals table FAGLFLEXT.</p>
+
+<h4>Formatting options</h4>
+<table><thead><tr><th>Function</th><th>Effect</th></tr></thead>
+<tbody>
+<tr><td>Currency</td><td>Translates one or all value columns from the database currency to another currency using a currency translation type (defines rate type/date; set up in Customizing). Undo via Settings → Undo → Currency</td></tr>
+<tr><td>Sort</td><td>Rows ascending/descending by a column or column group; by key or text, key figure, hierarchy</td></tr>
+<tr><td>Number format</td><td>Decimal places and display factor (e.g. 1,000,000 with factor 1000 and one decimal shows 1,000.0); separately for rows, columns, cells</td></tr>
+<tr><td>Undo all settings / Form settings</td><td>Revert interactive settings, or back to the form's settings</td></tr>
+</tbody></table>
+<p>Number format can be set at three levels: globally for all reports (report line structure / field catalogue, e.g. sales always in millions), per form (applies to every report using the form), or per report. Drilldown and detail list are formatted separately; in a two-axis form a single drilldown column corresponds to a cell of the detail list and a column group to a row/column. If settings conflict, the last one made wins.</p>
+
+<h4>Analysis functions</h4>
+<ul>
+<li><strong>Cumulative curve</strong>, <strong>ABC analysis</strong> and <strong>classification</strong> rank and group the rows of a selected column. In ABC analysis you choose a strategy (e.g. total of gross revenue in %) and the A/B/C split (e.g. 50/30/20 %); the result is shown graphically and the C-segment list reveals, for example, the products making up the bottom 20 % of revenue.</li>
+<li><strong>Exceptions</strong> are rules with a lower and an upper threshold; values outside the acceptable band are coloured red or green. An exception can be defined for a single cell (valid only in that list, not visible after drilling down) or for a whole column (valid for that column on every list at every level). Exceptions are defined in the drilldown list and also appear – and can be changed – in the detail list. Course example: revenue by country with a percentage-variance column; the column exception still applies after drilling USA down to its regions.</li>
+<li>Graphics: select a column and choose Graphics, e.g. a 2D pie chart of revenue by product.</li>
+<li>Line items: Goto → Line Items branches from a row to the line-item report, where ALV layouts (e.g. /ZIDES-PCA2) and totals let you reconcile the drilldown figure.</li>
+</ul>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Classic reports show one list at a time; Select Line + Detail List and Back to Basic List switch between drilldown and detail list.</li>
+<li>Currency translation, sort and number format are interactive and can be undone or reset to the form.</li>
+<li>Column exceptions survive drilldown; cell exceptions apply only to the current list.</li>
+<li>ABC analysis, cumulative curve and classification rank rows; new G/L reports read FAGLFLEXS/FAGLFLEXT.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 39: run CO-PA report IDES-050 with <code>KE30</code> (operating concern IDEA, costing-based; sales org 1000, periods 1–12, plan/actual indicator 0, record type F, classic output); swap Division for Customer and Product; open the detail list and return; drill down through Cross Division and a customer; reverse column order (Edit → Columns → Sort) and hide Contribution Margin I (Columns On/Off); jump to line items with layout /ZIDES-PCA2 and total the revenue column; create a 2D pie chart of gross revenue by product; run an ABC analysis 50/30/20 % and list the C segment; define a column exception on gross revenue (red below 20,000, green above 150,000).</div>
+
+<h3 class="lesson" id="tfin52_1-u8-l3">Lesson 3: Navigating in Graphical Drilldown Reports</h3>
+<p class="lead">Use the graphical output format, in which drilldown list, detail list, navigation block and graphics share one screen and navigation is done by drag and drop, and apply the toolbar functions (export, currency, hierarchy, call-up report, comments).</p>
+
+<h4>Screen and navigation</h4>
+<p>The graphical report shows the detail list and the drilldown list simultaneously, can embed graphics and an HTML template (e.g. corporate logo), and supports drag and drop: drag a value onto a characteristic in the navigation pane to drill down by it; drag a characteristic from the navigation pane back to the report (or right-click / double-click it) to remove that drilldown level. Double-clicking a characteristic in the navigation pane analyses the current selection by it.</p>
+
+<h4>Display settings</h4>
+<table><thead><tr><th>Setting</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td>Settings → Characteristic display</td><td>Four combinations of key and text for characteristic values</td></tr>
+<tr><td>Settings → Totals row</td><td>Position of the totals row (top/bottom) or hide it; for one characteristic (cursor on it) or all</td></tr>
+<tr><td>Edit → Cumulative display on/off</td><td>Each row shows its own value plus all rows above (list sorted by row key)</td></tr>
+<tr><td>Settings → Zeros on/off</td><td>Show or suppress zero values</td></tr>
+<tr><td>Settings → Column display</td><td>Hide/show columns (ALV-style)</td></tr>
+<tr><td>Percentage ↔ Absolute</td><td>Show a quantity/value column as percentage of total or as absolute values</td></tr>
+</tbody></table>
+
+<h4>Toolbar buttons</h4>
+<table><thead><tr><th>Button</th><th>Function</th></tr></thead>
+<tbody>
+<tr><td>Report parameters</td><td>Selections made, creator, characteristics and key figures of the report</td></tr>
+<tr><td>Export</td><td>To Excel as standard table or pivot table (XXL)</td></tr>
+<tr><td>Currency</td><td>Translate one or all value columns with a translation key (e.g. mean rate as of today)</td></tr>
+<tr><td>Hierarchy</td><td>Switch a characteristic hierarchy attached to the report on/off</td></tr>
+<tr><td>Call up report (Goto → Call up report)</td><td>After selecting a cell, row, column or block, branch to a receiver report assigned via the report-to-report interface</td></tr>
+<tr><td>ABC</td><td>ABC analysis: A = important, B = less important, C = relatively unimportant objects</td></tr>
+<tr><td>Number format</td><td>Decimals and factor per row/column/cell</td></tr>
+<tr><td>Exceptions</td><td>Define threshold colouring (column or cell)</td></tr>
+<tr><td>Maintain / Display comment</td><td>Text editor for comments on reports, report variants and transaction data; Office documents can be imported</td></tr>
+</tbody></table>
+<p>Example report: Financial Statement: Actual/Actual Comparison (<code>S_PLO_86000028</code>, General Ledger Reports (New)) for company code 1000, currency type 10, FS version INT, ledger 0L, 2009 vs 2008. In the output, assets equal liabilities; revenues and income appear with a negative sign, expenses positive; the profit mainly stems from domestic gross sales revenues (or inventory increases); dragging sales revenue onto Profit Center, Business Area or Period/Year analyses it by those characteristics; account 800000 can be examined per period for a business area.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Graphical output shows drilldown list, detail list and graphics together and is navigated by drag and drop.</li>
+<li>Characteristic display, totals row, cumulative display, zero suppression and percentage view are user settings inside the report.</li>
+<li>Toolbar: export (table/pivot), currency translation, hierarchy on/off, call-up of receiver reports, ABC, exceptions, comments.</li>
+<li>In FS drilldown reports revenues are negative and expenses positive (credit/debit sign logic).</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 40: run <code>S_PLO_86000028</code> graphically for company code 1000, INT, ledger 0L, 2009 vs 2008; verify assets = liabilities; expand the P&amp;L subtree to find the profit sources and the largest expense block; drag sales revenues onto Profit Center and Business Area; analyse account 800000 for business area Electronic Products by Period/Year; return to the start view; set all value columns to factor 1000 with 0 decimals and the Variance column to 2 decimals; translate to GBP (mean rate as of today); drill P&amp;L to account number and define a column exception at ±500,000 on FY2009; export to an Excel pivot table via Export → Copy report to XXL.</div>
+
+<h3 class="lesson" id="tfin52_1-u8-l4">Lesson 4: Optimizing Report Execution</h3>
+<p class="lead">Run drilldown reports in the background with selection variants and variant groups, and freeze report data in extracts so that later online calls do not hit the database.</p>
+
+<h4>Selection variants and variant groups</h4>
+<p>When a drilldown report is executed online, a selection screen asks for the variable values. A <strong>selection variant</strong> stores these entries together with other settings (output type, print settings – Print Report flag and list type: drilldown list, detail list or SAP List Viewer). Variants are also the basis for background execution:</p>
+<ol>
+<li>Create the variant on the report's selection screen (Save) with name and description; for printing in the background set Print Report and the list type (maintainable later with <code>KE3Q</code> in CO-PA).</li>
+<li>Define a <strong>variant group</strong> (<code>KE3S</code>) – a container that can hold several variants of one report (different variable combinations) and/or variants of different reports.</li>
+<li>Maintain the group (<code>KE3P</code>): assign report + variant pairs (per operating concern and type of profitability analysis).</li>
+<li>Schedule the group (<code>KE3R</code>): a background job is created; set the start condition (immediate or periodic) and release it.</li>
+<li>Monitor in <code>SM37</code> and read the spool output.</li>
+</ol>
+<p>Variant groups therefore let you schedule many report runs as one job at times of low system load, optionally at regular intervals.</p>
+
+<h4>Report data extracts (frozen data)</h4>
+<p>When a report is executed – online or in the background – its result can be saved as an extract (Report → Save data, or confirming the prompt on exit). The next time the report is run with <em>exactly</em> the same selection parameters, the system asks whether to read the saved data or generate a new report; with different parameters no prompt appears because no matching extract exists. Reading an extract avoids reading transaction data from the database, so runtime drops dramatically and the database server is spared – SAP recommends frozen data for complex, high-volume reports. Technically the data is held in buffer table COIX_DATA. The trade-off: the user sees data as of the extract time, not live data.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Selection variants store variable values, output type and print settings of a drilldown report.</li>
+<li>Variant groups bundle variants of one or several reports and are scheduled as one background job (<code>KE3S</code>/<code>KE3P</code>/<code>KE3R</code> in CO-PA, <code>SM37</code> for monitoring).</li>
+<li>Extracts freeze report data; a rerun with identical parameters offers the saved data and needs no database access.</li>
+<li>Use frozen data for complex reports with large data volumes.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 41: in <code>KE30</code> create variant CA700-## for IDES-050 (current year, sales org 1000, Print Report flagged); maintain the variant with <code>KE3Q</code>; create variant group CA700-## with <code>KE3S</code>, assign report and variant with <code>KE3P</code>, schedule it with <code>KE3R</code> (job CA700-##, start immediately), release and check the spool in <code>SM37</code>. Then run the FS actual/actual drilldown report (<code>S_PLO_86000028</code>), save the data on exit, rerun with identical parameters to get the "saved data or new report" prompt, and rerun with changed parameters to see no prompt.</div>
+
+<h3 class="lesson" id="tfin52_1-u8-l5">Lesson 5: Creating a Basic Drilldown Report</h3>
+<p class="lead">Understand the building blocks of drilldown reporting – report, form, characteristics, key figures – and create both a basic report (without form) and a single-axis form report with a variance formula.</p>
+
+<h4>Building blocks</h4>
+<table><thead><tr><th>Element</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td>Report</td><td>The executable object: interactive lists and graphics; defined by drilldown characteristics, key figures (if no form), variables, output type, options</td></tr>
+<tr><td>Form</td><td>Semi-finished product defining the content and formal structure (rows/columns) of the lists; completed in the report with characteristics and key figures. Normally regarded as fixed because changing a form changes every report that uses it</td></tr>
+<tr><td>Characteristic</td><td>Selection/classification criterion (company code, business area, G/L account, cost center, customer, product; also time: fiscal year, period; plan/actual indicator). Characteristic value = concrete value (company code 1000). A combination of characteristics and values is an <em>object</em></td></tr>
+<tr><td>Key figure</td><td>What is measured: stored values (balance sheet value, debit total, sales), quantities (employees, sales quantity) or calculated figures (sales per employee, plan/actual variance). Defined either in the form or in the report, never in both</td></tr>
+</tbody></table>
+<p>Drilldown list: several objects × key figures (key figures usually in columns, rows = values of the drilled-down characteristic). Detail list: one object × all key figures as laid out in the form (key figures usually in rows).</p>
+
+<h4>Basic report vs. form report</h4>
+<ul>
+<li><strong>Basic report</strong>: for ad-hoc exploration when you do not know in advance what you are looking for. No form; you pick characteristics and key figures directly. Key figures in columns, rows show all values of one characteristic.</li>
+<li><strong>Form report</strong>: more complex, flexible structure; typical for official reports and printing. Subdivided by form type.</li>
+</ul>
+<table><thead><tr><th>Form type</th><th>You define</th><th>Resulting lists</th></tr></thead>
+<tbody>
+<tr><td>Single axis without key figure</td><td>Only columns (or rows) from characteristics, e.g. plan, actual, formula variance; key figures chosen in the report</td><td>Drilldown list with two header rows: each key figure above a group of form columns; detail list has form columns and key figures in rows</td></tr>
+<tr><td>Single axis with key figure</td><td>Rows (default) or columns combining key figures and characteristics, e.g. plan revenue, actual revenue; can be tilted with Column display</td><td>Drilldown list: form elements in columns, drilldown values in rows; detail list: one column for the selected object, key figures in rows</td></tr>
+<tr><td>Two axes (matrix)</td><td>Rows and columns from characteristics and key figures; key figures in rows or columns, not both; characteristics on both axes</td><td>Drilldown list with two headers; detail list = the matrix for the selected object</td></tr>
+</tbody></table>
+<p>Because the form defines the layout of the detail list, the position of an element in the form is its position in the detail list. All form types also carry layout settings: colours, number format, text type, column width, separators, blank lines, text rows.</p>
+
+<h4>Building a form (Report Painter, <code>FGI4</code> for FI-GL)</h4>
+<p>IMG: Financial Accounting (New) → General Ledger Accounting (New) → Information System → Drilldown Reports (G/L Accounts) → Form → Specify Form → Create Form. SAP delivers template forms 0SAPBLNCE-01 … -NN for the G/L.</p>
+<ol>
+<li>Enter form type (e.g. Reporting for Table FAGLFLEXT), name, description and structure (one axis with key figure, two axes …).</li>
+<li>Edit → General data selection: characteristics valid for all columns, e.g. Ledger 0L, Record type 0 (actual data), FS version INT.</li>
+<li>Define each element: element type <em>Key figure with characteristics</em> (e.g. key figure BILWERT = balance sheet value, plus Fiscal year = current year), or <em>Characteristics</em> only, or <em>Formula</em>.</li>
+<li>Formula editor: arithmetic (+ − × ÷) on element IDs, e.g. <code>X001 - X002</code> for the variance between column 1 and 2 (row elements are Y00n, cells Z00n).</li>
+<li>Texts: short, medium and long text per element; the text type decides which one is the heading (Format → All columns → Text type); a semicolon in the long text makes a two-line heading.</li>
+<li>Check and save.</li>
+</ol>
+
+<h4>Defining the report (<code>FGI1</code> create / <code>FGI2</code> change, or Environment → Report → Create from the form)</h4>
+<ul>
+<li>Enter report type (FS analysis, FS key figures, balance display / "Reporting for Table FAGLFLEXT"), the form, optionally a reference report.</li>
+<li><strong>Characteristics tab</strong>: pick the drilldown characteristics with the arrow buttons; characteristics already fixed in the form are no longer offered. Sort characteristics defines the navigation order and thus the default drilldown path. Do not include characteristics you do not need – each one costs performance and produces superfluous subtotals when printing.</li>
+<li><strong>Characteristic values</strong>: without restriction all values are read; a single value (e.g. company code 1000) fixes the characteristic – it is displayed above the navigation block and cannot be drilled down. Restricting values improves response time.</li>
+<li><strong>Variables tab</strong>: default values and whether entry at execution is allowed.</li>
+<li><strong>Output type tab</strong>: classic / graphical / object list, "Available on selection screen" lets users override; for graphical output choose the output areas (info control, navigation control, drilldown control).</li>
+<li><strong>Options tab</strong> (performance): display current data vs. saved data; use summarization level; behaviour if no level exists (execute report without message, warning, error).</li>
+<li>Hierarchy prompt for FS item: "Enter at execution" lets the user pick the FS version hierarchy when running.</li>
+</ul>
+<p>In costing-based CO-PA (<code>KE31</code>) a basic report first asks for period from/to, plan/actual indicator, version and record type; characteristics may be filtered via characteristic groups; key figures come from a key figure scheme or from all value fields. In account-based CO-PA the fixed basic key figures are offered. Reports are deleted via Change Report; whole groups via Reorganize Reports in Customizing.</p>
+
+<h4>Form layout options</h4>
+<table><thead><tr><th>Option</th><th>Effect</th></tr></thead>
+<tbody>
+<tr><td>Colours</td><td>Highlight elements (e.g. colour for totals)</td></tr>
+<tr><td>Number format</td><td>Factor and decimals per row/column</td></tr>
+<tr><td>Text type / text length</td><td>Short, medium, long (one- or two-line) text for headings</td></tr>
+<tr><td>Column width</td><td>Width of a column or of the lead column</td></tr>
+<tr><td>Zero suppression</td><td>Hide rows with value 0 (marked xxx.xxx.xxx in the form)</td></tr>
+<tr><td>Indentation</td><td>Indent row text to show structure</td></tr>
+<tr><td>Hide rows/columns</td><td>Element stays available for formulas but is not displayed; Hidden rows → Change to edit, display or delete</td></tr>
+<tr><td>Sign reversal</td><td>Show negative values as positive and vice versa (marked "-")</td></tr>
+<tr><td>Separators, blank lines, text rows</td><td>Structure and emphasis</td></tr>
+</tbody></table>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Report = form (structure) + characteristics + key figures + variables + output options; key figures live either in the form or in the report.</li>
+<li>Basic reports need no form and suit ad-hoc analysis; form reports (single axis with/without key figure, two axes) suit formal and printed reports.</li>
+<li>Forms are built in Report Painter (<code>FGI4</code>): general data selection, elements (key figure with characteristics, characteristics, formula), texts, layout.</li>
+<li>Only select the drilldown characteristics you need; fixing a characteristic value removes it from the navigation block and speeds up the report.</li>
+<li>Options control current vs. saved data and summarization-level behaviour.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 42: with <code>KE31</code> (IDEA, costing-based) create basic report BR## "Contribution Margin Group ##" with characteristics Sales Org (default 1000), Division, Customer, Product in that order, key figures Invoiced Quantity and Revenue in operating concern currency, variables periods 001–012 of the current year (changeable at execution), plan/actual 0 and record type F fixed, graphical output with info/navigation/drilldown areas, options "display current data", "use summarization level", "execute report" without messages; execute it. Exercise 43: create form G##-BALPL-01 (<code>FGI4</code>, Reporting for Table FAGLFLEXT, one axis with key figure) with general selection ledger 0L/record type 0, columns BILWERT for current year and previous year and a formula column X001-X002 "Variance"; create report G##-BALPL-01 on it with drilldown characteristics FS item, account number, profit center (company code fixed to 1000, FS version INT), classic default with selection-screen choice; run it graphically with currency type 10 and drill from FS item to account and profit center.</div>
+
+<h3 class="lesson" id="tfin52_1-u8-l6">Lesson 6: Using Variables with Drilldown Reports</h3>
+<p class="lead">Distinguish global from local variables, use offsets to derive values such as the previous year from one entry, and use text variables so that column headings follow the selected values.</p>
+
+<h4>Global vs. local variables</h4>
+<p>Variables make a report reusable: the same definition produces different results depending on the values entered at run time.</p>
+<table><thead><tr><th>Type</th><th>Where defined</th><th>Scope</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>Global variable</td><td>Customizing (variable maintenance per application class)</td><td>All forms and reports</td><td>Use for frequently needed variables such as fiscal year (<code>1FY</code>) and period; changing it affects every form/report using it. SAP-delivered variables start with a digit</td></tr>
+<tr><td>Local variable</td><td>In the form (applies to all reports using the form) or in the report (applies to that report only)</td><td>The form/report</td><td>Name up to eight characters; in texts referenced with a leading <code>$</code> (e.g. <code>$FY</code>)</td></tr>
+</tbody></table>
+<p>A variable is identified by its name and its use (characteristic value, text, formula …), and characteristic-value variables additionally by the field they refer to. Each variable has a <strong>replacement type</strong>: manual (user enters the value, possibly obligatory) or automatic (system derives it).</p>
+
+<h4>Offsets: previous year from one entry</h4>
+<p>Numeric characteristic-value variables can be linked to constants with an operator and offset. Example form: column 1 = fiscal year with variable 1FY (or local FY); column 2 = same variable with operator "-" and offset 1; column 3 = offset 2. At execution the system asks for the fiscal year only once and computes the other columns automatically. In the element definition this is done by ticking Variable on/off for the characteristic, selecting the variable and entering operator/offset (Change variable entry).</p>
+
+<h4>Text variables</h4>
+<p>Column or row headings can be variable too. In the element texts a global text variable is entered as <code>&amp;1FY</code>, a local one as <code>$FY</code>. Text variables exist only in forms, are replaced when the report is executed, and global ones must exist in Customizing first. For a local text variable you define (Extras → Variables → Variable definition) the replacement: usually automatic from the From-field of a characteristic (e.g. RYEAR fiscal year, offset 1, length 4), so the heading shows the actual year selected. Automatic replacement works only if the variable refers to a characteristic that is used in the element. The text length is fixed in the variable definition; for a manually entered replacement it equals the variable name length.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Global variables (Customizing, e.g. <code>1FY</code>) are shared by all forms and reports; local variables belong to one form or report.</li>
+<li>Operator/offset on a variable (1FY − 1) derives related values from a single user entry.</li>
+<li>Text variables (<code>&amp;global</code>, <code>$local</code>) make headings dynamic; local text variables are usually replaced automatically from a characteristic's From-field.</li>
+<li>Replacement type decides whether the user enters the value or the system derives it.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 44: create form G##-BALPL-02 (one axis with key figure, FAGLFLEXT) with columns BILWERT/fiscal year = global variable 1FY (heading <code>&amp;1FY</code>), 1FY with offset −1, and formula variance; build report G##-BALPL-02 with FS item, account number and profit center as drilldown, company code 1000 and INT fixed; execute entering only the fiscal year. Exercise 45: create two-axis form G##-ASSETS01 "Asset Ratio" with general selection ledger 0L, FS version INT, record type 0; three BILWERT columns using local variable FY with offsets 0/−1/−2, heading <code>$FY</code>, 2 decimals, width 19, two-line headings; define FY also as text variable (automatic from RYEAR, offset 1, length 4); lead column width 30; rows: text "Assets", separator, three hidden FS-item rows (1010000, 1020000, 1030000 as hierarchy nodes) summed by formula Y001+Y002+Y003 "Fixed assets", FS total row (node 1000000), separator and a ratio row Y001/Y002 "% portion financial statement" coloured as totals; create report G##-ASSETS01 with drilldown company code and profit center and run it graphically.</div>
+
+<h3 class="lesson" id="tfin52_1-u8-l7">Lesson 7: Exporting Data</h3>
+<p class="lead">Export drilldown report data to a spreadsheet in XXL format or to Microsoft Word, and know when the export function is available.</p>
+<p>The Export button writes the report in <strong>XXL format</strong>, a special format for transferring list data to spreadsheet applications. All selected characteristics of the report can be transferred, so the breakdown can be continued in the spreadsheet (e.g. as a pivot table). Conditions for the export:</p>
+<ul>
+<li>The current list must be a drilldown list – for technical reasons it is not available from a detail list.</li>
+<li>Values must be displayed as absolute values; when the list is switched to percentages the function is inactive.</li>
+</ul>
+<p>Procedure: Report → Export → Copy report to XXL → choose the characteristics (All characteristics is recommended; selecting only some can produce a list too large for the spreadsheet) → choose Pivot table or table → choose Microsoft Excel → save the file locally. The Word interface downloads drilldown reports to Microsoft Word for printing; this works for all reports except those called from another report via the report-to-report interface.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Export uses the XXL format to hand the full characteristic breakdown to Excel (table or pivot table).</li>
+<li>Only possible from a drilldown list with absolute values, not from detail lists or percentage views.</li>
+<li>Word download allows formatted printing, except for reports reached via the report-to-report interface.</li>
+</ul></div>
+
+<h3 class="lesson" id="tfin52_1-u8-l8">Lesson 8: Adding Calculations to Drilldown Reports</h3>
+<p class="lead">Define individual cells in a two-axis form and use them in formulas to calculate figures – such as the year-on-year change in fixed assets – that cannot be derived from a row/column intersection alone.</p>
+<h4>Cell definition</h4>
+<p>Normally a cell's content follows from the intersection of its row and column definitions. When that is not enough, you define the cell explicitly: place the cursor on the cell and choose Edit → Element → Define element (or double-click). The cell types are:</p>
+<table><thead><tr><th>Cell type</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td>Selected</td><td>The cell keeps its intersection value but becomes available as an operand (Z00n) in formulas</td></tr>
+<tr><td>Inactive</td><td>The cell is switched off; it is empty and shows 0 in the form (e.g. the ratio cells in a column where they make no sense)</td></tr>
+<tr><td>Formula</td><td>Offered once at least one cell is selected; the formula editor opens and the cell is computed from other cells; it may carry its own cell text and need not equal the row/column intersection</td></tr>
+</tbody></table>
+<h4>Example: change in fixed assets</h4>
+<p>In an asset form with one column per fiscal year, the fixed-asset value of each year is a selected cell (Z001 current year, Z002 previous year, Z003, Z004). A row "Change to fixed assets" then holds formula cells Z001 − Z002, Z002 − Z003, Z003 − Z004; the last column has no successor and its cell is set inactive. To separate increases from decreases, the functions MX0 (maximum of operand and zero) and MN0 (minimum of operand and zero) are used: increase = MX0(Z001 − Z002), decrease = MN0(Z001 − Z002), and so on.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Cells are defined only when row × column does not determine the content; types are Selected, Inactive, Formula.</li>
+<li>Selected cells become operands Z00n for cell formulas; inactive cells show 0.</li>
+<li>MX0/MN0 split a movement into increases and decreases – the pattern used for asset-movement rows.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 46: copy form G##-ASSETS01 to G##-ASSETS02 "Change in FA" (<code>FGI4</code>, two axes), add a fourth column with FY offset −3, set the FS total and % cells of that column to Inactive, insert a separator and a "Change FA" formula row, mark the fixed-asset cells as Selected, enter cell formulas Z001−Z002, Z002−Z003, Z003−Z004 with texts like "XXXX-YYYY", deactivate the last cell, relabel headings FY1 $FY … FY4 $FY with short text length; create report G##-ASSETS02 (drilldown company code, profit center; company code 1000, INT) and execute it graphically.</div>
+
+<h3 class="lesson" id="tfin52_1-u8-l9">Lesson 9: Using Key Figure Schemes and Characteristic Hierarchies in Profitability Analysis Reporting</h3>
+<p class="lead">Use key figure schemes to give calculated CO-PA figures (net revenue, contribution margins, operating profit) one consistent definition, and characteristic hierarchies to group characteristic values for reporting and what-if analysis.</p>
+<h4>Key figure scheme</h4>
+<p>A key figure scheme is a set of formulas, each called an <em>element</em>, that defines key figures for costing-based CO-PA. Elements are built from value fields, constants and earlier elements of the same scheme using arithmetic operators or user-defined ABAP functions in the formula editor; each element has texts and display parameters. Once defined, the elements can be used in forms and reports, so "Contribution Margin I" means the same in every report – which is exactly the consistency a CEO asks for. The function Check key figure scheme verifies syntax, parentheses, empty formulas, recursive formulas and circular references. The course uses the delivered scheme "Sales Control" (CO-PA Customizing → Report Components) as an example.</p>
+<h4>Characteristic hierarchies</h4>
+<p>In CO-PA you can arrange the values of a characteristic (products, customers …) hierarchically and use the hierarchy in drilldown reports; several variants of the same hierarchy allow simulations and what-if analyses. Rules:</p>
+<ul>
+<li>A hierarchy is built from the master data (check table) of the characteristic; characteristics without a check/text table cannot have hierarchies.</li>
+<li>Characteristics sharing one master data table share the same hierarchy.</li>
+<li>A hierarchy contains values of one characteristic only, and each value may occur only once in it.</li>
+</ul>
+<h4>Account-based vs. costing-based CO-PA (exercise insights)</h4>
+<ul>
+<li>In account-based CO-PA of operating concern IDEA, Customer and Product are not available as report characteristics because they are not object-level characteristics there – no separate totals records exist for their values.</li>
+<li>The record type (F = billing, etc.) marks the source of data in costing-based CO-PA; account-based CO-PA stores its data in the general CO transaction tables and therefore has no record type.</li>
+<li>In account-based basic reports put Cost Element first in the sort order – amounts in the columns only make sense in connection with a cost element.</li>
+<li>Key figures in account-based CO-PA are the fixed basic key figures, e.g. Value in object currency, Value in transaction currency, Value in controlling area currency.</li>
+</ul>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Key figure schemes centralise formula definitions (elements) for CO-PA reporting and can be syntax-checked.</li>
+<li>Characteristic hierarchies group the values of one characteristic (from master data), each value once; variants support what-if analysis.</li>
+<li>Account-based CO-PA lacks record type and some object-level characteristics; sort cost element first.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 47: set operating concern IDEA account-based (Environment → Set Operating Concern), create basic report COPA## "Business by Trans. Currency" with characteristics cost element, SBU, customer group, material group plus company code and currency as variables (defaults 1000 / EUR, company code with Variable on/off), key figures Value ObjCurr / TranCurr / COCurr, variables periods 001–012 current year, plan/actual 0; set performance options (display current data, use summarization level, execute without message); answer why Customer/Product and Record type are missing; execute for company code 1000 and current year.</div>
+
+<h3 class="lesson" id="tfin52_1-u8-l10">Lesson 10: Connecting Drilldown Reports</h3>
+<p class="lead">Link reports through the report-to-report interface (RRI) so that users can jump from a summarised drilldown report to more detailed receiver reports or transactions.</p>
+<p>A single report covering many characteristics or changing characteristic combinations would be too large to run online. The RRI solves this by chaining several reports, each with few characteristics: from a selected cell, row, column or block the user calls a receiver report, and the current selection is passed on. Receiver objects can be other drilldown reports, report portfolios (EIS), queries, ABAP reports, Report Writer reports and transactions – including reports of other application classes, so an FI balance report can call the G/L line-item report. In the report definition (<code>FGI2</code> change report) choose the Options tab → Report assignment, insert a row, pick the report type (drilldown report, or Other report type → e.g. RT ABAP report program) and the receiver, e.g. program <code>FAGL_ACCOUNT_ITEMS_GL</code> (G/L line items, new G/L). At run time the user selects a value and chooses Call up report; if several receivers exist a list is offered.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>The RRI chains small, fast reports instead of one huge report; selections are passed to the receiver.</li>
+<li>Receivers: drilldown reports, report portfolios, queries, ABAP reports, Report Writer reports, transactions – across application classes.</li>
+<li>Assignment is made in the report definition (Options → Report assignment); invoked with Call up report.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> Exercise 48: open report G##-BALPL-02 in <code>FGI2</code>, on the Options tab add ABAP report <code>FAGL_ACCOUNT_ITEMS_GL</code> as receiver via Report assignment and save; execute the report (currency type 10, company code 1000, ledger 0L, INT, current year, periods 1–12, graphical), expand to the domestic sales revenue account, select the balance and use Call up report → Line Items Report to see the underlying G/L line items.</div>
+
+  </div>
+</div>
+<script>document.querySelectorAll('#sidebar nav a').forEach(a=>a.addEventListener('click',()=>document.getElementById('sidebar').classList.remove('open')));</script>
+</body></html>

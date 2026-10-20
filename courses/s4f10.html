@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S4F10 – Business Processes in Financial Accounting (S/4HANA)</title><style>
+:root{--sap-orange:#F0AB00;--sap-blue:#0070F2;--sap-dark:#1A2132;--sap-mid:#354A5E;--sap-light:#F5F6F7;--sap-border:#DEDEDE;--sap-text:#32363A;--sap-sub:#556B82;--card:#fff;--sidebar-w:300px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--sap-light:#11181F;--sap-border:#354A5E;--sap-text:#E5E7EA;--sap-sub:#A0B3C8;--card:#1A2132}}
+:root[data-theme="dark"]{--sap-light:#11181F;--sap-border:#354A5E;--sap-text:#E5E7EA;--sap-sub:#A0B3C8;--card:#1A2132}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"72",Arial,sans-serif;background:var(--sap-light);color:var(--sap-text);display:flex;min-height:100vh}
+#sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--sap-dark);color:#fff;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+#sidebar .logo{background:var(--sap-orange);padding:14px 18px;display:flex;gap:10px;align-items:center}
+#sidebar .logo .badge{background:#fff;color:var(--sap-orange);font-weight:900;padding:2px 8px;border-radius:3px}
+#sidebar .logo h1{font-size:13px;color:var(--sap-dark);line-height:1.3}
+#sidebar nav{padding:10px 0;flex:1}
+#sidebar nav a{display:block;padding:7px 18px;color:rgba(255,255,255,.82);text-decoration:none;font-size:12.5px;border-left:3px solid transparent}
+#sidebar nav a:hover{background:rgba(255,255,255,.08);color:#fff}
+#sidebar nav a.unit{font-weight:700;color:var(--sap-orange);margin-top:8px;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+#sidebar nav a.lesson{padding-left:30px}
+#sidebar .back{padding:12px 18px;font-size:12px;border-top:1px solid rgba(255,255,255,.1)}
+#sidebar .back a{color:var(--sap-orange)}
+#main{flex:1;min-width:0}
+#topbar{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--sap-border);padding:12px 28px;display:flex;align-items:center;gap:12px}
+#topbar h2{font-size:15px;font-weight:600;flex:1}
+#menu-toggle{display:none;background:none;border:0;cursor:pointer;width:28px}
+#menu-toggle span{display:block;height:3px;background:var(--sap-text);margin:5px 0;border-radius:2px}
+.badge-new{background:#E8FBEF;color:#1B8C3A;font-size:11px;padding:3px 8px;border-radius:10px;font-weight:700}
+.badge-ecc{background:#FFF8E1;color:#A05A00;font-size:11px;padding:3px 8px;border-radius:10px;font-weight:700}
+#content{padding:28px 36px;max-width:1100px}
+h2.unit{font-size:22px;color:var(--sap-dark);margin:40px 0 6px;padding-top:12px;border-top:3px solid var(--sap-orange)}
+:root[data-theme="dark"] h2.unit,:root:not([data-theme="light"]) h2.unit{color:var(--sap-text)}
+h2.unit:first-of-type{margin-top:0;border-top:0;padding-top:0}
+h3.lesson{font-size:17px;margin:28px 0 10px;color:var(--sap-blue)}
+h4{font-size:14px;margin:16px 0 6px}
+p,li{font-size:13.5px;line-height:1.65}
+ul,ol{margin:6px 0 12px 22px}
+p{margin:6px 0}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13px;background:var(--card)}
+th,td{border:1px solid var(--sap-border);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--sap-dark);color:#fff;font-weight:600}
+.box{padding:12px 16px;border-radius:6px;margin:14px 0;font-size:13px;line-height:1.6;background:var(--card);border-left:4px solid var(--sap-orange)}
+.box.key{border-left-color:var(--sap-blue)}
+.box strong{display:block;margin-bottom:4px}
+.lead{font-size:14px;color:var(--sap-sub);margin-bottom:18px}
+.unit-objectives{background:var(--card);border:1px solid var(--sap-border);border-radius:6px;padding:12px 16px;margin:10px 0 16px}
+code{background:rgba(0,0,0,.06);padding:1px 5px;border-radius:3px;font-size:12.5px}
+@media (max-width:900px){#sidebar{position:fixed;left:calc(-1*var(--sidebar-w));transition:left .2s;z-index:10}#sidebar.open{left:0}#menu-toggle{display:block}#content{padding:18px 16px}}
+</style></head>
+<body>
+<aside id="sidebar">
+  <div class="logo"><div class="badge">SAP</div><h1>S4F10 – Business Processes in Financial Accounting (S/4HANA)</h1></div>
+  <nav><a class="unit" href="#s4f10-u1">Unit 1: SAP S/4HANA Overview</a><a class="lesson" href="#s4f10-u1-l1">Lesson 1: Getting an Overview of SAP S/4HANA</a><a class="lesson" href="#s4f10-u1-l2">Lesson 2: Introducing SAP Fiori</a><a class="unit" href="#s4f10-u2">Unit 2: Overview of Financial Accounting (FI) in S/4HANA</a><a class="lesson" href="#s4f10-u2-l1">Lesson 1: Outlining Financial Accounting Components in SAP S/4HANA</a><a class="unit" href="#s4f10-u3">Unit 3: General Ledger (G/L) Accounting</a><a class="lesson" href="#s4f10-u3-l1">Lesson 1: Outlining Organizational Elements in Accounting</a><a class="lesson" href="#s4f10-u3-l2">Lesson 2: Maintaining G/L Master Records</a><a class="lesson" href="#s4f10-u3-l3">Lesson 3: Posting Transactions in the G/L</a><a class="unit" href="#s4f10-u4">Unit 4: Accounts Payable</a><a class="lesson" href="#s4f10-u4-l1">Lesson 1: Maintaining Vendor Master Records</a><a class="lesson" href="#s4f10-u4-l2">Lesson 2: Maintaining Accounts Payable Transactions</a><a class="lesson" href="#s4f10-u4-l3">Lesson 3: Managing the Integration between AP and Materials Management</a><a class="lesson" href="#s4f10-u4-l4">Lesson 4: Performing Accounts Payable Closing Operations</a><a class="unit" href="#s4f10-u5">Unit 5: Accounts Receivable</a><a class="lesson" href="#s4f10-u5-l1">Lesson 1: Maintaining Customer Master Records</a><a class="lesson" href="#s4f10-u5-l2">Lesson 2: Managing Accounts Receivable Transactions</a><a class="lesson" href="#s4f10-u5-l3">Lesson 3: Managing Customer Correspondence</a><a class="lesson" href="#s4f10-u5-l4">Lesson 4: Creating Accounts Receivable Dispute Cases</a><a class="lesson" href="#s4f10-u5-l5">Lesson 5: Managing the Integration between AR and Sales Order Management</a><a class="lesson" href="#s4f10-u5-l6">Lesson 6: Performing Accounts Receivable Closing Operations</a><a class="unit" href="#s4f10-u6">Unit 6: Asset Accounting</a><a class="lesson" href="#s4f10-u6-l1">Lesson 1: Maintaining Asset Master Records</a><a class="lesson" href="#s4f10-u6-l2">Lesson 2: Executing Asset Transactions</a><a class="lesson" href="#s4f10-u6-l3">Lesson 3: Executing Asset Accounting Period-End Closing Activities</a><a class="unit" href="#s4f10-u7">Unit 7: Bank Accounting</a><a class="lesson" href="#s4f10-u7-l1">Lesson 1: Maintaining Bank Accounting Master Records</a><a class="lesson" href="#s4f10-u7-l2">Lesson 2: Managing Bank Accounting Transactions</a><a class="unit" href="#s4f10-u8">Unit 8: Closing Operations in General Ledger Accounting</a><a class="lesson" href="#s4f10-u8-l1">Lesson 1: Performing General Ledger Closing Operations</a></nav>
+  <div class="back"><a href="../index.html">&larr; Back to SAP FI Reference</a></div>
+</aside>
+<div id="main">
+  <div id="topbar"><button id="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')"><span></span><span></span><span></span></button><h2>S4F10 – Business Processes in Financial Accounting (S/4HANA)</h2><span class="badge-new">S/4HANA</span></div>
+  <div id="content">
+  <p class="lead">Unit-by-unit study notes written from the course material. Every lesson of the course is covered in the same order as the original.</p>
+<h2 class="unit" id="s4f10-u1">Unit 1: SAP S/4HANA Overview</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand why SAP rebuilt its ERP on the in-memory SAP HANA platform, how SAP S/4HANA fits into the Intelligent Enterprise and what the deployment choices are; then get to know the SAP Fiori user experience, its app types and the launchpad features that FI users work with every day.</div>
+
+<h3 class="lesson" id="s4f10-u1-l1">Lesson 1: Getting an Overview of SAP S/4HANA</h3>
+<p class="lead">Explain the technology and business drivers behind SAP S/4HANA, position it inside SAP's Intelligent Enterprise portfolio, and compare the cloud and on-premise deployment options.</p>
+
+<h4>Learning Journeys</h4>
+<p>SAP publishes visual "Learning Journeys" for each solution area. The Financial Accounting journey places S4F10 at the start of the FI curriculum, followed by the deeper S4F12/S4F13/S4F15/S4F17 courses. Searching the web for "SAP Learning Journeys" is the quickest way to find the current roadmap.</p>
+
+<h4>Why a new ERP? The connected digital world</h4>
+<p>The lesson opens with the business context: data volumes are exploding (most of the world's data was created in the last two years), business networks and connected devices ("things") are growing rapidly, mobile users number in the billions and more than half of all workloads already run in the cloud. Classic ERP systems designed around disk-based databases cannot deliver real-time insight in this environment.</p>
+
+<h4>Advances in hardware that make SAP HANA possible</h4>
+<ul>
+<li><strong>Huge main memory</strong> – an entire enterprise database can now reside in RAM, so there is no waiting for data to be loaded from disk. Even SSDs are far slower than memory, so memory is no longer the bottleneck.</li>
+<li><strong>64-bit operating systems</strong> – required to address such large memory areas (32-bit systems cannot).</li>
+<li><strong>Multi-core CPUs</strong> – complex tasks (even predictive analysis) are split and processed in parallel, giving real-time response times.</li>
+<li><strong>Scale-out</strong> – more servers can simply be added to the landscape for more memory or processing power.</li>
+<li><strong>Cloud maturity and virtualization</strong> – subscription-based public cloud lowers cost and complexity for customers who do not want to run their own landscape.</li>
+</ul>
+<p>SAP rewrote its application code specifically to exploit these architectures, working with hardware partners who shared CPU blueprints.</p>
+
+<h4>OLTP and OLAP reunited (HTAP)</h4>
+<p>Traditionally, transactional systems (OLTP – optimized for fast record-level read/write) and analytical systems (OLAP – optimized for batch loading, aggregates and read-heavy queries) were separate and connected by periodic "lift and shift" interfaces. Consequences: multiple data copies, latency, no consistent enterprise-wide picture, and analysis often possible only the next day. SAP HANA's database, hardware model and data model handle both workloads on one platform – <strong>Hybrid Transaction/Analytical Processing (HTAP)</strong>. There is a single copy of live data, no data movement, less complexity, and new application types that mix transactions and analytics become possible (embedded analytics in S/4HANA).</p>
+
+<h4>SAP S/4HANA – the Intelligent Core</h4>
+<p>SAP's vision: best-run businesses are <em>intelligent enterprises</em> that combine advanced technology with best-practice, integrated business processes. The portfolio has four core components:</p>
+<table><thead><tr><th>Component</th><th>Focus</th><th>Example</th></tr></thead><tbody>
+<tr><td>Business Collaboration</td><td>Connecting with internal and external partners across locations and system landscapes</td><td>Ariba Network for finding and collaborating with suppliers</td></tr>
+<tr><td>Business Process</td><td>End-to-end scenarios and their integration</td><td>The financial parts of the processes studied in this course</td></tr>
+<tr><td>Business Applications</td><td>Solutions that record the data</td><td>SAP S/4HANA itself</td></tr>
+<tr><td>Business Technology</td><td>Infrastructure and information management providing the "intelligence"</td><td>SAP Business Technology Platform</td></tr>
+</tbody></table>
+<p>The solution areas named in the big picture are: <strong>Business Network</strong> (procurement, travel, contingent workforce – digitalizing cross-company processes), <strong>Experience Management</strong> (acting on customer/partner/employee sentiment), <strong>Intelligent Suite</strong> (agile integrated processes with embedded analytics – a 360° view of employees, customers, products, spend, finance and IT), <strong>Industry Cloud</strong> (vertical solutions from SAP and partners), <strong>Sustainability Management</strong> (the "Climate 21" initiative, e.g. greenhouse gas tracking) and the <strong>Business Technology Platform</strong> (data management, analytics, application development/integration, AI, machine learning, IoT). Integration of end-to-end processes is SAP's declared top priority.</p>
+
+<h4>The Universal Journal enables continuous accounting</h4>
+<p>In S/4HANA every financial posting writes line items to one table, the <strong>Universal Journal (ACDOCA)</strong>, which merges the data of all finance components (G/L, CO, AA, ML, etc.) into a single structure – the "single source of truth". Many redundant totals and index tables of ECC were removed, shrinking the data footprint and simplifying the application design and extensibility. This is the technical basis for real-time, continuous accounting rather than period-end batch reconciliation.</p>
+
+<h4>Deployment options</h4>
+<p>SAP S/4HANA (on-premise) and SAP S/4HANA Cloud share one data model, one user experience and one code line, so customers can combine them freely. The dimensions that drive the on-premise vs. cloud decision:</p>
+<table><thead><tr><th>Dimension</th><th>What to consider</th></tr></thead><tbody>
+<tr><td>IT strategy</td><td>Many customers go "cloud-first"; check whether the standard best-practice scope of S/4HANA Cloud covers the business, possibly complemented by a single-tenant edition for extended LoB/industry functions</td></tr>
+<tr><td>Innovation cycles</td><td>Cloud: quarterly updates with the newest ML/NLP/predictive features; single-tenant cloud: two upgrades a year; on-premise: one upgrade a year</td></tr>
+<tr><td>Business functionality</td><td>Functional scope differs by option, influencing licensing and deployment choice</td></tr>
+<tr><td>Deployment time</td><td>Cloud is faster because no infrastructure must be bought and maintained</td></tr>
+<tr><td>Regulatory / industry / regional needs</td><td>May rule out cloud; subsidiaries with different needs can mix cloud and on-premise in a two-tier strategy</td></tr>
+</tbody></table>
+<p>Summarized as two families: <strong>Cloud</strong> (public or private SaaS; standardized best-practice processes, innovations up to four times a year, fast time to value, lower TCO) and <strong>Any premise</strong> (own data center or IaaS provider; full control, specialization, unrestricted customization and extension).</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>SAP HANA exploits large memory, 64-bit OS and multi-core CPUs to keep the whole database in RAM.</li>
+<li>HTAP = transactions and analytics on one copy of the data, no latency, no data duplication.</li>
+<li>S/4HANA is the digital core of the Intelligent Enterprise; the Universal Journal (ACDOCA) is its single source of financial truth.</li>
+<li>Cloud and on-premise editions share data model, UX and code line; choose based on IT strategy, innovation cadence, scope, speed and regulatory constraints.</li>
+<li>Only the cloud edition receives all software updates automatically.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f10-u1-l2">Lesson 2: Introducing SAP Fiori</h3>
+<p class="lead">Describe the SAP Fiori user experience principles, the three app types, and the launchpad features (tiles, personalization, spaces and pages) that an FI user relies on.</p>
+
+<h4>Scenario</h4>
+<p>You want users to work with the business suite on any device without compromise, with a solution that integrates into the existing landscape and can be extended – and you want to verify that SAP Fiori meets these demands.</p>
+
+<h4>The SAP Fiori UX paradigm – five pillars</h4>
+<table><thead><tr><th>Pillar</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Role-based</td><td>Users see only the apps for the tasks of their role; each app is built for that task</td></tr>
+<tr><td>Responsive</td><td>The UI adapts to screen size and device</td></tr>
+<tr><td>Simple</td><td>"1-1-3": one user, one use case, at most three screens per app</td></tr>
+<tr><td>Coherent</td><td>All apps share the same structure and language and run in many landscapes</td></tr>
+<tr><td>Instant value</td><td>Low adoption barrier for IT and users alike</td></tr>
+</tbody></table>
+
+<h4>SAP Fiori launchpad as single entry point</h4>
+<p>The launchpad is where everything starts: apps are opened via tiles, links or search. SAP Fiori brings a harmonized look and feel across all SAP products, embedded intelligent guidance (machine learning, dynamic home pages, a digital assistant/SAP CoPilot) and cross-product, cross-device integration through adaptive home pages and notifications. The design shifts from monolithic transactions to activity-based apps. The "pyramid" of use: at the top, <strong>Overview Pages, List Reports and Work Lists</strong> show what needs attention and notifications alert on urgent items; users trigger quick actions (extend a contract, change a delivery date) or drill down; further down, key use cases are re-imagined, e.g. an <strong>Object Page</strong> showing all details of a business object or quick editing of frequently changed sales-order fields.</p>
+
+<h4>Three app types</h4>
+<table><thead><tr><th>App type</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Transactional apps</td><td>Task-based create/change/display of documents and master data, or guided end-to-end processes</td></tr>
+<tr><td>Analytical apps</td><td>"Insight to action": visual overview of complex topics for monitoring and tracking (KPIs)</td></tr>
+<tr><td>Fact sheets</td><td>Search and explore; a 360° view of one object with contextual navigation to related objects</td></tr>
+</tbody></table>
+
+<h4>Launchpad features</h4>
+<ul>
+<li>Themes and branding; personalization by the user.</li>
+<li>Stable URLs for bookmarking and sharing; browser-based, so it runs on many devices and browsers.</li>
+<li><strong>Active (dynamic) tiles</strong> that show up-to-date figures on the home page without opening the app.</li>
+</ul>
+
+<h4>User personalization</h4>
+<p>Users can add apps from the catalogs assigned to them, remove apps they do not need, and save apps with pre-set filters (variants). Course example: a group cash manager focused on Germany creates a tile that opens the cash position already filtered to the German market – one click from the home page.</p>
+
+<h4>Spaces and pages</h4>
+<p>The newer <strong>spaces mode</strong> gives administrators more control over the layout for user groups. Pages are grouped into spaces, and spaces are assigned to business roles, so the role decides which spaces a user sees. A page is structured into sections, which define the order of apps – e.g. most-used apps in the top section and related apps grouped in further sections. SAP delivers predefined spaces and pages as a starting point.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Fiori principles: role-based, responsive, simple, coherent, instant value.</li>
+<li>App types: transactional, analytical, fact sheet.</li>
+<li>The launchpad is the single entry point: tiles, search, stable URLs, dynamic tiles, themes.</li>
+<li>Users personalize (add/remove apps, filtered variants); admins structure the home page with spaces → pages → sections assigned via business roles.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> This unit has no hands-on exercise; the learning assessment asks which deployment receives updates automatically (cloud), which dimensions drive the deployment decision, which Fiori app types exist, and confirms that launchpad personalization is available to users.</div>
+<h2 class="unit" id="s4f10-u2">Unit 2: Overview of Financial Accounting (FI) in S/4HANA</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Name the five application components of Financial Accounting in SAP S/4HANA (G/L, AP, AR, Asset Accounting, Bank Accounting), know what each one records and how the sub-ledgers tie into the general ledger in real time.</div>
+
+<h3 class="lesson" id="s4f10-u2-l1">Lesson 1: Outlining Financial Accounting Components in SAP S/4HANA</h3>
+<p class="lead">Describe the purpose and main features of each FI component and understand that every sub-ledger posting is simultaneously a general ledger posting via reconciliation accounts.</p>
+
+<h4>The FI landscape</h4>
+<p>Financial Accounting is the external, legally oriented part of SAP finance. It consists of a general ledger surrounded by sub-ledgers (also called subsidiary ledgers), each specializing in one type of business partner or object. Because the system is integrated with logistics, HR and controlling, FI data is complete and up to date without manual re-keying.</p>
+<table><thead><tr><th>Component</th><th>Records</th><th>Main counterparts</th></tr></thead><tbody>
+<tr><td>FI-GL General Ledger</td><td>All value-relevant business transactions on G/L accounts; basis for the financial statements</td><td>All sub-ledgers, CO</td></tr>
+<tr><td>FI-AP Accounts Payable</td><td>Accounting data of vendors (suppliers)</td><td>Purchasing / MM, Cash Management</td></tr>
+<tr><td>FI-AR Accounts Receivable</td><td>Accounting data of customers</td><td>Sales (SD), Credit Management, Cash Management</td></tr>
+<tr><td>FI-AA Asset Accounting</td><td>Fixed assets and their valuation</td><td>MM, PM, CO, FI</td></tr>
+<tr><td>FI-BL Bank Accounting</td><td>Transactions with house banks; bank master data; incoming/outgoing payments</td><td>AP, AR, Cash Management</td></tr>
+</tbody></table>
+
+<h4>General Ledger Accounting (FI-GL)</h4>
+<p>The G/L provides the complete, account-based picture for external accounting. It captures primary postings and the settlements coming from internal accounting (CO) in one fully integrated system. Characteristics the course stresses:</p>
+<ul>
+<li>Reporting at any organizational level – company, group or corporate.</li>
+<li>Every sub-ledger item is posted automatically and at the same moment to the appropriate G/L <strong>reconciliation account</strong>.</li>
+<li>Real-time evaluation: account displays, financial statements with different <strong>financial statement versions</strong>, and other analyses.</li>
+<li>Drill-down at every level: from balance sheet/P&amp;L to totals (transaction figures), journals, account information and finally the original document.</li>
+</ul>
+
+<h4>Accounts Payable (FI-AP)</h4>
+<p>AP manages all vendor accounting and is tightly linked with purchasing, where deliveries and invoices are tracked per vendor; logistics transactions trigger postings automatically. AP also feeds Cash Management with invoice data for liquidity planning. Features:</p>
+<ul>
+<li><strong>Payment program</strong> settles payables with all standard payment methods – printed (checks, transfers) and electronic (DME, EDI) – including country-specific methods.</li>
+<li><strong>Dunning program</strong> can also be used on the vendor side, e.g. to collect an outstanding credit memo.</li>
+<li>Every AP posting updates the G/L simultaneously (payables, down payments, etc.); due-date forecasts and standard reports help monitor open items.</li>
+<li>Correspondence (balance confirmations, account statements) is configurable; balance lists, journals and balance audit trails document the transactions.</li>
+</ul>
+
+<h4>Accounts Receivable (FI-AR)</h4>
+<p>AR manages all customer accounting and is an integral part of sales management. Features:</p>
+<ul>
+<li>Postings update the G/L immediately (receivables, down payments, bills of exchange on separate reconciliation accounts).</li>
+<li>Open-item monitoring tools: account analysis, alarm reports, due-date lists, a flexible dunning program.</li>
+<li>Configurable correspondence: payment notices, balance confirmations, account statements, interest calculation.</li>
+<li>Incoming payments are cleared manually through convenient screens or electronically (EDI, bank statement).</li>
+<li>The payment program handles direct debits and down payments automatically.</li>
+<li>Closing support: foreign-currency items are revalued, customers who are also vendors are listed, and balances are sorted by remaining term.</li>
+<li>Because of the close link to SD, AR supplies the data for <strong>credit management</strong>, and via Cash Management for liquidity planning.</li>
+</ul>
+
+<h4>Asset Accounting (FI-AA)</h4>
+<p>FI-AA is the sub-ledger for fixed assets and provides detailed information on all asset transactions. Key points:</p>
+<ul>
+<li>Designed for international use – no country-specific valuation rules are hard-coded; the country/company character comes from Customizing, with SAP supplying country-specific defaults to minimize effort.</li>
+<li>Integration: MM can post directly to assets (goods receipt, invoice receipt or warehouse withdrawal for a purchased or self-produced asset); depreciation and interest flow to FI and CO; PM maintenance orders that must be capitalized are settled to assets.</li>
+</ul>
+
+<h4>Bank Accounting (FI-BL)</h4>
+<p>FI-BL covers everything processed with the bank: bank master data, cash balance management (check and bill-of-exchange management) and the creation and processing of incoming and outgoing payments. All country-specific aspects – manual and electronic payment procedures, payment forms, data media – can be defined freely.</p>
+
+<h4>Layout of a financial statement</h4>
+<p>The financial statement structure (balance sheet / statement of financial condition plus P&amp;L) is country- and customer-specific. In SAP it is modelled as a <em>financial statement version</em>. Guidance for public entities comes from the International Accounting Standards Board and national bodies.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Five FI components: FI-GL, FI-AP, FI-AR, FI-AA, FI-BL.</li>
+<li>Sub-ledger postings are recorded in the G/L at the same time through reconciliation accounts, so G/L and sub-ledgers are always in balance.</li>
+<li>AP and AR share the payment program, dunning program and configurable correspondence; AR additionally feeds credit management.</li>
+<li>FI-AA is country-neutral by design and highly integrated with MM, PM, FI and CO.</li>
+<li>The G/L lets you drill from financial statement to original document in real time.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> No exercise in this unit. The assessment asks you to list at least three FI components and confirms that sub-ledger postings are recorded simultaneously in the G/L via reconciliation accounts.</div>
+<h2 class="unit" id="s4f10-u3">Unit 3: General Ledger (G/L) Accounting</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand the organizational building blocks of accounting (company code, controlling area, operating concern, profit center, segment, ledgers), learn how a G/L account master record is structured and controlled by the chart of accounts and account group, and post and analyze journal entries in the general ledger.</div>
+
+<h3 class="lesson" id="s4f10-u3-l1">Lesson 1: Outlining Organizational Elements in Accounting</h3>
+<p class="lead">Explain the company code and the other FI reporting dimensions, show how company codes are assigned to a controlling area and operating concern, and compare the two ways of producing parallel financial statements.</p>
+
+<h4>Business example</h4>
+<p>The demo group operates companies worldwide; each must satisfy national reporting rules, so each is set up as a separate company code. Nevertheless the board wants all of them in one controlling area because of the intense inter-company activity.</p>
+
+<h4>Company code</h4>
+<ul>
+<li>The <strong>smallest organizational unit for which a complete, self-contained set of accounts</strong> (balance sheet and P&amp;L) can be drawn up for external reporting – an independent accounting entity, typically a legal company in a group.</li>
+<li>Four-character alphanumeric key (course examples: <strong>1010</strong> Germany, <strong>1710</strong> USA).</li>
+<li>Each company code has a <strong>local currency</strong>; foreign-currency amounts are translated automatically.</li>
+<li>G/L accounting is kept at company code level; every FI posting needs a company code, entered manually or derived from other data (e.g. plant, sales organization).</li>
+</ul>
+
+<h4>Other organizational units</h4>
+<table><thead><tr><th>Unit</th><th>Area</th><th>Definition and rules</th></tr></thead><tbody>
+<tr><td>Controlling area</td><td>CO</td><td>Closed system for cost accounting; may contain one or more company codes (even with different currencies), but they must share the <strong>same operating chart of accounts and fiscal year variant</strong></td></tr>
+<tr><td>Operating concern</td><td>CO-PA</td><td>Part of the organization with a uniformly structured sales market; costs are set against revenues per <em>profitability segment</em> (combination of characteristics such as product group, customer group, country, distribution channel); several controlling areas can be assigned to one operating concern</td></tr>
+<tr><td>Business area</td><td>FI</td><td>Classic FI dimension for internal balance sheets</td></tr>
+<tr><td>Profit center</td><td>FI (S/4HANA)</td><td>Area of "profit" responsibility; see below</td></tr>
+<tr><td>Segment</td><td>FI</td><td>Dimension for IFRS 8 / US GAAP segment reporting; see below</td></tr>
+</tbody></table>
+<p>For company code, profit center, business area and segment a fully balanced set of financial statements can be produced.</p>
+
+<h4>Parallel financial reporting</h4>
+<p>Companies usually report under more than one accounting principle: a local GAAP (US GAAP, German HGB) plus IFRS or group standards. SAP offers two techniques:</p>
+<table><thead><tr><th>Approach</th><th>How it works</th><th>Remarks</th></tr></thead><tbody>
+<tr><td>Accounts approach</td><td>Where principles differ (valuation, depreciation, accruals), each principle posts to its own set of accounts; the financial statement version then picks only the accounts of one principle</td><td>Historically common; exactly one ledger – the leading ledger – exists</td></tr>
+<tr><td>Ledger approach</td><td>Several parallel "general ledgers" inside G/L accounting, each producing its own financial statements; one ledger has the role of <strong>leading ledger</strong></td><td>Strongly recommended for new (greenfield) S/4HANA systems</td></tr>
+</tbody></table>
+
+<h4>Profit centers</h4>
+<p>In S/4HANA the profit center is part of Financial Accounting: it is stored on every line of the Universal Journal and works, like the company code, as a reporting dimension, so standard financial statements per profit center are possible. A profit center may represent an organizational unit (a plant), a line of business or a geographical location. It is a <em>profit</em> responsibility area – not to be confused with a cost center. ECC note: in classic G/L, profit center accounting was the CO component EC-PCA; it can still run in S/4HANA after a migration, but running both approaches in parallel is not recommended.</p>
+
+<h4>Segments</h4>
+<p>Segments serve external segment reporting (IFRS 8, US GAAP). The aim is to show the different business activities of a diversified company and its general environment; the purpose is a better view of economic performance, better forecasting of sales and reserves, and earlier recognition of risks and opportunities. A <strong>reportable segment</strong> is an operating segment whose revenue or assets reach at least 10% of the combined total of all operating segments. In S/4HANA the segment is written to each document line at posting time; it is normally <strong>derived from the profit center</strong> (the segment is stored in the profit center master record), not typed in. Period-end CO allocations also update the segment, keeping FI segment reporting in line with what the business sees.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Company code = independent accounting entity with its own local currency and legal financial statements; 4-character key.</li>
+<li>Several company codes can share one controlling area if they use the same operating chart of accounts and fiscal year variant; several controlling areas can share one operating concern.</li>
+<li>Parallel reporting: ledger approach (recommended; leading plus non-leading ledgers) or accounts approach (one ledger, extra accounts).</li>
+<li>Profit center and segment are FI reporting dimensions in the Universal Journal; segment is derived from the profit center master.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f10-u3-l2">Lesson 2: Maintaining G/L Master Records</h3>
+<p class="lead">Describe the structure of a G/L account (chart of accounts segment and company code segment), the role of account groups and G/L account types, reconciliation accounts, financial statement versions and the three kinds of charts of accounts.</p>
+
+<h4>Business example</h4>
+<p>The company increases its capital from corporate funds and needs a new equity G/L account. Before it can be posted, the account must exist in the operating chart of accounts and have a company code segment in the relevant company code.</p>
+
+<h4>Chart of accounts</h4>
+<ul>
+<li>An ordered list of all G/L account definitions – account number, name and <strong>G/L account type</strong> (e.g. balance sheet, primary cost/revenue).</li>
+<li>Any number of charts can be defined; SAP delivers many country-specific ones.</li>
+<li>Every company code is assigned exactly one <strong>operating chart of accounts</strong> in configuration; several company codes may share one, which gives their accounts an identical structure. Demo: company codes 1010 (DE) and 1710 (US) both use <strong>YCOA</strong>.</li>
+</ul>
+
+<h4>Two segments of a G/L account master record</h4>
+<table><thead><tr><th>Segment</th><th>Exists</th><th>Typical content</th></tr></thead><tbody>
+<tr><td>Chart of accounts segment</td><td>Once per chart, valid for all company codes using it</td><td>Account number, descriptions, G/L account type, account group, group account number</td></tr>
+<tr><td>Company code segment</td><td>Once per company code that wants to post to the account</td><td>Account currency, tax settings, reconciliation account indicator, field status group, alternative account number, open item / line item management</td></tr>
+<tr><td>Controlling area segment</td><td>Only for Primary Costs or Revenue and Secondary Costs accounts</td><td>Cost element category</td></tr>
+</tbody></table>
+<p>Example of a company-code setting: account currency. In 1010 most accounts are in EUR, in 1710 in USD. If the account currency equals the company code's local currency, the account can be posted in any currency.</p>
+
+<h4>Account groups</h4>
+<p>Every G/L account must be created with an account group. Account groups bundle accounts with similar business functions (cash, expense, revenue, other balance sheet accounts). They control two things:</p>
+<ul>
+<li>the <strong>number range</strong> – which account numbers are allowed for which kind of account;</li>
+<li>the <strong>field status of the company code segment</strong> – which fields are required, optional or hidden when the master record is maintained.</li>
+</ul>
+
+<h4>G/L account types (S/4HANA)</h4>
+<table><thead><tr><th>Account type</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Balance Sheet Account</td><td>Posted by business transactions; balance carried forward at year-end</td></tr>
+<tr><td>Cash Account (Bank Reconciliation Account)</td><td>One G/L account that can be assigned to several house bank accounts, reducing the number of bank G/L accounts needed</td></tr>
+<tr><td>Nonoperating Expense or Income</td><td>P&amp;L account for results outside the core business (e.g. a manufacturer's investment gains); not relevant for CO</td></tr>
+<tr><td>Primary Costs or Revenue</td><td>P&amp;L account that is at the same time a primary cost element (payroll, selling, administration costs) – the bridge to CO</td></tr>
+<tr><td>Secondary Costs</td><td>Cost element for internal value flows only (activity allocation, overhead, settlement); exists only in CO</td></tr>
+</tbody></table>
+<p>For the two CO-relevant types a <strong>cost element category</strong> must be assigned in the controlling-area data; it determines which CO business transactions may use the account – e.g. category 21 (internal settlement) restricts a secondary cost account to settling order or project costs. Asset and material balance sheet accounts can optionally be integrated with CO if they are defined as reconciliation accounts and assigned in the AA or MM account determination.</p>
+<p>Fiori app: <strong>Manage G/L Account Master Data</strong> shows the general (chart of accounts) data and gives access to the company-code and controlling-area data of an account.</p>
+
+<h4>Reconciliation accounts</h4>
+<p>A reconciliation account links a sub-ledger to the general ledger in real time: a posting to a customer, vendor, asset or contract account simultaneously updates the assigned reconciliation account. Direct manual postings to reconciliation accounts are not possible – they are updated only through the sub-ledger. Sub-ledgers connected this way: Accounts Payable, Accounts Receivable, Asset Accounting and Contract Accounting.</p>
+
+<h4>Financial statement versions</h4>
+<p>A financial statement version (FSV) defines which accounts appear in which line of the balance sheet and P&amp;L. Different versions satisfy different requirements – the demo company needs HGB for 1010 and US GAAP for 1710. SAP ships many FSVs; at report runtime you select the version that defines the report structure. An account not assigned to any FSV line shows up under "accounts not assigned".</p>
+
+<h4>Country-specific and group charts of accounts</h4>
+<table><thead><tr><th>Chart</th><th>Purpose</th><th>Master-record link</th></tr></thead><tbody>
+<tr><td>Operating chart (e.g. YCOA)</td><td>The only chart that is posted to; shared across the controlling area</td><td>Account number itself</td></tr>
+<tr><td>Country-specific chart</td><td>Legal reporting with national account numbers</td><td><em>Alternative account number</em> in the company code segment; each country account number may be used only once</td></tr>
+<tr><td>Group chart (e.g. CONS)</td><td>Consolidation when company codes use different operating charts</td><td><em>Group account number</em> in the chart of accounts segment (becomes mandatory once the operating chart is assigned to a group chart); several operating accounts may map to one group account</td></tr>
+</tbody></table>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>A G/L account = chart of accounts segment (once) + company code segment (per company code); CO-relevant accounts also have a controlling-area segment.</li>
+<li>Account group controls number range and the field status of the company code segment.</li>
+<li>Five G/L account types; Primary Costs or Revenue and Secondary Costs replace the separate cost element master of ECC.</li>
+<li>Reconciliation accounts are updated only via sub-ledgers.</li>
+<li>Only the operating chart is posted; country and group charts exist for reporting and consolidation.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> Create a new equity (balance sheet) G/L account for the capital increase in the operating chart YCOA and its company code segment in company code 1010 (Fiori app Manage G/L Account Master Data or <code>FS00</code>), choosing an appropriate account group and verifying the account's assignment in the financial statement version.</div>
+
+<h3 class="lesson" id="s4f10-u3-l3">Lesson 3: Posting Transactions in the G/L</h3>
+<p class="lead">Post journal entries with the Fiori app and the classic complex posting screen, understand document structure, document types and posting keys, and analyze the result through balance and line item displays and the financial statements.</p>
+
+<h4>Business example</h4>
+<p>Accountants post many journal entries daily using different entry screens. All of them end up in the income statement or balance sheet (if the accounts are in the FSV) and can be inspected per account. The capital increase from the previous lesson is now posted to the new equity account.</p>
+
+<h4>Fiori app Post General Journal Entries</h4>
+<p>The entry screen is divided into areas:</p>
+<table><thead><tr><th>Area</th><th>Content</th></tr></thead><tbody>
+<tr><td>Header data</td><td>Data valid for the whole document: posting date, document type, journal entry type, currency, reference, etc.</td></tr>
+<tr><td>Line items</td><td>G/L account, debit/credit, amount, account assignments (cost center, profit center…)</td></tr>
+<tr><td>Tax items</td><td>Tax details, e.g. automatic tax calculation on simulation/posting</td></tr>
+<tr><td>Select templates</td><td>Reuse a journal entry template as reference</td></tr>
+</tbody></table>
+<p>Templates are created with the app <strong>Manage Journal Entry Templates</strong>: you choose the fields and values needed for a recurring use case (e.g. submit and post) and may make the template public for colleagues.</p>
+
+<h4>Complex (general) posting – the classic FB01 flow</h4>
+<ol>
+<li>Initial screen: enter the document header plus posting key and account of the first line item. The posting key tells the system the account type (G/L, customer, vendor, asset, material) and influences the next screen; the main driver of the line-item screen layout is the <strong>field status group</strong> of the account.</li>
+<li>Line item 1 detail screen: amount and additional account assignments (business area, cost center, profit center…).</li>
+<li>At the bottom, enter posting key and account of line item 2; Enter leads to its detail screen.</li>
+<li>Post. If the expense account has G/L account type Primary Costs or Revenue (cost element), the line is also passed to Controlling (cost/revenue elements exist only for P&amp;L accounts).</li>
+</ol>
+
+<h4>Accounting document structure</h4>
+<p>Every FI document consists of a <strong>header</strong> (document type, dates, currency, reference) and <strong>line items</strong> (at least two, debits = credits). The document receives its number from the number range assigned to its document type.</p>
+
+<h4>Document types</h4>
+<p>Document types classify and sort accounting documents and carry the number range. Important standard types shown in the course figure:</p>
+<table><thead><tr><th>Type</th><th>Use</th></tr></thead><tbody>
+<tr><td>SA</td><td>G/L account document</td></tr>
+<tr><td>KR / KG / KZ</td><td>Vendor invoice / vendor credit memo / vendor payment</td></tr>
+<tr><td>DR / DG / DZ</td><td>Customer invoice / customer credit memo / customer payment</td></tr>
+<tr><td>AA / AF</td><td>Asset posting / depreciation posting</td></tr>
+<tr><td>RE / WE</td><td>Invoice receipt (MM) / goods receipt</td></tr>
+</tbody></table>
+
+<h4>Posting keys</h4>
+<p>Each line item has exactly one posting key, which controls (a) the account type posted to, (b) debit or credit, and (c) the field status of additional data. In the Enjoy transactions and Fiori apps you only choose Debit or Credit – the system inserts the key, which still appears in the document and still exerts its control functions.</p>
+<table><thead><tr><th>Account type</th><th>Debit</th><th>Credit</th></tr></thead><tbody>
+<tr><td>G/L account</td><td>40</td><td>50</td></tr>
+<tr><td>Customer</td><td>01 (invoice), 09 (special G/L)</td><td>11 (credit memo), 15 (incoming payment), 19 (special G/L)</td></tr>
+<tr><td>Vendor</td><td>21 (credit memo), 25 (outgoing payment), 29 (special G/L)</td><td>31 (invoice), 39 (special G/L)</td></tr>
+<tr><td>Asset</td><td>70</td><td>75</td></tr>
+<tr><td>Material</td><td>89</td><td>99</td></tr>
+</tbody></table>
+<p>For pure G/L postings only 40 and 50 are needed. A posting key is always valid for one account type only.</p>
+
+<h4>Analyzing the result</h4>
+<ul>
+<li><strong>Balance display</strong> – overview of the saved transaction figures of an account per period; expand a node to list the items behind a balance, then branch to the document.</li>
+<li><strong>Line item display</strong> – <code>FAGLL03</code> (Display/Change Items) or the apps <em>Display G/L Account Line Items – Posting View</em> / <em>– Reporting View</em>; the open/cleared status is available for G/L accounts only.</li>
+<li>If the original document was archived optically, it can be displayed from the FI document.</li>
+<li>The posting appears in the balance sheet / income statement only if its account is assigned to a line of the FSV used; otherwise it is shown under "accounts not assigned".</li>
+</ul>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Document = header + line items; the document type supplies the number range.</li>
+<li>Posting key defines account type, debit/credit and field status; 40/50 for G/L; one key = one account type.</li>
+<li>Fiori Post General Journal Entries hides posting keys (Debit/Credit) and supports templates.</li>
+<li>FI→CO flow requires account type Primary Costs or Revenue plus a cost element category.</li>
+<li>Analysis path: financial statement → balance display → line items → document.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> Post the capital increase as a G/L document in company code 1010 (app Post General Journal Entries or <code>FB50</code>/<code>FB01</code>), then check the result in the balance display and line item display (<code>FAGLL03</code>) and run the balance sheet / income statement with the company's financial statement version to see the new equity account.</div>
+<h2 class="unit" id="s4f10-u4">Unit 4: Accounts Payable</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Work through the vendor side of FI: create vendor master data as SAP Business Partners, post invoices and recurring entries, pay vendors manually and with the automatic payment program, understand how the MM purchase-to-pay cycle creates FI documents, and perform the AP period-end tasks (balance confirmation, foreign currency valuation, regrouping).</div>
+
+<h3 class="lesson" id="s4f10-u4-l1">Lesson 1: Maintaining Vendor Master Records</h3>
+<p class="lead">Explain how vendor master data is organized in SAP S/4HANA using the Business Partner – its roles, categories, groupings and data segments – and how customer/vendor integration keeps the FI vendor account in sync.</p>
+
+<h4>Business example</h4>
+<p>A foreign employee will arrive in Hamburg next month; the company has rented an apartment through a realtor and signed the lease. Accounting must create a vendor master record for the landlord so that the monthly rent can be posted and paid.</p>
+
+<h4>The Business Partner (BP) as single point of entry</h4>
+<p>In S/4HANA vendors (and customers) are maintained through the <strong>Business Partner</strong> – one object and one UI (transaction <code>BP</code>, Fiori apps <em>Maintain Business Partner</em> / <em>Supplier Master</em>) for business partners, customers and vendors. The classic ECC transactions FK01/XK01 are no longer used.</p>
+
+<h4>Structure of the BP master record</h4>
+<table><thead><tr><th>Concept</th><th>Meaning</th><th>Examples / rules</th></tr></thead><tbody>
+<tr><td>General data</td><td>Application-neutral data valid for the whole client</td><td>Name, address, bank details, payment cards</td></tr>
+<tr><td>BP role</td><td>Business context in which the partner appears; opens the application-specific data</td><td>FI Vendor (FI-AP), FI Customer (FI-AR), Supplier (MM, e.g. FLVN01), Customer (SD), Contract partner (FI-CA), Prospect, General BP. The course uses role <strong>FI Vendor</strong> for AP, which carries the company code data</td></tr>
+<tr><td>BP category</td><td>Classifies the partner as person, group or organization</td><td>Determines which fields are available – e.g. an organization has a legal-form field; a group could be a community of heirs</td></tr>
+<tr><td>BP grouping</td><td>Mandatory at creation; determines the number range (internal or external)</td><td>Cannot be changed later; groupings and their number ranges are defined in Customizing</td></tr>
+<tr><td>Company code data</td><td>AP-specific data for each company code doing business with the vendor</td><td>Reconciliation account, terms of payment, payment methods, dunning data, correspondence settings, posting blocks</td></tr>
+</tbody></table>
+<p>A vendor account therefore has two segments – general data at client level and company code data; the reconciliation account sits in the company code segment. If MM purchasing is also used, a third segment (purchasing organization data, see Lesson 3) is added.</p>
+
+<h4>Customer/Vendor Integration (CVI)</h4>
+<p>Technically AP still uses its own vendor master tables, which are embedded in every accounting transaction. Therefore the BP and the FI vendor must exist synchronously. CVI runs in the background: when a BP is created or changed, the system creates or updates all required fields of the vendor account according to the synchronization control and CVI settings in Customizing. Users only ever touch the BP.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>S/4HANA vendors are Business Partners; transaction <code>BP</code> is the single point of entry.</li>
+<li>Role FI Vendor holds the company code (AP) data; the grouping fixes the number range and cannot be changed.</li>
+<li>Segments: general data (client) + company code data (+ purchasing organization data for MM).</li>
+<li>CVI synchronizes the BP with the technical vendor master automatically.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> Display an existing vendor BP in role FI Vendor and create a new BP (organization) for the landlord with general data and company code data for 1010 (reconciliation account, payment terms, payment method) using <code>BP</code> or the Fiori app Maintain Business Partner.</div>
+
+<h3 class="lesson" id="s4f10-u4-l2">Lesson 2: Maintaining Accounts Payable Transactions</h3>
+<p class="lead">Post vendor invoices and credit memos, understand document splitting and the CO account assignment rules, set up recurring entries, and pay vendors manually or with the five-step automatic payment program.</p>
+
+<h4>Business example</h4>
+<p>The realtor's commission of 4,000 EUR arrives as an invoice directly in accounting (master record already exists). The rent of 2,000 EUR per month is to be generated automatically as an open item on the landlord's account by the recurring entry program and paid by the periodic payment run. The realtor wants his money quickly, so a cheque is created and the payment posted manually. After each step the accountants review the accounts.</p>
+
+<h4>Vendor invoices and credit memos (Fiori app Create Incoming Invoices / <code>FB60</code>)</h4>
+<p>An invoice entered directly in AP, without a purchase order, is a "miscellaneous" invoice. The screen has four areas:</p>
+<table><thead><tr><th>Area</th><th>Content</th></tr></thead><tbody>
+<tr><td>Work templates</td><td>Screen variants, account assignment templates, held documents</td></tr>
+<tr><td>Header and vendor data</td><td>Document header plus the vendor line (vendor, amount, dates, tax)</td></tr>
+<tr><td>G/L account items</td><td>The offsetting expense/asset lines</td></tr>
+<tr><td>Information area</td><td>Document balance and vendor information (address, bank, open items) – you can view or change the master record and jump to open items without leaving the posting screen</td></tr>
+</tbody></table>
+<p>Foreign-currency invoices are translated into local currency with the stored exchange rates. An operating expense line needs a CO-relevant assignment (cost center, internal order); the G/L account must be of type Primary Costs or Revenue with a cost element category so that a CO document is created alongside the FI document.</p>
+
+<h4>Document splitting</h4>
+<p>Scenario: the realtor's commission covers apartments for two employees in different departments, i.e. two cost centers. The demo company produces balance sheets and P&amp;L per <strong>segment</strong>, and the segment is derived automatically (cost center → profit center → segment; the profit center can also come from an internal order or project). The user enters three lines – vendor total, expense 1 (cost center A), expense 2 (cost center B); the tax line is added automatically from the tax code, so the <strong>entry view</strong> has four lines. But the vendor and tax lines carry no segment, so the segment balance sheets would not balance. With document splitting activated, the system splits the vendor and tax items proportionally across segments 1000_A and 1000_B and inherits the segment to them – the <strong>general ledger view</strong> has six lines and a zero balance per segment. Benefits: complete, balanced segment financial statements without the user having to type six lines. If splitting is not active, both views are identical. The same mechanism works for customer invoices whose revenue is spread across entities.</p>
+
+<h4>CO account assignment logic</h4>
+<p>Posting to an FI account with a primary cost element requires a CO account assignment object, which is <strong>real</strong> or <strong>statistical</strong> (an internal order is defined as one or the other at creation). Real objects can be allocated further in CO; statistical assignments are for information only and cannot be allocated. Rules:</p>
+<ul>
+<li>Every posting line needs exactly one real CO object.</li>
+<li>A statistical object (e.g. statistical order) cannot be assigned without a real object.</li>
+<li>Costs cannot go to more than one real object per line – exception: cost center plus one other real object, in which case the other object is real and the cost center becomes statistical.</li>
+<li>The cost center is always a real object but can receive both real and statistical postings; any number of statistical objects may be added.</li>
+</ul>
+
+<h4>Recurring entry program</h4>
+<p>For postings repeated at fixed intervals (rent, fees, property tax). Flow:</p>
+<ol>
+<li>Create a <strong>recurring entry original document</strong> (<code>FBD1</code>) containing first and last run date, interval and next planned posting date, plus the posting data.</li>
+<li>Run the recurring entry program (<code>F.14</code>) periodically with a date range; it selects all original documents whose next run date falls in the range and creates a <strong>batch input session</strong>.</li>
+<li>Process the session (<code>SM35</code>): the accounting documents are posted and the next run date in each original document is advanced.</li>
+</ol>
+
+<h4>Outgoing payment process</h4>
+<p>Payments can be made manually (post outgoing payment with cheque – <code>F-58</code>/Fiori Post Outgoing Payments) or automatically with the payment program (<code>F110</code>, Fiori app <em>Manage Automatic Payments</em>). Elements of a payment transaction: company code, paying company code, vendor/customer, payment method, house bank and partner bank, forms. Standard payment methods and their forms are delivered per country. The payment program was built for international payments to vendors and from customers; it handles incoming and outgoing payments but is mostly used for outgoing ones.</p>
+<table><thead><tr><th>Step</th><th>What happens</th></tr></thead><tbody>
+<tr><td>1 Maintain parameters</td><td>Define run date/ID, posting date, company codes, payment methods, next posting date, vendors/customers and documents (due date) to be included</td></tr>
+<tr><td>2 Payment proposal</td><td>System checks the selected accounts/documents for due items, groups the items into payments and selects payment method, house bank and partner bank</td></tr>
+<tr><td>3 Check / edit proposal</td><td>Optional but recommended: review exceptions, block or reallocate items, change banks or payment methods</td></tr>
+<tr><td>4 Payment run</td><td>Payment documents are posted, open items cleared, data for payment media prepared</td></tr>
+<tr><td>5 Payment media</td><td>Cheques printed, EDI IDocs generated or DME files created; the <strong>Payment Medium Workbench (PMW)</strong> is the generic program for all formats</td></tr>
+</tbody></table>
+<p>The proposal can be skipped – then the clearing postings are made directly after the parameters are entered.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>FB60-type invoices have no PO reference; the information area lets you inspect the vendor during entry.</li>
+<li>Document splitting produces a general ledger view with zero balance per segment/profit center, derived from the cost center, in addition to the entry view.</li>
+<li>One real CO object per line; statistical objects are informational only; cost center is the exception.</li>
+<li>Recurring entries: original document → program selects due documents → batch input session posts them.</li>
+<li>Payment program: parameters → proposal → edit proposal → payment run → payment media (PMW).</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> Post the 4,000 EUR realtor invoice (Create Incoming Invoices / <code>FB60</code>) with a cost center, check the entry and G/L views; create a recurring entry original document for the 2,000 EUR monthly rent (<code>FBD1</code>), run the recurring entry program (<code>F.14</code>) and process the batch input session; pay the realtor manually by cheque (<code>F-58</code>); and run a payment proposal and payment run (<code>F110</code> / Manage Automatic Payments) for the landlord, then review the vendor line items.</div>
+
+<h3 class="lesson" id="s4f10-u4-l3">Lesson 3: Managing the Integration between AP and Materials Management</h3>
+<p class="lead">Understand the MM organizational units and purchasing data of the supplier, the procurement cycle, and exactly which steps of the three-way match generate FI documents.</p>
+
+<h4>Business example</h4>
+<p>Plant 1010 needs tyres and tubes. The responsible purchasing organization orders them from a known supplier; some days later the goods arrive, then the invoice.</p>
+
+<h4>Organizational units in MM</h4>
+<ul>
+<li><strong>Plant</strong> – the central logistics unit: an operating area or branch (central warehouse, regional sales office, factory, headquarters, maintenance plant). A plant belongs to exactly one company code; a company code can have many plants. All plants of the demo company in Germany post to company code 1010.</li>
+<li><strong>Purchasing organization</strong> – negotiates purchasing conditions with suppliers; the purchasing data of the supplier is specific to one purchasing organization.</li>
+</ul>
+
+<h4>Supplier purchasing data</h4>
+<p>To use a vendor in procurement, the BP needs an MM role (e.g. <strong>FLVN01 – Supplier</strong>). Just as several company code segments may exist, several purchasing-organization segments may exist, each valid for exactly one purchasing organization. Maintained via Fiori apps <em>Supplier Master</em> or <em>Maintain Business Partner</em>, or <code>BP</code>. A complete vendor/supplier BP thus has three parts: general data, company code data, purchasing organization data.</p>
+
+<h4>Procurement cycle</h4>
+<ol>
+<li>Demand determination – a department reports a requirement (manually, e.g. purchase requisition/order).</li>
+<li>Source of supply determination – RFQs, quotations, existing POs and conditions.</li>
+<li>Supplier selection – price comparison of quotations; automatic rejection letters.</li>
+<li>Purchase order handling – guided PO entry (Fiori app <em>Manage Purchase Orders</em>; screen areas: document type and vendor, header, item overview, item details).</li>
+<li>PO monitoring – status tracking (goods/invoice received?), reminders/dunning of suppliers.</li>
+<li>Goods receipt – quantity checked against PO.</li>
+<li>Invoice verification – invoice checked for content and accounting correctness.</li>
+<li>Payment – usually in FI (payment program).</li>
+</ol>
+
+<h4>Three-way match and FI postings</h4>
+<table><thead><tr><th>Step</th><th>MM document</th><th>FI document</th></tr></thead><tbody>
+<tr><td>Purchase order</td><td>PO</td><td>None – no accounting document</td></tr>
+<tr><td>Goods receipt</td><td>Material document</td><td>Debit inventory/consumption account, credit <strong>GR/IR clearing account</strong></td></tr>
+<tr><td>Invoice verification (<code>MIRO</code>)</td><td>Invoice document</td><td>Debit GR/IR clearing account, credit vendor (reconciliation account)</td></tr>
+</tbody></table>
+<p>Goods receipt and invoice receipt may occur in either order. The GR/IR clearing account ensures that for each invoice goods were received and vice versa; an open balance signals a mismatch to be analyzed at period end.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Plant → exactly one company code; purchasing organization owns the supplier's purchasing data.</li>
+<li>Supplier BP = general + company code + purchasing organization data; MM role FLVN01.</li>
+<li>Only goods receipt and invoice receipt create FI documents; the PO does not.</li>
+<li>GR/IR clearing account is the bridge between goods receipt and invoice.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> Create a purchase order for tyres and tubes for plant 1010 (Manage Purchase Orders / <code>ME21N</code>), post the goods receipt (<code>MIGO</code>) and the invoice (<code>MIRO</code>), then display the resulting FI documents and the GR/IR clearing account and vendor line items.</div>
+
+<h3 class="lesson" id="s4f10-u4-l4">Lesson 4: Performing Accounts Payable Closing Operations</h3>
+<p class="lead">Carry out the AP-specific month- and year-end tasks: balance carry-forward, balance confirmations, foreign currency valuation of open vendor items and regrouping of payables.</p>
+
+<h4>Business example</h4>
+<p>At month/year end AP must send balance confirmations to vendors, revalue open foreign-currency items and – in certain countries – regroup payables by remaining term.</p>
+
+<h4>Structure of closing</h4>
+<p>Year-end activities are either <strong>legal requirements</strong> (demanded by authorities) or <strong>technical/organizational requirements</strong> (needed by the system or the accounting organization). The AP sequence:</p>
+<ol>
+<li>At the start of the new fiscal year run the <strong>balance carry-forward</strong> in FI-GL; carrying forward the leading-ledger G/L accounts automatically carries forward vendor accounts too (a separate vendor carry-forward is optional).</li>
+<li>Block the posting periods of the old year and open the <strong>special periods</strong> (13–16) for closing adjustments.</li>
+<li>Confirm balances with selected vendors.</li>
+<li>Valuate foreign-currency open items.</li>
+<li>Regroup payables by remaining term (country-specific).</li>
+<li>Close the special periods.</li>
+</ol>
+
+<h4>Balance confirmations</h4>
+<p>The program (<code>F.18</code>) produces for a freely chosen set of vendors: the confirmation letters with reply requests, a <strong>reconciliation list</strong> and a <strong>results table</strong>. Letters go to the vendors; replies are returned to a control center (audit department), which compares them with the reconciliation list and records the outcome in the results table.</p>
+
+<h4>Foreign currency valuation</h4>
+<p>Open items in foreign currency were translated at the posting-date rate; at closing the rate has usually changed, so the program (<code>FAGL_FCV</code>, Fiori <em>Perform Foreign Currency Valuation</em>) revalues them with the closing rate and stores the difference on the valuated items.</p>
+<table><thead><tr><th>Case</th><th>Debit</th><th>Credit</th></tr></thead><tbody>
+<tr><td>Loss</td><td>Expense from foreign currency valuation</td><td>Balance sheet adjustment account</td></tr>
+<tr><td>Gain</td><td>Balance sheet adjustment account</td><td>Revenue from foreign currency valuation</td></tr>
+</tbody></table>
+<p>Because reconciliation accounts cannot be posted directly, the valuation uses an <strong>adjustment account</strong> shown in the same FSV item as the reconciliation account. A <strong>valuation method</strong> defines how items are valuated (e.g. lowest value principle vs. general principle, per country rules) and is assigned to a <strong>valuation area</strong>, which represents an accounting principle/valuation approach for closing.</p>
+
+<h4>Regrouping payables</h4>
+<p>Receivables and payables must be shown separately on the balance sheet, and in many countries payables must be grouped by remaining term. The regrouping program (<code>FAGLF101</code>) does three things: (1) regroups payables by remaining term (long-term portions to separate adjustment accounts), (2) reclassifies vendors with a <strong>debit balance</strong> to the receivables side, (3) corrects items whose reconciliation account was changed in the master record. All postings use adjustment accounts as offset and are reversed on the first day of the next period, because regroupings are irrelevant for daily business.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>G/L balance carry-forward of the leading ledger also carries forward vendor balances.</li>
+<li>Special periods 13–16 take year-end adjustments while normal periods are blocked.</li>
+<li>Balance confirmation program delivers letters, reconciliation list and results table.</li>
+<li>FX valuation: loss = expense/adjustment account; gain = adjustment account/revenue; never directly on the reconciliation account; controlled by valuation method and valuation area.</li>
+<li>Regrouping: remaining term, debit-balance vendors, changed reconciliation accounts – auto-reversed next period.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> Run balance confirmations for selected vendors (<code>F.18</code>), execute the foreign currency valuation for open vendor items in company code 1010 (<code>FAGL_FCV</code>) and review the adjustment postings, and run the regrouping program (<code>FAGLF101</code>) to see payables sorted by remaining term and debit-balance vendors reclassified.</div>
+<h2 class="unit" id="s4f10-u5">Unit 5: Accounts Receivable</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Cover the customer side of FI end to end: customer master data as Business Partner, direct AR invoices and incoming payments (including short payments), dunning and correspondence, dispute cases, the integration with the SD order-to-cash process, and the AR closing tasks with emphasis on value adjustments for doubtful receivables.</div>
+
+<h3 class="lesson" id="s4f10-u5-l1">Lesson 1: Maintaining Customer Master Records</h3>
+<p class="lead">Maintain customer master data through the SAP Business Partner in role FI Customer and understand how it mirrors the vendor structure learned in Unit 4.</p>
+
+<h4>Business example</h4>
+<p>A customer phones to announce a change of address; you update the address in the business partner's general data – once, for all company codes.</p>
+
+<h4>Structure of the customer BP</h4>
+<p>The structure is identical to the vendor side (Unit 4, Lesson 1); only the role differs:</p>
+<table><thead><tr><th>Element</th><th>Customer-side specifics</th></tr></thead><tbody>
+<tr><td>General data</td><td>Client-level, application-neutral: name, address, bank details, payment cards – exists once, not per company code</td></tr>
+<tr><td>BP role</td><td><strong>FI Customer</strong> (FI-AR) carries the company code data; <strong>Customer</strong> (SD) carries the sales area data (Lesson 5); other roles: FI Vendor, Supplier, Contract Partner, Prospect, General BP</td></tr>
+<tr><td>BP category</td><td>Person (first/last name, gender…), organization (legal form…) or group; mandatory at creation and <strong>cannot be changed afterwards</strong></td></tr>
+<tr><td>BP grouping</td><td>Determines internal/external number range; fixed after creation; defined in Customizing</td></tr>
+<tr><td>Company code data</td><td>Reconciliation account, payment terms, payment methods, dunning data, correspondence settings, posting blocks – one segment per company code that trades with the customer</td></tr>
+</tbody></table>
+
+<h4>Customer/Vendor Integration</h4>
+<p>AR technically still works with its own customer master tables integrated in every posting transaction. CVI synchronizes the BP to the customer account in the background according to the synchronization control settings in Customizing. Details of this configuration belong to course S4F12.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Customers are BPs in role FI Customer; the reconciliation account ties customer postings to the G/L.</li>
+<li>General data exists once; company code data per company code; category and grouping are fixed at creation.</li>
+<li>CVI keeps BP and FI customer account in sync automatically.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> Change the address of an existing customer BP and review its company code data for 1010 (Fiori Maintain Business Partner or <code>BP</code>).</div>
+
+<h3 class="lesson" id="s4f10-u5-l2">Lesson 2: Managing Accounts Receivable Transactions</h3>
+<p class="lead">Enter miscellaneous customer invoices and credit memos directly in AR, and post incoming payments including the handling of payment differences via partial payments and residual items.</p>
+
+<h4>Business example</h4>
+<p>A customer complains that his last invoice lacked the usual 3% cash discount; SD confirms the error, so the invoice's payment terms are corrected. Separately, a payment advice announces that a customer will pay only 80% of an invoice because of an incomplete delivery; when the money arrives, the accountant posts the difference as a residual item.</p>
+
+<h4>Customer invoices and credit memos</h4>
+<p>Almost all customer invoices come from SD billing. Only when no sales order exists is an invoice entered directly in AR – via the Fiori app <em>Create Outgoing Invoices</em> or <code>FB70</code>; GUI-only entry is a thing of the past. The screen mirrors the AP invoice: work templates (screen variants, account assignment templates, held documents), header and customer data, G/L account items, and an information area with the balance, customer master link and open items. Foreign-currency documents are translated with the stored exchange rates.</p>
+
+<h4>Incoming payments</h4>
+<p>Posted with the Fiori app <em>Post Incoming Payments</em> (or <code>F-28</code>). Outcomes depend on the amount received:</p>
+<table><thead><tr><th>Situation</th><th>System behaviour</th></tr></thead><tbody>
+<tr><td>Full payment or payment net of agreed cash discount</td><td>Open items are cleared</td></tr>
+<tr><td>Minor difference within the <strong>tolerance group</strong></td><td>Difference is charged off automatically to a gain/loss account</td></tr>
+<tr><td>Difference outside tolerance</td><td>Must be handled manually – partial payment or residual item</td></tr>
+</tbody></table>
+<table><thead><tr><th>Method</th><th>Effect on the invoice</th><th>New item</th></tr></thead><tbody>
+<tr><td>Partial payment</td><td>Invoice stays open</td><td>A credit open item for the paid amount, referencing the invoice and displayed right above it</td></tr>
+<tr><td>Residual item</td><td>Invoice is cleared</td><td>A new open item (residual) for the unpaid difference, with its own due date</td></tr>
+</tbody></table>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Direct AR invoices (FB70 / Create Outgoing Invoices) are the exception; SD billing is the rule.</li>
+<li>Tolerance groups define how big a difference may be written off automatically.</li>
+<li>Partial payment keeps the invoice open; residual item clears it and creates a new receivable for the difference.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> Change the payment terms of a posted customer invoice to grant the 3% discount (<code>FB02</code>), then post an incoming payment of 80% of another invoice (Post Incoming Payments / <code>F-28</code>) creating a residual item, and inspect the customer line items.</div>
+
+<h3 class="lesson" id="s4f10-u5-l3">Lesson 3: Managing Customer Correspondence</h3>
+<p class="lead">Run the dunning program, request and print correspondence such as account statements, and use the AR analytical Fiori apps for quick analysis.</p>
+
+<h4>Business example</h4>
+<p>Important customers want monthly account statements, produced by a periodic report (normally a background job, run online here for demonstration). Other customers are overdue and must be dunned.</p>
+
+<h4>Dunning functions</h4>
+<p>The dunning program analyzes all open items, identifies overdue ones and determines a <strong>dunning level</strong> based on days in arrears. The level drives dunning charges, interest and the dunning text. The <strong>dunning history</strong> records every notice issued; the date and level of the last dunning are stored both in the correspondence section of the master record and in the dunned documents. Dunning can be run for one account (individual notice) or for many accounts.</p>
+
+<h4>Dunning procedure</h4>
+<p>Dunning is controlled by the <strong>dunning procedure</strong>, which must be entered in each customer (or vendor) account to be dunned automatically; one-time accounts carry a procedure suited to one-time customers. Any number of procedures can be defined; SAP delivers standard ones as templates.</p>
+
+<h4>Dunning run (<code>F150</code>, Fiori <em>Manage Dunning Runs</em>)</h4>
+<ol>
+<li><strong>Parameters</strong> – run date and ID, dunning date, documents posted up to, company codes and accounts; an existing run can serve as template.</li>
+<li><strong>Dunning run</strong> – accounts are selected, overdue items found, need for notices checked, dunning levels assigned; everything is stored in the <strong>dunning proposal</strong>.</li>
+<li><strong>Edit proposal</strong> – change, delete and recreate as often as required (e.g. block an item or account).</li>
+<li><strong>Print</strong> – notices are printed and, in the same step, dunning data (dates, levels) updated in master records and documents. The proposal step is optional: with "dunning print with scheduling" the notices are printed immediately.</li>
+</ol>
+
+<h4>Correspondence types</h4>
+<p>Day-to-day correspondence must be <strong>requested</strong> before printing. Requests arise:</p>
+<ul>
+<li>automatically from certain transactions (payment differences → payment notice; bill of exchange charges → charges statement);</li>
+<li>manually by the clerk;</li>
+<li>via a mass request program (periodic account statements, internal documents, standard letters).</li>
+</ul>
+<p>Requests are stored in a correspondence request table and printed by a trigger program (<code>F.61</code>/<code>F.64</code>; periodic statements <code>F.27</code>).</p>
+
+<h4>Analytical apps for AR</h4>
+<p>Role-based, real-time KPIs rendered in the browser directly from SAP HANA: <em>Overdue Receivables</em>, <em>Dunning Level Distribution</em>, <em>Days Beyond Terms</em>, <em>Open Disputes</em>, <em>Total Receivables</em>. They combine HANA's analytical power with the S/4HANA integration layer and allow drill-down into the underlying items.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Dunning level = f(days in arrears) → charges, interest, text; dunning procedure must be in the master record.</li>
+<li>Dunning run: parameters → proposal → edit → print; printing updates master data and documents.</li>
+<li>Correspondence is requested (automatically, manually or by mass program) and then printed.</li>
+<li>Analytical apps give instant AR insight (overdue, DBT, dunning levels, disputes).</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> Run periodic account statements for selected customers (<code>F.27</code>), then execute a dunning run for company code 1010 (<code>F150</code> / Manage Dunning Runs): maintain parameters, create and review the proposal, print the notices and verify the dunning data in the customer master and documents; explore the AR analytical apps.</div>
+
+<h3 class="lesson" id="s4f10-u5-l4">Lesson 4: Creating Accounts Receivable Dispute Cases</h3>
+<p class="lead">Explain why SAP Dispute Management exists, how it integrates with AR processes, and how to create and manage dispute cases with the Fiori app.</p>
+
+<h4>Business example</h4>
+<p>A customer paid an invoice only partially because the delivery was incomplete; the AR accountant creates a dispute case to start the clarification process.</p>
+
+<h4>Why dispute management?</h4>
+<p>Dispute management (part of Financial Supply Chain Management) covers the stage between invoice and payment in the chain purchase order → delivery → invoice → payment. Problems it addresses:</p>
+<ul>
+<li>Reduced or missing payments increase <strong>Days Sales Outstanding (DSO)</strong> – the average number of days customers take to pay, based on annual sales.</li>
+<li>Deductions invalidate the net value date used in cash-flow forecasting.</li>
+<li>Manual dispute resolution is costly, and the volume is rising.</li>
+<li>Disputes reveal customer relationship or internal quality problems.</li>
+</ul>
+<p>Disputes surface in many ways: the customer reports actively (complaints department, account manager, accounting), pays short, delays payment; or AR discovers a payment difference while posting or an overdue item during account maintenance.</p>
+
+<h4>Process integration</h4>
+<ul>
+<li>Dispute functions (create, display, edit cases) are embedded in FI transactions – e.g. a case can be created directly while posting an incoming payment with a difference.</li>
+<li>Certain FI transactions (payments, clearing) update the dispute case automatically.</li>
+<li>Actions in dispute management update the disputed items in FI.</li>
+</ul>
+
+<h4>Fiori app Manage Dispute Cases</h4>
+<p>A transactional app for analyzing and processing receivables-related disputes, typically created when a customer reduces a payment without agreement. It lets you search and filter cases, view details (notes, linked invoices), edit attributes such as the processor, add text notes and attach files – structuring the investigation and sharing results with everyone involved.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Dispute management sits between invoice and payment and fights rising DSO and forecasting problems.</li>
+<li>Cases can be created straight from the incoming payment posting.</li>
+<li>Two-way integration: FI updates cases, case actions update FI items.</li>
+<li>Manage Dispute Cases: search/filter, details, attributes, notes, attachments.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> Post an incoming payment with an unexplained deduction and create a dispute case from it; then open the case in Manage Dispute Cases, assign a processor and add a note.</div>
+
+<h3 class="lesson" id="s4f10-u5-l5">Lesson 5: Managing the Integration between AR and Sales Order Management</h3>
+<p class="lead">Understand the SD organizational structure, the sales area data of the customer, the order-to-cash document chain, and which steps generate accounting documents.</p>
+
+<h4>Business example</h4>
+<p>Sales organization 1010 receives an order from customer T-C##. On the delivery date an outbound delivery is created, the goods are picked, goods issue is posted and the customer is billed.</p>
+
+<h4>SD organizational units</h4>
+<table><thead><tr><th>Unit</th><th>Definition</th><th>Demo data</th></tr></thead><tbody>
+<tr><td>Sales organization</td><td>Responsible for selling; several per company code, all posting to that company code</td><td>1010 → company code 1010</td></tr>
+<tr><td>Distribution channel</td><td>Way goods reach the customer; may be shared by sales organizations</td><td>10, 12</td></tr>
+<tr><td>Distribution chain</td><td>Sales organization + distribution channel; sells goods from plants</td><td>1010-10 and 1010-12 sell from plant 1010</td></tr>
+<tr><td>Division</td><td>Key product line, assigned to the distribution chains it can be sold through</td><td>–</td></tr>
+<tr><td>Sales area</td><td>Sales organization + distribution channel + division; level for customer-specific agreements (partial deliveries, payment terms), statistics and marketing</td><td>–</td></tr>
+</tbody></table>
+<p>Before a sales area can do business with a customer, the BP needs <strong>sales area data</strong> (role Customer) holding the conditions and payment terms agreed with that sales area – the SD counterpart of the company code segment.</p>
+
+<h4>Sales process overview</h4>
+<ol>
+<li>Pre-sales: customer inquiry → quotation.</li>
+<li>Order processing: sales order (at distribution chain level; items may belong to different divisions). <strong>No FI posting</strong>; the system runs an availability check for the requested date.</li>
+<li>Procurement: supplier of the goods determined from stored data.</li>
+<li>Shipping: outbound delivery document; picking via a transfer order (warehouse management); <strong>goods issue</strong> – creates a material document and an FI document: <em>debit cost of goods sold, credit inventory</em>. Billing is possible only after goods issue.</li>
+<li>Billing: billing document and printed invoice; FI document posts <em>debit customer (receivable), credit revenue</em>.</li>
+<li>Payment processing: open items checked and incoming payments posted in FI.</li>
+</ol>
+<p>The <strong>document flow</strong> displays all related documents of a process. Fiori app <em>Create Sales Order</em> has header data, header combined with item overview, and item details.</p>
+
+<h4>Predictive accounting</h4>
+<p>A development focus in S/4HANA: forecasting future revenue and cost (even a forecast P&amp;L) from expected values such as open sales orders. Predictive postings live in dedicated ledgers, so reporting always distinguishes actual (realized) from predicted values.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Sales area = sales organization + distribution channel + division; sales organization → one company code.</li>
+<li>Sales order and delivery create no FI document; goods issue (COGS/inventory) and billing (customer/revenue) do.</li>
+<li>Customer BP needs sales area data (role Customer) in addition to company code data.</li>
+<li>Predictive accounting uses separate ledgers for expected revenue and cost.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> Create a sales order for customer T-C## in sales area 1010/10/00 (Create Sales Order / <code>VA01</code>), create the outbound delivery with picking and post goods issue (<code>VL01N</code>), bill the delivery (<code>VF01</code>), then follow the document flow and display the FI documents created by goods issue and billing.</div>
+
+<h3 class="lesson" id="s4f10-u5-l6">Lesson 6: Performing Accounts Receivable Closing Operations</h3>
+<p class="lead">Carry out AR period-end tasks, focusing on individual and flat-rate value adjustments for doubtful receivables with the valuation program.</p>
+
+<h4>Business example</h4>
+<p>Each month-end the recoverability of receivables is assessed and bad debt expense is posted; the estimate is refined with a value adjustment key and, because it serves reporting, reversed at the start of the next month. At year-end a permanent estimate is made.</p>
+
+<h4>AR closing sequence</h4>
+<ol>
+<li>Balance carry-forward run centrally in FI-GL; carrying forward the leading ledger automatically carries forward customer accounts (separate run optional).</li>
+<li>Block old posting periods, open special periods.</li>
+<li>Balance confirmations (<code>F.17</code>) – as in AP.</li>
+<li>Foreign currency valuation – as in AP.</li>
+<li><strong>Value adjustments</strong> for overdue receivables (AR-specific).</li>
+<li>Regrouping into short- and long-term receivables – as in AP.</li>
+<li>Close special periods.</li>
+</ol>
+
+<h4>Three ways to adjust receivables</h4>
+<table><thead><tr><th>Option</th><th>How</th></tr></thead><tbody>
+<tr><td>1 Individual value adjustment (IVA)</td><td>Posted manually as <strong>special G/L transaction E</strong> on the customer account; the amount goes to a special G/L account "Individual value adjustments for receivables" instead of the normal reconciliation account</td></tr>
+<tr><td>2 Flat-rate individual value adjustment</td><td>Program SAPF107 ("Additional valuations"), Fiori app <em>Further Valuation</em> or <code>F107</code>, based on value adjustment keys</td></tr>
+<tr><td>3 Manual flat-rate adjustment</td><td>After determining the amount, a G/L posting: debit expense from flat-rate value adjustment, credit value adjustment account</td></tr>
+</tbody></table>
+<p>IVA at year-end: doubtful debts are written down via the special G/L method because the transaction is visible on the customer account yet posted to a separate G/L account. Once the debt proves irrecoverable or is paid, the IVA is reversed; an irrecoverable receivable is cleared from the customer account against "depreciation of receivables", with the sales tax adjusted.</p>
+
+<h4>The valuation program (F107)</h4>
+<p>Works like the dunning and payment programs; each run is identified by run date and identification.</p>
+<ol>
+<li><strong>Parameters</strong> – valuation method, valuation area, posting specifications; an earlier run can be the template.</li>
+<li><strong>Valuation run</strong> – analyzes the selected accounts/documents and builds an editable valuation proposal. Values come either from IVAs entered manually in the documents earlier, or from the <strong>value adjustment key</strong> in the customer master: a percentage of the overdue amount depending on the days overdue. Several keys allow weaker customers to be written down more aggressively than strong ones.</li>
+<li><strong>Transfer</strong> – G/L documents post the valuation (debit reserve for bad debt expense, credit value adjustment to receivables) and the valuation is recorded in the valuated documents for traceability. If the posting fails, the batch input session "F107–&lt;run name&gt;" can be processed.</li>
+</ol>
+<p>Notes: with several accounting principles the differing results are posted to separate accounts picked up by different FSVs; the run can also <strong>discount</strong> open receivables to net present value where national law requires it.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>AR closing = AP closing plus value adjustments.</li>
+<li>IVA = special G/L transaction E; flat-rate IVA = program F107 with value adjustment keys.</li>
+<li>Valuation run: parameters → proposal → transfer; posting debit bad debt reserve expense / credit value adjustment, reversed next month (permanent at year-end).</li>
+<li>Value adjustment key in the customer master links days overdue to a percentage.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> Enter a value adjustment key in a customer master record, run the flat-rate value adjustment (<code>F107</code> / Further Valuation) for company code 1010 with parameters, review and transfer the proposal, and check the postings and the valuated customer items; optionally post an individual value adjustment with special G/L indicator E.</div>
+<h2 class="unit" id="s4f10-u6">Unit 6: Asset Accounting</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Learn how fixed assets are structured in SAP S/4HANA (asset class, depreciation areas, chart of depreciation, subnumbers), how acquisitions are posted – integrated with AP or not – using transaction types and the technical clearing account, how to analyze an asset in the Asset Explorer and Fiori apps, and which period-end tasks (depreciation run, year-end closing, asset history sheet) belong to FI-AA.</div>
+
+<h3 class="lesson" id="s4f10-u6-l1">Lesson 1: Maintaining Asset Master Records</h3>
+<p class="lead">Explain the asset master record, its assignment to organizational units, the controlling role of the asset class, and how depreciation areas and the chart of depreciation drive valuation and G/L posting.</p>
+
+<h4>Business example</h4>
+<p>The company groups its assets by asset class and buys a new building near Hamburg with a planned useful life of 50 years; an asset master record must be created for it.</p>
+
+<h4>What is an asset?</h4>
+<p>An object, right or item owned by the enterprise, intended for long-term use and individually identifiable in the balance sheet. Every asset belongs to exactly one <strong>company code</strong>, where all its postings (acquisition, retirement, depreciation…) are made. Additionally it can be assigned to a business area, profit center, segment and to CO objects such as a cost center, internal order or WBS element – these receive the depreciation.</p>
+
+<h4>Asset class – the main classification criterion</h4>
+<p>Each asset must belong to one asset class. The class supplies control parameters and default values for depreciation and master data. Assigned to the class are:</p>
+<table><thead><tr><th>Element</th><th>Function</th></tr></thead><tbody>
+<tr><td>Screen layout rule</td><td>Which master data fields are required/optional/hidden</td></tr>
+<tr><td>Asset number range</td><td>How the asset number is assigned (the class, not the user, determines the number)</td></tr>
+<tr><td>Account determination key</td><td>Links the asset to its G/L accounts (APC reconciliation account, accumulated depreciation, depreciation expense, clearing accounts)</td></tr>
+</tbody></table>
+<p>Assets that appear in different balance sheet lines (buildings vs. machinery) belong to different classes with different account determinations. There is at least one special class for <strong>assets under construction</strong> and one for <strong>low-value assets</strong>; classes for intangible and leased assets (with leasing functions) are also possible. Note the component split: technical asset management is Plant Maintenance (PM); financial assets are handled in Treasury (TR).</p>
+
+<h4>Depreciation areas and chart of depreciation</h4>
+<p>Assets must be valued differently for different purposes – commercial/book, tax, group (IFRS), cost accounting. Each view is a <strong>depreciation area</strong>; the areas needed for a country or economic region are grouped in a <strong>chart of depreciation</strong>. How an area reaches the G/L is set in Customizing:</p>
+<table><thead><tr><th>Posting option</th><th>Use</th></tr></thead><tbody>
+<tr><td>Posts in real time</td><td>Leading valuation and parallel valuation with the <strong>ledger approach</strong> – APC postings reach the ledger immediately</td></tr>
+<tr><td>Posts immediately (APC) / periodically</td><td>Parallel valuation with the <strong>accounts approach</strong></td></tr>
+<tr><td>No G/L posting</td><td>Statistical areas used only for asset reporting</td></tr>
+</tbody></table>
+<p>Depreciation itself is always posted <strong>periodically</strong> by the depreciation run, never in real time.</p>
+
+<h4>Subnumbers and group assets</h4>
+<ul>
+<li><strong>Asset subnumbers</strong> structure components of an asset (e.g. later additions). The main asset always has subnumber 0000; further subnumbers are assigned as desired.</li>
+<li><strong>Group assets</strong> have their own master record; several main assets are assigned to one group asset and depreciation is calculated at group level. Important in the US, rarely used in Europe.</li>
+</ul>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Asset → one company code; optional assignment to business area, profit center, segment and CO objects.</li>
+<li>Asset class = screen layout + number range + account determination; it assigns the asset number and connects the asset to the G/L.</li>
+<li>Depreciation areas represent valuation views and are bundled in a country-specific chart of depreciation; posting to G/L is real time (ledger approach), periodic (accounts approach) or none.</li>
+<li>Subnumber 0000 = main asset; group assets depreciate collectively.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> Create an asset master record for the new building in company code 1010 in the Buildings asset class with a 50-year useful life (<code>AS01</code> / Fiori Create Asset), review the depreciation areas defaulted from the class, and check the account determination link to the G/L reconciliation account.</div>
+
+<h3 class="lesson" id="s4f10-u6-l2">Lesson 2: Executing Asset Transactions</h3>
+<p class="lead">Post asset acquisitions in the different possible ways, understand transaction types and the technical clearing account for integrated acquisitions, and analyze asset values with the Asset Explorer and the Fiori asset apps.</p>
+
+<h4>Business example</h4>
+<p>The FI-AA team tests integrated and non-integrated acquisition postings; such postings can be entered both in the asset accounting department and in AP.</p>
+
+<h4>Transaction types</h4>
+<p>Asset postings use posting keys <strong>70 (debit)</strong> and <strong>75 (credit)</strong>, but each asset line additionally needs a <strong>transaction type</strong>. It classifies the business transaction and determines where the amount appears in the asset history sheet. Examples: external acquisition (100), acquisition from in-house production, credit memo, adjustment, retirement without revenue, depreciation and write-up.</p>
+
+<h4>Ways to post an acquisition</h4>
+<table><thead><tr><th>Variant</th><th>Offsetting entry</th><th>Typical transaction</th></tr></thead><tbody>
+<tr><td>Without vendor or PO (non-integrated)</td><td>G/L clearing account for asset acquisitions</td><td><code>ABZON</code></td></tr>
+<tr><td>With vendor, no PO (integrated with AP)</td><td>Vendor account – both sub-ledgers (asset and vendor) update their reconciliation accounts at once</td><td><code>F-90</code> / Fiori Post Acquisition (Integrated AP)</td></tr>
+<tr><td>With Materials Management</td><td>Purchase order → goods receipt → invoice receipt, account assignment category A</td><td><code>ME21N</code>, <code>MIGO</code>, <code>MIRO</code></td></tr>
+</tbody></table>
+
+<h4>Technical clearing account for integrated acquisitions (S/4HANA)</h4>
+<p>An integrated acquisition is split into an operational part and valuating parts:</p>
+<ol>
+<li><strong>Operational part</strong> (the vendor invoice): one document valid for all accounting principles – vendor against the <em>technical clearing account for integrated asset acquisitions</em>.</li>
+<li><strong>Valuating part</strong> (capitalization): one document <em>per accounting principle</em> – asset against the same technical clearing account.</li>
+</ol>
+<p>Result: the technical clearing account always balances to zero per accounting principle and account assignment object; to guarantee this, manual postings to it are blocked. This design is what allows the ledger approach to capitalize different amounts under different principles from one invoice.</p>
+
+<h4>Asset Explorer (<code>AW01N</code>) and app Asset Value</h4>
+<p>One-stop overview of an asset: all posted transactions, planned and posted depreciation per depreciation area, period and fiscal year, depreciation parameters, and the accounting documents behind each transaction. You can switch to another asset without leaving the screen. The Fiori app <em>Asset Value</em> shows the same information.</p>
+
+<h4>Fiori apps for asset management</h4>
+<table><thead><tr><th>App</th><th>What it offers</th></tr></thead><tbody>
+<tr><td>Display Asset Worklist</td><td>Personal worklist of asset masters filtered by company code, class and other attributes; focus on incomplete, in-process, capitalized or retired assets; shows the number of incomplete assets on the launchpad tile; navigation to change/display asset; download to Excel, e-mail link, save filtered list as tile</td></tr>
+<tr><td>Manage Fixed Asset</td><td>All data of one asset in one place: key characteristics (number, class, description, net book value), all parallel depreciation areas and their parameters, key figures by area (APC, accumulated depreciation, NBV, ordinary vs. special depreciation), a graphical life-cycle chart, year/area comparisons, time-dependent and time-independent assignments (cost center, supplier), attachments, notes, editing. Reached from the worklist or from reports (Asset History Sheet, Asset Balances, Depreciation Lists, Asset Transactions)</td></tr>
+</tbody></table>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Posting keys 70/75 plus a transaction type for every asset line; the transaction type positions the amount in the asset history sheet.</li>
+<li>Acquisitions: non-integrated (clearing account), integrated with vendor, or via MM purchase order.</li>
+<li>S/4HANA splits integrated acquisitions into an operational document and one valuating document per accounting principle via a zero-balance technical clearing account.</li>
+<li>Asset Explorer / Asset Value / Manage Fixed Asset show transactions, planned vs. posted depreciation and parameters per area.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> Post an integrated acquisition of the building with a vendor invoice (<code>F-90</code> / Post Acquisition Integrated AP) and a non-integrated acquisition with automatic offsetting entry (<code>ABZON</code>); create an asset under construction, post costs to it and settle it to the building; then review the asset in the Asset Explorer (<code>AW01N</code>) and in Manage Fixed Asset, checking planned depreciation per area.</div>
+
+<h3 class="lesson" id="s4f10-u6-l3">Lesson 3: Executing Asset Accounting Period-End Closing Activities</h3>
+<p class="lead">Describe the FI-AA closing tasks: fiscal year change, depreciation posting run, year-end closing program and the asset history sheet.</p>
+
+<h4>Business example</h4>
+<p>At month/year end the company posts depreciation and produces asset reports, including the asset history sheet.</p>
+
+<h4>Two kinds of closing work</h4>
+<p>As in AP/AR: <strong>legal requirements</strong> (government mandates) and <strong>technical/organizational tasks</strong> (preparatory steps).</p>
+
+<h4>Year change vs. year-end closing</h4>
+<table><thead><tr><th>Activity</th><th>What it does</th><th>When</th></tr></thead><tbody>
+<tr><td>Balance carry-forward (FI-GL)</td><td>Opens the new fiscal year in FI-AA so that assets can be posted in the new year (replaces the old AJRW fiscal year change)</td><td>December of the old year or early January</td></tr>
+<tr><td>Year-end closing program FI-AA (<code>AJAB</code>)</td><td>Checks that depreciation is completely posted and that asset masters are error-free and complete; if OK, sets the last closed fiscal year per depreciation area and blocks postings to the closed year</td><td>After the auditors finish and before the G/L is closed – typically in Q1</td></tr>
+</tbody></table>
+
+<h4>Depreciation posting run</h4>
+<p>Program <strong>FAA_DEPRECIATION_POST</strong> (<code>AFAB</code>, Fiori <em>Post Depreciation</em>) posts the value adjustments (depreciation) and interest to the G/L. It can be run for several company codes and accounting principles. Ordinary, special and unplanned depreciation are first calculated and kept as <strong>planned values</strong> in FI-AA; only the run makes them visible in the G/L accounts and financial statements. Depreciation can also be transferred to CO objects assigned in the asset master (cost center, internal order, WBS element) – usually the values of <strong>depreciation area 20 (cost accounting)</strong>.</p>
+
+<h4>Asset history sheet</h4>
+<p>The most important FI-AA closing report. Legally required in Germany, useful everywhere, it reconciles the development of asset values during the year. Its structure is country-specific and many versions can be defined. Each version groups values into:</p>
+<ul>
+<li>Book values at the beginning of the fiscal year</li>
+<li>Acquisitions</li>
+<li>Retirements</li>
+<li>Adjustment postings (transfers)</li>
+<li>Depreciation</li>
+<li>Book values at the end of the fiscal year</li>
+</ul>
+<p>The transaction type on each posting decides the column/row where it appears (Lesson 2).</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>The G/L balance carry-forward opens the new FI-AA year; the FI-AA year-end program (AJAB) closes the old one after checks.</li>
+<li>Depreciation exists as planned values until FAA_DEPRECIATION_POST posts it to G/L (and CO via area 20).</li>
+<li>Asset history sheet: opening values + acquisitions − retirements ± adjustments − depreciation = closing values.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> Run a test and update depreciation posting run for company code 1010 (<code>AFAB</code> / Post Depreciation), create an asset inventory list, and run the asset history sheet (<code>S_ALR_87011990</code> / Fiori Asset History Sheet) to trace the building's acquisition and depreciation.</div>
+<h2 class="unit" id="s4f10-u7">Unit 7: Bank Accounting</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Maintain bank master data and house bank accounts and understand the two ways of linking them to G/L accounts (balance sheet account 1:1 vs. bank reconciliation account n:1); then process the typical bank transactions – petty cash journal, incoming checks by check deposit list or lockbox, and electronic bank statements with post-processing.</div>
+
+<h3 class="lesson" id="s4f10-u7-l1">Lesson 1: Maintaining Bank Accounting Master Records</h3>
+<p class="lead">Distinguish banks in the bank directory from house banks, understand Bank Relationship Management, and know how house bank accounts are connected to the general ledger.</p>
+
+<h4>Business example</h4>
+<p>UNI-Bank has been taken over by Interbank and announces a name change, which must be recorded. A customer phones in new bank details, to be stored in the customer master.</p>
+
+<h4>Bank master data – app Manage Banks</h4>
+<p>The <em>Manage Banks</em> app (classic <code>FI01</code>–<code>FI03</code>) displays, creates and changes the banks used by the company, its customers and suppliers. A bank is identified by <strong>bank country + bank key</strong>; name and address are stored in the <strong>bank directory</strong>. When you enter bank details in a BP master record you only type country and key, and the directory supplies the rest. A bank that does not exist yet can be created in Manage Banks, or entered directly while maintaining the BP – it is then added to the directory automatically.</p>
+
+<h4>Bank Relationship Management (BRM)</h4>
+<p>Part of SAP S/4HANA Cash Management (full scope) or the basic Cash and Liquidity Management, depending on licence. Cash managers and bank accountants centrally manage bank accounts with:</p>
+<ul>
+<li>bank account master data and a table view of banks and accounts;</li>
+<li>workflows for opening, changing and closing bank accounts, and for periodic review – so subsidiaries no longer reconcile account changes manually and information is always harmonized.</li>
+</ul>
+<p>Views: the <strong>Bank Hierarchy</strong> (banks as organization BPs in role Bank TR0703, structured by bank groups), the <strong>Account List</strong> (sort, group, filter by column), and user-defined views based on bank account groups.</p>
+
+<h4>House banks and account IDs</h4>
+<p>A <strong>house bank</strong> is a bank at which the company code holds accounts. Each house bank gets a <strong>house bank ID</strong> and each account an <strong>account ID</strong> (up to four alphanumeric characters each). For payment processing every house bank account must be linked to a G/L account – in one of two ways:</p>
+<table><thead><tr><th>Approach</th><th>G/L account type</th><th>Relationship</th><th>Characteristics</th></tr></thead><tbody>
+<tr><td>Balance sheet account (classic)</td><td>Balance Sheet Account for the bank account and each bank clearing account</td><td>1:1 house bank account ↔ G/L account</td><td>House bank ID and account ID are entered in the G/L master; a new set of G/L accounts is usually needed for every new house bank account</td></tr>
+<tr><td>Bank reconciliation account (as of S/4HANA 2020)</td><td>Cash Account; subtype <strong>B</strong> = bank reconciliation account, subtype <strong>S</strong> = bank sub-account (clearing account, one per payment method), with the reconciliation account assigned in the sub-account master</td><td>n:1 house bank accounts → one set of G/L accounts</td><td>Reusable set of accounts; e.g. one set for all domestic banks and one for all foreign banks; fewer G/L accounts and less reconciliation effort between Cash Management and G/L</td></tr>
+</tbody></table>
+<p>Because the method is chosen per house bank account in its master data, both approaches can coexist; customers can migrate gradually without a big-bang conversion.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Banks are identified by country + bank key and stored in the bank directory; creating them in a BP adds them automatically.</li>
+<li>BRM centralizes bank account master data with approval workflows.</li>
+<li>House bank ID + account ID (4 chars) identify the company's own accounts; each must map to a G/L account.</li>
+<li>1:1 balance sheet account approach vs. n:1 bank reconciliation account approach (cash account subtypes B and S); both can run side by side.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> Rename UNI-Bank to Interbank in Manage Banks, create a new bank and find it in the bank directory list, enter the customer's new bank details in the BP master, and display a house bank account and its assigned G/L account (<code>FI12</code> / Manage Bank Accounts).</div>
+
+<h3 class="lesson" id="s4f10-u7-l2">Lesson 2: Managing Bank Accounting Transactions</h3>
+<p class="lead">Use the cash journal for petty cash, process incoming checks via check deposit list (Germany) or lockbox (USA), and import and post-process electronic bank statements.</p>
+
+<h4>Business example</h4>
+<p>Petty cash is tracked online in cash journals. Incoming checks are handled differently by country: company code 1010 (Germany) receives checks from customers and forwards them to the bank with a deposit list; company code 1710 (USA) uses the house bank's lockbox service and receives lockbox files.</p>
+
+<h4>Cash journal (<code>FBCJ</code>)</h4>
+<ul>
+<li>Identified by a four-character code; each journal is assigned to exactly one G/L account (the petty cash account).</li>
+<li>Transactions are stored in the journal and transferred to the G/L periodically (e.g. daily); the transferred entries can be printed as a journal and a receipt can be printed per transaction.</li>
+<li>Screen sections: data selection (period), balance display (receipts, payments, opening and closing balance), accounting transactions split into <em>cash payments</em>, <em>cash receipts</em> and <em>check receipts</em>.</li>
+<li>Business transaction types with pre-set offsetting account and tax code are defined in Customizing but can also be added from the application, e.g. "office supplies" as an expense posting against the office material account.</li>
+</ul>
+<table><thead><tr><th>Transaction type</th><th>Posting</th></tr></thead><tbody>
+<tr><td>Expense</td><td>Debit expense account, credit cash journal account</td></tr>
+<tr><td>Revenue</td><td>Debit cash journal account, credit revenue account</td></tr>
+<tr><td>Cash transfer to/from bank</td><td>Cash journal account against bank clearing account</td></tr>
+<tr><td>Customer / vendor payment</td><td>Cash journal account against customer/vendor – the open item is <strong>not</strong> cleared; clearing is a second step in AR/AP (Account Clearing)</td></tr>
+</tbody></table>
+<p>A cash payment credits the cash journal account; a receipt debits it. General rule: bank payments are never posted directly to the bank account but to <strong>bank clearing accounts</strong>, which are cleared when the bank statement is processed.</p>
+
+<h4>Incoming checks – two country procedures</h4>
+<table><thead><tr><th>Germany (1010)</th><th>USA (1710)</th></tr></thead><tbody>
+<tr><td>Transfers dominate, few checks. Customers send checks to accounting; paid items are cleared, checks are posted to an incoming checks account, checks plus a <strong>check deposit list</strong> go to the bank; the bank collects and the amount appears on the statement, clearing the incoming checks account.</td><td>Checks dominate. Customers send checks to the company's <strong>lockbox</strong> at the bank; the bank collects, records check and remittance data in a lockbox file (for a fee) and transmits it (data line, EDI); posting the file clears the paid items in AR and posts the amounts to the incoming checks bank account.</td></tr>
+</tbody></table>
+
+<h4>Depositing checks (<code>FF68</code>)</h4>
+<ol>
+<li>Enter the checks manually or with a check scanner.</li>
+<li>Display the list of checks to be deposited and correct it if needed.</li>
+<li>Print the deposit list and send it with the checks to the bank.</li>
+<li>Create the postings via two batch input sessions, or</li>
+<li>post directly using the post-processing transaction without a session.</li>
+</ol>
+<p>The two sessions:</p>
+<table><thead><tr><th>Session</th><th>Processed by</th><th>Posting</th></tr></thead><tbody>
+<tr><td>Bank posting session</td><td>Finance / cash management – should run first so cash management gets current data</td><td>Debit incoming checks account, credit check clearing account</td></tr>
+<tr><td>Sub-ledger session</td><td>Accounts receivable</td><td>Debit check clearing account, credit customer (clearing open items identified by document/delivery number on the list); payment differences may need manual handling</td></tr>
+</tbody></table>
+<p>Lockbox: if the system cannot identify an invoice from the lockbox data, the item is handled afterwards with the <strong>Post Processing</strong> function.</p>
+
+<h4>Electronic bank statement</h4>
+<p>On import, several programs read the statement, assign each item to a posting rule and look for clearing information. A clear match clears the customer open item and posts bank, bank sub-account and customer in one go. Items without a match become exceptions for post-processing. A customer transfer is posted in two steps:</p>
+<ol>
+<li><strong>Posting area 1</strong> (bank accounting): debit bank account, credit bank sub-account.</li>
+<li><strong>Posting area 2</strong> (sub-ledger): debit bank sub-account, credit customer – clearing the invoice.</li>
+</ol>
+<p>Fiori app <em>Reprocess Bank Statement Items</em>: reprocess an item, mark it reprocessed with a reason, add attachments, assign and clear payments on customer/supplier/G/L accounts, post payments, confirm company-initiated payments (checks, transfers), define own reprocessing rules and automate them to run during import.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Cash journal = 4-char code, one G/L account, periodic transfer; customer/vendor payments in it do not clear open items.</li>
+<li>Bank movements go through bank clearing (sub-)accounts and are cleared by the bank statement.</li>
+<li>Check deposit list creates a bank session and a sub-ledger session; process the bank session first.</li>
+<li>Lockbox = bank captures check data in a file; unmatched items are post-processed.</li>
+<li>Electronic bank statement: posting area 1 (bank/sub-account) and posting area 2 (sub-account/customer); exceptions handled in Reprocess Bank Statement Items.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> Post cash receipts, an expense payment and a customer payment in the cash journal of company code 1010 (<code>FBCJ</code>) and transfer them to the G/L; enter a manual check deposit (<code>FF68</code>), print the list and process both batch input sessions; import or enter a bank statement (<code>FF67</code>) for a customer transfer and post-process the unmatched item in Reprocess Bank Statement Items.</div>
+<h2 class="unit" id="s4f10-u8">Unit 8: Closing Operations in General Ledger Accounting</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand the sequence of G/L closing activities and how the Financial Closing Cockpit orchestrates them; post accruals and deferrals with S/4HANA Accruals Management; post to specific ledgers via ledger groups and extension ledgers; analyze and regroup the GR/IR clearing account; and know the embedded analytics and SAP Analytics Cloud options for financial reporting.</div>
+
+<h3 class="lesson" id="s4f10-u8-l1">Lesson 1: Performing General Ledger Closing Operations</h3>
+<p class="lead">Perform the general ledger closing after the sub-ledgers are closed: control the process with the Financial Closing Cockpit, post accrual/deferral documents, use ledger groups for ledger-specific postings, analyze the GR/IR account and run the financial statements and analytics.</p>
+
+<h4>Business example</h4>
+<p>Every company code must produce year-end financial statements according to its national rules. The company controls the closing with the Financial Closing Cockpit, closes the sub-ledgers (AP, AR, AA, Bank) first and then the G/L, in the order SAP recommends.</p>
+
+<h4>G/L closing sequence</h4>
+<ol>
+<li>Start of new year: <strong>balance carry-forward</strong> of G/L account balances.</li>
+<li>Block old posting periods, open the <strong>special periods</strong>.</li>
+<li><strong>Technical reconciliation</strong> of transaction figures vs. documents to prove there are no technical posting errors.</li>
+<li>Foreign currency valuation of G/L items (balances and open items).</li>
+<li>Post <strong>accrual/deferral documents</strong>.</li>
+<li>Analyze and regroup the <strong>GR/IR clearing account</strong>.</li>
+<li>Close the special periods.</li>
+<li>Documentation: <strong>balance audit trail</strong>, financial statements and additional legal reports.</li>
+</ol>
+
+<h4>SAP S/4HANA Financial Closing Cockpit (FCC)</h4>
+<p>A structured interface for executing the transactions and programs of a complex process such as the financial close, organized on organizational levels (typically controlling area / company code). Its capabilities fall into three groups:</p>
+<table><thead><tr><th>Area</th><th>Capabilities</th></tr></thead><tbody>
+<tr><td>Governance and compliance</td><td><strong>Closing templates</strong> as a global closing plan defined once per organizational level and reused as task lists for many closing cycles, with one or more processors per task, task dependencies and a relative schedule; <strong>reusable task groups</strong>; detailed authorizations (by transaction, template/task list, org unit/task, activity such as display/execute/schedule/assign); automatic and manual documentation; complete audit trail stored in the cockpit; templates maintained in development or production; normal tasks plus custom <em>internal control</em> tasks (e.g. checking the depreciation run spool for assets in error); audit support via downloadable task lists and audit trails</td></tr>
+<tr><td>Closing efficiency</td><td>Real-time execution of tasks in several back-end (remote) systems; scheduled batch execution with task-related triggers; automatic alerts by office or SAP mail; FCC as central collaboration hub; around 30 languages</td></tr>
+<tr><td>Transparency and insight</td><td>Real-time status at detail and aggregate level; comparison of planned vs. actual start/end/duration; Fiori closing dashboard; monitoring of workflows and automatic tasks; close analysis to find strengths and weaknesses; monitoring by subsidiaries and headquarters</td></tr>
+</tbody></table>
+
+<h4>Accruals and deferrals</h4>
+<p>Revenues and expenses posted in one period often belong economically to another and must be spread over the periods in which they are incurred. At year-end the IDES companies create accruals that are typically reversed at the start of the next month.</p>
+<table><thead><tr><th>Type</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Accrual</td><td>Expense/revenue belongs to the current period but the invoice has not yet been received/sent – it will be posted later</td></tr>
+<tr><td>Deferral</td><td>Expense/revenue has already been posted (invoice received/sent) but belongs wholly or partly to future periods</td></tr>
+</tbody></table>
+
+<h4>SAP S/4HANA Accruals Management (Accrual Engine)</h4>
+<p>Calculates, reviews and posts accruals automatically. Users work with the application components <strong>Manual Accruals</strong> (contract-like data) and <strong>Purchase Order Accruals</strong> (automatic calculation and posting of PO accruals, optionally with a monthly review/approval workflow) – never with the engine directly, "like driving a car without touching the engine". Optimized for S/4HANA:</p>
+<ul>
+<li>Fully integrated in the G/L: all G/L currencies, postings stored only as Universal Journal line items in ACDOCA, fiscal year variants of the ledgers supported, standard FI reversal (<code>FB08</code>, <code>F.80</code>) works.</li>
+<li>Complex postings with more than two lines via customer-defined posting schemas.</li>
+</ul>
+<p><strong>Deferral example (insurance invoice of EUR 120 at the start of the year):</strong></p>
+<ol>
+<li>Invoice posted in period 1: expense / vendor.</li>
+<li>Opening posting moves the full amount to the deferral account: prepayments and accrued income / expense.</li>
+<li>At each period-end a prorated share returns: expense / prepayments and accrued income (EUR 10 per month).</li>
+<li>If the contract ends early, the whole residual is expensed: expense / prepayments and accrued income.</li>
+</ol>
+<p><strong>Manual accruals process:</strong> (1) maintain time-dependent <em>basis data</em> – accrual objects holding everything needed for the postings; (2) start the periodic accrual run – the engine selects the objects, reads ACDOCA to see what has already been posted for each item, and posts the differences as regular FI documents.</p>
+
+<h4>Ledger groups and extension ledgers</h4>
+<p>By default a document updates all ledgers. The <strong>Ledger Group</strong> field on the posting (e.g. Fiori Post General Journal Entries, <code>FB50L</code>) restricts it to selected ledgers or one ledger – needed for valuation differences between IFRS and local GAAP. Additional ledgers are defined in Customizing; each ledger automatically gets a ledger group of its own, and ledgers with similar behaviour can be combined in further groups so that one document suffices.</p>
+<p>An <strong>extension ledger</strong> is a special parallel ledger that stores only <em>delta</em> values on top of an underlying (base) ledger; reporting on it always includes the base ledger data. Several extension ledgers may point to the same base ledger. Typical use: a management view that differs from the legal view (adjustments, reclassifications). Benefits:</p>
+<ul>
+<li>Small data footprint – only deltas are stored.</li>
+<li>Less reconciliation – only manual delta postings (standard journal entries) live in the extension ledger.</li>
+<li>Stored in the Universal Journal with the same reporting options as main ledgers.</li>
+<li>Own posting period variant – can be opened/closed independently of legal accounting.</li>
+</ul>
+
+<h4>GR/IR clearing account analysis</h4>
+<p>Each goods receipt and invoice receipt posts to the GR/IR account; when quantities and prices match, the items clear automatically. Items stay open when a GR or IR is missing, amounts differ, the PO used an outdated price, or delivery costs hit the wrong GR/IR account. The <strong>GR/IR reconciliation process</strong> is exception handling at PO-item level, supported by the apps <em>Reconcile GR/IR Accounts</em> and <em>Monitor GR/IR Account Reconciliation</em>, which help the G/L accountant, buyer and warehouse staff find root causes quickly and take the right steps.</p>
+<p>At period end the balance is normally not zero and must be shown correctly in the balance sheet:</p>
+<table><thead><tr><th>GR/IR balance</th><th>Meaning</th><th>Reclassified to</th></tr></thead><tbody>
+<tr><td>Debit (asset)</td><td>Invoiced but not yet delivered</td><td>Goods billed but not yet delivered</td></tr>
+<tr><td>Credit (liability)</td><td>Delivered but not yet invoiced</td><td>Goods delivered but not yet invoiced</td></tr>
+</tbody></table>
+<p>The regrouping program (<code>F.19</code>) posts these reclassifications via a <strong>correction (adjustment) account</strong> and reverses them on the first day of the next period, because they would distort daily figures. GR/IR account and correction account are sometimes shown only in the notes. Country rules differ – in the US, goods received but not invoiced must be recorded, whereas invoices without goods create no legal liability.</p>
+
+<h4>SAP S/4HANA embedded analytics</h4>
+<p>Analytics run on the same technical stack and UI as the transactions, inside the business process, lowering TCO and making users more efficient. The simplified data model (fewer tables, less redundancy) leaves room for longer history and eases building Virtual Data Models. Architecture: <strong>Core Data Services (CDS) views</strong> are developed in the ABAP layer and form the <strong>Virtual Data Model (VDM)</strong> on top of transactional and master data tables; the system generates SQL runtime views so that reading and transforming happens in the HANA database layer. Three user roles: the <strong>IT user</strong> (develops CDS views, apps, planning functions), the <strong>analytics key user</strong> (queries, predefined reports, KPIs, dashboard tiles) and the <strong>analytics end user</strong> (consumes and acts).</p>
+
+<h4>SAP Analytics Cloud (SAC)</h4>
+<ul>
+<li>Self-service BI on SAP HANA Cloud Platform combining business intelligence, planning and predictive functions in one SaaS product hosted and updated by SAP; can work independently of other SAP applications.</li>
+<li>Planning: financial and operating plans on one linked platform. Predictive: machine learning insights and modelling of future scenarios.</li>
+<li>Connectivity: with S/4HANA on-premise, SAC is opened in the browser and reaches company data via a reverse proxy (<strong>live connection</strong> – data stays on premise); non-HANA sources are replicated to the cloud.</li>
+<li>Delivered financial business content: stories and a <strong>Digital Boardroom</strong> built on S/4HANA live connectivity, reading CDS views whose KPIs are defined by semantic tags; shows the current and previous year in real time with KPIs grouped by Growth, Profitability and Liquidity – plug-in content usable out of the box.</li>
+</ul>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>G/L close: carry-forward → block periods/open special periods → technical reconciliation → FX valuation → accruals/deferrals → GR/IR regrouping → close special periods → audit trail and financial statements.</li>
+<li>FCC = templates, task groups, dependencies, authorizations, audit trail, remote execution, alerts, dashboard.</li>
+<li>Accrual = not yet invoiced; deferral = invoiced early; the Accrual Engine posts them as ACDOCA line items from basis data.</li>
+<li>Ledger groups restrict postings to specific ledgers; extension ledgers hold deltas on a base ledger with their own posting period variant.</li>
+<li>GR/IR: debit balance → goods billed not delivered (asset); credit balance → goods delivered not invoiced (liability); reversed next period.</li>
+<li>Embedded analytics via CDS/VDM; SAC adds planning, prediction and the Digital Boardroom.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> Open a closing task list in the Financial Closing Cockpit and execute tasks from it; post an accrual/deferral document (manual accrual object in Accruals Management or classic <code>FBS1</code> with reversal); enter a G/L document for a single ledger group (<code>FB50L</code> / Post General Journal Entries with ledger group); run the GR/IR analysis and regrouping (<code>F.19</code>) for company code 1010 and inspect the adjustment postings; finally run the balance sheet / P&amp;L with the financial statement version and explore the Fiori financial statement and trial balance apps.</div>
+
+  </div>
+</div>
+<script>document.querySelectorAll('#sidebar nav a').forEach(a=>a.addEventListener('click',()=>document.getElementById('sidebar').classList.remove('open')));</script>
+</body></html>

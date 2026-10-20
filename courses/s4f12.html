@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S4F12 – Basics of Customizing for Financial Accounting (S/4HANA)</title><style>
+:root{--sap-orange:#F0AB00;--sap-blue:#0070F2;--sap-dark:#1A2132;--sap-mid:#354A5E;--sap-light:#F5F6F7;--sap-border:#DEDEDE;--sap-text:#32363A;--sap-sub:#556B82;--card:#fff;--sidebar-w:300px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--sap-light:#11181F;--sap-border:#354A5E;--sap-text:#E5E7EA;--sap-sub:#A0B3C8;--card:#1A2132}}
+:root[data-theme="dark"]{--sap-light:#11181F;--sap-border:#354A5E;--sap-text:#E5E7EA;--sap-sub:#A0B3C8;--card:#1A2132}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"72",Arial,sans-serif;background:var(--sap-light);color:var(--sap-text);display:flex;min-height:100vh}
+#sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--sap-dark);color:#fff;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+#sidebar .logo{background:var(--sap-orange);padding:14px 18px;display:flex;gap:10px;align-items:center}
+#sidebar .logo .badge{background:#fff;color:var(--sap-orange);font-weight:900;padding:2px 8px;border-radius:3px}
+#sidebar .logo h1{font-size:13px;color:var(--sap-dark);line-height:1.3}
+#sidebar nav{padding:10px 0;flex:1}
+#sidebar nav a{display:block;padding:7px 18px;color:rgba(255,255,255,.82);text-decoration:none;font-size:12.5px;border-left:3px solid transparent}
+#sidebar nav a:hover{background:rgba(255,255,255,.08);color:#fff}
+#sidebar nav a.unit{font-weight:700;color:var(--sap-orange);margin-top:8px;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+#sidebar nav a.lesson{padding-left:30px}
+#sidebar .back{padding:12px 18px;font-size:12px;border-top:1px solid rgba(255,255,255,.1)}
+#sidebar .back a{color:var(--sap-orange)}
+#main{flex:1;min-width:0}
+#topbar{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--sap-border);padding:12px 28px;display:flex;align-items:center;gap:12px}
+#topbar h2{font-size:15px;font-weight:600;flex:1}
+#menu-toggle{display:none;background:none;border:0;cursor:pointer;width:28px}
+#menu-toggle span{display:block;height:3px;background:var(--sap-text);margin:5px 0;border-radius:2px}
+.badge-new{background:#E8FBEF;color:#1B8C3A;font-size:11px;padding:3px 8px;border-radius:10px;font-weight:700}
+.badge-ecc{background:#FFF8E1;color:#A05A00;font-size:11px;padding:3px 8px;border-radius:10px;font-weight:700}
+#content{padding:28px 36px;max-width:1100px}
+h2.unit{font-size:22px;color:var(--sap-dark);margin:40px 0 6px;padding-top:12px;border-top:3px solid var(--sap-orange)}
+:root[data-theme="dark"] h2.unit,:root:not([data-theme="light"]) h2.unit{color:var(--sap-text)}
+h2.unit:first-of-type{margin-top:0;border-top:0;padding-top:0}
+h3.lesson{font-size:17px;margin:28px 0 10px;color:var(--sap-blue)}
+h4{font-size:14px;margin:16px 0 6px}
+p,li{font-size:13.5px;line-height:1.65}
+ul,ol{margin:6px 0 12px 22px}
+p{margin:6px 0}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13px;background:var(--card)}
+th,td{border:1px solid var(--sap-border);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--sap-dark);color:#fff;font-weight:600}
+.box{padding:12px 16px;border-radius:6px;margin:14px 0;font-size:13px;line-height:1.6;background:var(--card);border-left:4px solid var(--sap-orange)}
+.box.key{border-left-color:var(--sap-blue)}
+.box strong{display:block;margin-bottom:4px}
+.lead{font-size:14px;color:var(--sap-sub);margin-bottom:18px}
+.unit-objectives{background:var(--card);border:1px solid var(--sap-border);border-radius:6px;padding:12px 16px;margin:10px 0 16px}
+code{background:rgba(0,0,0,.06);padding:1px 5px;border-radius:3px;font-size:12.5px}
+@media (max-width:900px){#sidebar{position:fixed;left:calc(-1*var(--sidebar-w));transition:left .2s;z-index:10}#sidebar.open{left:0}#menu-toggle{display:block}#content{padding:18px 16px}}
+</style></head>
+<body>
+<aside id="sidebar">
+  <div class="logo"><div class="badge">SAP</div><h1>S4F12 – Basics of Customizing for Financial Accounting (S/4HANA)</h1></div>
+  <nav><a class="unit" href="#s4f12-u1">Unit 1: SAP S/4HANA Overview</a><a class="lesson" href="#s4f12-u1-l1">Lesson 1: Getting an Overview of SAP S/4HANA</a><a class="lesson" href="#s4f12-u1-l2">Lesson 2: Introducing SAP Fiori</a><a class="unit" href="#s4f12-u2">Unit 2: Core Financial Accounting (FI) Configuration</a><a class="lesson" href="#s4f12-u2-l1">Lesson 1: Managing Organizational Units in Financial Accounting (FI)</a><a class="lesson" href="#s4f12-u2-l2">Lesson 2: Checking the Basic Settings in General Ledger (G/L) Accounting</a><a class="lesson" href="#s4f12-u2-l3">Lesson 3: Outlining the Variant Principle</a><a class="lesson" href="#s4f12-u2-l4">Lesson 4: Managing Fiscal Year Variants</a><a class="lesson" href="#s4f12-u2-l5">Lesson 5: Identifying the Basic Functionality of Currency Keys and Exchange Rate Types</a><a class="lesson" href="#s4f12-u2-l6">Lesson 6: Managing Currency Types</a><a class="lesson" href="#s4f12-u2-l7">Lesson 7: Common Practices for Implementing SAP S/4HANA</a><a class="unit" href="#s4f12-u3">Unit 3: Master Data</a><a class="lesson" href="#s4f12-u3-l1">Lesson 1: Maintaining General Ledger (G/L) Accounts</a><a class="lesson" href="#s4f12-u3-l2">Lesson 2: Creating Profit Centers and Segments</a><a class="lesson" href="#s4f12-u3-l3">Lesson 3: Managing Business Partners</a><a class="unit" href="#s4f12-u4">Unit 4: Document Control</a><a class="lesson" href="#s4f12-u4-l1">Lesson 1: Configuring the Header and Line Items of Financial Accounting (FI) Documents</a><a class="lesson" href="#s4f12-u4-l2">Lesson 2: Managing Posting Periods</a><a class="lesson" href="#s4f12-u4-l3">Lesson 3: Managing Posting Authorizations</a><a class="lesson" href="#s4f12-u4-l4">Lesson 4: Creating Simple Documents in FI</a><a class="unit" href="#s4f12-u5">Unit 5: Posting Control</a><a class="lesson" href="#s4f12-u5-l1">Lesson 1: Analyzing Document Splitting</a><a class="lesson" href="#s4f12-u5-l2">Lesson 2: Maintaining Default Values</a><a class="lesson" href="#s4f12-u5-l3">Lesson 3: Configuring Change Control</a><a class="lesson" href="#s4f12-u5-l4">Lesson 4: Configuring Document Reversal</a><a class="lesson" href="#s4f12-u5-l5">Lesson 5: Configuring Payment Terms and Cash Discounts</a><a class="lesson" href="#s4f12-u5-l6">Lesson 6: Maintaining Taxes and Tax Codes</a><a class="lesson" href="#s4f12-u5-l7">Lesson 7: Posting Cross-Company Code Transactions</a><a class="unit" href="#s4f12-u6">Unit 6: Financial Document Clearing</a><a class="lesson" href="#s4f12-u6-l1">Lesson 1: Performing Open Item Clearing</a><a class="lesson" href="#s4f12-u6-l2">Lesson 2: Managing Payment Differences</a><a class="lesson" href="#s4f12-u6-l3">Lesson 3: Managing Exchange Rate Differences</a></nav>
+  <div class="back"><a href="../index.html">&larr; Back to SAP FI Reference</a></div>
+</aside>
+<div id="main">
+  <div id="topbar"><button id="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')"><span></span><span></span><span></span></button><h2>S4F12 – Basics of Customizing for Financial Accounting (S/4HANA)</h2><span class="badge-new">S/4HANA</span></div>
+  <div id="content">
+  <p class="lead">Unit-by-unit study notes written from the course material. Every lesson of the course is covered in the same order as the original.</p>
+<h2 class="unit" id="s4f12-u1">Unit 1: SAP S/4HANA Overview</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand why SAP S/4HANA exists (the hardware and data-model changes that made it possible), where it sits in SAP's Intelligent Enterprise portfolio, how it can be deployed, and how the SAP Fiori user experience and launchpad work as the entry point to the system.</div>
+
+<h3 class="lesson" id="s4f12-u1-l1">Lesson 1: Getting an Overview of SAP S/4HANA</h3>
+<p class="lead">Explain the technology trends behind SAP HANA and SAP S/4HANA, position S/4HANA inside the Intelligent Enterprise, and compare the cloud and on-premise deployment options.</p>
+
+<h4>Learning journeys</h4>
+<p>The lesson opens with the SAP S/4HANA Finance learning journey: a visual roadmap of courses that leads to a certification for a given solution. S4F12 is one stop on the Financial Accounting path. Learning journeys are found by searching the web for "SAP Learning Journeys".</p>
+
+<h4>The connected digital world</h4>
+<p>Business challenges are driven by a digital, networked world. The course cites several trend figures to make the point: most of the world's data was generated in the last two years, business-network adoption is growing quickly, hundreds of billions of devices will be internet-connected, billions of mobile users exist, and more than half of workloads already run in the cloud. The message: companies need software that can process huge data volumes in real time, on any device, and in the cloud.</p>
+
+<h4>Advances in hardware that enabled SAP HANA</h4>
+<ul>
+<li><strong>Cheap, abundant memory</strong> – an entire enterprise database can now sit fully in main memory. Disk (and even SSD) latency disappears because the CPU reads directly from RAM. 64-bit operating systems are needed to address that much memory.</li>
+<li><strong>Fast multi-core CPUs</strong> – complex tasks are split and processed in parallel, so even predictive analytics can run in real time.</li>
+<li><strong>Horizontal scaling</strong> – additional servers can be added to the landscape for more memory or compute.</li>
+<li><strong>Software rewritten for the hardware</strong> – SAP rewrote its business applications together with hardware partners (who shared CPU blueprints) to exploit this architecture.</li>
+<li><strong>Mature cloud computing</strong> – virtualisation lowers running costs, and subscription-based public cloud gives every customer access to the latest release without installing and maintaining a landscape.</li>
+</ul>
+
+<h4>OLTP and OLAP reunited (HTAP)</h4>
+<p>Traditionally, transactional systems (OLTP) are built for fast record-level read/write, while analytical systems (OLAP) are built for batch loads, aggregated storage and read-heavy queries. Data was therefore copied from one to the other through interfaces, producing multiple copies, latency, and inconsistent views (often analysis could only start the next day). SAP HANA handles both workloads on one platform – Hybrid Transaction/Analytical Processing (HTAP). There is one copy of the data, no data movement, live data for every application, less integration complexity, and the ability to build new applications that mix transactions and analytics – which is exactly what SAP S/4HANA does.</p>
+
+<h4>SAP S/4HANA as the intelligent core</h4>
+<p>SAP's view is that best-run businesses are "intelligent enterprises" applying advanced technologies within agile, integrated processes. The Intelligent Enterprise is described through four core components and then a set of portfolio elements:</p>
+<table><thead><tr><th>Component</th><th>Focus</th><th>Example / note</th></tr></thead><tbody>
+<tr><td>Business Collaboration</td><td>Connecting with internal and external partners across locations and landscapes</td><td>Ariba Network to find and work with suppliers</td></tr>
+<tr><td>Business Process</td><td>End-to-end scenarios with integration as top priority</td><td>This course covers the financial part of the processes</td></tr>
+<tr><td>Business Applications</td><td>Solutions that record the data</td><td>SAP S/4HANA – the focus of this course</td></tr>
+<tr><td>Business Technology</td><td>Technical infrastructure and information management that add "intelligence"</td><td>Business Technology Platform</td></tr>
+</tbody></table>
+<table><thead><tr><th>Portfolio element</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Business network</td><td>Digitalise cross-company processes (procurement, travel, contingent workforce)</td></tr>
+<tr><td>Experience management</td><td>Measure and act on customer, partner and employee sentiment</td></tr>
+<tr><td>Intelligent suite</td><td>Run integrated processes across employees, customers, products, spend, finance, IT; embedded analytics for a 360° view</td></tr>
+<tr><td>Industry cloud</td><td>Vertical solutions from SAP and partners that extend standard processes</td></tr>
+<tr><td>Sustainability management</td><td>Understand and manage environmental impact; "Climate 21" initiative for greenhouse-gas management</td></tr>
+<tr><td>Business Technology Platform</td><td>Data management, analytics, application development, integration, AI/ML/IoT</td></tr>
+</tbody></table>
+
+<h4>Universal Journal and continuous accounting</h4>
+<p>In S/4HANA the <strong>Universal Journal</strong> (table <code>ACDOCA</code>) is the single source of truth for Finance. Every posting writes line items into this one table, which combines the data previously held in separate FI, CO, Asset Accounting and Material Ledger structures. Many redundant tables (totals, index tables) were removed, shrinking the data footprint and simplifying application design and extensibility. This is what enables "continuous accounting" – reporting on live data without period-end data transfers.</p>
+
+<h4>Deployment options</h4>
+<p>S/4HANA keeps the same data model, user experience and code line whether deployed on premise or in the cloud, so a customer can use any combination. Dimensions to consider when choosing:</p>
+<table><thead><tr><th>Dimension</th><th>What to think about</th></tr></thead><tbody>
+<tr><td>IT strategy</td><td>Many customers go "cloud first"; check whether the standard best-practice scope of S/4HANA Cloud covers the business, or whether extensions (e.g., single-tenant edition co-deployment) are needed</td></tr>
+<tr><td>Innovation cycles</td><td>S/4HANA Cloud: quarterly updates; single-tenant edition: two upgrades per year; on-premise: one annual upgrade</td></tr>
+<tr><td>Business functionality</td><td>Scope differs by deployment, affecting licensing choices</td></tr>
+<tr><td>Deployment time</td><td>Cloud is faster because no infrastructure must be bought and maintained</td></tr>
+<tr><td>Regulatory / industry / regional</td><td>Some requirements rule out cloud; subsidiaries with different needs can mix cloud and on-premise in a two-tier strategy</td></tr>
+</tbody></table>
+<p>The deployment spectrum runs from SaaS public cloud, through private cloud on hyperscalers, to on premise ("any premise"). <strong>Cloud</strong> maximises agility: standardised best-practice processes, innovation up to four times a year, fast time to value, lower TCO. <strong>Any premise</strong> (own data centre or IaaS) maximises specialisation: full control to customise and extend.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>In-memory storage, 64-bit addressing and multi-core CPUs removed the disk bottleneck; SAP rewrote its applications to exploit this.</li>
+<li>SAP HANA is an HTAP platform: OLTP and OLAP on one copy of the data, no latency, no data movement.</li>
+<li>S/4HANA is the "intelligent core" of the Intelligent Enterprise; Finance runs on the Universal Journal (<code>ACDOCA</code>).</li>
+<li>Deployment choice (public cloud, private cloud, on premise) is driven by IT strategy, innovation cadence, functional scope, speed and regulation – with one consistent code line.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f12-u1-l2">Lesson 2: Introducing SAP Fiori</h3>
+<p class="lead">Describe the SAP Fiori user-experience principles, the three app types, and the SAP Fiori launchpad features including personalisation and spaces/pages.</p>
+
+<h4>Scenario</h4>
+<p>The business wants users to work with SAP applications on any device without compromise, with a solution that integrates into the existing landscape and can be extended. The lesson checks whether SAP Fiori meets these requirements.</p>
+
+<h4>The five Fiori design principles</h4>
+<table><thead><tr><th>Principle</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Role-based</td><td>Users see only the apps needed for their tasks; each app is built around one task</td></tr>
+<tr><td>Responsive</td><td>The UI adapts to the screen size and device</td></tr>
+<tr><td>Simple</td><td>One user, one use case, no more than three screens per app</td></tr>
+<tr><td>Coherent</td><td>All apps share the same structure and "language" and run in different landscapes</td></tr>
+<tr><td>Instant value</td><td>Low adoption barrier for both IT and end users</td></tr>
+</tbody></table>
+
+<h4>What SAP Fiori delivers</h4>
+<p>The <strong>SAP Fiori launchpad</strong> is the single entry point: apps are reached via tiles, links or search. Fiori brings a harmonised look and feel across all SAP products, embedded intelligent guidance (machine learning, dynamic home pages, a digital assistant) and cross-product / cross-device integration with notifications. The course describes a pyramid of usage:</p>
+<ol>
+<li><strong>Overview</strong> – Overview Pages, List Reports and Work Lists show what needs attention; notifications alert on urgent items.</li>
+<li><strong>Quick actions and drill-down</strong> – e.g., extend a contract or change a delivery date, or ask the SAP CoPilot digital assistant for ad-hoc help in context.</li>
+<li><strong>Details</strong> – Object Pages for the full view of a business object, or editing frequently changed fields (amount, date, items) in a sales order.</li>
+</ol>
+<p>Fiori also marks the move from monolithic transactions to activity-based apps that simplify processes by role and empower users.</p>
+
+<h4>Three types of Fiori apps</h4>
+<table><thead><tr><th>App type</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Transactional apps</td><td>Task-based create / change / display of documents and master records, or guided processes</td></tr>
+<tr><td>Analytical apps</td><td>"Insight to action" – visual overview of complex topics for monitoring and tracking</td></tr>
+<tr><td>Fact sheets</td><td>Search and explore: a 360° view of an object with navigation to related objects</td></tr>
+</tbody></table>
+
+<h4>Launchpad features and personalisation</h4>
+<ul>
+<li>Themes and branding; stable URLs that can be bookmarked and shared; browser-based so it works across devices.</li>
+<li><strong>Active (dynamic) tiles</strong> show live figures on the home page without opening the app.</li>
+<li>Users can add apps from the catalogs assigned to them, remove apps they do not need, and save filtered report variants as their own tiles. Example: a group cash manager focused on Germany creates a tile that jumps straight to the German cash position.</li>
+</ul>
+
+<h4>Spaces and pages</h4>
+<p>"Spaces mode" gives administrators finer control over layout for user groups. A <strong>business role</strong> is assigned <strong>spaces</strong>; each space contains <strong>pages</strong>; pages are organised into <strong>sections</strong> that define the order of apps (e.g., most-used apps at the top, related apps grouped together). SAP delivers predefined spaces and pages as a starting point.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Fiori = role-based, responsive, simple, coherent, instant value.</li>
+<li>Three app types: transactional, analytical, fact sheet.</li>
+<li>The launchpad is the single entry point; users personalise tiles, and admins shape layouts via business roles → spaces → pages → sections.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> Unit 1 has no hands-on exercise. The learning assessment asks which deployment receives updates automatically (cloud), which dimensions drive the deployment decision, the three Fiori app types, and confirms that users can personalise the launchpad.</div>
+<h2 class="unit" id="s4f12-u2">Unit 2: Core Financial Accounting (FI) Configuration</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Set up the organisational backbone of Financial Accounting – company codes and the optional units around them, the ledger structure, the variant principle, fiscal year variants, currency keys, exchange rates and currency types – and understand the configuration choices typically made in a greenfield S/4HANA implementation.</div>
+
+<h3 class="lesson" id="s4f12-u2-l1">Lesson 1: Managing Organizational Units in Financial Accounting (FI)</h3>
+<p class="lead">Create a company code, understand the other FI organisational units and when they are needed, and check the company code / controlling area assignment.</p>
+
+<h4>Business example</h4>
+<p>A medium-sized client is a single legal entity and needs a new company code created and assigned. To do this well you must understand company codes, the optional organisational units, and controlling areas.</p>
+
+<h4>Client and company code</h4>
+<ul>
+<li><strong>Client</strong> – the top of the hierarchy, a self-contained unit with its own master data, tables and data. In business terms it is the corporate group. Data entered at client level (e.g. exchange rates) is valid for every organisational unit below and does not have to be repeated. To log on via SAP GUI a user needs a client key and a user master record in that client.</li>
+<li><strong>Company code</strong> – an independent legal accounting entity with its own set of accounts; legally required financial statements are produced at this level. It is the minimum structure required for FI and the most important FI organisational unit. International groups normally create one company code per country because each tax authority wants a separate legal entity. Rule of thumb: every organisation that produces its own balance sheet and P&amp;L becomes a company code.</li>
+</ul>
+
+<h4>Creating a company code</h4>
+<ol>
+<li>Use the <em>Copy, delete, check company code</em> function to copy an existing company code. The copy carries over the definition, global parameters, Customizing tables, G/L accounts (optional) and account determination.</li>
+<li>Adjust the copied data with <em>Edit Company Code Data</em>.</li>
+</ol>
+<table><thead><tr><th>Data group</th><th>Fields</th></tr></thead><tbody>
+<tr><td>Definition</td><td>Four-character alphanumeric key, company name, city, country, currency, language, address</td></tr>
+<tr><td>Global parameters</td><td>Chart of accounts, fiscal year (variant), company code defaults</td></tr>
+</tbody></table>
+<p>Meaning of the main definition fields:</p>
+<ul>
+<li><strong>Address</strong> – used in correspondence and printed on reports.</li>
+<li><strong>Currency</strong> – the <em>local</em> (company code) currency; accounts are managed in it and every other currency is "foreign" and is converted into it.</li>
+<li><strong>Language key</strong> – lets the system print texts (e.g. cheques) in the right language.</li>
+<li><strong>Country key</strong> – defines the home country; other countries are foreign, which matters for payment forms and address formats.</li>
+</ul>
+<p><strong>Country templates:</strong> when a company code is needed for another country, look for a prepared SAP Best Practice company code for that country and copy it, or copy the company code from your own corporate template and then adjust the country-specific settings.</p>
+
+<h4>Optional organisational units in FI</h4>
+<p>Whether to use them depends on two questions: for which areas/segments is separate reporting required, and for which responsibility areas must a separate balance sheet or P&amp;L be produced?</p>
+<table><thead><tr><th>Unit</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Profit center</td><td>Measures the success of an area responsible for costs and revenues. P&amp;L only (document splitting off) or full balance sheet (document splitting on)</td></tr>
+<tr><td>Segment</td><td>Division of a company for external segment reporting required by US GAAP (SFAS 131) and IFRS 8</td></tr>
+<tr><td>Company</td><td>Consolidation unit; one or more company codes are assigned to it. Company IDs (e.g. 1000, 2000) identify subsidiaries group-wide and show relationships within the group</td></tr>
+<tr><td>Functional area</td><td>Classifies overhead costs by function for cost-of-sales accounting</td></tr>
+<tr><td>Business area</td><td>Cross-company-code area of operation (e.g. training, consulting, software) that can produce its own financial statements for internal or external use</td></tr>
+</tbody></table>
+<p>Guiding questions when picking organisational objects: What is the main accounting principle? Which principles are used internally and externally? Is the P&amp;L structured by nature of expense (period accounting) or cost of sales? Is segment reporting mandatory? Is a consolidated statement required?</p>
+
+<h4>Recommended procedure per reporting requirement</h4>
+<table><thead><tr><th>Requirement</th><th>Recommended</th><th>Known alternative</th></tr></thead><tbody>
+<tr><td>Period accounting</td><td>Cost/revenue types (accounts)</td><td>–</td></tr>
+<tr><td>Cost-of-sales accounting</td><td>Functional areas</td><td>Separate accounts (not recommended)</td></tr>
+<tr><td>Segment reporting</td><td>Segments derived from profit centers</td><td>Profit centers, business areas, profitability analysis</td></tr>
+<tr><td>Preparation for consolidation</td><td>Companies / trading partners</td><td>Separate accounts (not recommended)</td></tr>
+<tr><td>Parallel accounting</td><td>Ledger approach or accounts approach</td><td>Special Purpose Ledger (FI-SL); separate company codes (not recommended)</td></tr>
+</tbody></table>
+<p>Complete financial statements by profit center or segment require <strong>document splitting</strong> to be active.</p>
+
+<h4>Company code and controlling area</h4>
+<p>The controlling area is the central CO organisational unit – a closed system in which costs and revenues are managed and allocated. Several company codes can share one controlling area (cross-company-code cost accounting) only if they all use the same <strong>operating chart of accounts</strong> and the <strong>same fiscal year variant</strong>.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Client = corporate group; company code = legal entity with its own statements; the company code is mandatory, everything else in FI is optional.</li>
+<li>Create company codes by copying (definition, global parameters, Customizing, optionally accounts) and then editing.</li>
+<li>Profit centers and segments give internal/external segment reporting; companies prepare for consolidation; functional areas support cost-of-sales accounting; business areas are an older cross-company-code option.</li>
+<li>Cross-company-code controlling needs a common operating chart of accounts and fiscal year variant.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f12-u2-l2">Lesson 2: Checking the Basic Settings in General Ledger (G/L) Accounting</h3>
+<p class="lead">Understand leading, non-leading and extension ledgers, ledger groups, and compare the ledger approach with the accounts approach for parallel accounting.</p>
+
+<h4>Why</h4>
+<p>G/L Accounting must be configured so the company can meet all reporting requirements, e.g. IFRS segment reporting by profit center, business line or geography, and parallel valuation under several accounting principles.</p>
+
+<h4>Standard ledgers: leading and non-leading</h4>
+<ul>
+<li>The <strong>leading ledger 0L</strong> is delivered by SAP. Each client has exactly one; every company code is assigned to it automatically and it cannot be deactivated. It represents the group valuation view (the accounting principle of the consolidated statements), is integrated with all sub-ledgers, and in the standard system is the only ledger whose values flow to Controlling.</li>
+<li><strong>Non-leading ledgers</strong> run in parallel and are activated manually per company code, typically for a local accounting principle (one non-leading ledger per local GAAP). Their fiscal year variant may differ from the leading ledger's.</li>
+<li>Both are <em>standard ledgers</em>: each holds a complete set of journal entries for all transactions. A normal FI document is posted to the leading ledger and all non-leading ledgers assigned to the company code.</li>
+</ul>
+
+<h4>Ledger groups</h4>
+<p>Ledger groups let you post adjustments to only one or a selection of ledgers (needed for parallel accounting). Any number of ledgers can be combined; when a ledger is created the system automatically creates a ledger group with the same name; you only need extra groups where several ledgers should be processed together; if no ledger group is entered the system posts to all ledgers.</p>
+
+<h4>Extension ledgers</h4>
+<p>An extension ledger sits on top of a standard ledger and stores only <strong>delta</strong> postings. Reporting on the extension ledger always includes the underlying standard ledger's data, while postings made to the extension ledger are not visible in the underlying ledger. Only manual postings are allowed, no configuration beyond the master record is needed, and ledgers can be "stapled" to build different views (e.g. management view on top of IFRS or local GAAP data) with a minimal data footprint.</p>
+
+<h4>Accounts approach versus ledger approach</h4>
+<p>In the accounts approach each valuation is posted to different G/L accounts and the financial statement version decides which accounts belong to which view.</p>
+<table><thead><tr><th>Accounts approach</th><th>Ledger approach</th></tr></thead><tbody>
+<tr><td>Separate accounts per GAAP – complex chart of accounts</td><td>No extra accounts – chart of accounts unchanged</td></tr>
+<tr><td>At least one retained-earnings account per GAAP</td><td>One retained-earnings account for all GAAPs</td></tr>
+<tr><td>Complex balance sheet / P&amp;L versions</td><td>Standard financial statement version</td></tr>
+<tr><td>GAAP relevance decided at account level</td><td>GAAP relevance decided at document level</td></tr>
+<tr><td>All valuations can flow to CO</td><td>Only the leading valuation flows to CO</td></tr>
+</tbody></table>
+<p>For new (greenfield) systems SAP strongly recommends the ledger approach.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>0L is the single, mandatory leading ledger; non-leading ledgers are activated per company code for local GAAP.</li>
+<li>Ledger groups steer postings to selected ledgers; omitting the group posts everywhere.</li>
+<li>Extension ledgers store deltas on a standard ledger for flexible, low-footprint views.</li>
+<li>Ledger approach beats accounts approach for parallel accounting in greenfield projects.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f12-u2-l3">Lesson 3: Outlining the Variant Principle</h3>
+<p class="lead">Explain the three-step variant principle that recurs throughout FI Customizing.</p>
+<p>Variants make it easy to maintain properties that many objects share: define the properties once and attach them to many objects. The method always has three steps:</p>
+<ol>
+<li>Define the variant (give it a key).</li>
+<li>Define the values/properties of the variant.</li>
+<li>Assign the variant to the objects that should use it (e.g. company codes).</li>
+</ol>
+<p>The course points to three places where FI uses it: <strong>field status</strong> variants, <strong>posting period</strong> variants and <strong>fiscal year</strong> variants.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Variant principle = define → set values → assign.</li>
+<li>Used for field status, posting periods and fiscal years; one variant can serve many company codes.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f12-u2-l4">Lesson 4: Managing Fiscal Year Variants</h3>
+<p class="lead">Define fiscal year variants (calendar, non-calendar, year-specific, shortened) and assign them to company codes.</p>
+
+<h4>Business example</h4>
+<p>The company's fiscal year equals the calendar year, and the accounting manager wants four special periods for year-end closing postings.</p>
+
+<h4>Fiscal year and periods</h4>
+<ul>
+<li>A fiscal year is defined as a variant and assigned to the company code. It holds the posting periods and the special periods – at most 16 in total (e.g. 12 + 4).</li>
+<li>Special periods are not time periods; they are used for year-end closing postings. The system derives the period from the posting date; if the date falls in the last normal period, the user may instead choose one of the special periods (13–16 in the example).</li>
+<li>Standard variants are delivered and can be used as templates.</li>
+<li>Important: the fiscal year variant says nothing about whether a period is open or closed – that is controlled by the posting period variant. It only defines the number of periods and their start/end dates.</li>
+</ul>
+
+<h4>Types of fiscal year variant</h4>
+<table><thead><tr><th>Type</th><th>Characteristics</th></tr></thead><tbody>
+<tr><td>Year-independent, calendar year</td><td>Same every year; periods = calendar months, so exactly 12 posting periods</td></tr>
+<tr><td>Year-independent, non-calendar year</td><td>Same every year; 1–16 periods defined by their end dates. Periods belonging to the previous or next fiscal year carry a year shift of −1 or +1 (course example: April–March year with six periods; January–March get −1). If periods are months, set the February day limit to 29 to cover leap years</td></tr>
+<tr><td>Year-specific</td><td>Period dates differ between years, and/or the number of periods differs. If every year has the same number of periods only the dates need to be maintained per year</td></tr>
+<tr><td>Shortened fiscal year</td><td>A year-specific case with fewer periods than usual – needed when closing must happen early (change of fiscal year start, sale of the company). Define the shortened year and its number of periods before entering the period dates; only fewer periods may be assigned</td></tr>
+</tbody></table>
+<p>Most fiscal year variants in practice are year-independent.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Up to 16 periods: normal posting periods plus special periods for closing.</li>
+<li>Non-calendar years use end dates and −1/+1 year shifts; use day 29 for February.</li>
+<li>Year-specific variants are for changing dates or shortened years.</li>
+<li>Open/closed status lives in the posting period variant, not the fiscal year variant.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f12-u2-l5">Lesson 5: Identifying the Basic Functionality of Currency Keys and Exchange Rate Types</h3>
+<p class="lead">Understand currency keys, exchange rate types, translation ratios, direct/indirect quotation and the tools for keeping exchange rates up to date.</p>
+
+<h4>Business example</h4>
+<p>The company trades with customers and vendors in many countries. The head accountant fears that maintaining exchange rates will be a lot of work; you must show how the S/4HANA tools reduce that effort.</p>
+
+<h4>Currency keys and exchange rate types</h4>
+<ul>
+<li>Every currency must have a <strong>currency key</strong>; most currencies are delivered with their ISO keys. Each key can have a validity date.</li>
+<li><strong>Exchange rate types</strong> exist for different purposes – valuation, conversion, translation, planning. Rates are maintained per exchange rate type and currency pair.</li>
+<li><strong>Translation ratios</strong> define the relationship between two currencies per exchange rate type (e.g. 1:1 or 1:100) and are usually maintained once; because inflation can change the ratios they are time-dependent.</li>
+</ul>
+
+<h4>Exchange rate maintenance tools</h4>
+<p>Maintaining rates is an ongoing task. Options:</p>
+<table><thead><tr><th>Tool</th><th>Use</th></tr></thead><tbody>
+<tr><td>Report <code>RFTBFF00</code></td><td>Uploads market data from a file in MultiCash format to fill the exchange rate table</td></tr>
+<tr><td>Reports <code>RFTBDF07</code> / <code>RFTBDF14</code></td><td>Transfer rates from an external data feed, in real time if the provider supports it, via RFC</td></tr>
+<tr><td>Fiori app <em>Currency Exchange Rate</em></td><td>Newest option: monitor, create and change rates</td></tr>
+<tr><td>Worklists + <code>TCURMNT</code></td><td>Define worklists of currency pairs and maintain them in one transaction</td></tr>
+</tbody></table>
+
+<h4>Direct versus indirect quotation</h4>
+<ul>
+<li><strong>Direct</strong>: one unit of foreign currency expressed in local currency – e.g. local EUR, USD 1 = EUR 0.8832.</li>
+<li><strong>Indirect</strong>: one unit of local currency expressed in foreign currency – e.g. EUR 1 = USD 1.1319.</li>
+</ul>
+<p>Quotation type is a cross-application, cross-country setting; the market standard or the transaction decides which is used. Per currency pair you set one quotation as the standard; a rate entered in the other quotation is highlighted. Prefixes distinguish the two when entering and displaying rates: blank for direct and "/" for indirect by default.</p>
+<table><thead><tr><th>Scenario</th><th>Prefix set-up</th></tr></thead><tbody>
+<tr><td>Direct quotation mostly used (standard)</td><td>Direct rates entered without prefix, indirect with "/"</td></tr>
+<tr><td>Both used equally</td><td>Define a prefix for both, e.g. "*" direct and "/" indirect; a rate without prefix is rejected, forcing users to think about quotation</td></tr>
+<tr><td>Indirect mostly used</td><td>"*" for direct, blank for indirect – the frequent indirect rates need no prefix</td></tr>
+</tbody></table>
+<p>SAP Note 783877 collects FAQs on currency translation.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Currency key + exchange rate type + currency pair + translation ratio = the basis for every conversion.</li>
+<li>Rates can be loaded automatically (<code>RFTBFF00</code>, data feeds) or maintained via worklists/<code>TCURMNT</code> or the Fiori app.</li>
+<li>Direct = price of 1 foreign unit in local currency; indirect = price of 1 local unit in foreign currency; prefixes make the quotation explicit.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f12-u2-l6">Lesson 6: Managing Currency Types</h3>
+<p class="lead">Know the standard currency types and how parallel currencies are assigned per ledger and company code.</p>
+<p>Each ledger must carry at least one currency: the <strong>company code (local) currency</strong>, needed for legal reporting. The <strong>document (transaction) currency</strong> is always recorded exactly as entered. Since S/4HANA 1610 the Universal Journal can hold many additional parallel currencies per ledger and company code, which is useful for internal reporting – for instance to strip out uncontrollable currency fluctuations and show true performance. You choose which types to update (00 and 10 are always there) and may define your own types if the standard ones do not fit.</p>
+<table><thead><tr><th>Currency type</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>00</td><td>Document currency</td></tr>
+<tr><td>10</td><td>Company code currency</td></tr>
+<tr><td>20</td><td>Controlling area currency</td></tr>
+<tr><td>30</td><td>Group currency</td></tr>
+<tr><td>40</td><td>Hard currency</td></tr>
+<tr><td>50</td><td>Index-based currency</td></tr>
+<tr><td>60</td><td>Global company currency</td></tr>
+<tr><td>70</td><td>CO object currency</td></tr>
+</tbody></table>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Types 00 and 10 are mandatory; additional types (20–70 or custom) are optional per ledger/company code.</li>
+<li>Parallel currencies serve management reporting rather than legal reporting.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f12-u2-l7">Lesson 7: Common Practices for Implementing SAP S/4HANA</h3>
+<p class="lead">Survey the configuration decisions typically made for an international group in a greenfield S/4HANA implementation and how the Universal Journal links them.</p>
+
+<h4>Context</h4>
+<p>Not every topic applies to every customer (a public body may only use local GAAP; a hospital needs no consolidation), but because the Universal Journal stores internal and external accounting in one table, these topics should be analysed together.</p>
+
+<h4>Universal Journal as basis for reporting</h4>
+<p><code>ACDOCA</code> is the single line-item store for General Ledger, Profit Center Accounting, Asset Accounting, Material Ledger, Controlling and (account-based) Profitability Analysis. Hence the same settings serve parallel accounting, segment reporting, consolidation preparation, period vs cost-of-sales accounting and CO-PA. Any line-item characteristic can be used to report G/L balances.</p>
+
+<h4>Organisational elements and recommendations</h4>
+<table><thead><tr><th>Element</th><th>Mandatory?</th><th>Recommendation</th></tr></thead><tbody>
+<tr><td>Client</td><td>–</td><td>Put the whole group in one client where possible (eases reconciliation, consolidation; required for CO transfer prices)</td></tr>
+<tr><td>Company code</td><td>Yes</td><td>One per legally independent company; splitting a company across company codes is rare</td></tr>
+<tr><td>Ledgers</td><td>Yes</td><td>Ledger solution for greenfield. Leading ledger = group principle (usually IFRS/international, sometimes local GAAP). If local GAAP is not leading, one non-leading ledger for local GAAP for all countries, same ledger structure everywhere; often an extra ledger for tax law</td></tr>
+<tr><td>Controlling area</td><td>For CO</td><td>Cross-company-code controlling recommended so all cost data is in one area for allocations</td></tr>
+<tr><td>Operating concern</td><td>Optional</td><td>Structures the enterprise for CO-PA; with account-based CO-PA its characteristics live in the Universal Journal for multi-level contribution margins</td></tr>
+<tr><td>Companies &amp; consolidation transaction types</td><td>Optional</td><td>Basis for legal consolidation (done in Group Reporting). Example: 400 subsidiaries but only 100 in the system → 100 company codes, 400 companies. Company IDs are consistent group-wide; partner company IDs go on the business partner (or directly on a G/L account); the document type passes the partner company to all items; transaction types track balance sheet movements (provision analysis)</td></tr>
+<tr><td>Segments</td><td>Optional</td><td>For IFRS 8 / ASC 280 segment reporting; usually few; derived from profit centers</td></tr>
+<tr><td>Profit centers</td><td>Optional</td><td>Internal structure of groups/company codes; keep to about 5,000 at most (Note 217338; more than 10,000 is rarely useful); derived from the income-relevant CO object (cost center, order, sales order…)</td></tr>
+<tr><td>Document splitting</td><td>Optional</td><td>Gives balance sheets by profit center/segment, treating them like internal companies. Raises test and legacy-transfer effort because opening balances must exist per object; balance sheet account assignments come from material/asset masters or manual entry and are propagated to receivables, payables and tax items</td></tr>
+<tr><td>Functional areas</td><td>Optional</td><td>Cost-of-sales accounting runs in parallel to the always-active nature-of-expense method; both give the same result. Functional area comes from the G/L account (chart level) if constant, otherwise from CO objects; a substitution can also derive it</td></tr>
+</tbody></table>
+<p>Priority when the functional area could come from several sources: substitution → manual entry → G/L account → CO object. Every line item carries account, functional area, profit center and segment, so both P&amp;L methods and segment reports come from the same data.</p>
+
+<h4>Currency types in practice</h4>
+<p>Company code currency (10) is the first FI currency; a second and third FI currency (parallel currencies, e.g. a hard currency) can be stored alongside the document currency in the data entry view. The controlling area has its own currency type – SAP recommends 30 (group currency) – and both company code and controlling area currencies are updated for every document in the Universal Journal. Because company codes use different national currencies, a uniform group currency is needed; group currency 30 should be the second FI currency (Note 119428) and must also appear in Asset Accounting as a depreciation area per ledger. The Universal Journal can hold 8 further currency types (e.g. for transfer prices). The document currency is always stored.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>One client, one company code per legal entity, ledger solution with leading = group GAAP.</li>
+<li>Companies + partner company IDs prepare for consolidation; segments derive from profit centers; document splitting is the price for balance sheets by profit center/segment.</li>
+<li>Nature-of-expense is always on; cost-of-sales via functional areas is optional and parallel.</li>
+<li>Use group currency 30 as the second FI currency and as controlling area currency.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> The unit has no separate exercise document; its learning assessment checks the four-character company code key, the prerequisite for cross-company controlling (same operating chart of accounts), leading ledger 0L, the three steps of the variant principle, what the fiscal year variant does and does not contain, the February day limit 29, when year-specific variants are needed, currency keys, the mandatory company code currency and the Universal Journal table <code>ACDOCA</code>.</div>
+<h2 class="unit" id="s4f12-u3">Unit 3: Master Data</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Configure and maintain the master data that FI postings depend on: the chart of accounts and G/L accounts (with account groups, field status, reconciliation accounts, open item management, currencies, group and country charts), profit centers and segments, and business partners with customer/vendor integration.</div>
+
+<h3 class="lesson" id="s4f12-u3-l1">Lesson 1: Maintaining General Ledger (G/L) Accounts</h3>
+<p class="lead">Understand the chart of accounts and the two-segment structure of a G/L account, and configure account groups, field status, reconciliation accounts, open item management, account currency, mass maintenance and group/country charts of accounts.</p>
+
+<h4>Business example</h4>
+<p>The chart of accounts and company code settings can be copied from company code TA00, but accounting needs extra expense accounts for authorised travel expenses and payments, and those accounts must sit in their own number interval. This calls for understanding the chart of accounts, G/L account structure, account types, and single and mass maintenance.</p>
+
+<h4>Chart of accounts</h4>
+<p>The chart of accounts is itself a variant: it holds the structure and basic data of G/L accounts and is assigned to every company code that needs accounts with that structure (several company codes may share one). Examples: YCOA, IKR, CAUS or any country chart. Defined with a four-character key, it contains:</p>
+<table><thead><tr><th>Component</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Key and name</td><td>Four-character ID and description</td></tr>
+<tr><td>Maintenance language</td><td>Language in which account descriptions are maintained; the chart can be translated so users see names in their logon language, otherwise the maintenance-language name appears</td></tr>
+<tr><td>Length of G/L account number</td><td>1 to 10 digits</td></tr>
+<tr><td>Group chart of accounts</td><td>For consolidation; once assigned, the group account number becomes a required field in every account and is validated against the group chart</td></tr>
+<tr><td>Block indicator</td><td>Blocks an incomplete chart so no company code can use it</td></tr>
+</tbody></table>
+<p>FI and CO share the same chart. Company codes can only do cross-company-code controlling if they share the operational chart (course figure: CC1000 and CC2000 can, CC2000 and CC3000 cannot).</p>
+
+<h4>The two segments of a G/L account</h4>
+<table><thead><tr><th>Segment</th><th>Scope</th><th>Content</th></tr></thead><tbody>
+<tr><td>Chart of accounts segment</td><td>Valid for all company codes using the chart; entered once</td><td>Account number, short and long name, control fields (G/L account type, account group, P&amp;L account type/retained earnings key), consolidation fields (group account, trading partner), keywords for searching, texts</td></tr>
+<tr><td>Company code segment</td><td>One per company code that wants to use the account</td><td>Account currency, tax category, reconciliation account indicator, sort key, field status group, house bank, interest calculation data, texts</td></tr>
+</tbody></table>
+<p>An account exists in a company code only when the company code segment is created; account numbers and names are therefore identical in all company codes, while control settings (e.g. tax category) may differ per company code. An account that one company code does not need (e.g. a foreign-currency bank account for a country where it has no partners) remains available to other company codes. The Fiori app <em>Manage G/L Account Master Data</em> maintains both segments.</p>
+
+<h4>G/L account types</h4>
+<table><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody>
+<tr><td>Balance sheet account</td><td>Posted from business transactions; balance carried forward to itself at year end. Asset and material balance sheet accounts can be integrated with CO if flagged as reconciliation accounts and included in AA/MM account determination</td></tr>
+<tr><td>Cash account (bank reconciliation account)</td><td>Can be assigned to several house bank accounts, reducing the number of bank G/L accounts</td></tr>
+<tr><td>Non-operating expense or income</td><td>P&amp;L account for activities outside the core business (e.g. investment gains of a manufacturer); no CO data</td></tr>
+<tr><td>Primary costs or revenue</td><td>P&amp;L account that is also a primary cost element (payroll, selling, admin costs); needs controlling-area data</td></tr>
+<tr><td>Secondary costs</td><td>Cost element for internal value flows (activity allocation, overhead, settlement); needs controlling-area data</td></tr>
+</tbody></table>
+<p>For the two cost-element types the controlling-area data holds the <strong>cost element category</strong>, which restricts the CO transactions the account may be used for – e.g. category 21 (internal settlement) only for settling orders or projects.</p>
+
+<h4>Balance carryforward</h4>
+<ul>
+<li>Balance sheet accounts: balance carried forward to the same account.</li>
+<li>P&amp;L accounts: balance moved to a retained earnings account and the P&amp;L account reset to zero. The retained earnings account is identified by a key (e.g. X) entered in the P&amp;L statement account type field of the chart of accounts segment.</li>
+<li>With one retained earnings account the system assigns it automatically when P&amp;L accounts are created; with several, the user must pick one per account. Retained earnings accounts are defined via the <em>Automatic Account Determination</em> app (Define Retained Earnings Accounts).</li>
+</ul>
+
+<h4>Account groups</h4>
+<p>Account groups organise accounts of the same kind (cash, material, asset, P&amp;L …). Each group has a number range so similar accounts share an interval (intervals may overlap). The group is entered in the chart of accounts segment and it controls the field status of the company code segment – e.g. make "open item management" a required entry for the cash clearing account group.</p>
+
+<h4>Field status</h4>
+<table><thead><tr><th>Status</th><th>Use</th></tr></thead><tbody>
+<tr><td>Suppress (hide)</td><td>Fields not used (hidden fields may still hold effective values)</td></tr>
+<tr><td>Display</td><td>Values that may be seen but not changed</td></tr>
+<tr><td>Required entry</td><td>A value must be entered</td></tr>
+<tr><td>Optional entry</td><td>May be filled, not required</td></tr>
+</tbody></table>
+<p>Fields are grouped so one status covers a group (e.g. all interest-calculation fields). Account currency and field status group are always required. The account group normally drives the status; a transaction-specific (activity) control exists to restrict editing when changing master data – e.g. set the currency field of a GBP cash account to Display under <em>Define Screen Layout for Each Transaction → Change</em>. When account group and transaction definitions differ, the higher priority wins: Suppress &gt; Display &gt; Required &gt; Optional. In Display transactions fields can only be shown or hidden. If you do not want transaction-specific control, set everything there to Optional (lowest priority).</p>
+
+<h4>Reconciliation accounts</h4>
+<p>Reconciliation accounts are G/L accounts that receive the sub-ledger postings automatically, keeping the general ledger always current. The sub-ledger type (customers/receivables, vendors/payables, assets) is set in the company code segment field <em>Reconciliation account for account type</em>, and the account is valid only for that type. Direct postings to reconciliation accounts are not possible.</p>
+
+<h4>Open item management</h4>
+<p>With the indicator set, each item is either open or cleared, which lets you check whether a transaction has its offsetting entry and list open versus cleared items separately. Typical accounts: bank clearing, GR/IR clearing, salary clearing. The indicator can only be switched when the balance is zero. If OIM is set up per ledger, ledger-group-specific clearing is available.</p>
+
+<h4>Account currency</h4>
+<ul>
+<li>Default account currency when creating an account = company code (local) currency. Such accounts accept postings in any currency; each item is translated into local currency. This works regardless of line item display.</li>
+<li>An account in a foreign currency can only be posted in that currency.</li>
+</ul>
+
+<h4>Ways to create G/L accounts</h4>
+<table><thead><tr><th>Method</th><th>Description</th></tr></thead><tbody>
+<tr><td>One-step (central)</td><td>Chart of accounts and company code segment at once</td></tr>
+<tr><td>Two-step</td><td>Chart of accounts segment first, company code segment later</td></tr>
+<tr><td>Copy</td><td>Single account with reference (inherits all properties; change the name), whole company code segment to another company code, whole chart of accounts incl. account determination and financial statement version</td></tr>
+<tr><td>Data transfer</td><td>e.g. S/4HANA Migration Cockpit</td></tr>
+</tbody></table>
+
+<h4>Collective processing / mass change</h4>
+<p>Several accounts can be changed at once: chart of accounts data, company code data, descriptions, and (only in <em>Manage G/L Account Master Data</em>) controlling data. In <em>Edit Multiple G/L Accounts – Company Code View</em> you pick the fields and enter new values that replace the old ones for all selected accounts. In <em>Manage G/L Account Master Data</em> (up to 50 accounts per run): select and mark accounts → Mass Change → Other Attributes → add hidden fields via Settings → enter replacement values in the "By" column → Apply → Save. Changes take effect on save and can have far-reaching effects, so review first.</p>
+
+<h4>Group chart of accounts</h4>
+<p>Used when company codes need different operational charts (e.g. for local legal reasons) but the group must consolidate. Steps:</p>
+<ol>
+<li>Create the group chart containing all group accounts.</li>
+<li>Assign it to each operational chart – the group account number field becomes required.</li>
+<li>Enter a group account in each operational account (several operational accounts may map to one group account).</li>
+<li>Build a financial statement version on the group chart.</li>
+</ol>
+<p>Drawback: no cross-company-code controlling between company codes with different operational charts.</p>
+
+<h4>Country chart of accounts</h4>
+<p>Alternative: all company codes use the same operational chart, and company codes needing local statements get a country chart assigned; the country account number is entered as <em>alternative account number</em> in the company code segment of each operational account (each alternative number may be used only once). Cross-company-code controlling remains possible. Disadvantage: local clerks must learn the operational chart.</p>
+<p><strong>Group scenario:</strong> European company codes (Spain, Germany, UK) share YCOA, North American ones (US, Canada) share CAUS, so controlling works within each region. Country charts are added for local reporting, and group chart CONS is assigned to both YCOA and CAUS for consolidation, since cross-regional controlling is not needed.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>G/L account = chart of accounts segment (shared) + company code segment (local control data).</li>
+<li>Five account types; cost-element types need a cost element category in the controlling area data.</li>
+<li>P&amp;L balances go to retained earnings (key X); balance sheet balances roll forward on the same account.</li>
+<li>Account group → number range and field status; priority Suppress &gt; Display &gt; Required &gt; Optional.</li>
+<li>Reconciliation accounts link sub-ledgers and cannot be posted directly; OIM only switchable at zero balance.</li>
+<li>Group chart for consolidation across different operational charts; country chart via alternative account numbers keeps one operational chart.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f12-u3-l2">Lesson 2: Creating Profit Centers and Segments</h3>
+<p class="lead">Know what the segment characteristic is for, how it relates to IFRS 8 segment reporting, and how segments are derived – normally from the profit center.</p>
+
+<h4>The segment characteristic</h4>
+<p>The segment is a standard account assignment object in FI for evaluating entities below company code level, intended for a detailed analysis of business areas such as markets or products, and for meeting IFRS / US GAAP segment reporting. Business area and profit center could serve the same purpose, but because these were often used for other things in the past, SAP added the segment as a dedicated object.</p>
+<p>IFRS 8 describes a business segment as a component of the enterprise that (1) earns revenues and incurs expenses (including from internal transactions), (2) has operating results that the chief decision maker regularly reviews for resource allocation and performance evaluation, and (3) has separate financial information available.</p>
+
+<h4>Derivation</h4>
+<ul>
+<li>Standard practice: store the segment in the profit center master record. Posting to the profit center automatically posts the segment; without a segment on the profit center, no segment is posted.</li>
+<li>SAP Note 1035140: segments are only officially supported together with profit centers; automatic derivation is only from profit centers; in many (especially logistics) transactions the segment cannot be entered manually; several standard interfaces do not support segments.</li>
+<li>If the profit center cannot provide the segment, General Ledger Accounting with document splitting offers: manual entry, BAdI <code>FAGL_DERIVE_SEGMENT</code>, substitution rules, or assignment to standard accounts.</li>
+</ul>
+<p>From the assessment: segments have no time reference and belong to no hierarchy; they are used across company codes; typically only a few segments exist and each is assigned to many profit centers.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Segment = legal segment reporting object (IFRS 8 / ASC 280) below company code.</li>
+<li>Derive it from the profit center master; alternatives (manual, BAdI, substitution, standard account) need document splitting.</li>
+<li>Few segments, many profit centers; no time dependency or hierarchy.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f12-u3-l3">Lesson 3: Managing Business Partners</h3>
+<p class="lead">Describe the business partner model (categories, roles, segments), how customer/vendor integration keeps FI customers and vendors in sync, how field status and number ranges are controlled, and the special cases of one-time accounts and sensitive fields.</p>
+
+<h4>Business example</h4>
+<p>S/4HANA introduces the business partner as the master record for customers and vendors. Management wants to understand how AR/AP master data is created and configured under this concept, how it integrates with FI, and how one-time accounts and sensitive fields work.</p>
+
+<h4>Business partner categories</h4>
+<p>The business partner (BP) is the single point of entry to create, edit and display customer and vendor data. The <strong>category</strong> – person (natural person), organisation (legal entity or part of one, e.g. a department), or group – decides which fields are available (legal form for an organisation; first name, last name, gender for a person). It is mandatory at creation and cannot be changed afterwards.</p>
+
+<h4>Business partner roles</h4>
+<p>A role represents a business context and supplies application-specific data: FI Vendor (FI-AP), FI Customer (FI-AR), Customer (SD), Supplier (MM), contract partner (FI-CA), prospect, general BP. A BP can hold several roles; central data (name, address, bank details) is entered once. The <em>General Business Partner</em> role is always assigned automatically as the foundation.</p>
+
+<h4>Segments of the business partner</h4>
+<table><thead><tr><th>Segment</th><th>Level</th><th>Content</th></tr></thead><tbody>
+<tr><td>General data</td><td>Client</td><td>Name, address, bank details – application-neutral</td></tr>
+<tr><td>Company code data</td><td>Company code</td><td>Reconciliation account, payment terms, payment methods, dunning data, correspondence, posting blocks; one per company code doing business with the partner</td></tr>
+<tr><td>Purchasing organisation data (vendor, e.g. role FLVN01 Supplier)</td><td>Purchasing org.</td><td>Procurement data; one segment per purchasing organisation</td></tr>
+<tr><td>Sales area data (customer, e.g. FLCU01 Customer)</td><td>Sales area</td><td>Sales-specific data; one segment per sales area</td></tr>
+</tbody></table>
+<p>A complete vendor = general + company code + purchasing org segment; a complete customer = general + company code + sales area segment. Maintenance is via the Fiori app <em>Maintain Business Partner</em> or transaction <code>BP</code>.</p>
+<p><strong>Role grouping</strong> lets one user create a partner in several roles in one step (e.g. FI Customer and SD Customer), enabling centralised maintenance. When AR and SD are both implemented, both teams must agree on configuration and ownership of customer master data.</p>
+
+<h4>Customer/Vendor Integration (CVI)</h4>
+<ul>
+<li>FI keeps its own customer and vendor master records as AR/AP sub-ledger accounts, while applications such as Loans Management or Treasury use the SAP Business Partner. CVI synchronises the two when FI and BP are used in parallel; customer and vendor integration can be activated independently, and CVI is designed for one system / one client.</li>
+<li>Assignment is 1:1 – one customer and/or one vendor per BP, each in the corresponding role. When the BP is created or changed, the system creates/updates the customer or vendor in the background according to the synchronisation control and CVI Customizing; this only happens for role categories configured for it.</li>
+</ul>
+
+<h4>Groupings, number ranges and account groups</h4>
+<ul>
+<li>Every BP gets a <strong>grouping</strong> at creation (unchangeable) which determines the number range and whether numbering is internal (system) or external (user, possibly alphanumeric). Standard groupings for internal and external numbering are defined, and a grouping can be hidden from the F4 list, e.g. to reserve it for interfaces.</li>
+<li>In CVI Customizing each BP grouping is mapped to a customer and/or vendor <strong>account group</strong>, so the FI account is created with the right group. The account group cannot be changed after the FI account exists.</li>
+<li>The <strong>Same Number</strong> flag makes the customer/vendor number equal to the BP number. Prerequisites: BP and customer/vendor number ranges cover the same intervals, and the FI account group uses external numbering. Not using identical numbers gives more flexibility (internal numbering in FI is then possible). Customer and vendor account groups can share number ranges; a number range can serve several account groups.</li>
+<li><strong>Flexible grouping</strong>: instead of the fixed grouping→account group mapping, the accountant can pick the account group manually when creating the BP – useful when customer numbers carry meaning or different field status requirements call for different account groups.</li>
+</ul>
+
+<h4>Field status for business partners</h4>
+<p>Marking important fields as required (e.g. all address fields for complete correspondence) matters. Recommendation: control the FI-relevant field status through the FI customer/vendor settings and set the BP-side field status to the lowest priority so it does not interfere. FI offers three layers – account group-specific, activity-specific and company code-specific – and the highest priority among them wins; setting activity-specific status to Optional leaves the account group in control. BP and FI settings must not contradict each other.</p>
+<p>Field status can also be maintained per BP role (possible but not recommended). Because a BP can have several roles, <strong>link rules</strong> resolve conflicts. For "same criteria" (several roles on one field) the priority is reversed compared with G/L master data, so that a field required in FI but hidden in SD stays required: 1 Required, 2 Optional, 3 Display, 4 Hide, 5 Not specified (no active decision taken).</p>
+
+<h4>One-time accounts</h4>
+<p>For customers or vendors you deal with rarely, create a one-time master record. It holds receivables/payables for many partners, so partner-specific fields are hidden in the master and the name, address and bank data are entered directly in the document during posting.</p>
+
+<h4>Sensitive fields and dual control</h4>
+<p>Under the dual control principle one person changes critical customer/vendor data and another confirms it. Define the sensitive fields in Customizing; when such a field is changed, the system blocks payments to that account until an authorised user confirms or rejects the change (individually or via a worklist filtered by account, company code, not yet confirmed, rejected, to be confirmed). Reports <code>RFDABL00</code> (customers) and <code>RFKABL00</code> (vendors) display master data changes.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>BP category is fixed at creation; roles add application data; general data is entered once at client level.</li>
+<li>Complete vendor = general + company code + purchasing org; complete customer = general + company code + sales area (<code>BP</code> / Maintain Business Partner).</li>
+<li>CVI creates and updates the FI customer/vendor 1:1 in the background; grouping → number range and account group; Same Number needs matching ranges and external FI numbering.</li>
+<li>Control field status in FI (account group / activity / company code, highest priority wins); for multi-role BPs Required beats Hide.</li>
+<li>One-time accounts hold data in the document; sensitive fields trigger a payment block until a second person confirms.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> The unit's learning assessment covers: the chart of accounts must be assigned to each company code; the chart of accounts segment holds account number, control and consolidation fields; a company code segment is needed to use an account; balance sheet balances are not transferred to retained earnings; Optional is the lowest field status priority; sub-ledger postings update reconciliation accounts automatically; local currency is the default account currency; collective processing can change chart, company code, description and CO data; several operational accounts may share a group account; the alternative account number sits in the company code segment; segments live on the profit center, are rarely entered manually, have no time reference or hierarchy, and one segment serves many profit centers; BP general data is at client level; account groups cannot be changed later; one-time accounts carry no partner data; customers and vendors may share number ranges; FI field status layers compete by priority; flexible grouping allows manual account group choice.</div>
+<h2 class="unit" id="s4f12-u4">Unit 4: Document Control</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Control the structure and content of FI documents through document types, number ranges, posting keys and field status groups; open and close posting periods per account type; limit what employees may post via tolerance groups; and post simple documents with the Fiori apps.</div>
+
+<h3 class="lesson" id="s4f12-u4-l1">Lesson 1: Configuring the Header and Line Items of Financial Accounting (FI) Documents</h3>
+<p class="lead">Explain the document principle and the structure of an FI document, and configure the two control keys – document type (header) and posting key (line item) – together with number ranges and field status groups.</p>
+
+<h4>Business example</h4>
+<p>Hundreds of documents are created each day. Internal audit wants all authorised-expense documents to carry a unique document type and come from a separate number range, and the customer wants a mandatory explanatory text on every item posted to the authorised-expense account. You therefore need to know how documents are classified, displayed and structured.</p>
+
+<h4>The document principle and structure</h4>
+<ol>
+<li>Every posted business transaction produces a document.</li>
+<li>The document stays in the system as a complete unit until archived.</li>
+<li>Each document is uniquely identified by <strong>document number + company code + fiscal year</strong>.</li>
+</ol>
+<p>A document has a <strong>header</strong> (data valid for the whole document, e.g. posting date, company code, document type) and <strong>line items</strong> – at least two (debit/credit) and at most 999. Items created by an accounting interface (sales, purchasing) are nearly identical in most fields.</p>
+<p>One business transaction can produce several documents: a goods receipt creates a material document for inventory management and an accounting document for FI. Some transactions, e.g. creating a purchase order, create no accounting document because they do not affect accounting. Related documents are linked so the whole transaction can be traced. Document numbers are assigned internally (by the system) or externally (by the user).</p>
+<table><thead><tr><th>Tool</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Report <code>RFBELJ00</code></td><td>Compact document journal – key header and item data of selected documents</td></tr>
+<tr><td>Reports <code>RFBUEB00</code>, <code>RFBUEB01</code></td><td>Locate documents</td></tr>
+<tr><td>Fiori app <em>Manage Journal Entries</em> (General Ledger group)</td><td>Find and display documents</td></tr>
+</tbody></table>
+
+<h4>Document types</h4>
+<p>The document type controls the header and classifies business transactions. It is defined at <strong>client level</strong> (valid for all company codes); SAP delivers types that can be copied or changed. It determines:</p>
+<table><thead><tr><th>Setting</th><th>Effect</th></tr></thead><tbody>
+<tr><td>Number range</td><td>Mandatory; one number range may serve several document types</td></tr>
+<tr><td>Reverse document type</td><td>Used for reversals; if empty, the original document type is used</td></tr>
+<tr><td>Account types allowed</td><td>Which of Assets (A), Customer (D), Vendor (K), Material (M), G/L (S) may be posted</td></tr>
+<tr><td>Control data</td><td>Net document type (vendor invoices only: amount due reduced by cash discount from payment terms), customer/vendor check, negative postings permitted, inter-company postings, enter trading partner</td></tr>
+<tr><td>Required during entry</td><td>Reference number and/or document header text as required fields</td></tr>
+</tbody></table>
+<table><thead><tr><th>Standard type</th><th>Use</th></tr></thead><tbody>
+<tr><td>AB</td><td>Allows all account types (general)</td></tr>
+<tr><td>DG</td><td>Customer credit memo – customers (D) and G/L (S) only</td></tr>
+<tr><td>RV</td><td>Default for SD billing documents (customer invoices)</td></tr>
+<tr><td>RE</td><td>Default for MM invoice verification (vendor invoices)</td></tr>
+<tr><td>KR</td><td>Vendor invoice entered in FI</td></tr>
+<tr><td>ZP</td><td>Payment program postings</td></tr>
+</tbody></table>
+<p>For billing transfers with internal numbering FI assigns a new number; with external numbering the billing document number is reused as the accounting document number if free.</p>
+
+<h4>Document number ranges</h4>
+<ul>
+<li>Ranges must not overlap and are defined per fiscal year of use.</li>
+<li><strong>Internal numbering</strong>: the system stores the last number used in <em>Current number</em> and assigns the next one.</li>
+<li><strong>External numbering</strong>: user or external system supplies the number; it can be alphanumeric and is not sequential, so no current number is kept.</li>
+<li>Range definition: <strong>continuous</strong> (numbering continues across fiscal years) or <strong>per fiscal year</strong> (restarts at the first number each year, so the range never runs out).</li>
+<li>Intervals can be copied between company codes and between fiscal years. Report <code>RFBNUM00</code> finds gaps in number assignment.</li>
+</ul>
+
+<h4>Posting keys</h4>
+<p>Posting keys are also client-level. They control the line item: debit or credit, the account type that may be posted, the field status of the item, and additionally whether the item is payment-related (needed for payment history and payment notices) and whether it is sales-relevant (updates the account's sales figures, e.g. a customer invoice).</p>
+<table><thead><tr><th>Account type</th><th>Debit</th><th>Credit</th></tr></thead><tbody>
+<tr><td>G/L account</td><td>40</td><td>50</td></tr>
+<tr><td>Customer</td><td>01</td><td>11</td></tr>
+<tr><td>Vendor</td><td>21</td><td>31</td></tr>
+</tbody></table>
+<p>SAP recommends keeping the standard keys; if you change or add keys, every table referencing them must be updated. Asset and material posting keys only work when those components are configured. Because sub-ledger accounts have no field status group, their postings are differentiated by many posting keys; G/L postings are differentiated by field status groups, so only 40 and 50 are needed.</p>
+
+<h4>Document field status and field status groups</h4>
+<p>Which fields appear during entry depends on the transaction and the account: an expense posting needs cost center and tax data, a cash posting does not. Priority rules for document field status: <strong>Suppress &gt; Required &gt; Optional</strong>. Suppress combined with Required causes an error; tax fields are only enterable on tax-relevant accounts.</p>
+<ol>
+<li>For each kind of G/L account (cash, expense …) define a <strong>field status group</strong> that sets every entry field (text, cost center …) to required / optional / suppressed.</li>
+<li>Assign the group in the G/L account master (company code segment).</li>
+<li>Collect the groups in a <strong>field status variant</strong> and assign it to the company code(s); posting is impossible until the variant is complete. Usually all company codes share one variant.</li>
+</ol>
+<p>Copy the delivered standard groups and adapt the copies. For postings to sub-ledger accounts, the field status group of the reconciliation account applies. Field status definitions of posting keys and of field status groups can both be changed to make the status transaction- or account-dependent.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Document = header + 2–999 items, identified by number, company code, fiscal year.</li>
+<li>Document type (header, client level) → number range, allowed account types, reversal type, control flags.</li>
+<li>Posting key (item, client level) → debit/credit, account type, field status, payment/sales relevance; standard 40/50, 01/11, 21/31.</li>
+<li>Field status group (on the G/L account) → field status variant → company code; Suppress &gt; Required &gt; Optional.</li>
+<li>Number ranges never overlap; internal vs external, continuous vs per fiscal year.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f12-u4-l2">Lesson 2: Managing Posting Periods</h3>
+<p class="lead">Open and close posting periods with posting period variants, differentiate by account type and account interval, use the three period intervals and the related authorisations, and understand how the posting period is derived.</p>
+
+<h4>Business example</h4>
+<p>Sub-ledgers are closed at period end, but G/L accounts stay open longer to reconcile FI and CO for the last period – so periods must be controlled per account type.</p>
+
+<h4>Posting period variant</h4>
+<ul>
+<li>Periods themselves come from the fiscal year variant; the posting period variant says which are open. Usually only the current period is open; at period end it is closed and the next opened, by entering a range that includes the period. Any number of periods can be open; special periods are opened for closing postings.</li>
+<li>Several company codes can share a variant, so their periods open and close together (variant principle).</li>
+</ul>
+
+<h4>Period checks by account type</h4>
+<ul>
+<li>Account type <strong>+</strong> (all accounts) is checked first at header level and is mandatory in the table; it must be open for every period that any other account type should have open. If all account types are treated alike, the + line is sufficient.</li>
+<li>Account types A, D, K, M, S can be controlled separately (e.g. customers open, vendors closed). At item level the system checks the account type of the posting key.</li>
+<li>The account interval always holds G/L account numbers; for sub-ledger types you enter reconciliation accounts, so customers/vendors with different reconciliation accounts can be treated differently.</li>
+</ul>
+
+<h4>The three period intervals</h4>
+<table><thead><tr><th>Interval</th><th>Recommended use</th><th>Notes</th></tr></thead><tbody>
+<tr><td>1</td><td>Special periods / closing postings</td><td>Only interval 1 can carry an <strong>authorisation group</strong>; users need authorisation object <code>F_BKPF_BUP</code> with the same group value to post in it</td></tr>
+<tr><td>2</td><td>Regular periods</td><td>Open to everyone with normal posting authorisation</td></tr>
+<tr><td>3</td><td>Postings from CO to FI</td><td>If empty, intervals 1 and 2 also apply to CO-originated postings</td></tr>
+</tbody></table>
+<p>During year-end closing two intervals must be open at the same time (last period and special period), hence intervals 1 and 2. CO-relevant FI postings and FI-relevant CO postings need both the FI period open (<code>OB52</code> / app) and the CO period lock (<code>OKP1</code>, where you lock specific transactions per period; menu Accounting → Controlling → Cost Element Accounting → Environment → Period Lock). Report <code>RFOB5200</code> can also maintain posting periods (authorisation per SAP Note 2251160). Since S/4HANA 1809 the Fiori app <em>Manage Posting Periods</em> writes the same table as <code>OB52</code>.</p>
+
+<h4>Determination of the posting period</h4>
+<p>The user enters a posting date; the system derives posting period and fiscal year from it and updates the transaction figures of that period, which are what account balance displays show per period.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Fiscal year variant defines periods; posting period variant opens/closes them per account type and account interval.</li>
+<li>"+" is mandatory and must cover everything else that is open.</li>
+<li>Interval 1 (with <code>F_BKPF_BUP</code> authorisation group) for special periods, 2 for regular, 3 for CO→FI.</li>
+<li>Maintain via <code>OB52</code>, <em>Manage Posting Periods</em> or <code>RFOB5200</code>; CO additionally needs <code>OKP1</code>.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f12-u4-l3">Lesson 3: Managing Posting Authorizations</h3>
+<p class="lead">Limit the amounts and discounts employees may post by defining tolerance groups and assigning users to them.</p>
+<p>The accounting manager wants different posting limits for different clerks. In Customizing, <em>Define Tolerance Groups for Employees</em> sets upper limits per group and company code:</p>
+<table><thead><tr><th>Limit</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Amount per document</td><td>Maximum total of debit (or credit) items in one document</td></tr>
+<tr><td>Amount per open item</td><td>Maximum amount of a single customer/vendor line item</td></tr>
+<tr><td>Cash discount per line item</td><td>Maximum discount percentage the user may grant</td></tr>
+<tr><td>Payment difference tolerance</td><td>Maximum over-payment (revenue) and under-payment (expense) accepted when clearing</td></tr>
+</tbody></table>
+<p>You can define as many groups as needed and assign users explicitly. Users without an assignment fall under the <strong>blank</strong> tolerance group, which should exist in every company code and holds values suited to most employees; special groups with higher or lower limits are created for exceptions and attached to those users' IDs.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Tolerance groups cap document amount, open item amount, cash discount % and payment differences.</li>
+<li>The blank group is the default for unassigned users; create named groups for exceptions.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f12-u4-l4">Lesson 4: Creating Simple Documents in FI</h3>
+<p class="lead">Post simple G/L, customer and vendor documents with the Fiori apps and know the entry aids: default document types, screen and account assignment templates, held/parked documents, item texts and journal entry templates.</p>
+
+<h4>Simple postings</h4>
+<p>Fiori apps exist for G/L account postings, customer invoices and credit memos, and vendor invoices and credit memos. In <em>Create Incoming Invoices</em> the header holds invoice date, posting date and text. A default document type per transaction can be configured (it can be overwritten if the field is ready for input); without configuration the standard type is proposed, e.g. KR for vendor invoices. The basic-data tab shows the frequently used fields, other tabs the rarer ones. After entering the account and amount and pressing Enter, the partner's name, address and bank data appear; an <em>Open Items</em> button lists open items, and an information area shows the account balance. A <em>Tree</em> button offers screen variants, account assignment templates and held documents. Further items are entered in the lower table, where columns can be resized, reordered and items copied. The document can be <strong>parked</strong>, <strong>posted</strong> or <strong>held</strong>.</p>
+
+<h4>Post General Journal Entries</h4>
+<ul>
+<li>The general posting transaction remains available.</li>
+<li>Each item can carry an explanatory text. Prefixing it with <code>*</code> makes it external – printed on correspondence, dunning notices and payment advices (the asterisk itself is dropped on printout).</li>
+<li>Text templates with a four-character key can be defined in Customizing; entering the key in the text field copies the template into the item.</li>
+<li>Templates can be chosen at the bottom of the screen; the <em>Manage Journal Entry Templates</em> app lets you save the fields and values you need for recurring entries and optionally share templates publicly within the organisation.</li>
+</ul>
+<p>A document with zero balance can be posted normally.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Fiori posting apps cover G/L, customer and vendor invoices/credit memos; default document types can be customised per transaction.</li>
+<li>Park, post or hold; use screen variants, account assignment templates and journal entry templates to save effort.</li>
+<li>"*" before an item text makes it appear on external correspondence.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> The unit's learning assessment reinforces: the fiscal year variant defines the number of periods; document types are client-level; external numbers are user-entered and may be alphanumeric; a number range can serve several document types; posting key 40 is G/L debit; asset/material posting keys need the components active; several company codes can share a posting period variant; account type "+" is mandatory; unassigned users use the blank tolerance group, which every company code should have; a zero-balance document can be posted; posting date and company code are header data while profit center and account number are item data.</div>
+<h2 class="unit" id="s4f12-u5">Unit 5: Posting Control</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Control what happens when documents are posted: how document splitting produces balanced sub-company-code views, how default values speed up entry, which fields may be changed after posting, how documents are reversed, how payment terms and cash discounts are calculated and posted, how taxes are calculated and determined, and how postings spanning several company codes work.</div>
+
+<h3 class="lesson" id="s4f12-u5-l1">Lesson 1: Analyzing Document Splitting</h3>
+<p class="lead">Understand why document splitting exists, the difference between entry view and general ledger view, passive vs active split and zero-balance clearing lines, and how the splitting procedure is built and activated.</p>
+
+<h4>Business example</h4>
+<p>You want complete balance sheets at segment level. Document splitting ensures objects below the company code (profit center, segment, business area) balance to zero in every document.</p>
+
+<h4>Two views of every document</h4>
+<p>Each FI document has an <strong>entry view</strong> (as the user entered it) and a <strong>general ledger view</strong> (as stored per ledger). Both views always exist and cannot be switched off. Without document splitting the two views are identical; with splitting, the G/L view shows the items split by the splitting characteristics while the entry view does not.</p>
+
+<h4>What splitting does</h4>
+<p>Document splitting ("online split") transfers the splitting characteristics (profit center, segment, business area) to line items that did not carry them, following Customizing rules, so each characteristic balances within the document. Example from the course: a vendor invoice with two expense items (account 65003000) on different profit centers/segments – the vendor item and the tax item are split in the G/L view in proportion to the expense items. Splitting is only for customers that need an additional balance sheet characteristic beyond the company code.</p>
+
+<h4>Three steps of the splitting process</h4>
+<table><thead><tr><th>Step</th><th>What happens</th><th>Example</th></tr></thead><tbody>
+<tr><td>Passive split</td><td>During clearing, the account assignments of the cleared items are copied unchanged to the clearing document</td><td>An invoice split 60:40 across segments A and B; the payment that clears it is split 60:40 as well (G/L view only)</td></tr>
+<tr><td>Active (rule-based) split</td><td>For documents that are not clearing documents, Customizing rules (based on document type → business transaction) define which items are split on the basis of which other items</td><td>Vendor invoice with several expense account assignments: vendor and tax lines are split by the expense lines</td></tr>
+<tr><td>Clearing lines / zero-balance formation</td><td>Adds clearing lines so that the characteristics (not only the document) balance to zero</td><td>A transfer from segment A to segment B on one account creates two items; zero-balance formation adds two further clearing lines</td></tr>
+</tbody></table>
+
+<h4>Customizing</h4>
+<ul>
+<li>Splitting is activated per <strong>client</strong> and can be deactivated per <strong>company code</strong>; all company codes in a client must use the same splitting procedure. SAP delivers procedure 0000000012 – copy it (e.g. Z000000012) before changing anything.</li>
+<li><strong>Inheritance</strong>: if an account assignment is unique in the document, it is passed online to every item lacking it. Always switch this on.</li>
+<li><strong>Default account assignment</strong>: a constant (e.g. a default profit center or segment) fills any characteristic that is neither entered nor derived. This lowers data quality because wrong rules are hidden behind the constant – test without defaults first to find errors.</li>
+</ul>
+
+<h4>Terminology of the active split</h4>
+<table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Splitting procedure</td><td>The sum of all splitting rules for all business transactions – defines how and when documents are split</td></tr>
+<tr><td>Business transaction</td><td>SAP's general classification of a business process, with its allowed item categories</td></tr>
+<tr><td>Business transaction variant</td><td>A specific version of a business transaction modelling a real process</td></tr>
+<tr><td>Item category</td><td>Technical/semantic classification of a line item (derived from G/L account type etc.)</td></tr>
+<tr><td>Splitting rule</td><td>Which item categories are to be split (processed) and which item categories form the base</td></tr>
+</tbody></table>
+<p>The document type determines the business transaction (variant) and so the rule applied.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Entry view vs G/L view always exist; they differ only when splitting is active.</li>
+<li>Passive split copies assignments during clearing; active split uses rules; zero-balance lines make each characteristic balance.</li>
+<li>Activate per client, deactivate per company code, one procedure per client; always use inheritance; be careful with default assignments.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f12-u5-l2">Lesson 2: Maintaining Default Values</h3>
+<p class="lead">Know the user-level and system-level default values that reduce repetitive entry and prevent input errors.</p>
+<h4>User defaults</h4>
+<ul>
+<li><strong>Parameter IDs</strong> store default values for rarely changing fields (company code, currency) in the user profile; the value appears automatically in transactions.</li>
+<li><strong>Editing options</strong> customise areas such as document entry, document display, open items, line items and cash journal.</li>
+<li>User-specific properties include logon language, date format, decimal notation and default printer.</li>
+<li>To simplify administration: create a dummy user with the accounting department's settings, then copy it for new users.</li>
+</ul>
+<h4>System and accounting defaults</h4>
+<ul>
+<li>The current date is proposed as posting date (changeable); the company code of the last document is proposed for the next one.</li>
+<li>Every document must balance to zero before posting (document principle).</li>
+<li>Document types and posting keys are proposed per transaction – e.g. vendor invoice KR with credit posting key 31.</li>
+<li>Per company code you can decide whether the fiscal year is proposed when displaying/changing documents (with year-specific numbering, the last document number and its fiscal year are proposed) and whether the CPU date is proposed as value date.</li>
+<li>A maximum percentage deviation between the exchange rate in the document header and the rate in the exchange rate table can be set per company code; exceeding it triggers a warning to catch entry errors.</li>
+</ul>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Parameter IDs and editing options are user-level defaults; copy a template user to roll them out.</li>
+<li>System proposes posting date, company code, document type and posting key; a rate-deviation tolerance warns about wrong exchange rates.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f12-u5-l3">Lesson 3: Configuring Change Control</h3>
+<p class="lead">Define which document fields may be changed after posting, under which conditions, and how changes are logged and analysed.</p>
+<p>Users may change posted documents, but only certain fields: in the header the reference number and header text; in line items fields such as assignment, text and payment terms. Amount, posting key, account and anything else affecting reconciliation can never be changed. Every change is logged with field, old and new value, user, date and time.</p>
+<h4>Document change rules</h4>
+<p>Rules are differentiated by <strong>account type</strong> (customer, vendor, G/L), <strong>transaction class</strong> (only for special G/L transactions such as bills of exchange and down payments) and <strong>company code</strong> (blank = all company codes). A field is changeable only if the posting period is open, the item is not cleared, the item is a customer debit or vendor credit, and the document is not an invoice-related or down-payment credit memo.</p>
+<p>Report <code>RFBABL00</code> lists document changes, selectable by company code, document number, fiscal year, change date and user.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Only non-reconciliation fields (reference, header text, assignment, item text, payment terms) are changeable; all changes are logged.</li>
+<li>Rules per account type / transaction class / company code; conditions: open period, uncleared item, customer debit or vendor credit, not a credit memo.</li>
+<li><code>RFBABL00</code> shows change history.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f12-u5-l4">Lesson 4: Configuring Document Reversal</h3>
+<p class="lead">Reverse wrongly posted documents with normal reversal or negative posting and configure reversal reasons.</p>
+<p>Incorrect documents are not edited but reversed and re-posted, so the correction is documented. G/L, customer and vendor documents can be reversed individually or in mass with the same function. A <strong>reversal reason</strong> is mandatory; its configuration decides whether the reversal date may differ from the original posting date and whether negative posting is allowed. Documents with cleared items cannot be reversed – reset the clearing first.</p>
+<table><thead><tr><th>Method</th><th>Effect on transaction figures</th></tr></thead><tbody>
+<tr><td>Normal reversal posting</td><td>Debit becomes credit and vice versa; both sides of the account grow (figures increase)</td></tr>
+<tr><td>Negative posting</td><td>Debit becomes credit and vice versa, but the amount is subtracted on the original side, restoring the figures to their pre-error state</td></tr>
+</tbody></table>
+<p>Prerequisites for negative postings: the company code permits them and the reversal reason allows them. Negative postings can also correct a wrong account assignment: remove the item from the wrong account with a negative posting and post it normally to the right one – requires a document type that explicitly permits negative postings.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Reversal needs a reason; the reason controls alternative reversal date and negative posting.</li>
+<li>Negative posting resets transaction figures; needs company code and reversal reason (and for transfers, document type) permission.</li>
+<li>Reset cleared items before reversing.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f12-u5-l5">Lesson 5: Configuring Payment Terms and Cash Discounts</h3>
+<p class="lead">Define terms of payment (baseline date, day limits, cash discount periods, instalments, payment controls) and set up automatic cash discount posting in the gross and net procedures.</p>
+
+<h4>Terms of payment basics</h4>
+<p>Terms of payment are the conditions agreed with a business partner: they determine the <strong>due date</strong> and the <strong>cash discount</strong> for early payment. The system needs the baseline date, the discount terms (days) and the discount percentage. Standard terms are delivered and new ones can be added. Terms stored in the business partner master are proposed in documents and may be overwritten.</p>
+<table><thead><tr><th>Invoice created in</th><th>Terms proposed from</th></tr></thead><tbody>
+<tr><td>Financial Accounting</td><td>Company code segment (BP role FI)</td></tr>
+<tr><td>Sales (SD billing)</td><td>Sales area segment (BP role SD); copied to the automatically created FI invoice</td></tr>
+<tr><td>Purchasing (MM invoice verification)</td><td>Purchasing organisation segment (BP role MM); copied to the accounting document</td></tr>
+</tbody></table>
+<p>On vendor invoices a fixed cash discount amount or fixed percentage can be entered in the Cash Discount field, independent of the payment date.</p>
+
+<h4>Credit memos</h4>
+<ul>
+<li><strong>Invoice-related</strong>: enter the invoice number in <em>Invoice Reference</em>; the terms are copied and both documents fall due together.</li>
+<li><strong>Other</strong> credit memos: payment terms are ignored and the memo is due on the baseline date – unless you enter <code>V</code> in the Invoice Reference field, which activates the terms. The customer master has a separate <em>Credit Memo Payment Term</em> field (shown if the field status allows) whose value is proposed for credit memos.</li>
+</ul>
+
+<h4>Structure of a payment term key</h4>
+<table><thead><tr><th>Field</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Day limit</td><td>Calendar day up to which this version of the term applies; allows several versions under one key (e.g. invoices up to the 15th due end of next month, after the 15th due on the 15th of the month after next)</td></tr>
+<tr><td>Description</td><td>Auto-generated explanation (replaceable) plus SD text for invoice printing</td></tr>
+<tr><td>Account type</td><td>Customer and/or vendor; define separate keys per sub-ledger so changing a customer discount (e.g. 3% → 2%) does not affect vendors</td></tr>
+<tr><td>Block key</td><td>Payment block proposed on the item (e.g. always block vendor invoices until a second person releases them – dual control)</td></tr>
+<tr><td>Payment method</td><td>Cheque, transfer, bill of exchange … proposed on the item</td></tr>
+<tr><td>Baseline date default</td><td>Posting date, document date, entry date or none (manual)</td></tr>
+<tr><td>Fixed day / additional months</td><td>Overwrite the calendar day of the baseline date (e.g. always the 15th) and/or add months (see Note 162885)</td></tr>
+<tr><td>Cash discount periods</td><td>Up to three lines of percentage + days (optionally fixed day/month); the last line is the net due date</td></tr>
+</tbody></table>
+<p>Block key and payment method can be set during posting, in the BP company code segment, or in the payment term; the term's values are defaulted into the line item.</p>
+
+<h4>Instalment payments</h4>
+<p>Select <em>Instalment payment</em> in the term (no discount periods) and define per instalment a number, a percentage and its own payment term; percentages must total 100 %. When an invoice is posted with this term, the system creates one line item per instalment with the corresponding amount and term. A portion can also be retained for later payment.</p>
+
+<h4>Cash discount base and posting</h4>
+<ul>
+<li>Depending on country law the discount base is the <strong>net</strong> value (G/L and asset items without tax) or the <strong>gross</strong> value (tax included, e.g. Germany, Switzerland); set per company code or highest tax jurisdiction level in the global parameters.</li>
+<li><strong>Gross procedure</strong>: the invoice is posted gross; when the open item is cleared, the discount taken is posted automatically to the cash discount expense (vendors) or cash discount received/revenue account defined in account determination. Discounts can be entered manually or taken from the terms, and changed after posting.</li>
+<li><strong>Net procedure</strong> (vendors only, via a net document type): at invoice entry the expense or balance sheet account is reduced by the expected discount and the same amount goes to a cash discount clearing account (must be OIM-managed). On payment the clearing account is cleared; if paid after the deadline the lost discount is posted to a separate account.</li>
+</ul>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Terms come from the BP segment matching where the invoice is created (FI / SD / MM).</li>
+<li>Day limits give date-dependent variants of one key; up to three discount periods; instalments split the invoice into items.</li>
+<li>Non-invoice-related credit memos ignore terms unless "V" is entered.</li>
+<li>Gross procedure posts the discount at payment; net procedure (vendors) posts it at invoice via a clearing account.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f12-u5-l6">Lesson 6: Maintaining Taxes and Tax Codes</h3>
+<p class="lead">Understand how S/4HANA calculates, checks and posts taxes through tax calculation procedures, tax codes and automatic account determination.</p>
+
+<h4>Tax systems and levels</h4>
+<p>Supported: taxes on sales and purchases (VAT), US sales tax, country-specific additional taxes, and withholding tax. Taxes can be national with uniform rates, or state/jurisdiction based (e.g. more than 67,000 US jurisdictions – external tax software is often attached through SAP's generic interface). Some countries (Canada, India, Brazil) tax on both levels.</p>
+<p>The system checks or calculates the tax, posts it to tax accounts, and adjusts tax for cash discounts and other deductions. The tax base can be gross (including discount) or net (discount deducted), defined per company code or highest jurisdiction level.</p>
+
+<h4>Tax calculation procedure</h4>
+<p>One preconfigured procedure per country, consisting of: the <strong>sequence of steps</strong> (each step may reference a "from" step as its base), the <strong>tax types / condition types</strong> relevant to the country, and the <strong>account key (transaction key)</strong> used for automatic account determination – use the standard keys.</p>
+
+<h4>Tax codes</h4>
+<ul>
+<li>Entered in the document, the tax code links the item to the calculation. It is defined per country key, or per country + tax jurisdiction code; jurisdiction tax codes are date-dependent (document date or posting date, as configured).</li>
+<li>The tax code holds the rates per tax type. Normally one rate; several when an item is taxed by several types – e.g. 10 % input tax of which 40 % is non-deductible = 6 % deductible + 4 % non-deductible.</li>
+<li>Zero-rate codes are needed for tax-exempt items that must still be reported and for exempt transactions such as goods movements.</li>
+<li>The tax type decides whether the base is "percentage included" or "percentage separate".</li>
+<li><strong>Check indicator</strong>: set → error if entered tax differs from calculated; not set → warning. It is left off for input tax codes because the amount on the vendor's invoice must be posted as is.</li>
+</ul>
+
+<h4>Tax postings and account determination</h4>
+<ul>
+<li>Standard: calculated tax goes to a separate tax line on a tax account. Alternatively, with account keys such as NVV, the tax is distributed to the expense/revenue items (sales tax payables, non-deductible input tax).</li>
+<li>For each account/transaction key you assign the tax accounts, posting keys (40/50 recommended) and the rules (e.g. whether determination depends on tax code or account key).</li>
+<li>Exchange rate differences from tax adjustments in foreign currency normally go to the usual exchange-rate-difference account; per company code you can allow a manual tax exchange rate or use the posting/document date rate, with resulting differences to a special account.</li>
+</ul>
+
+<h4>Tax category in the G/L account master</h4>
+<table><thead><tr><th>Tax category</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>&lt;</td><td>Input tax account</td></tr>
+<tr><td>&gt;</td><td>Output tax account</td></tr>
+<tr><td>(blank)</td><td>Not tax-relevant, e.g. bank accounts</td></tr>
+<tr><td>-</td><td>Input tax code required (e.g. payables reconciliation account)</td></tr>
+<tr><td>+</td><td>Output tax code required (e.g. receivables reconciliation account)</td></tr>
+<tr><td>*</td><td>Any tax code allowed</td></tr>
+<tr><td>xx</td><td>Only the specific tax code xx</td></tr>
+</tbody></table>
+<p>Tax accounts can be set to <em>Post automatically only</em> to prevent manual postings. <em>Posting without tax allowed</em> lets you post to a tax-relevant account without a code, needed for jurisdiction procedures with foreign customers lacking a jurisdiction code. Cash discount accounts need a tax category so that tax adjustments can be posted.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Country procedure (steps, condition types, account keys) + tax code (rates, check indicator) = tax calculation.</li>
+<li>Account keys drive automatic tax account determination; NVV-type keys distribute non-deductible tax to the expense items.</li>
+<li>Tax category on the G/L account controls which tax codes are allowed or required.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f12-u5-l7">Lesson 7: Posting Cross-Company Code Transactions</h3>
+<p class="lead">Configure clearing accounts and post transactions that involve several company codes, understanding how the documents are linked and how tax is handled.</p>
+
+<h4>Concept</h4>
+<p>A cross-company code transaction touches two or more company codes – central procurement (one company code buys for others), central payment (one pays for others), or intercompany sales. Because a document belongs to exactly one company code, the system creates one document per company code and inserts automatically generated items on <strong>clearing accounts</strong> (receivable/payable between the company codes) so that each document balances. All documents share a <strong>cross-company code transaction number</strong> = first document number + first company code + fiscal year, stored in every header for the audit trail. Report <code>RFBVOR00</code> displays cross-company transactions; reversal uses the dedicated cross-company reversal function.</p>
+
+<h4>Central procurement example</h4>
+<p>A vendor delivers different goods to company codes 1000 and 2000 but sends one invoice to 1000. The user posts the vendor item and part of the expense in 1000 and the rest of the expense in 2000; the system adds the clearing items and tax. The tax is posted entirely to the company code of the <strong>first</strong> item, so enter the invoice item first and use this only when the transaction is not tax relevant or the company codes form one taxable entity. Where law requires tax in the company code of the expense (e.g. Japan, Denmark), redistribute it with report <code>RFBUST10</code>.</p>
+
+<h4>Clearing accounts</h4>
+<ul>
+<li>Every company code needs clearing accounts; they can be G/L, customer or vendor accounts and must be assigned with posting keys that identify the account type.</li>
+<li>Clearing accounts are defined for every pair of company codes between which postings should be possible – three company codes need 3 × 2 = 6 assignments.</li>
+</ul>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>One document per company code, linked by a common cross-company number, balanced via clearing accounts per company code pair.</li>
+<li>Tax lands in the first item's company code – enter the invoice first; use <code>RFBUST10</code> to redistribute where required.</li>
+<li><code>RFBVOR00</code> displays; a special function reverses cross-company documents.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> The unit's learning assessment covers: entry and G/L views both exist; one splitting procedure per client; parameter IDs for company code/currency; proposed posting date can be changed; change rules by account type and company code; only reference and header text changeable in the header; two reversal methods and the two prerequisites for negative posting; reversal reason mandatory and controls the alternative date; no reversal of documents with cleared items; percentage rate for cash discount; baseline date starts due-date calculation; payment terms in company code, sales area and purchasing org segments; day limits; net procedure is for vendors only; three cash discount periods; tax code links to the procedure; tax normally posted as a separate line; common cross-company number; clearing accounts per desired company code combination.</div>
+<h2 class="unit" id="s4f12-u6">Unit 6: Financial Document Clearing</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Clear open items manually (post with clearing, account clearing, manual payments) and automatically (clearing program), reset clearing, handle payment differences with tolerance groups, partial/residual items and reason codes, and configure the accounts for realised exchange rate differences.</div>
+
+<h3 class="lesson" id="s4f12-u6-l1">Lesson 1: Performing Open Item Clearing</h3>
+<p class="lead">Post with clearing, clear an account, run the automatic clearing program, process manual incoming and outgoing payments, use the assignment field for sorting, and reset clearing.</p>
+
+<h4>Open items and clearing</h4>
+<p>An open item (e.g. an unpaid invoice) is an incomplete transaction. It is completed by a clearing posting that brings a group of items to a zero balance; the items are then marked cleared. Documents with open items cannot be archived. Every clearing transaction creates a clearing document. Example: an invoice is posted on a customer account (open) → the customer pays and the payment is assigned to the invoice → both are cleared and the balance is zero. Manual clearing is typical for bank sub-accounts and clearing accounts, agreed debit memo procedures, and vendor refunds.</p>
+
+<h4>Two clearing functions</h4>
+<table><thead><tr><th>Function</th><th>How it works</th></tr></thead><tbody>
+<tr><td>Post with clearing</td><td>Enter the clearing amount (e.g. the payment) and select open items. If the selected items equal the amount, clearing items are created; otherwise the difference can be posted. Options: clear across several accounts and account types, clear in a specific currency, post differences, add extra items (e.g. bank charges). Can be run manually or automatically via the payment program or the clearing program</td></tr>
+<tr><td>Account clearing</td><td>Select items within one account that already net to zero; the system marks them cleared and creates a clearing document (no new amount entered). Works for any OIM account in G/L or sub-ledgers</td></tr>
+</tbody></table>
+<p>Each cleared item stores the clearing document number and the clearing date (current date or user-defined).</p>
+
+<h4>Automatic clearing program</h4>
+<p>Clears G/L and sub-ledger accounts that are flagged for automatic clearing in Customizing. It groups items with identical company code, account type, account number, reconciliation account, currency and special G/L indicator, plus up to five user-defined criteria from header or item (e.g. assignment, reference). If a group balances to zero in local currency it is cleared and a clearing document created. It does not clear noted items, statistical postings and certain bill-of-exchange special G/L transactions, down payments (unless matching down-payment clearing items exist), or items with withholding tax.</p>
+
+<h4>Assignment field and sort key</h4>
+<ul>
+<li>The <strong>sort key</strong> in the master record (G/L account or business partner) tells the system how to fill the <em>Assignment</em> field automatically when posting – e.g. purchase order number for a vendor, cost center for a G/L account, or document number + posting date.</li>
+<li>The assignment field can combine up to four fields with a maximum of 18 characters.</li>
+<li>Line item display and clearing can be sorted by assignment. SD billing documents pass their reference and assignment (configurable: PO, order, delivery or billing number) to the FI document, so the FI document can be traced back and selected by these fields.</li>
+</ul>
+
+<h4>Manual payment process</h4>
+<p>A manual payment clears open items with a manually assigned clearing document: incoming payments (AR) clear debits, outgoing payments (AP) clear credits. Steps: enter the header, select the open items, save.</p>
+<table><thead><tr><th>Header section</th><th>Content</th></tr></thead><tbody>
+<tr><td>Payment header</td><td>Document date; document type (proposed by transaction); company code; posting date and period (today proposed, period derived); currency, exchange rate and translation date (table rate on posting date if not entered); references such as reference number, header text, clearing text</td></tr>
+<tr><td>Bank data</td><td>Bank G/L account; payment amount; bank charges (posted automatically to an expense account; added to the amount for incoming payments, subtracted for outgoing to get the clearing amount); value date (for cash management, default today); item text (prefix * for external print, or text templates); assignment (automatic or manual)</td></tr>
+<tr><td>Open item selection</td><td>Account and selection criteria for the items to process</td></tr>
+</tbody></table>
+<p>In the <em>Process open items</em> screen all unassigned items (payments, memos, invoices) are listed. Cash discount is proposed from the item's payment terms and included in the assigned amount; it can be overwritten as an amount or percentage within the tolerance limits. The document can be posted when <em>Amount entered</em> equals <em>Assigned</em>. Use Document → Simulate to see all items including the automatic ones (tax adjustments, bank charges, exchange rate differences). If an error is found later: reset the clearing, reverse, and re-post.</p>
+<p>For manual cross-company payments, assign a clearing transaction (incoming or outgoing payment) to the pair paying company code / company code being paid for; the open items of both company codes are then offered for selection.</p>
+
+<h4>Reset clearing</h4>
+<p>Clearing can be reset per document, removing the clearing data from the items (since 1709 also via the <em>Reset Cleared Items</em> app). The reset is logged in change documents, and in AR the payment history and credit limit are corrected.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Clearing brings items to zero balance and always produces a clearing document; open items block archiving.</li>
+<li>Post with clearing adds a new item (payment); account clearing matches existing items.</li>
+<li>The clearing program groups by five fixed criteria plus up to five user criteria and clears zero-balance groups.</li>
+<li>Sort key fills the assignment field (max 4 fields / 18 characters) used for sorting and grouping.</li>
+<li>Manual payments: header + bank data + open item selection; bank charges and discounts post automatically; reset clearing before reversing a wrong payment.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f12-u6-l2">Lesson 2: Managing Payment Differences</h3>
+<p class="lead">Configure the three kinds of tolerance groups and process payment differences automatically (within tolerance) or manually (partial payment, residual item, difference posting with reason codes, write-off).</p>
+
+<h4>Three tolerance groups</h4>
+<table><thead><tr><th>Tolerance group</th><th>Controls</th></tr></thead><tbody>
+<tr><td>Employee</td><td>Upper posting limits (see Unit 4) and the payment differences the employee may accept</td></tr>
+<tr><td>G/L account</td><td>Permitted payment differences in automatic clearing of G/L accounts</td></tr>
+<tr><td>Customer/vendor (business partner)</td><td>Clearing transactions, permitted payment differences, residual item handling, tolerances for payment advices</td></tr>
+</tbody></table>
+
+<h4>Permitted payment differences</h4>
+<p>Both the employee and the business partner tolerance groups define limits for automatic cash discount adjustment and for unauthorised deductions; a difference must be inside <strong>both</strong> to be handled automatically, i.e. the lower limit applies. Course example: a difference below 3.00 (one group) and 2.00 (other group) is written off as a cash discount adjustment; a difference below 200/100 currency units and below 2.5 %/2.0 % of the open amount is posted as unauthorised deduction – for an open amount of 1,000 the effective limit is 20, for 100,000 it is 100. Tolerance amounts are always in local currency.</p>
+<p>At clearing the system compares the difference with the tolerances: within tolerance → automatic posting as cash discount adjustment or unauthorised deduction (special account); outside → manual processing. The employee group also defines the maximum cash discount percentage the employee can grant, so adjusting the discount stays within authorisation. Different groups are assigned to users via <em>Assign users to tolerance group</em>.</p>
+
+<h4>Manual processing options</h4>
+<table><thead><tr><th>Option</th><th>Result</th></tr></thead><tbody>
+<tr><td>Partial payment</td><td>Payment posted with reference to the invoice; invoice and payment both remain open</td></tr>
+<tr><td>Residual item</td><td>Invoice and payment are cleared; a new open item for the remainder is created with a new document number referencing the originals</td></tr>
+<tr><td>Post difference to another account</td><td>Difference posting using reason codes and automatic account determination</td></tr>
+<tr><td>Write off</td><td>Manual account assignment of the difference</td></tr>
+</tbody></table>
+<p>The business partner tolerance group controls residual items: whether they inherit the payment terms of the cleared item or get fixed terms, whether cash discount is granted only partially, and the maximum dunning level or a dunning key for separate printing.</p>
+
+<h4>Reason codes</h4>
+<p>Reason codes describe why a difference arose and can be attached to difference postings, partial payments and residual items (several codes via <em>Distribute Difference</em>). They support analysis and follow-up, and optionally control the type of payment notice sent to the customer, the account to which a residual item or difference is posted automatically, and whether disputed residual items are excluded from the credit limit check.</p>
+
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Employee, G/L account and customer/vendor tolerance groups; the stricter of employee and partner tolerance decides automatic handling.</li>
+<li>Within tolerance: cash discount adjustment or unauthorised deduction posted automatically.</li>
+<li>Outside tolerance: partial payment (all open), residual item (originals cleared), difference posting via reason code, or write-off.</li>
+<li>Reason codes drive payment notices, account determination and credit-limit exclusion.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f12-u6-l3">Lesson 3: Managing Exchange Rate Differences</h3>
+<p class="lead">Understand when realised exchange rate differences arise during clearing and how the gain/loss accounts are determined.</p>
+<p>When open items in foreign currency are cleared, the rate at payment usually differs from the rate at posting; the resulting <strong>realised</strong> gain or loss is posted automatically to the revenue/expense accounts defined in Customizing and stored in the cleared item. Exchange rate differences also arise when open items are <strong>valuated</strong> for the financial statements: the unrealised gain/loss is posted to a separate P&amp;L account with the offset on a balance sheet adjustment account. When an already valuated item is later cleared, the valuation correction is reversed and the remaining difference goes to the realised-difference account.</p>
+<h4>Account determination</h4>
+<p>Every reconciliation account and every G/L account with open items in foreign currency must have realised loss and gain accounts assigned. The assignment can be made for all currencies and currency types, per currency and currency type, per currency, or per currency type.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Realised differences arise at clearing and are posted automatically to gain/loss accounts and stored in the cleared item.</li>
+<li>Valuation differences at period end are reversed when the item is cleared.</li>
+<li>Gain/loss accounts are assigned per reconciliation/OIM account, optionally differentiated by currency and currency type.</li>
+</ul></div>
+
+<div class="box"><strong>Practice</strong> The unit's learning assessment tests: open items are incomplete transactions; clearing always creates a clearing document; account clearing can be manual or via the clearing program; documents with open items cannot be archived; cleared items carry clearing document number and date; the clearing program handles G/L and sub-ledger accounts; the cash discount can be overwritten in manual payments; the assignment field holds up to four fields / 18 characters; resetting clearing removes the clearing data; the three tolerance group types; differences beyond tolerance need manual processing; gain/loss accounts are mandatory for all reconciliation and OIM accounts with foreign-currency items.</div>
+
+  </div>
+</div>
+<script>document.querySelectorAll('#sidebar nav a').forEach(a=>a.addEventListener('click',()=>document.getElementById('sidebar').classList.remove('open')));</script>
+</body></html>

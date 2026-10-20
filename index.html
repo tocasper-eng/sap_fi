@@ -150,6 +150,7 @@ body { font-family: "72","SAP-icons",Arial,sans-serif; background: var(--sap-lig
   transition: box-shadow .2s;
 }
 .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,.1); }
+a.card { text-decoration: none; color: inherit; display: block; }
 .card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--sap-mid); }
 .card p { font-size: 13px; line-height: 1.6; color: var(--sap-sub); }
 .card .card-tag {
@@ -308,6 +309,9 @@ h4.subtopic { font-size: 14px; font-weight: 700; color: var(--sap-text); margin:
     <a href="#" onclick="show('closing')" id="nav-closing"><span class="icon">📅</span> Financial Closing</a>
     <a href="#" onclick="show('additional')" id="nav-additional"><span class="icon">➕</span> Additional FI</a>
     <a href="#" onclick="show('customizing')" id="nav-customizing"><span class="icon">⚙️</span> Customizing / Config</a>
+
+    <div class="section-label">Course Notes</div>
+    <a href="#" onclick="show('courses')" id="nav-courses"><span class="icon">📖</span> Unit-by-Unit Notes</a>
 
     <div class="section-label">Reference</div>
     <a href="#" onclick="show('tcodes')" id="nav-tcodes"><span class="icon">⌨️</span> T-Code Reference</a>
@@ -1970,6 +1974,27 @@ h4.subtopic { font-size: 14px; font-weight: 700; color: var(--sap-text); margin:
       </div>
     </div>
 
+    <!-- ===== COURSE NOTES ===== -->
+    <div class="section" id="section-courses">
+      <h2>Unit-by-Unit Course Notes</h2>
+      <p class="lead">Complete study notes for every unit and lesson of the nine SAP training courses, written in the order of the original material. Each course opens as its own page with a unit / lesson navigator.</p>
+      <h3 class="topic">SAP S/4HANA courses (S4F series, Col20)</h3>
+      <div class="card-grid">
+        <a class="card" href="courses/s4f10.html"><div class="card-tag">S4F10</div><h3>Business Processes in Financial Accounting</h3><p>FI overview, G/L, AP, AR, Asset Accounting, Bank Accounting and closing processes in S/4HANA.</p></a>
+        <a class="card" href="courses/s4f12.html"><div class="card-tag">S4F12</div><h3>Basics of Customizing for Financial Accounting</h3><p>Organizational units, master data, document control, posting control, clearing, cash journal, financial closing configuration.</p></a>
+        <a class="card" href="courses/s4f13.html"><div class="card-tag">S4F13</div><h3>Additional Financial Accounting Configuration</h3><p>Special G/L, parking, validations/substitutions, archiving, payment program, dunning, correspondence, taxes, interest, EBS, SEPA.</p></a>
+        <a class="card" href="courses/s4f15.html"><div class="card-tag">S4F15</div><h3>Financial Closing</h3><p>Month-end and year-end closing: valuation, accruals, regrouping, financial statements, closing cockpit, intercompany reconciliation.</p></a>
+        <a class="card" href="courses/s4f17.html"><div class="card-tag">S4F17</div><h3>Asset Accounting</h3><p>Chart of depreciation, asset classes, transactions, depreciation, periodic processing, legacy transfer, reporting.</p></a>
+      </div>
+      <h3 class="topic">SAP ERP (ECC) courses (TFIN series)</h3>
+      <div class="card-grid">
+        <a class="card" href="courses/tfin50_1.html"><div class="card-tag">TFIN50 · 1</div><h3>Financial Accounting I – Part 1</h3><p>Basic settings, master data, document control, posting control, clearing, cash journal.</p></a>
+        <a class="card" href="courses/tfin50_2.html"><div class="card-tag">TFIN50 · 2</div><h3>Financial Accounting I – Part 2</h3><p>Special G/L, parking, validations/substitutions, payment program, dunning, correspondence, closing.</p></a>
+        <a class="card" href="courses/tfin52_1.html"><div class="card-tag">TFIN52 · 1</div><h3>Financial Accounting II – Part 1</h3><p>Asset Accounting: organizational structures, master data, transactions, periodic processing, reporting.</p></a>
+        <a class="card" href="courses/tfin52_2.html"><div class="card-tag">TFIN52 · 2</div><h3>Financial Accounting II – Part 2</h3><p>Financial closing, New G/L, reporting, Solution Manager overview.</p></a>
+      </div>
+    </div>
+
     <!-- ===== T-CODE REFERENCE ===== -->
     <div class="section" id="section-tcodes">
       <h2>SAP FI Transaction Code Master Reference</h2>
@@ -2258,6 +2283,7 @@ const titles = {
   closing: 'Financial Closing (S4F15)',
   additional: 'Additional Financial Accounting (S4F13)',
   customizing: 'FI Customizing & Configuration (S4F12)',
+  courses: 'Unit-by-Unit Course Notes',
   tcodes: 'SAP FI Transaction Code Master Reference',
   comparison: 'ECC vs SAP S/4HANA Comparison',
   sources: 'Source Documents'

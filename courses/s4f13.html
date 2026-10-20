@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>S4F13 – Additional Financial Accounting (S/4HANA)</title><style>
+:root{--sap-orange:#F0AB00;--sap-blue:#0070F2;--sap-dark:#1A2132;--sap-mid:#354A5E;--sap-light:#F5F6F7;--sap-border:#DEDEDE;--sap-text:#32363A;--sap-sub:#556B82;--card:#fff;--sidebar-w:300px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--sap-light:#11181F;--sap-border:#354A5E;--sap-text:#E5E7EA;--sap-sub:#A0B3C8;--card:#1A2132}}
+:root[data-theme="dark"]{--sap-light:#11181F;--sap-border:#354A5E;--sap-text:#E5E7EA;--sap-sub:#A0B3C8;--card:#1A2132}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"72",Arial,sans-serif;background:var(--sap-light);color:var(--sap-text);display:flex;min-height:100vh}
+#sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--sap-dark);color:#fff;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+#sidebar .logo{background:var(--sap-orange);padding:14px 18px;display:flex;gap:10px;align-items:center}
+#sidebar .logo .badge{background:#fff;color:var(--sap-orange);font-weight:900;padding:2px 8px;border-radius:3px}
+#sidebar .logo h1{font-size:13px;color:var(--sap-dark);line-height:1.3}
+#sidebar nav{padding:10px 0;flex:1}
+#sidebar nav a{display:block;padding:7px 18px;color:rgba(255,255,255,.82);text-decoration:none;font-size:12.5px;border-left:3px solid transparent}
+#sidebar nav a:hover{background:rgba(255,255,255,.08);color:#fff}
+#sidebar nav a.unit{font-weight:700;color:var(--sap-orange);margin-top:8px;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+#sidebar nav a.lesson{padding-left:30px}
+#sidebar .back{padding:12px 18px;font-size:12px;border-top:1px solid rgba(255,255,255,.1)}
+#sidebar .back a{color:var(--sap-orange)}
+#main{flex:1;min-width:0}
+#topbar{position:sticky;top:0;z-index:5;background:var(--card);border-bottom:1px solid var(--sap-border);padding:12px 28px;display:flex;align-items:center;gap:12px}
+#topbar h2{font-size:15px;font-weight:600;flex:1}
+#menu-toggle{display:none;background:none;border:0;cursor:pointer;width:28px}
+#menu-toggle span{display:block;height:3px;background:var(--sap-text);margin:5px 0;border-radius:2px}
+.badge-new{background:#E8FBEF;color:#1B8C3A;font-size:11px;padding:3px 8px;border-radius:10px;font-weight:700}
+.badge-ecc{background:#FFF8E1;color:#A05A00;font-size:11px;padding:3px 8px;border-radius:10px;font-weight:700}
+#content{padding:28px 36px;max-width:1100px}
+h2.unit{font-size:22px;color:var(--sap-dark);margin:40px 0 6px;padding-top:12px;border-top:3px solid var(--sap-orange)}
+:root[data-theme="dark"] h2.unit,:root:not([data-theme="light"]) h2.unit{color:var(--sap-text)}
+h2.unit:first-of-type{margin-top:0;border-top:0;padding-top:0}
+h3.lesson{font-size:17px;margin:28px 0 10px;color:var(--sap-blue)}
+h4{font-size:14px;margin:16px 0 6px}
+p,li{font-size:13.5px;line-height:1.65}
+ul,ol{margin:6px 0 12px 22px}
+p{margin:6px 0}
+table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13px;background:var(--card)}
+th,td{border:1px solid var(--sap-border);padding:7px 10px;text-align:left;vertical-align:top}
+th{background:var(--sap-dark);color:#fff;font-weight:600}
+.box{padding:12px 16px;border-radius:6px;margin:14px 0;font-size:13px;line-height:1.6;background:var(--card);border-left:4px solid var(--sap-orange)}
+.box.key{border-left-color:var(--sap-blue)}
+.box strong{display:block;margin-bottom:4px}
+.lead{font-size:14px;color:var(--sap-sub);margin-bottom:18px}
+.unit-objectives{background:var(--card);border:1px solid var(--sap-border);border-radius:6px;padding:12px 16px;margin:10px 0 16px}
+code{background:rgba(0,0,0,.06);padding:1px 5px;border-radius:3px;font-size:12.5px}
+@media (max-width:900px){#sidebar{position:fixed;left:calc(-1*var(--sidebar-w));transition:left .2s;z-index:10}#sidebar.open{left:0}#menu-toggle{display:block}#content{padding:18px 16px}}
+</style></head>
+<body>
+<aside id="sidebar">
+  <div class="logo"><div class="badge">SAP</div><h1>S4F13 – Additional Financial Accounting (S/4HANA)</h1></div>
+  <nav><a class="unit" href="#s4f13-u1">Unit 1: Automatic Payments</a><a class="lesson" href="#s4f13-u1-l1">Lesson 1: Executing an Automatic Payment Run</a><a class="lesson" href="#s4f13-u1-l2">Lesson 2: Using Bank Accounts</a><a class="lesson" href="#s4f13-u1-l3">Lesson 3: Modifying Master Records and FI Documents</a><a class="lesson" href="#s4f13-u1-l4">Lesson 4: SEPA Direct Debit</a><a class="lesson" href="#s4f13-u1-l5">Lesson 5: Configuring the Payment Program</a><a class="lesson" href="#s4f13-u1-l6">Lesson 6: Configuring the Bank Selection</a><a class="lesson" href="#s4f13-u1-l7">Lesson 7: Running the Payment Program</a><a class="lesson" href="#s4f13-u1-l8">Lesson 8: Executing a Payment Run</a><a class="lesson" href="#s4f13-u1-l9">Lesson 9: Explaining Digital Payments</a><a class="unit" href="#s4f13-u2">Unit 2: Dunning Program</a><a class="lesson" href="#s4f13-u2-l1">Lesson 1: Executing the Dunning Program</a><a class="lesson" href="#s4f13-u2-l2">Lesson 2: Updating Master Records and FI Documents</a><a class="lesson" href="#s4f13-u2-l3">Lesson 3: Configuring the Dunning Program</a><a class="lesson" href="#s4f13-u2-l4">Lesson 4: Running the Dunning Program</a><a class="unit" href="#s4f13-u3">Unit 3: Correspondence</a><a class="lesson" href="#s4f13-u3-l1">Lesson 1: Explaining Correspondence</a><a class="lesson" href="#s4f13-u3-l2">Lesson 2: Modifying Master Records</a><a class="lesson" href="#s4f13-u3-l3">Lesson 3: Configuring Options for Correspondence Types</a><a class="lesson" href="#s4f13-u3-l4">Lesson 4: Creating a Correspondence</a><a class="unit" href="#s4f13-u4">Unit 4: Special General Ledger Transactions</a><a class="lesson" href="#s4f13-u4-l1">Lesson 1: Managing the Application View for Special G/L Transactions</a><a class="lesson" href="#s4f13-u4-l2">Lesson 2: Maintaining Special G/L Transactions</a><a class="lesson" href="#s4f13-u4-l3">Lesson 3: Understanding Purchasing (MM Integration)</a><a class="lesson" href="#s4f13-u4-l4">Lesson 4: Understanding Sales and Distribution Integration</a><a class="unit" href="#s4f13-u5">Unit 5: Parking Documents</a><a class="lesson" href="#s4f13-u5-l1">Lesson 1: Managing Document Parking Basics and Document Holding</a><a class="lesson" href="#s4f13-u5-l2">Lesson 2: Processing Parked Documents</a><a class="lesson" href="#s4f13-u5-l3">Lesson 3: Managing Document Parking and Workflow</a><a class="unit" href="#s4f13-u6">Unit 6: Validations and Substitutions</a><a class="lesson" href="#s4f13-u6-l1">Lesson 1: Understanding the Basics of Validation and Substitution</a><a class="lesson" href="#s4f13-u6-l2">Lesson 2: Maintaining and Executing Validations</a><a class="lesson" href="#s4f13-u6-l3">Lesson 3: Maintaining and Executing Substitutions</a><a class="lesson" href="#s4f13-u6-l4">Lesson 4: Using Additional Techniques for Substitutions and Validations</a><a class="unit" href="#s4f13-u7">Unit 7: Data Archiving in FI</a><a class="lesson" href="#s4f13-u7-l1">Lesson 1: Outlining the Basics and Classifications of Data Archiving</a><a class="lesson" href="#s4f13-u7-l2">Lesson 2: Maintaining Data Archiving</a><a class="lesson" href="#s4f13-u7-l3">Lesson 3: Executing Data Archiving for Specific FI Objects</a></nav>
+  <div class="back"><a href="../index.html">&larr; Back to SAP FI Reference</a></div>
+</aside>
+<div id="main">
+  <div id="topbar"><button id="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')"><span></span><span></span><span></span></button><h2>S4F13 – Additional Financial Accounting (S/4HANA)</h2><span class="badge-new">S/4HANA</span></div>
+  <div id="content">
+  <p class="lead">Unit-by-unit study notes written from the course material. Every lesson of the course is covered in the same order as the original.</p>
+<h2 class="unit" id="s4f13-u1">Unit 1: Automatic Payments</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand the end-to-end automatic payment process in SAP S/4HANA: the bank master data it relies on (banks, house banks, house bank accounts, business partner banks), the master-record and document fields that steer it, SEPA direct debit mandates, the full configuration in <code>FBZP</code> (company codes, payment methods, bank selection), and the run itself (parameters, proposal, payment run, payment media, scheduling), plus an outlook on the SAP digital payments add-on.</div>
+
+<h3 class="lesson" id="s4f13-u1-l1">Lesson 1: Executing an Automatic Payment Run</h3>
+<p class="lead">Get the big picture of what the automatic payment program does and the five processing steps every payment run goes through.</p>
+<h4>Why a payment program?</h4>
+<p>Paying invoices one by one is not feasible for a company with thousands of open items. The payment program is SAP's mass-processing tool for payables (and for collecting receivables). It runs in Financial Accounting at intervals the business decides (daily, weekly, ...) and, from a set of open items, decides what is due, how it is to be paid, posts the payment documents, and hands the data to the print/DME/EDI programs that produce the payment media.</p>
+<p>From a business point of view, the life cycle of an invoice in the payment process is: invoice is entered, open invoices are analysed for due date, due invoices are prepared for review, payments are approved or rejected, invoices are paid.</p>
+<h4>Characteristics</h4>
+<ul>
+<li>Designed for both domestic and international payment transactions.</li>
+<li>Works for vendors <em>and</em> customers, for outgoing <em>and</em> incoming payments (e.g. direct debits).</li>
+<li>Country-specific flexibility: payment methods, forms and data-carrier formats differ by country and are all configurable.</li>
+<li>Three things happen automatically: selection of open items to pay/collect, posting of payment documents, and output of payment media (print forms, Data Medium Exchange files, or Electronic Data Interchange).</li>
+</ul>
+<h4>The five processing steps</h4>
+<ol>
+<li><strong>Maintain the parameters.</strong> The parameters answer: which open items are evaluated, which payment method(s), when payment is made (posting date), which company codes, and when the next run is scheduled (so items that would be overdue by then are included now).</li>
+<li><strong>Schedule the proposal run.</strong> The system builds a list of business partners and open items that are due, grouped into payments.</li>
+<li><strong>Revise the proposal.</strong> Clerks review it, drill into each proposed payment, change payment terms/discount, set or remove payment blocks.</li>
+<li><strong>Schedule the payment run.</strong> After the list is verified (and the debit balance check performed), the payment documents are posted and G/L plus subledger accounts are updated.</li>
+<li><strong>Schedule printing.</strong> A separate print step produces the payment media (forms, DME files, IDocs).</li>
+</ol>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>The payment program is a mass-processing tool for AP and AR, outgoing and incoming payments, domestic and foreign.</li>
+<li>It automatically selects items, posts payment documents and feeds the payment-media programs.</li>
+<li>Sequence: parameters, proposal run, proposal editing, payment run, print run.</li>
+<li>Nothing is posted until the payment run; the proposal is only a simulation that can be edited.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u1-l2">Lesson 2: Using Bank Accounts</h3>
+<p class="lead">Learn the bank master data the payment program needs: the bank directory, house banks, house bank accounts and their link to G/L accounts, and bank details of business partners.</p>
+<h4>Basic Cash Management capability</h4>
+<p>Customers without a licence for the full SAP Cash Management can still use a "basic cash management" scope (formerly called Bank Account Management light). Anyone running SAP S/4HANA Finance may use it. It lets a cash manager centrally:</p>
+<ul>
+<li>Manage banks and house banks (only the subset of fields needed for the payment process).</li>
+<li>Define bank accounts and house bank accounts (common attributes only).</li>
+<li>Show bank accounts in a list view, import/export them.</li>
+<li>Replicate house banks, house bank accounts and bank accounts via IDoc.</li>
+<li>Monitor cash position and liquidity forecast.</li>
+<li>Manage memo records (app or <code>FF63</code> / <code>FF65</code>).</li>
+</ul>
+<p>The bank relationship management flow uses "direct revision activation": when a bank account is opened at the external bank, its data is created in S/4HANA in one harmonised step; the bank account master is identified as house bank information and tied to a G/L account in FI.</p>
+<h4>Manage Banks (bank directory)</h4>
+<p>Every bank that appears anywhere in the system (your own banks, your customers' and suppliers' banks) has one bank master record in the bank directory. The Fiori app <strong>Manage Banks</strong> is the central place to display/create/change this data. It stores address, risk and general data, lets you link house banks, contact persons and business partners to a bank, and supports bank hierarchies. A bank master record is uniquely identified by <strong>bank country + bank key</strong>. Report <code>RFBKABL0</code> lists changes to bank master data.</p>
+<h4>House banks</h4>
+<p>A house bank is a bank at which your own company holds accounts. The house bank record carries the bank master data, data for electronic payment transactions, and the EDI partner profile / DME details. The payment program uses the <strong>house bank ID</strong> to decide from which bank to pay.</p>
+<h4>House bank accounts (Manage Bank Accounts app)</h4>
+<p>Each account is identified by <strong>house bank ID + account ID</strong>. The bank account master record offers: general data (account number, holder, IBAN, control key, customer-defined attributes), bank relationship data (internal and bank contacts, bank statement data), connectivity to house bank accounts in the central or remote systems, overdraft limits, multilingual descriptions and attachments.</p>
+<p>To pay from an account, it must be assigned to a G/L account. Two approaches exist, chosen per house bank account through the master data:</p>
+<table><thead><tr><th>Approach</th><th>G/L account type</th><th>Relationship</th><th>Characteristics</th></tr></thead><tbody>
+<tr><td>Balance Sheet Account (classic)</td><td>Balance Sheet Account</td><td>1 : 1 between house bank account and G/L account; same currency required</td><td>A new set of bank G/L account + bank clearing accounts is created for every new house bank account; house bank ID and account ID are entered in the G/L account master.</td></tr>
+<tr><td>Bank Reconciliation Account (as of S/4HANA 2020)</td><td>Cash Account, subtype <strong>B</strong> (Bank Reconciliation Account) for the bank account; subtype <strong>S</strong> (Bank Sub Account) for clearing accounts</td><td>n : 1 — many house bank accounts share one set of G/L accounts</td><td>One reconciliation account plus one sub-account per payment method can be reused for any number of house bank connections; the reconciliation account is assigned in the sub-account master. Less reconciliation work between Cash Management and G/L, fewer G/L accounts over time.</td></tr>
+</tbody></table>
+<p>Example from the course: a company paying through several domestic and several foreign banks needs only two sets of accounts — one reconciliation account with one clearing sub-account per payment method for all local house bank accounts, and the same for the foreign ones. No migration is forced: because the approach is set per house bank account, both approaches can run side by side and a company can move gradually.</p>
+<h4>Business partner bank accounts</h4>
+<p>When bank details are entered in a BP master record, you only type bank country and bank key; name and address come from the bank directory. If the bank does not exist yet, it can be created on the fly during BP maintenance. Other ways to get bank master data in: import a country's bank directory with program <code>RFBVALL_0</code>, or (lockbox users) a batch-input session that updates customer bank data.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Bank directory entries are client-wide, keyed by bank country + bank key, and are reused in house banks and BP master records.</li>
+<li>House bank ID + account ID identify a house bank account; the payment program pays from house banks.</li>
+<li>Classic approach: 1:1 house bank account to balance-sheet G/L account. New approach: n:1 via Cash Account type with subtypes B (reconciliation) and S (sub-account).</li>
+<li>Basic cash management is available without a Cash Management licence and covers bank/house bank/bank account maintenance plus cash position.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u1-l3">Lesson 3: Modifying Master Records and FI Documents</h3>
+<p class="lead">Identify the fields in vendor/customer master records and in FI documents that steer the payment program, and understand the relationships between accounts (customer/vendor clearing, alternative payer/payee, head office/branch).</p>
+<h4>Master record fields — client (general data) level</h4>
+<table><thead><tr><th>Field</th><th>Relevance for payments</th></tr></thead><tbody>
+<tr><td>Address (street, postal code/city, country)</td><td>Country key drives checks such as postal code length and IBAN format.</td></tr>
+<tr><td>Bank country</td><td>Rules for validating the partner's bank data (account number format etc.).</td></tr>
+<tr><td>Language</td><td>Payment notices/checks can be printed in the partner's language if the form is translated; otherwise company code or form language is used.</td></tr>
+<tr><td>Bank key / bank account number</td><td>Identify the partner's bank and account.</td></tr>
+<tr><td>IBAN</td><td>ISO/ECBS standard account identifier, mandatory within SEPA (SAP Note 2115809 covers IBAN without account number/BIC).</td></tr>
+<tr><td>SEPA mandate</td><td>Signed authorisation needed for the SEPA direct debit method.</td></tr>
+<tr><td>Bank details ID</td><td>Distinguishes several banks of one partner; selected via the partner bank field in the invoice.</td></tr>
+</tbody></table>
+<h4>Master record fields — company code level</h4>
+<ul>
+<li><strong>Terms of payment</strong> — cash discount percentages and periods; defaulted into purchase/sales orders and invoices.</li>
+<li><strong>Payment methods</strong> — the default list of permitted methods; a method entered directly in the invoice item overrides them.</li>
+<li><strong>Payment block</strong> — blocks the whole account; a block can also be set at line-item level or in the proposal.</li>
+</ul>
+<h4>Customer/vendor clearing</h4>
+<p>If a business partner is both supplier and customer, payment and dunning can net the two accounts. Prerequisites: enter the customer number in the vendor general data and the vendor number in the customer general data, and tick <em>Clearing with vendor</em> / <em>Clearing with customer</em> in the company code data of both — so each company code decides for itself. Partner relationships can be listed with the apps Display Customer List / Display Supplier List or reports <code>RFDKVZ00</code> / <code>RFKKVZ00</code> (Account Control and Status selection).</p>
+<h4>Alternative payer / payee</h4>
+<p>An alternative payer (customer side) or payee (vendor side) can be maintained at client and at company code level; the company code entry wins. With the <em>Payer/Payee in document</em> indicator, a one-off payer/payee who is not in the system can be typed into the invoice; alternatively, existing accounts can be listed as permitted payers/payees in the master record and picked at document entry. Effect: the open item is cleared on the original account, but the money is collected from / paid to the alternative partner (classic example: payments to an insolvent vendor go to the bankruptcy administrator). Reports: same customer/vendor lists with the Payment Data selection.</p>
+<h4>Head office / branch</h4>
+<p>Some customers order locally through branches but pay centrally. Items posted to a branch account are automatically carried to the head office account, which is dunned and paid. If <em>Local processing</em> is set in the head office master, payment and dunning use the branch account instead. The head office of each branch is visible in <code>RFDKVZ00</code> / <code>RFKKVZ00</code>.</p>
+<h4>FI document fields that influence payment</h4>
+<table><thead><tr><th>Field</th><th>Behaviour</th></tr></thead><tbody>
+<tr><td>Payment method</td><td>Usually blank (master data applies); if filled, it has priority.</td></tr>
+<tr><td>Payment terms</td><td>Defaulted from master record; can be overwritten at entry or later.</td></tr>
+<tr><td>Payment block</td><td>Document-level block affects only that item; master-level block affects all items.</td></tr>
+<tr><td>Partner bank</td><td>Chooses which of several bank details of the partner to use.</td></tr>
+<tr><td>House bank</td><td>If filled, the item is paid from this house bank.</td></tr>
+</tbody></table>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Payment-relevant master data lives at two levels: general (address, bank data, IBAN, mandate) and company code (terms, methods, block).</li>
+<li>Document entries override master data for payment method, terms, block, partner bank and house bank.</li>
+<li>Customer/vendor clearing requires cross-references in both general data and the clearing flags in both company code segments.</li>
+<li>Alternative payer/payee: company code entry beats client entry; head office/branch: items flow to the head office unless local processing is set.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u1-l4">Lesson 4: SEPA Direct Debit</h3>
+<p class="lead">Understand what a SEPA direct debit is, the role of the mandate, and how SAP mandate management supports it.</p>
+<h4>SEPA Direct Debit (SDD)</h4>
+<p>SDD is the instrument for collecting <strong>euro</strong> amounts throughout the SEPA area from accounts that accept collections. Both debtor and creditor need an account at a bank located within SEPA. The creditor initiates the collection via its own bank, based on an agreement with the debtor; the debtor's authorisation for the creditor and the debtor bank is the <strong>mandate</strong>.</p>
+<ul>
+<li>Pre-notification: unless a shorter period is agreed, the debtor must be informed at least 14 calendar days before the due date. For recurring debits of a constant amount (rent, insurance premiums), one notification listing all due dates is enough.</li>
+<li>Goal: fully electronic straight-through processing, including exception handling (rejects, returns, reversals, refunds, refusals, revocations).</li>
+<li>Between banks, mandate data is exchanged only electronically; between debtor and creditor the mandate can be paper or electronic.</li>
+</ul>
+<h4>SEPA mandates</h4>
+<p>The mandate form contains field identifiers followed by space for the data. Identifiers must be in at least one language of the debtor's country of residence; if the creditor cannot determine the language in advance, English identifiers are added. The creditor can personalise the layout. In SAP, mandate management derives most fields from the customer and company code master data, assigns the mandate reference from a mandate-specific number range, and records in the <em>Type of payment</em> field whether the mandate covers a one-off or recurring collection.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>SDD collects euro only, within SEPA, and requires a mandate from the debtor.</li>
+<li>Pre-notification 14 days ahead (one notification suffices for recurring equal amounts).</li>
+<li>SAP mandate management fills most mandate data automatically and numbers mandates from a dedicated number range.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u1-l5">Lesson 5: Configuring the Payment Program</h3>
+<p class="lead">Learn the structure of payment program configuration (<code>FBZP</code>) and the settings for all company codes, paying company codes, and payment methods per country and per company code.</p>
+<h4>Configuration entry points</h4>
+<p>Transaction <code>FBZP</code> (Maintain Payment Program Configuration) presents one button per configuration area; working through the buttons top to bottom guarantees completeness. The same activities are in the IMG under Financial Accounting → Accounts Receivable and Accounts Payable → Business Transactions → Outgoing Payments → Automatic Outgoing Payments → Payment Method/Bank Selection for Payment Program. The first areas (company codes, paying company codes, payment methods per country) normally need little change because SAP delivers many country payment methods with forms.</p>
+<h4>All company codes</h4>
+<table><thead><tr><th>Setting</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Sending company code</td><td>The company code on whose behalf payment is made; if empty, the paying company code is also the sender.</td></tr>
+<tr><td>Paying company code</td><td>The company code that actually processes the payment transactions.</td></tr>
+<tr><td>Cash discount: minimum</td><td>Discounts below this percentage are ignored; the item waits until net due date.</td></tr>
+<tr><td>Cash discount: maximum</td><td>Always take the highest discount, even if its period has passed.</td></tr>
+<tr><td>Tolerance days for payables</td><td>Number of days by which discount and net periods may be exceeded (grace days); items can slip to the next run while keeping the discount.</td></tr>
+<tr><td>Special G/L transactions to be paid</td><td>Which vendor/customer special G/L indicators (e.g. down payments) the payment program may process.</td></tr>
+<tr><td>Payment method supplement</td><td>Optional 2-character code assigned in master records and copied to line items, used to sort and print payments separately.</td></tr>
+</tbody></table>
+<h4>Paying company codes</h4>
+<ul>
+<li>Minimum amounts for incoming and outgoing payments — anything smaller is not paid.</li>
+<li>Forms (SAPscript or PDF) for payment advice and EDI accompanying sheet.</li>
+<li>Bill of exchange settings: number of bills per account per run and the due-date window for selecting bill-of-exchange items.</li>
+<li>Sender details: company-code-dependent standard texts for the forms.</li>
+</ul>
+<h4>Payment methods — country level</h4>
+<p>For each country you define the valid methods (check, bank transfer, direct debit, ...). Each method specifies: payment type (outgoing/incoming), classification characteristics, master record requirements that must be met (e.g. bank details present), document types for payment and clearing documents, payment medium format for the Payment Medium Workbench, and permitted currencies (empty list = all currencies allowed).</p>
+<h4>Payment methods — company code level</h4>
+<table><thead><tr><th>Setting</th><th>Effect</th></tr></thead><tbody>
+<tr><td>Minimum / maximum amount</td><td>Payments outside the range are excluded from the run for this method.</td></tr>
+<tr><td>Foreign business partner allowed</td><td>Partners with a foreign address may use the method.</td></tr>
+<tr><td>Partner bank abroad allowed</td><td>Partner bank in another country may be used.</td></tr>
+<tr><td>Foreign currency allowed</td><td>Payments in foreign currency permitted.</td></tr>
+<tr><td>Single payment for marked items</td><td>Items carrying this method explicitly are paid one by one; items without method can still be grouped.</td></tr>
+<tr><td>Payment per due day</td><td>Only items due on the same day are combined into one payment.</td></tr>
+<tr><td>Bank group optimisation</td><td>Prefer a house bank in the same clearing system (ACH) as the partner bank.</td></tr>
+<tr><td>Postal code optimisation</td><td>Choose the house bank by the partner's postal area (banks assigned to postal code ranges).</td></tr>
+<tr><td>Forms for payment media</td><td>SAPscript/PDF form name for the medium.</td></tr>
+</tbody></table>
+<p>These company-code-specific settings may differ from one company code to another for the same method.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li><code>FBZP</code> bundles all payment program customizing; work through it top to bottom.</li>
+<li>Company code settings: sender/payer relationship, discount limits, tolerance days, special G/L indicators, supplements.</li>
+<li>Paying company code: minimum amounts, forms, bill of exchange control.</li>
+<li>Payment methods are defined per country (type, requirements, document types, PMW format, currencies) and refined per company code (amount limits, foreign payments, grouping, optimisation, forms).</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u1-l6">Lesson 6: Configuring the Bank Selection</h3>
+<p class="lead">Configure how the payment program chooses the paying house bank and account: ranking order, available amounts, accounts, value dates and charges, including the differences under the bank reconciliation account approach.</p>
+<h4>Bank selection folders</h4>
+<p>The Bank Selection (bank determination) screen of <code>FBZP</code> is organised in folders per paying company code: ranking order, amounts, accounts, charges and value date. The configuration is complete when all are maintained.</p>
+<table><thead><tr><th>Folder</th><th>Maintained per</th><th>Content</th></tr></thead><tbody>
+<tr><td>Ranking order</td><td>Payment method (+ optional currency)</td><td>Sequence in which house banks are tried; currency (blank = all); house bank ID; bill of exchange bank account.</td></tr>
+<tr><td>Amounts</td><td>House bank + payment method</td><td>Available funds at each bank (Available Amounts screen) — the program does not pay more than this.</td></tr>
+<tr><td>Accounts</td><td>House bank + payment method</td><td>Bank sub-account (offsetting account for the subledger posting under the balance sheet approach) and bill of exchange clearing accounts.</td></tr>
+<tr><td>Value date</td><td>House bank + payment method</td><td>Days until value date, used for cash management/forecast: value date = payment posting date + days. Example: transfers debited the next day get 1.</td></tr>
+<tr><td>Expenses/charges</td><td>House bank + payment method</td><td>Bank charges for incoming/outgoing payments (mainly bills of exchange); charges are deducted from incoming and added to outgoing clearing amounts and posted to an expense account via a predefined posting key/account assignment; the account must be flagged relevant to cash flow.</td></tr>
+</tbody></table>
+<h4>Account determination with the Bank Reconciliation Account approach (self-initiated payments)</h4>
+<p>When the bank account uses the Cash Account approach, the bank sub-account is no longer taken from the ranking order/accounts folders (IMG: ... Payment Method/Bank Selection for Payment Program → Set Up Bank Determination for Payment Transactions). Instead:</p>
+<ol>
+<li>Define account symbols for self-initiated payments in Financial Accounting → Bank Accounting → Business Transactions → Payment Transactions → Electronic Bank Statement → Make Global Settings for Electronic Bank Statement.</li>
+<li>Assign an account symbol to country + payment method under ... Automatic Outgoing Payments → Payment Method/Bank Selection for Payment Program → Assign Account Symbol to Payment Methods.</li>
+<li>In the EBS global settings, assign G/L accounts to the symbols using masked entries. The clearing account is derived from the G/L account in the house bank account data combined with the mask — e.g. bank account 11000000 and mask +++++++020 give clearing account 11000020.</li>
+</ol>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Bank determination = ranking order, available amounts, accounts, value date, charges per paying company code.</li>
+<li>Available Amounts (not Ranking Order) holds the funds per bank.</li>
+<li>Value date = posting date + days until value date; it drives cash management.</li>
+<li>Under the reconciliation account approach the clearing account comes from account symbols and masked G/L accounts, as in electronic bank statement customizing.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u1-l7">Lesson 7: Running the Payment Program</h3>
+<p class="lead">Maintain payment run parameters, run and read the payment proposal and exception list, understand payment blocks and edit the proposal.</p>
+<h4>Payment run parameters</h4>
+<p>A run is identified by <strong>run date + identification</strong> (several runs per day are possible). The parameters needed before anything can start:</p>
+<ul>
+<li>Posting date of the payment documents (defaults to the run date).</li>
+<li>"Documents entered up to" date (defaults to the run date) — both can be set in the future when payments are not posted daily.</li>
+<li>Company codes — all must belong to the <strong>same country</strong>.</li>
+<li>Payment methods — the order typed is the priority order; the first feasible method is used.</li>
+<li>Next payment run date — items that would become due (or lose discount) by then are picked up now.</li>
+<li>Customer/supplier account ranges; optional free selections on document or master fields; optional exchange rate type.</li>
+</ul>
+<h4>Proposal run</h4>
+<ol>
+<li>Open items are selected according to the parameters.</li>
+<li>Items are grouped into payments; payment method and bank details are assigned.</li>
+<li>Items for which no valid method or bank data can be found go to the exception list.</li>
+<li>Proposal and exception lists are generated for online review or export.</li>
+</ol>
+<p>A vendor item is proposed if, by the next run date (including tolerance days), its discount period will have expired, it would only receive a lower discount, or its net due date will have passed.</p>
+<p>The <strong>proposal list</strong> shows partners and amounts (document numbers and discounts depending on line layout) and allows drill-down to change items. The <strong>exception list</strong> contains items that matched the parameters but cannot be paid; the additional log explains why.</p>
+<h4>Payment blocks</h4>
+<table><thead><tr><th>Where set</th><th>Effect / control</th></tr></thead><tbody>
+<tr><td>Invoice verification (MM)</td><td>Block can be configured so it can only be lifted within invoice verification.</td></tr>
+<tr><td>Master record</td><td>Blocks all invoices of the partner; may be configured to require manual removal in the master record.</td></tr>
+<tr><td>Document entry (AP invoice)</td><td>Block reason decides whether it may be removed while editing the proposal.</td></tr>
+</tbody></table>
+<p>Additional block reasons can be defined, each with a flag whether it can be changed during payment proposal processing. The debit balance check after the proposal automatically blocks accounts with a debit balance.</p>
+<h4>Editing the proposal</h4>
+<p>From the list of proposed payments a clerk can: display the open items in a payment, change payment block and cash discount per item, reassign an item to another existing payment, or create a new payment with a different method/house bank. The saved proposal is then the basis for the actual payment run, in which documents are posted, items cleared and G/L/subledgers updated.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Run date + identification identify a run; posting date and entry-until date default to the run date.</li>
+<li>Only company codes of one country per run; payment method order = priority.</li>
+<li>The next run date decides whether an item is paid now to avoid losing discount or becoming overdue.</li>
+<li>Exception list + additional log explain unpayable items; blocks can originate from MM, master data, documents or the proposal.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u1-l8">Lesson 8: Executing a Payment Run</h3>
+<p class="lead">Understand what the payment run posts, how bank sub-accounts and payment documents work, how the Payment Medium Workbench creates payment media, and how to schedule runs automatically.</p>
+<h4>The payment run</h4>
+<p>Until the payment run nothing has been posted; the items in the proposal are locked so they cannot be paid manually or in another run. The payment run then: posts payment documents and clears the open items, posts related items (taxes, discounts, exchange rate differences), identifies payments for EDI, and hands the data to the media creation/print programs.</p>
+<p>Country note: where payment documents may only be posted once the bank has settled, the payment method flag <em>Generate payment order only</em> produces a payment order instead; the payment document is created when the order appears on the bank statement, and the items stay blocked for other clearing in the meantime.</p>
+<h4>Bank sub-accounts</h4>
+<p>Separate sub-accounts per flow (outgoing checks, outgoing transfers, incoming checks, incoming transfers) hold the payments until the bank actually debits/credits the account (value date); the bank statement (manual or electronic) then moves them to the main bank account. Benefit: the bank G/L account can be reconciled with the bank at any time.</p>
+<h4>The payment document</h4>
+<ul>
+<li>Document type comes from the country payment method; cross-company-code payments need a second type for clearing postings; both use internal numbering.</li>
+<li>Header text contains run date and identification (e.g. YYYYXXXX-TA##).</li>
+<li>Value date = posting date + days to value date (depends on method, bank account, currency, amount limit); a check-cashing time in master data overrides it for checks.</li>
+</ul>
+<h4>Payment media and the Payment Medium Workbench</h4>
+<p>The print run transfers forms, advices and payment summary to print administration, DME data to DME administration and creates IDocs for EDI payments. The <strong>PMW</strong> is the uniform, generic payment medium program: variants per format are set in Customizing, formats can be changed or created (with the DME Engine, without ABAP), all advices come out in one print file with better sorting, the note to payee is freely defined and assigned per origin and method, and mass performance is improved.</p>
+<p>PMW process: <code>SAPFPAYM_SCHEDULE</code> performs the pre-service (sorts payments by format, builds payment groups according to granularity, generates notes to payee), then <code>SAPFPAYM</code> creates the media, accompanying sheets, error log and payment summary, and <code>RFFOAVIS_FPAYM</code> creates advice notes and zero-balance notices. Mapping of system data into the format is done by function modules or by the DME Engine, which lets you build bank-specific file formats where no standard exists.</p>
+<p><strong>Granularity:</strong> the format defines which fields split the output into payment groups (one file per group) — e.g. company code + house bank gives one file per combination. At least one <code>SAPFPAYM</code> variant per payment group is required. Delivered formats' granularity can be refined but not coarsened.</p>
+<p><strong>Note to payee:</strong> every PMW format has three reference text types — invoice information (classic note), internal reference (for returned media), external reference (for the partner). Contents come from a format-independent, language-specific content template defined in Customizing or via function module.</p>
+<h4>Automation</h4>
+<p>The Fiori app <strong>Schedule Accounts Payable Jobs</strong> with template "Automatic Scheduling of the Payment Program" lets you define scheduling options (recurrence) and the payment run parameters, so runs happen without manual triggering.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>The payment run posts, clears and feeds the media programs; items are locked from proposal until posting.</li>
+<li>Bank sub-accounts bridge the gap between payment posting and bank statement.</li>
+<li>PMW: SAPFPAYM_SCHEDULE → SAPFPAYM + RFFOAVIS_FPAYM; formats via DME Engine; granularity defines payment groups/files.</li>
+<li>Payment runs can be scheduled recurrently through Schedule Accounts Payable Jobs.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u1-l9">Lesson 9: Explaining Digital Payments</h3>
+<p class="lead">Describe the SAP digital payments add-on: its purpose as a payment hub to payment service providers, its architecture, and the end-to-end credit card payment scenario.</p>
+<h4>Purpose</h4>
+<p>The add-on connects SAP (and non-SAP) consumer applications with external payment service providers (PSPs) for secure end-to-end processing of digital payments, mainly incoming credit card payments. It allows credit card payment methods in S/4HANA for incoming payments, covering tokenised settlement, PSP advice and bank statement automatically. A contract with the chosen PSP is required.</p>
+<p>It also handles <strong>external payments</strong> (online/mobile payment systems rather than cards), either as one-step "direct capture" (charge without prior authorisation) or two-step "charge with authorisation".</p>
+<h4>Architecture</h4>
+<ul>
+<li><strong>Consumer application</strong> (several S/4HANA apps, listed on the SAP Help Portal) sends the request.</li>
+<li><strong>SAP digital payments add-on on SAP Cloud Platform</strong> processes it with a core adapter plus one adapter per PSP, mapping the request into the PSP format.</li>
+<li><strong>PSP</strong> communicates via web services, mostly synchronously.</li>
+</ul>
+<h4>End-to-end example (S/4HANA Cloud for Customer Payments)</h4>
+<ol>
+<li>Card registration: the customer logs on and stores a card; later pays open items by card.</li>
+<li>Payment run: the AR accountant clears the invoice via automatic or manual credit card payment.</li>
+<li>Settlement: settled card payments get status In Transfer; the message goes to the PSP and on to the clearing house, whose reply updates the settlement status automatically.</li>
+<li>Advice: the credit card advice records taxes/charges in the cash position as a memo item.</li>
+<li>Bank statement: standard FI-AR processing; because statements are highly aggregated, the advice is what gives Finance the detail.</li>
+</ol>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>The add-on is a cloud payment hub between S/4HANA consumer apps and PSPs, integrated in SAP's roadmaps (not loosely coupled).</li>
+<li>Supports card payments and external payments (direct capture or charge with authorisation).</li>
+<li>Flow: registration → payment → settlement → advice → bank statement.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> This unit has no hands-on exercises in the course text; it closes with a learning assessment. Points tested: the payment program posts payment documents automatically; bank master records are client-level; customer/vendor clearing is possible; company code level alternative payer/payee beats client level; SDD is euro-only; payment program configuration covers paying company codes, payment methods per company code and house banks; Available Amounts (not Ranking Order) lists funds per bank; value date = posting date + days; one country per run; reasons for non-payment include debit balance, invalid house bank and amounts below the minimum; the exception list is reviewable before the payment run; the run posts to G/L and subledgers, clears items and feeds print programs; the run ID is in the document header text.</div>
+<h2 class="unit" id="s4f13-u2">Unit 2: Dunning Program</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand how SAP S/4HANA reminds customers (and debit-balance vendors) of overdue items automatically: the four-step dunning process, the master-record and document fields that steer it, the complete configuration of a dunning procedure (levels, charges, minimum amounts, texts, special G/L, environment), and the detailed logic of a dunning run from account selection through proposal editing to printing.</div>
+
+<h3 class="lesson" id="s4f13-u2-l1">Lesson 1: Executing the Dunning Program</h3>
+<p class="lead">Get an overview of what dunning is for and the four steps of the automatic dunning process.</p>
+<h4>Why dunning?</h4>
+<p>When a customer does not pay by the net due date, the company sends reminders: a first, friendly one, followed by increasingly firm notices. S/4HANA automates this. The dunning program looks at customer and vendor accounts whose overdue items produce a debit balance, selects the overdue open items, determines the dunning level of the account and produces a dunning notice. Vendors can be dunned too, typically when a credit memo leaves them with a debit balance. If a partner is both customer and vendor, the two balances can be offset against each other before dunning.</p>
+<h4>The four steps</h4>
+<ol>
+<li><strong>Maintain parameters</strong> — define how the run behaves; parameters can be copied from an earlier run and only the dates adjusted.</li>
+<li><strong>Schedule the dunning run</strong> — the program determines accounts and items to dun, dunning levels and all other data, and decides whether a payment reminder or a dunning notice is needed. Everything is stored in one dunning proposal.</li>
+<li><strong>Change the dunning proposal</strong> — the proposal can be edited, deleted and regenerated as often as necessary.</li>
+<li><strong>Start the printout</strong> — notices are printed (or e-mailed) and, in the same step, the dunning data in master records and documents is updated.</li>
+</ol>
+<p>It is also possible to print directly after the run without touching the proposal.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Dunning = automatic reminders for overdue items on accounts with a debit balance; customers and vendors alike.</li>
+<li>Parameters → dunning run (proposal) → edit proposal → print and update data.</li>
+<li>The proposal is editable and repeatable; master data is updated only at printing.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u2-l2">Lesson 2: Updating Master Records and FI Documents</h3>
+<p class="lead">Know the fields in the business partner master and in FI documents that control whether and how an account is dunned.</p>
+<h4>Master record fields (general and company code level, Correspondence tab)</h4>
+<table><thead><tr><th>Field</th><th>Role in dunning</th></tr></thead><tbody>
+<tr><td>Address (street, postal code/city, country)</td><td>Needed for the notice; the country key controls format checks.</td></tr>
+<tr><td>Language</td><td>Notice can be produced in the partner's language if the form is translated.</td></tr>
+<tr><td>Payment terms</td><td>Determine due dates and therefore days in arrears.</td></tr>
+<tr><td>Payment methods (incoming)</td><td>If an incoming payment method is set, the item is normally <em>not</em> dunned — the payment program collects it.</td></tr>
+<tr><td>Dunning procedure</td><td>Predefined procedure that says how the partner is dunned; without one, the account is never dunned (there is no default procedure).</td></tr>
+<tr><td>Dunning block</td><td>Blocks the whole account.</td></tr>
+<tr><td>Last dunned</td><td>Date of the last run including the account; compared against the dunning interval during account selection.</td></tr>
+<tr><td>Dunning level</td><td>Highest level of all dunned items; set automatically when a notice is produced.</td></tr>
+<tr><td>Dunning clerk</td><td>Responsible person; name printed on the notice.</td></tr>
+<tr><td>Dunning area</td><td>Optional sub-structure of the company code with its own responsibility/procedure; notices are created separately per area.</td></tr>
+</tbody></table>
+<h4>FI document fields</h4>
+<p>At line-item level you can maintain the <strong>dunning area</strong>, <strong>dunning key</strong> (restricts the maximum level or forces separate display), <strong>dunning block</strong> (blocks only this item) and <strong>payment terms</strong> (drive the item's due date).</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>No dunning procedure in the master record means no dunning at all.</li>
+<li>Last-dunned date and dunning level are updated by the print step and read by the next run.</li>
+<li>An incoming payment method on an item/account suppresses dunning unless a payment block exists.</li>
+<li>Document-level: dunning area, dunning key, dunning block, payment terms.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u2-l3">Lesson 3: Configuring the Dunning Program</h3>
+<p class="lead">Walk through every part of a dunning procedure — general settings, levels, charges, minimum amounts, texts and special G/L transactions — and the surrounding environment settings.</p>
+<h4>Configuration structure</h4>
+<p>The dunning configuration menu shows one icon per area: dunning procedures, dunning levels, expenses/charges, minimum amounts, dunning texts, special G/L indicator. Work left to right. SAP delivers common procedures with forms; copying one and adjusting the company-code-specific parts is usually enough.</p>
+<h4>Dunning procedure — general settings</h4>
+<table><thead><tr><th>Setting</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Dunning procedure key / name</td><td>Identifier (e.g. 1001) and description.</td></tr>
+<tr><td>Dunning interval in days</td><td>Minimum days between two dunning runs for an account. Last-dunned date + interval must be reached, otherwise the account is skipped even with overdue items.</td></tr>
+<tr><td>Number of dunning levels</td><td>Highest level of the procedure (maximum 9).</td></tr>
+<tr><td>Total due items from dunning level</td><td>From this level on, all items are totalled (e.g. German court orders require receivables dunned at least three times).</td></tr>
+<tr><td>Minimum days in arrears (account)</td><td>At least one item must be this many days overdue for the account to be dunned at all.</td></tr>
+<tr><td>Line item grace period</td><td>Days added to the due date before an item counts as dunnable.</td></tr>
+<tr><td>Interest indicator / Ignore interest indicator in master</td><td>Which interest calculation applies; the flag forces the procedure's indicator over the master-record one (no indicator + flag = no interest).</td></tr>
+<tr><td>Public holiday calendar</td><td>Keeps computed dates off weekends/holidays.</td></tr>
+<tr><td>Standard transaction dunning / Dun special G/L transactions</td><td>Whether normal items and/or special G/L items (down payments etc.) are dunned; standard transactions is the default.</td></tr>
+<tr><td>Dunning even if account balance is positive</td><td>Produce notices for credit-balance accounts too; default is debit balances only.</td></tr>
+<tr><td>Reference dunning procedure for texts</td><td>Take form names from another procedure (normally one with the same number of levels); blank = own procedure.</td></tr>
+</tbody></table>
+<h4>Dunning levels (up to nine)</h4>
+<table><thead><tr><th>Setting</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Days in arrears</td><td>Proposed automatically: level 1 = grace period, each further level = previous level + dunning interval. Can be overwritten (not recommended).</td></tr>
+<tr><td>Calculate interest</td><td>Interest computed for items at this level.</td></tr>
+<tr><td>Print all items</td><td>Also list items not (yet) dunned so the partner sees the whole balance; ineffective if separate notices per level are used, because not-yet-due items could not be assigned.</td></tr>
+<tr><td>Always dun</td><td>Send a notice even if the proposal has not changed since the last run; typical for the highest level and for payment reminders. "Changed" means an item moved to another level, a new item joined, or the account level changed.</td></tr>
+<tr><td>Payment deadline</td><td>Days added to the issue date to print a pay-by date.</td></tr>
+<tr><td>Always dun in legal dunning procedure</td><td>For accounts in legal dunning, produce a notice even without new account movements.</td></tr>
+</tbody></table>
+<h4>Expenses / charges</h4>
+<p>Per procedure and currency, charges are defined by dunning level: fixed amount or percentage of the dunned amount, optionally with a minimum charge; the charges can be printed on the form via text variables.</p>
+<h4>Minimum amounts</h4>
+<p>To stop trivial amounts from escalating to high levels, each level has a minimum amount and/or minimum percentage of the overdue items, plus a minimum amount before interest is calculated. If a level does not reach its minimum, its items drop to the next lower level and the check repeats there.</p>
+<h4>Dunning texts</h4>
+<p>Per procedure and level you name the form; the program can produce dunning notices, payment advices and payment forms using SAPscript, Smart Forms or Adobe PDF forms.</p>
+<h4>Special G/L transactions</h4>
+<p>Special G/L transactions (down payments, bills of exchange, guarantees...) are shown separately in the balance sheet or for internal reasons. The procedure offers a list of special G/L indicators; tick those that should be dunned.</p>
+<h4>Environment settings</h4>
+<table><thead><tr><th>Setting</th><th>Content</th></tr></thead><tbody>
+<tr><td>Company code data</td><td>Dun by dunning area instead of by account (master data then updated per area); option for a separate notice per dunning level with its own texts instead of one notice for all levels.</td></tr>
+<tr><td>Sort fields</td><td>Sort variants for notices and for the items inside them.</td></tr>
+<tr><td>Sender details</td><td>Company data for the footer (logo, bank details), as standard texts assigned per company code (and optionally per dunning area).</td></tr>
+<tr><td>Dunning areas</td><td>Organisational sub-units of a company code responsible for dunning.</td></tr>
+<tr><td>Dunning keys</td><td>Restrict an item's maximum level or print it separately.</td></tr>
+<tr><td>Dunning block reasons</td><td>Reasons used to block accounts/items.</td></tr>
+<tr><td>Interest</td><td>Interest rates on debit balances, currency- and time-dependent.</td></tr>
+<tr><td>Dunning grouping</td><td>Grouping key combining items with identical content in selected document fields (e.g. items of one rental agreement).</td></tr>
+</tbody></table>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Six configuration areas: procedure, levels, charges, minimum amounts, texts, special G/L.</li>
+<li>Dunning interval, grace period and minimum days in arrears together decide when an account/item is dunnable.</li>
+<li>A procedure has at most nine levels; days in arrears per level are derived from grace period + interval.</li>
+<li>Minimum amounts push small overdue totals down a level; charges and interest can depend on the level.</li>
+<li>Environment: dunning areas, keys, block reasons, interest, grouping, sort fields, sender texts.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u2-l4">Lesson 4: Running the Dunning Program</h3>
+<p class="lead">Follow a dunning run in detail: parameters, the three internal steps (account selection, line-item dunning, account dunning), due-date and clearing rules, proposal editing, and printing with grouping options.</p>
+<h4>Parameters</h4>
+<p>A run is identified by <strong>run date</strong> (recommended but not required to be the execution date) and <strong>identification</strong>. The open item selection parameters say which company codes, documents and accounts are scanned. An additional log can be switched on to trace the run, but only for test/training because it is resource-hungry. Parameters can be copied from earlier runs.</p>
+<h4>The dunning run</h4>
+<p>The run produces a proposal that can be edited, deleted and recreated. Printing can be triggered immediately after the run, at the cost of not being able to edit. Internally there are three steps:</p>
+<ol>
+<li><strong>Account selection.</strong> An account qualifies if it has a dunning procedure and its last-dunned date plus the dunning interval has been reached.</li>
+<li><strong>Dun line items.</strong> For each selected account, overdue items are identified and given a dunning level.</li>
+<li><strong>Dun account.</strong> The program decides whether the account must be dunned at all and at which level.</li>
+</ol>
+<h4>Due dates</h4>
+<table><thead><tr><th>Item</th><th>Due date for dunning</th></tr></thead><tbody>
+<tr><td>Receivable</td><td>Net due date.</td></tr>
+<tr><td>Invoice-related credit memo</td><td>Same as the invoice; its own payment terms are ignored unless <code>V</code> is entered in the invoice reference field.</td></tr>
+<tr><td>Other credit memo</td><td>Baseline date.</td></tr>
+</tbody></table>
+<h4>Clearing with credit memos and vendor items</h4>
+<p>Due credit items are netted against due debit items, starting with the debit items of the highest dunning level. If customer/vendor clearing is active (same dunning procedure on both), due vendor credits are netted as well. After netting, the account must still have a debit balance to be dunned — unless the procedure flag "dun even if balance positive" is set. Each notice must have a debit balance; cleared items are listed on the notice.</p>
+<h4>Dunning date, grace period, blocks and payment methods</h4>
+<ul>
+<li>Due date = day the money was owed; dunning date = day the item is dunned. Every dunned item is overdue, but not every overdue item is dunned — the line-item grace period excludes items that only just became overdue.</li>
+<li>Items with a dunning block go to the blocked items list; accounts with a block go to the blocked accounts list.</li>
+<li>Items or accounts with an incoming payment method are skipped (the payment program collects them) unless they carry a payment block.</li>
+</ul>
+<h4>Determining dunning levels</h4>
+<ul>
+<li>An item's level follows its days in arrears according to the procedure (max. nine levels); the higher the level, the sterner the text.</li>
+<li>Invoice-related credit memos inherit the invoice's level. A level can increase only by one per run — no skipping.</li>
+<li>Procedures with a single level are <em>payment reminders</em>, used for key accounts and public bodies.</li>
+<li>Dunning keys cap the level an item may reach.</li>
+<li>Minimum amount/percentage per level: if the total of items at a level is too small, they fall to a lower level (higher levels normally have higher minimums).</li>
+<li>Minimum days in arrears (account): at least one item must reach it. Course example: items 1, 3 and 4 are overdue beyond the grace period, item 2 is within the grace period; because item 4 reaches the account minimum, items 1, 3 and 4 are dunned and item 2 is not.</li>
+<li>The account receives the highest level of its dunned items and the text is chosen accordingly. Levels are only written to items and accounts at print time, although they are already determined in the run.</li>
+</ul>
+<h4>Is a notice necessary?</h4>
+<p>An account is dunned only if the dunning data changed since the last run or the level has the <em>Always dun</em> flag (normal for the last level and for payment reminders). Accounts with a <strong>legal dunning procedure</strong> start date in the master record follow a different rule: they are dunned if postings occurred since the last run or <em>Always dun in legal dunning procedure</em> is set; the output is an internal note on a special form for the legal department rather than a letter to the customer, and the flag makes sure items posted before the legal procedure started are not overlooked.</p>
+<h4>Editing the proposal</h4>
+<p>Supporting lists: dunning statistics, dunning list, blocked accounts, blocked line items, dunning history; a sample printout can be previewed. The clerk can block/unblock accounts and items in the proposal and lower an item's level. Changes to master data or documents do <em>not</em> affect the current run — the proposal must be deleted and recreated. A proposal that will not be printed must be deleted, otherwise its items stay locked for other dunning runs.</p>
+<h4>Printing</h4>
+<p>The print program groups items into notices, generates one notice per group, and writes dunning date and level into items and accounts, printing in the order given by sort criteria. For one-time customers only the item data is updated. SAP Note 6591 describes how to undo dunning data changes.</p>
+<p><strong>Grouping rules:</strong> items go on the same notice when company code, dunning area and account match (one-time accounts: same address). Special groupings:</p>
+<ul>
+<li><strong>Dunning by level</strong> — company-code setting for one notice per level, text chosen per level.</li>
+<li><strong>Grouping key</strong> — in the master record; groups items with equal values in fields of BSID/BSIK.</li>
+<li><strong>Local processing</strong> — head office normally gets one notice for all branches; if set in the branch accounts, branches are dunned locally.</li>
+<li><strong>Cross-company-code dunning</strong> — assign company codes to a dunning company code; one notice combines a customer's items from all of them using the procedure in the dunning company code, while interval and blocks are checked per company code. A legal dunning date in the dunning company code also applies to dependent codes.</li>
+</ul>
+<p><strong>Payment forms and advices:</strong> a bank transfer form (Germany) or ESR form (Switzerland) can be attached or printed on a separate page (requires a form window or separate form); the notice may contain only company code currency items. The payment program can create a payment advice (type <code>08</code>, 10-digit number starting with 08, type must be configured) listing the dunned items so the incoming payment can be assigned; its number can be printed on notice and form.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Three run steps: account selection (procedure + interval), line-item dunning (level by arrears), account dunning (debit balance, minimum days, changed data or Always dun).</li>
+<li>Reasons for not dunning overdue items: not in parameters, within grace period, dunning block, incoming payment method without block, below minimum amount, netted by credit items, account minimum days not reached.</li>
+<li>Credit memos: invoice-related = invoice due date (unless V), others = baseline date.</li>
+<li>Only changes made inside the proposal count for the current run; printing updates master records and documents.</li>
+<li>Grouping: company code + dunning area + account, with options per level, grouping key, local processing and cross-company-code dunning.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No hands-on exercises are included for this unit; the learning assessment checks: notices can be printed right after the run; step order parameters → run → edit → print; no default dunning procedure; vendors can be dunned; incoming payment methods suppress dunning; configuration objects are levels, charges, minimum amounts (not bank selection); charges per currency and level; run date need not be the execution date; maximum nine levels; dunning keys cap levels; credit memo due-date rules; only one item needs to exceed the account minimum days; the dunning run (printing) updates dunning data; proposal edits can be repeated; master data changes after proposal creation are ignored in the current run.</div>
+<h2 class="unit" id="s4f13-u3">Unit 3: Correspondence</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand how SAP S/4HANA produces formal written communication with customers and vendors (account statements, payment notices, letters, document extracts): the master-record fields involved, periodic versus online versus posting-triggered correspondence, and how correspondence types, print programs, transactions and reason codes are configured.</div>
+
+<h3 class="lesson" id="s4f13-u3-l1">Lesson 1: Explaining Correspondence</h3>
+<p class="lead">Define correspondence and explain why a company automates it.</p>
+<h4>What correspondence is</h4>
+<p>Correspondence is any formal communication between the company and a customer or vendor that relates to the financial transactions recorded in the system. The correspondence function can automate most periodic mailings, run on demand, or be triggered automatically after specific transactions (for example a payment with a difference). Typical outputs: account statements, open item lists, individual letters, standard letters, balance confirmations and document extracts. Output can be printed or sent electronically (e-mail).</p>
+<h4>Why it matters</h4>
+<p>Correspondence formally performs and documents communication with third parties. By sending a partner your view of the account, you verify that both sides have a consistent picture of all transactions, so errors and misunderstandings surface early and can be corrected proactively.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Correspondence = formal, documented communication about FI transactions with business partners.</li>
+<li>It can be periodic, on demand, or event-driven; printed or e-mailed.</li>
+<li>Purpose: reconcile the company's view of the account with the partner's and catch discrepancies early.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u3-l2">Lesson 2: Modifying Master Records</h3>
+<p class="lead">Identify the fields in the customer/vendor master record that correspondence uses.</p>
+<h4>Structure of the account segments</h4>
+<p>The master record is split into general data (address, control data, payment transactions) and company code data (account management, payment transactions, correspondence, insurance, withholding tax). Correspondence draws on both.</p>
+<table><thead><tr><th>Field</th><th>Use</th></tr></thead><tbody>
+<tr><td>Address details (street, postal code/city, country)</td><td>Destination of the letter; the country key drives checks on postal code and bank account formats.</td></tr>
+<tr><td>Communication – language</td><td>Letters (and dunning notices) are produced in the partner's language if the form has been translated.</td></tr>
+<tr><td>Account statement indicator (company code data)</td><td>How often a periodic account statement is produced; groups of customers can get weekly or monthly statements.</td></tr>
+<tr><td>Accounting clerk</td><td>Name printed on correspondence such as open item lists.</td></tr>
+<tr><td>Account number at customer/vendor</td><td>The number under which the partner records your company, printed for the partner's reference.</td></tr>
+</tbody></table>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Address and language come from general data; statement frequency, clerk and "your account number with us" from the company code segment (Correspondence tab).</li>
+<li>The account statement indicator is what makes periodic statements possible at different intervals per customer group.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u3-l3">Lesson 3: Configuring Options for Correspondence Types</h3>
+<p class="lead">Distinguish the ways correspondence can be triggered and the two-step request/print process.</p>
+<h4>Ad-hoc versus automatic</h4>
+<table><thead><tr><th>Ad-hoc (user-triggered)</th><th>Automatically generated</th></tr></thead><tbody>
+<tr><td>During document creation, line item display/change, balance display, line item processing, payment</td><td>Periodic account statements, balance confirmations</td></tr>
+</tbody></table>
+<h4>Three kinds of correspondence</h4>
+<ul>
+<li><strong>Periodic</strong> — triggered at a regular interval specified in the master record (weekly, monthly...), e.g. account statements.</li>
+<li><strong>Online</strong> — requested by the user while manually processing payments or from the line item display.</li>
+<li><strong>Correspondence for postings</strong> — configured in Customizing to be generated for specific postings, typically payment differences.</li>
+</ul>
+<h4>The creation process</h4>
+<ol>
+<li><strong>Request.</strong> The system records which correspondence types are to be produced (a correspondence request).</li>
+<li><strong>Print.</strong> Periodic correspondence (dunning letters, account statements) is printed at a fixed rhythm (daily, weekly); individual requests can be printed on demand. The print request goes to the spool and then to the chosen printer, or is transmitted electronically (e-mail).</li>
+</ol>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Correspondence is periodic (master record interval), online (manual payment / line item display) or posting-driven (Customizing, e.g. payment differences).</li>
+<li>Creation always has two steps: request, then print/send.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u3-l4">Lesson 4: Creating a Correspondence</h3>
+<p class="lead">Configure correspondence types, their print programs and variants, and link them to online transactions and to payment-difference reason codes.</p>
+<h4>Correspondence types</h4>
+<p>A correspondence type represents one kind of letter; every letter you need requires its own type. Users can choose a type manually during a transaction, or rules can pick it automatically. SAP delivers standard types; to adapt one, copy it first, because standard types are overwritten by upgrades.</p>
+<table><thead><tr><th>Standard type</th><th>Letter</th><th>Required data</th><th>Print program</th></tr></thead><tbody>
+<tr><td>SAP01</td><td>Payment notice</td><td>Document number</td><td><code>RFKORD00</code> / <code>RFKORD00_PDF</code></td></tr>
+<tr><td>SAP06</td><td>Account statement</td><td>Account number and date</td><td><code>RFKORD10</code> / <code>RFKORD10_PDF</code></td></tr>
+<tr><td>—</td><td>Bill of exchange charges statement</td><td>Document number</td><td><code>RFKORD20</code></td></tr>
+<tr><td>—</td><td>Internal document</td><td>Document number</td><td><code>RFKORD30</code> / <code>RFKORD30_PDF</code></td></tr>
+<tr><td>SAP10</td><td>Individual letter</td><td>Account number</td><td><code>RFKORD40</code> / <code>RFKORD40_PDF</code></td></tr>
+<tr><td>—</td><td>Document extract</td><td>Document number</td><td><code>RFKORD50</code> / <code>RFKORD50_PDF</code></td></tr>
+<tr><td>—</td><td>Customer statement</td><td>Account number and date</td><td><code>RFKORD11</code> / <code>RFKORD11_PDF</code></td></tr>
+<tr><td>SAP14</td><td>Open items list</td><td>—</td><td>—</td></tr>
+</tbody></table>
+<p>Properties of a correspondence type: which data is required (account number, document number), whether additional free text may be added to the form, whether the type may be used cross-company-code (requires assigning company codes to a correspondence company code in Customizing), and how many date fields are needed. Required data is either typed by the user or derived automatically once the type is chosen. Payment notices, account statements, bill of exchange charges statements, internal documents, individual letters and document extracts can be used in all company codes.</p>
+<h4>Print program and variant</h4>
+<p>Each correspondence type gets a print program and a selection variant (per company code if desired); the variant also selects the printer. A type can have several form letters distinguished by <strong>form ID</strong>; the form ID is placed in the variant so the correct form is printed. Forms can be adapted with logo, address and additional text.</p>
+<h4>Linking to transactions</h4>
+<p>You define which correspondence types are offered in which online functions (e.g. payment notices in payment transactions; account statements in document entry, payment processing, document display/change and account editing). This assignment also makes new types visible in the Fiori app <strong>Create Correspondence</strong>. Assignments can be company-code-specific; if none exists for a company code, the company-code-independent entries apply.</p>
+<h4>Linking to reason codes (payment differences)</h4>
+<p>For each <strong>tolerance group</strong> you can set a default correspondence type for payment differences:</p>
+<ul>
+<li>Enter a type in <em>Message required</em> to always send the same notice; leave blank to choose during payment settlement.</li>
+<li>Tick <em>According to reason code</em> to let each reason code carry its own correspondence type (e.g. reason code MD "miscellaneous deduction" sends a letter asking for an explanation of a short payment).</li>
+</ul>
+<p>Decision logic: the reason-code type is used only if all reason codes in the document point to the same type. If line items carry reason codes with different types, or reason codes without a type, the system falls back to the type of the tolerance group.</p>
+<p>Example from the course: tolerance group type SAP01; a customer pays part of an invoice two months late. During manual processing you create a residual item with a reason code and request SAP01, post the document, then process the correspondence request — the system prints the payment notice from master data and line item information.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>One correspondence type per letter type; copy standard types (SAP01 payment notice, SAP06 account statement, SAP10 individual letter, SAP14 open items list) before changing them.</li>
+<li>Print programs RFKORD00…RFKORD50 (plus _PDF variants) are assigned with a selection variant that carries the form ID and printer.</li>
+<li>Types must be linked to transactions to appear online and in the Create Correspondence app.</li>
+<li>Payment-difference notices: reason-code type wins when unambiguous, otherwise the tolerance-group type.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercises are included for this unit; the learning assessment confirms that correspondence formally documents communication with third parties, that payment notices are customer correspondence, that correspondence can be created online during manual payment processing or from the line item display, that mixed reason-code types in one document fall back to the tolerance group type, and that a single reason code with an assigned type (e.g. DDG damaged goods) uses the reason-code type.</div>
+<h2 class="unit" id="s4f13-u4">Unit 4: Special General Ledger Transactions</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand why certain AR/AP transactions (down payments, bills of exchange, guarantees, value adjustments) are posted to alternative reconciliation accounts, distinguish the three special G/L classes and the three special G/L types, follow the down payment and individual value adjustment procedures, configure special G/L indicators and account determination, and see how down payments integrate with purchasing (MM) and sales (SD).</div>
+
+<h3 class="lesson" id="s4f13-u4-l1">Lesson 1: Managing the Application View for Special G/L Transactions</h3>
+<p class="lead">Explain the concept of special G/L transactions, their classes and types, and work through the business processes for down payments, individual value adjustments and guarantees of payment.</p>
+<h4>Reconciliation accounts</h4>
+<p>Every customer or vendor master record holds a <strong>reconciliation account</strong> in its company code segment. Each subledger posting (invoice, credit memo, payment) is simultaneously posted to this G/L account, so totals for receivables and payables are available in the general ledger at any time and financial statements can be produced without reading the subledger. The reconciliation account number appears in the FI document, and its transaction figures are updated with each posting.</p>
+<h4>Alternative reconciliation accounts</h4>
+<p>Some AR/AP transactions must be shown separately in the G/L and subledger — for internal reasons or for reporting rules; for instance, down payments may not be shown in the balance sheet together with trade receivables/payables. When a line item is posted with a <strong>special G/L indicator</strong>, the system does not use the reconciliation account from the master record but an <strong>alternative reconciliation account</strong> (special G/L account) assigned in Customizing. These postings are called special G/L transactions.</p>
+<h4>Special G/L classes (business purpose)</h4>
+<table><thead><tr><th>Class</th><th>Content</th></tr></thead><tbody>
+<tr><td>Down payments</td><td>Preconfigured programs and screens for requested, received and applied down payments; integrated with dunning and payment programs.</td></tr>
+<tr><td>Bills of exchange</td><td>Country-specific handling with preconfigured programs and screens in the AR/AP menus.</td></tr>
+<tr><td>Other transactions</td><td>Any other business transaction handled through Document Entry → Other; the indicator controls the processing.</td></tr>
+</tbody></table>
+<h4>Special G/L types (technical posting behaviour)</h4>
+<table><thead><tr><th>Type</th><th>Behaviour</th><th>Example</th></tr></thead><tbody>
+<tr><td>Automatic offsetting entry (statistical)</td><td>Offsetting entry always goes to a fixed clearing account defined in Customizing; items are cleared automatically when the partner item is cleared; shown only in the notes to the financial statements (or not at all).</td><td>Guarantee of payment made</td></tr>
+<tr><td>Noted item</td><td>One-sided line item, no offsetting entry, no zero-balance check, no transaction figures updated; a reminder for the department; processed by payment and dunning programs; managed as open items on AR/AP and special G/L accounts (the special G/L account balance stays zero).</td><td>Down payment request, bill of exchange payment request</td></tr>
+<tr><td>Free offsetting entry</td><td>Real posting that is part of the financial statements; the alternative reconciliation account is debited/credited automatically, and the user enters the offsetting G/L account.</td><td>Bank posting of a received down payment</td></tr>
+</tbody></table>
+<p>Example of a statistical posting: you guarantee EUR 10,000 for a customer. The liability appears on the customer account and on the special G/L account "guarantees of payment made", with the automatic offsetting entry on the clearing account for guarantees made. When the liability ends, the guarantee is cancelled (reversed). Guarantees made are reported in the notes; guarantees received are not displayed.</p>
+<p>Example of a free offsetting entry: the customer answers a down payment request by paying EUR 11,000. The payment is recorded on the customer account and on the alternative reconciliation account "down payments received"; the bank account to be debited is chosen during entry. Because the customer paid before the service was delivered, the amount is a payable, so it must not touch the receivables reconciliation account; the special G/L account is reported under payables. After invoicing, the down payment is transferred/cleared.</p>
+<h4>Down payment procedures</h4>
+<p><strong>Customer side:</strong></p>
+<ol>
+<li>Down payment request (noted item; no balance change; can be dunned and collected automatically — collection authorisation needed).</li>
+<li>Down payment received (shown as a payable on the "down payments received" alternative reconciliation account).</li>
+<li>Customer invoice for the goods/services.</li>
+<li>Down payment cleared against the invoice — it ceases to be a down payment and becomes a payment on the normal reconciliation account.</li>
+<li>Remaining balance is paid and cleared.</li>
+</ol>
+<p><strong>Vendor side:</strong> post the down payment request, enter the down payment made, receive the vendor invoice, clear the down payment, clear the final payment. Vendor down payment requests exist so that the payment program can execute down payments.</p>
+<h4>Individual value adjustment</h4>
+<p>At year-end, disputed or doubtful receivables are recorded as individual value adjustments. Because the entry hits both the customer account and the special G/L account "individual value adjustments for receivables", the special G/L procedure applies:</p>
+<ol>
+<li>The receivable exists on the customer account.</li>
+<li>The adjustment (without tax) is posted; the expense lands on "expense for individual value adjustment" for the income statement.</li>
+<li>After the balance sheet key date the adjustment is cleared (reversed).</li>
+<li>If the receivable turns out to be uncollectable, the final write-off is posted to "expenses for uncollectable receivables" — on the regular reconciliation account, not the special G/L account.</li>
+</ol>
+<h4>Guarantees of payment</h4>
+<p>Customer: a guarantee made (EUR 10,000) is posted on the customer and automatically on the special G/L account, offset against the clearing account "guarantee made"; posting (1) creates, posting (2) cancels. Vendor: a guarantee received from a vendor is shown on the vendor account and a special G/L account in the same way. Both are stored as transactions with automatic offsetting entries.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Special G/L indicator → alternative reconciliation account → separate display in G/L and subledger.</li>
+<li>Classes = business purpose (down payments, bills of exchange, other); types = posting technique (statistical automatic offsetting, noted item, free offsetting).</li>
+<li>Noted items update no transaction figures and have no offsetting entry; they drive payment and dunning.</li>
+<li>Customer down payments received are payables and must not touch the receivables reconciliation account until cleared with the invoice.</li>
+<li>Doubtful receivables are individual (not flat-rate) value adjustments; final write-offs use the normal reconciliation account.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u4-l2">Lesson 2: Maintaining Special G/L Transactions</h3>
+<p class="lead">Configure special G/L transactions: posting keys, special G/L accounts, indicator properties and account determination for the three types.</p>
+<h4>Posting keys</h4>
+<p>Special G/L transactions are entered with dedicated posting keys that carry the "special G/L" flag, always together with a special G/L indicator:</p>
+<table><thead><tr><th>Posting key</th><th>Use</th></tr></thead><tbody>
+<tr><td>09</td><td>Customer debit, special G/L</td></tr>
+<tr><td>19</td><td>Customer credit, special G/L</td></tr>
+<tr><td>29</td><td>Vendor debit, special G/L</td></tr>
+<tr><td>39</td><td>Vendor credit, special G/L</td></tr>
+</tbody></table>
+<h4>Special G/L accounts</h4>
+<p>The alternative accounts are created as G/L accounts in FI and defined as reconciliation accounts for account type D (customers) or K (vendors). Their field status group controls the entry screen layout. Special G/L transactions are never posted to the reconciliation account from the master record.</p>
+<h4>Properties of a special G/L indicator</h4>
+<p>The indicator is defined per account type (customer and vendor down payments are configured separately). Standard content is delivered; adjustments can be: different reconciliation/special G/L account numbers, other posting keys or indicators, and other automatic-posting settings (accounts, posting keys, account assignment rules).</p>
+<table><thead><tr><th>Property</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Noted item</td><td>Transaction updates no balances.</td></tr>
+<tr><td>Relevant for credit limit</td><td>Included in the customer credit check (not possible for noted items).</td></tr>
+<tr><td>Commitments warning</td><td>Users posting to the account get a warning that such a transaction exists (e.g. a down payment when entering a vendor invoice).</td></tr>
+<tr><td>Target special G/L indicator</td><td>Noted items only: which indicators may be used when the request is paid (standard: down payment request → down payment).</td></tr>
+<tr><td>Special G/L transaction class</td><td>Down payment, bill of exchange or other.</td></tr>
+<tr><td>Posting keys</td><td>Only 09/19/29/39 are allowed.</td></tr>
+</tbody></table>
+<h4>Account determination</h4>
+<p>Per chart of accounts, the special G/L account is stored against the combination of reconciliation account (from the master record) and special G/L indicator; at posting time the system reads the master record's reconciliation account and substitutes the special G/L account. For statistical postings, the automatic offsetting account is defined per account type + indicator in the table of accounts for automatic postings.</p>
+<h4>Setting up your own indicators</h4>
+<ul>
+<li><strong>Noted item</strong> — e.g. to track which customer currently holds a returnable container: create an indicator flagged as noted item and assign an alternative reconciliation account; only the customer/vendor account shows the reminder.</li>
+<li><strong>Statistical with automatic offsetting</strong> — assign the alternative account and additionally a clearing account in the automatic postings table (as for guarantees).</li>
+<li><strong>Manual (free) offsetting</strong> — assign the alternative account; the user keys in the offsetting account during posting.</li>
+</ul>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Posting keys 09/19/29/39 + special G/L indicator post to the alternative reconciliation account.</li>
+<li>Special G/L accounts are reconciliation accounts of type D or K, assigned per chart of accounts to reconciliation account + indicator.</li>
+<li>Indicator properties: noted item, credit-limit relevance, commitment warning, target indicator, class, allowed posting keys.</li>
+<li>Statistical transactions additionally need a clearing account in the automatic postings table.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u4-l3">Lesson 3: Understanding Purchasing (MM Integration)</h3>
+<p class="lead">Understand the three-way match in procurement and how down payments linked to purchase orders are posted and cleared in Logistics Invoice Verification.</p>
+<h4>Three-step reconciliation (three-way match)</h4>
+<ol>
+<li><strong>Purchase order</strong> — created only in MM; no FI posting.</li>
+<li><strong>Goods receipt</strong> — material document in MM updates stock; an FI document debits the stock account (or consumption account for consumables) and credits the GR/IR clearing account.</li>
+<li><strong>Invoice receipt</strong> — the vendor invoice posted in MM creates an FI document: debit GR/IR, credit vendor.</li>
+</ol>
+<p>Goods receipt and invoice receipt may arrive in either order. The GR/IR account is managed on an open item basis so that every invoice can be matched to a receipt and vice versa. FI document types for these postings are set in configuration.</p>
+<h4>Down payments with purchase orders</h4>
+<p>Business function <code>LOG_MMFI_P2P</code> must be active. Since EhP4 down payments/requests can be controlled from the purchase order and cleared in the vendor invoice; since EhP5 this also works with active document splitting. Process:</p>
+<ol>
+<li>Create the purchase order and enter the down payment information (the vendor wants a down payment).</li>
+<li>Post the down payment via the Down Payment Monitor (<code>ME2DP</code>).</li>
+<li>Post the goods receipt with reference to the PO as usual.</li>
+<li>Post the invoice in Logistics Invoice Verification with PO reference; the system warns that a down payment exists for this order and allows clearing the down payment inside the invoice transaction.</li>
+</ol>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>PO: MM only. GR: stock/consumption vs GR/IR. IR: GR/IR vs vendor.</li>
+<li>GR/IR is an open-item-managed clearing account that ties receipts to invoices.</li>
+<li>With LOG_MMFI_P2P, down payments are planned in the PO, posted with ME2DP and cleared during invoice verification.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u4-l4">Lesson 4: Understanding Sales and Distribution Integration</h3>
+<p class="lead">Follow the sales process from order to billing and see how down payment requests and down payments agreed in a sales order flow into FI as special G/L transactions.</p>
+<h4>Phases of a sales transaction</h4>
+<ol>
+<li><strong>Sale</strong> — the sales order is created; it is an SD document with no FI posting.</li>
+<li><strong>Shipping</strong> — a delivery document is created; picking via a transfer order in warehouse management; the goods issue creates an MM material document and an FI document (debit cost of goods sold, credit stock). Billing is possible only after the goods issue.</li>
+<li><strong>Billing</strong> — the billing document is created in SD, the customer gets the invoice, and an FI document posts debit customer / credit revenue.</li>
+</ol>
+<p>The <strong>document flow</strong> shows all documents belonging to one transaction.</p>
+<h4>Down payments in SD</h4>
+<ul>
+<li>A down payment agreement is entered in the sales order as a <strong>billing plan</strong>. When the billing date is reached, a down payment request is created with billing type <strong>FAZ</strong>, a letter with amount and due date goes to the customer, and FI receives a noted item with special G/L indicator <strong>F</strong>.</li>
+<li>When the customer pays, the incoming payment is assigned to the request (select the open request, "Add Down Payment") and posted with special G/L indicator <strong>A</strong>; it appears among the AR open items and the request shows as cleared in the SD document flow.</li>
+<li>With partial or final invoices, the down payments are transferred as "down payments to be cleared": they leave the special reconciliation account and move to the customer's normal reconciliation account, so they appear among the customer's open items and reduce total receivables.</li>
+</ul>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Sales order: no FI posting; goods issue: COGS vs stock; billing: customer vs revenue.</li>
+<li>Down payment request = SD billing type FAZ = FI noted item with indicator F.</li>
+<li>Received down payment carries indicator A; on invoicing it is transferred to the normal reconciliation account and cleared.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercises are included for this unit; the learning assessment covers: special G/L transactions are displayed separately; subledger postings go to reconciliation accounts; the three special G/L types (noted items, statistical automatic offsetting, free offsetting) versus classes; noted items have no offsetting posting and no zero-balance check; down payment requests are noted items processed by payment and dunning programs; guarantees are automatic offsetting entries; no transaction figures for down payment requests; the first customer down payment step is the request; doubtful receivables are individual value adjustments; special posting keys plus indicators; customer and vendor down payment indicators configured separately; PO creation is MM-only; invoice receipt creates an FI document; the billing document is created in SD; the sales order posts nothing in FI.</div>
+<h2 class="unit" id="s4f13-u5">Unit 5: Parking Documents</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand the two ways of saving an incomplete FI document (hold versus park), how parked documents are edited, posted, deleted and reported on, and how document parking is combined with SAP Business Workflow release procedures and with the Flexible Workflow for general journal entry verification in SAP S/4HANA.</div>
+
+<h3 class="lesson" id="s4f13-u5-l1">Lesson 1: Managing Document Parking Basics and Document Holding</h3>
+<p class="lead">Distinguish holding a document from parking a document and know when each is appropriate.</p>
+<h4>The problem</h4>
+<p>An accountant is keying a ten-line document and cannot determine the cost centre for line nine. The document is incomplete, so it cannot be posted; if entry is abandoned, everything typed so far is lost. The department needs a way to save the data entered so far and resume later. SAP offers two mechanisms: <strong>Hold Document</strong> and <strong>Park Document</strong>.</p>
+<h4>Holding documents</h4>
+<ul>
+<li>Temporarily saves the data entered; the document may be incomplete.</li>
+<li>No document number is assigned — the user gives the held document a name and retrieves it under that name.</li>
+<li>No account balances are updated and the data is not available for any evaluation.</li>
+<li>Later the user can complete, post or delete it. Risk: held documents are easily forgotten because they are invisible to everyone else.</li>
+</ul>
+<h4>Parking documents</h4>
+<ul>
+<li>Also saves incomplete documents without the full input checks, but the system assigns a real <strong>document number</strong> from the document type's number range (an externally assigned number must be supplied).</li>
+<li>Transaction figures are <em>not</em> updated, yet the data is available for real-time evaluations — e.g. amounts in parked documents can be included in the advance return for tax on sales/purchases.</li>
+<li>Available for classic posting transactions and for the new posting screen.</li>
+<li>Parked documents can be completed, changed, posted or deleted later; they must be complete before they can become proper FI documents; unneeded ones should be deleted.</li>
+<li>Substitutions are not supported for parked documents — they apply only once the document is turned into an accounting document.</li>
+<li>Parking is the more powerful tool and is widely used to implement the <strong>dual-control principle</strong> (one person enters, another checks and posts), with authorisations modelling areas of responsibility.</li>
+</ul>
+<table><thead><tr><th>Aspect</th><th>Hold</th><th>Park</th></tr></thead><tbody>
+<tr><td>Identification</td><td>User-defined name</td><td>Document number by document type</td></tr>
+<tr><td>Completeness required</td><td>No</td><td>No (but needed to post)</td></tr>
+<tr><td>Transaction figures</td><td>Not updated</td><td>Not updated</td></tr>
+<tr><td>Available for reporting</td><td>No</td><td>Yes</td></tr>
+<tr><td>Typical use</td><td>Personal scratchpad</td><td>Dual control, approval, worklists</td></tr>
+</tbody></table>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Hold = private temporary save without number or reporting; Park = numbered, reportable, incomplete document.</li>
+<li>Neither updates transaction figures.</li>
+<li>Parking supports dual control and workflow; substitutions do not act on parked documents.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u5-l2">Lesson 2: Processing Parked Documents</h3>
+<p class="lead">Create, change, post and delete parked documents, and understand what changes when a parked document becomes a posted one.</p>
+<h4>Creating parked documents</h4>
+<ul>
+<li>Possible for customer accounts (invoices, credit memos), vendor accounts (invoices, credit memos) and G/L account postings.</li>
+<li>Account assignment templates can be used; reference documents (post with reference) cannot.</li>
+<li>Cross-company-code transactions can be parked: only one parked document is created in the initiating company code; on posting, two documents linked by a cross-company-code number are created.</li>
+<li>On saving: no transaction figures, asset values or control totals are updated, no automatic postings are generated, and the balance is not checked — although the document overview shows the current balance.</li>
+</ul>
+<p>Uses: temporary storage of input, multi-level models (dual control, approval procedures), and work distribution through worklists to speed up processing. The usual path is edit → post; deletion is the exception.</p>
+<h4>Editing</h4>
+<p>Header and line item fields and amounts can be changed as often as needed — dates, amounts, accounts, account assignment objects. The document change rules that restrict posted documents do not apply. Fields that cannot be changed: <strong>currency, document type, document number, company code</strong>.</p>
+<h4>Posting</h4>
+<p>Parked documents are posted individually or via a selection list; after a mass post the system lists which ones succeeded, and those that failed (e.g. missing cost assignment) can be post-processed from the list. A batch input session can also be generated. On conversion to a regular document:</p>
+<ol>
+<li>All normal posting checks run.</li>
+<li>A complete FI document is written to the document database.</li>
+<li>The change history of the parked document is kept.</li>
+<li>The document number is retained — the parked number becomes the posted number (a deleted parked document's number cannot be reused).</li>
+<li>Transaction figures are updated and the parked document is deleted.</li>
+<li>The original entering user is recorded in the document header.</li>
+</ol>
+<h4>Reporting</h4>
+<p>Parked documents are integrated into account display and FI reporting: many reports can include them, they can be shown in the document journal and in the line item display.</p>
+<table><thead><tr><th>Characteristic</th><th>Posted document</th><th>Parked document</th></tr></thead><tbody>
+<tr><td>Transaction figures updated</td><td>Yes</td><td>No</td></tr>
+<tr><td>Deletion possible</td><td>No (reverse instead)</td><td>Yes</td></tr>
+<tr><td>Changes possible</td><td>Yes, with limitations</td><td>Yes</td></tr>
+<tr><td>Amounts, accounts, assignments, dates changeable</td><td>No</td><td>Yes</td></tr>
+<tr><td>Document change rules (GAAP)</td><td>Apply</td><td>Not relevant</td></tr>
+</tbody></table>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Parking works for customer, vendor and G/L postings, with templates but not reference documents.</li>
+<li>Almost everything can be changed except currency, document type/number and company code.</li>
+<li>Posting keeps the number, writes history, updates figures and removes the parked version.</li>
+<li>Parked documents are visible in journals, line item display and many reports.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u5-l3">Lesson 3: Managing Document Parking and Workflow</h3>
+<p class="lead">Understand SAP Business Workflow basics, the release procedure for parked documents (workflow variants, release groups, approval paths, subworkflows) and the Flexible Workflow for general journal entry verification with its Fiori apps.</p>
+<h4>SAP Business Workflow</h4>
+<p>Workflow automates the hand-over between people in a business process, even across systems, and delivers to each participant the information needed for the next step. SAP ships workflow templates that can be adapted or replaced by custom ones. Designing a step means answering three questions: what has to be done (object type and method), who does it for dialog steps (possible processors), and what text the recipient sees in the inbox (the task text). Typical workflow uses: posting invoices, releasing purchase requisitions, changing material masters, approving leave, creating customer accounts, deleting purchase orders, Internet requirement requests.</p>
+<p>Work items appear in the Fiori app <strong>My Inbox</strong>, where they can be released, rejected, suspended or forwarded, and the workflow log can be inspected.</p>
+<h4>Release procedure for parked documents (classic workflow)</h4>
+<ol>
+<li>Define <strong>workflow variants</strong> in FI Customizing, stating whether document release is active and the minimum amount from which release is required.</li>
+<li>Assign company codes to workflow variants — one variant may serve several company codes; a company code without a variant has no release.</li>
+<li>Use the <strong>release group</strong> field in customer/vendor master records to apply different procedures to different partners (blank = initial release group).</li>
+<li>The <strong>release approval path</strong> is derived from workflow variant + document type + release group.</li>
+<li>Approval path + amount determine the <strong>subworkflow</strong> and the responsible releasers.</li>
+</ol>
+<table><thead><tr><th>Subworkflow template</th><th>Release levels</th><th>Principle</th></tr></thead><tbody>
+<tr><td><code>WS10000052</code></td><td>One level</td><td>Single release</td></tr>
+<tr><td><code>WS10000053</code></td><td>Two levels</td><td>Dual control</td></tr>
+<tr><td><code>WS10000054</code></td><td>Three levels</td><td>Triple control</td></tr>
+</tbody></table>
+<p>The subworkflow is triggered when the parked document is first entered. Tasks can normally have several possible processors.</p>
+<h4>General journal entry verification (Flexible Workflow)</h4>
+<p>S/4HANA supports both the classic SAP Business Workflow and the <strong>Flexible Workflow</strong>, which lets key users define approval processes without development. Status flow of a journal entry:</p>
+<table><thead><tr><th>Status</th><th>When</th></tr></thead><tbody>
+<tr><td>Initial</td><td>Requester creates the entry.</td></tr>
+<tr><td>Submitted</td><td>Requester sends it for approval (also after a suspension ends).</td></tr>
+<tr><td>Rejected</td><td>Processor rejects; requester must edit and resubmit.</td></tr>
+<tr><td>Waiting</td><td>Processor suspends until a scheduled time, then back to Submitted.</td></tr>
+<tr><td>Posted</td><td>Processor approves and the posting succeeds.</td></tr>
+<tr><td>Failed</td><td>Posting after approval runs into errors; requester edits and resubmits.</td></tr>
+</tbody></table>
+<p>The requester creates/edits entries and tracks their status in a worklist (can copy, edit and resubmit). The processor — a member of the groups defined in Customizing — approves, rejects or suspends from the inbox. The four-eyes principle is enforced by excluding the requester from verifying their own entry even if they belong to the approver pool. Past approvals are visible in the processor's outbox.</p>
+<table><thead><tr><th>Fiori app</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>F2547 Verify General Journal Entries – For Requester</td><td>Create/submit/track/resubmit entries.</td></tr>
+<tr><td>F2728 Verify Journal Entries in General Ledger – For Processor (Inbox)</td><td>Approve, reject, suspend.</td></tr>
+<tr><td>F2729 Verify Journal Entries in General Ledger – For Processor (Outbox)</td><td>Review own past decisions.</td></tr>
+<tr><td>F3932 Manage Teams and Responsibilities for Journal Entry Verification</td><td>Define approver teams and their functions.</td></tr>
+<tr><td>F2720 Manage Workflows for Journal Entry Verification</td><td>Define the flexible workflow.</td></tr>
+</tbody></table>
+<h4>Minimal configuration</h4>
+<ol>
+<li>In Manage Workflows, add a new workflow; give it a name, optional description and validity period.</li>
+<li>Define start conditions — combinations of account group, threshold amount, cost centre, company code, journal entry type.</li>
+<li>Define the step sequence (e.g. verify, post), step conditions and exception handling.</li>
+<li>In Manage Teams and Responsibilities, create teams; members are assigned functions that decide which step they may approve. Recipients of a step can be a role or a team.</li>
+</ol>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Workflow variant (active? minimum amount) → company codes; approval path = variant + document type + release group; path + amount → subworkflow (1/2/3 levels).</li>
+<li>Release groups in master records allow different procedures for different partners.</li>
+<li>Flexible Workflow for journal entry verification: statuses Initial, Submitted, Rejected, Waiting, Posted, Failed; requester excluded from approving own entries.</li>
+<li>Apps F2547/F2728/F2729 operate, F2720/F3932 configure the verification workflow.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No exercises are included for this unit; the learning assessment checks: park and hold both save entered data temporarily; held documents need not be complete; parked documents can be supplemented and posted later; parking supports dual control; account assignment templates (not reference documents) can be used for parking; parking works for customer and G/L accounts; parked documents can be posted singly or via selection list; currency, document type/number and company code cannot be changed; document change rules do not apply to parked documents; a deleted parked document's number is not reused; hold assigns a name, park assigns a number; a workflow variant can serve several company codes, tasks may have several processors, multilevel sequences are possible; release procedures can differ per account.</div>
+<h2 class="unit" id="s4f13-u6">Unit 6: Validations and Substitutions</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Learn how SAP S/4HANA checks (validation) and automatically changes (substitution) field values at the moment an FI document is entered: application areas, callup points, boolean logic in the formula editor, assignment and activation per company code, the step structure of validations and substitutions, substitution methods, and reusable rules and sets for complex logic.</div>
+
+<h3 class="lesson" id="s4f13-u6-l1">Lesson 1: Understanding the Basics of Validation and Substitution</h3>
+<p class="lead">Understand what validations and substitutions do, where they can be applied (application areas and callup points), how rules are entered in the formula editor, and how they are assigned and activated.</p>
+<h4>Validation versus substitution</h4>
+<table><thead><tr><th></th><th>Validation</th><th>Substitution</th></tr></thead><tbody>
+<tr><td>Purpose</td><td>Check entered values or value ranges before posting; only validated data is accepted.</td><td>Replace entered values with other values when a user-defined prerequisite is met.</td></tr>
+<tr><td>Logic</td><td>Boolean rules; syntax checked on definition; the Rule Manager evaluates them at runtime.</td><td>Same boolean prerequisite syntax; replacement value(s) defined per field.</td></tr>
+<tr><td>Outcome</td><td>Configurable: message only (continue) or forced correction.</td><td>Value overwritten silently.</td></tr>
+</tbody></table>
+<h4>Five steps to implement</h4>
+<ol>
+<li>Decide the <strong>application area</strong>.</li>
+<li>Choose the <strong>callup point</strong>.</li>
+<li>Define the validation/substitution.</li>
+<li>Assign it to an organisational unit (company code for FI; company code or company for FI-SL; controlling area for CO). One object may be valid for several company codes.</li>
+<li>Activate it for the callup point.</li>
+</ol>
+<h4>Application areas</h4>
+<table><thead><tr><th>Key</th><th>Area</th><th>Remark</th></tr></thead><tbody>
+<tr><td>FI</td><td>Financial Accounting</td><td></td></tr>
+<tr><td>CO</td><td>Cost Accounting</td><td></td></tr>
+<tr><td>AM</td><td>Asset Accounting</td><td></td></tr>
+<tr><td>GL</td><td>Special Purpose Ledger</td><td></td></tr>
+<tr><td>CS</td><td>Consolidation</td><td>Validations only</td></tr>
+<tr><td>PS</td><td>Project System</td><td></td></tr>
+<tr><td>RE</td><td>Real Estate</td><td></td></tr>
+<tr><td>PC</td><td>Profit Center Accounting</td><td>Substitutions only</td></tr>
+<tr><td>GA</td><td>Allocations (FI-SL)</td><td>Substitutions only</td></tr>
+</tbody></table>
+<p>Each application decides which structures and fields it releases for validation/substitution; the area plus callup point define the pool of fields you may use in prerequisites and checks.</p>
+<h4>Callup points in FI</h4>
+<table><thead><tr><th>Callup point</th><th>Scope</th><th>Example</th></tr></thead><tbody>
+<tr><td>0001 Document header</td><td>Header fields (BKPF)</td><td>Check document date against posting date.</td></tr>
+<tr><td>0002 Line item</td><td>Item fields (BSEG) plus all header fields for cross-checks</td><td>Only certain G/L accounts allowed with certain document types; account/cost centre combinations.</td></tr>
+<tr><td>0003 Complete document</td><td>Whole document (matrix validation)</td><td>Checks across several items.</td></tr>
+</tbody></table>
+<p>Application area + callup point determine the <strong>boolean class</strong>, which fixes the available fields (dimensions) and the message classes usable for validation messages. Data already known from earlier callup points (user name, header data) can be reused at later points.</p>
+<h4>Formula editor</h4>
+<p>Statements are built with buttons for operands (table fields, sets, exits), logical operators (AND, OR, NOT) and comparison operators; each entry is checked step by step, including parentheses, so only syntactically correct statements can be saved. Display settings: <em>Short descriptions</em> (default), <em>Technical names</em> (table-field names), and <em>Expert mode</em>, which shows technical names and lets you type the statement directly.</p>
+<h4>Assignment and activation</h4>
+<p>For each combination of organisational unit and callup point only one validation and one substitution can be active. Activation levels:</p>
+<table><thead><tr><th>Level</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>0</td><td>Inactive</td></tr>
+<tr><td>1</td><td>Active for dialog and batch input</td></tr>
+<tr><td>2</td><td>Active except for batch input</td></tr>
+</tbody></table>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Validation checks and reports; substitution replaces — both at entry time, before posting.</li>
+<li>Procedure: application area → callup point → definition → assignment to company code → activation.</li>
+<li>FI callup points: header, line item, complete document; area + callup point = boolean class.</li>
+<li>One active validation and one active substitution per company code and callup point; activation level 0/1/2.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u6-l2">Lesson 2: Maintaining and Executing Validations</h3>
+<p class="lead">Build validations from steps (prerequisite, check, message) and master the boolean statement syntax, including partial-field checks and pattern matching.</p>
+<h4>Why custom validations</h4>
+<p>Most input is already checked by programs, tables and master data, but company-specific rules (only certain accounts for closing entries, only certain cost centres for certain expenses) cannot be standardised. Validations give G/L, AR and AP owners extra control over data consistency.</p>
+<h4>Step structure</h4>
+<p>A validation holds up to <strong>999 steps</strong>. Each step has:</p>
+<ol>
+<li><strong>Prerequisite</strong> — if true, the check is executed; if false, the step is skipped.</li>
+<li><strong>Check</strong> — a boolean statement; if it evaluates to false, the message is issued.</li>
+<li><strong>Message</strong> — predefined or new; up to four variables filled with field values using <code>&amp;</code> placeholders.</li>
+</ol>
+<table><thead><tr><th>Message type</th><th>Effect</th></tr></thead><tbody>
+<tr><td>I</td><td>Information — processing continues.</td></tr>
+<tr><td>W</td><td>Warning — user may continue.</td></tr>
+<tr><td>E</td><td>Error — entry must be corrected.</td></tr>
+<tr><td>A</td><td>Cancel — transaction terminated.</td></tr>
+</tbody></table>
+<p>Course example (callup point 2): if account 61003000 is entered, check that the cost centre is <em>not</em> an administration cost centre; otherwise an error message forces a correction. Another example: compare document date and posting date and warn if they differ.</p>
+<h4>Statement syntax</h4>
+<table><thead><tr><th>Task</th><th>Example</th><th>Meaning</th></tr></thead><tbody>
+<tr><td>Compare two fields</td><td><code>BKPF-BUDAT &lt;&gt; BKPF-BLDAT</code></td><td>True when posting date differs from document date.</td></tr>
+<tr><td>Check a value</td><td><code>BKPF-BLART = 'SA'</code></td><td>Document type must be SA.</td></tr>
+<tr><td>Partial field, one position</td><td><code>BSEG-HKONT :3:</code></td><td>Only the third character of the account is tested (positions count from 1).</td></tr>
+<tr><td>Partial field, range</td><td><code>BSEG-HKONT :1-3:</code></td><td>First three characters.</td></tr>
+<tr><td>Partial field, to end</td><td><code>BSEG-HKONT :3-:</code></td><td>From position 3 to the end.</td></tr>
+<tr><td>Pattern</td><td><code>BSEG-KOSTL LIKE '*3*3'</code></td><td><code>*</code> = any character string, <code>+</code> = exactly one character; matches 363, 323, 2303.</td></tr>
+</tbody></table>
+<p>Simple statements can be combined with AND/OR/NOT into complex ones.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Step = prerequisite + check + message; a message appears only when prerequisite is true and check is false.</li>
+<li>Up to 999 steps; messages carry up to four variables; types I/W/E/A.</li>
+<li>Syntax supports field comparison, constants, partial fields with <code>:n:</code>, <code>:n-m:</code>, <code>:n-:</code>, and LIKE patterns with <code>*</code> and <code>+</code>.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u6-l3">Lesson 3: Maintaining and Executing Substitutions</h3>
+<p class="lead">Define substitutions with prerequisite and replacement, and choose between the constant, exit and field-to-field substitution methods.</p>
+<h4>Purpose</h4>
+<p>The system already derives some values automatically (business area or profit centre from a cost centre or internal order). Substitutions add customer-specific derivations — filling the Assignment field or segment text by your own rules, or deriving a profit centre from combinations of expense account, material number and region. FI staff must check case by case whether substitution is appropriate for the field.</p>
+<h4>Step structure</h4>
+<p>Up to 999 steps; each has a <strong>prerequisite</strong> and a <strong>replacement</strong>. If the prerequisite is true, the replacement is performed and the transaction continues with the substituted value(s); if false, nothing changes. Example: functional area is filled depending on the cost centre type. One step may replace several fields. The prerequisite uses the same syntax as validations and may include rules and sets.</p>
+<h4>Substitution methods</h4>
+<p>The target field must be released for substitution. For each chosen field a dialog asks for the method:</p>
+<table><thead><tr><th>Method</th><th>Description</th><th>Course example</th></tr></thead><tbody>
+<tr><td>Constant value</td><td>Field receives a fixed value.</td><td>Profit centre set to 060 when the account is 41000000 or 41001000 and the material number lies between T-R100 and T-R1402.</td></tr>
+<tr><td>Exit</td><td>A user exit (ABAP) computes the value.</td><td>Complex derivations.</td></tr>
+<tr><td>Field–field assignment</td><td>Target field takes the content of another (source) field.</td><td>Assignment field (normally clearing information) filled with the profit centre.</td></tr>
+</tbody></table>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Substitution step = prerequisite + replacement; replacement happens only when the prerequisite is true.</li>
+<li>Methods: constant, exit, field-to-field; several fields may be substituted in one step.</li>
+<li>Only fields released by the application can be substituted; substitutions do not act on parked documents.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u6-l4">Lesson 4: Using Additional Techniques for Substitutions and Validations</h3>
+<p class="lead">Use rules to encapsulate reusable logic and sets (including multisets) to replace long boolean lists and perform cross-validations.</p>
+<h4>Transport recommendation</h4>
+<p>Validations, substitutions and rules should be created only in the development or test system and transported to production.</p>
+<h4>Rules</h4>
+<p>A rule is a named boolean statement (name up to 11 characters) that can be used inside a prerequisite, a check or another rule. Technically it is nothing more than a stored prerequisite/check, but it lets you summarise complex logic and reuse it — e.g. a long prerequisite needed both in a validation and in a substitution. Example: <code>RULE1 AND BKPF-BLART &lt;&gt; 'SB'</code> — the system evaluates RULE1 first, then the document type condition. Rules may also appear in statements with arithmetic processing and in matrix validations at callup point 3.</p>
+<h4>Sets</h4>
+<p>A set is a flexible, centrally maintained data structure holding ordered values or hierarchies; it is used throughout FI-SL — in validation formulas, substitutions and ledger selection, allocations (assessment/distribution), planning, roll-ups and currency conversion. For performance, prefer basic or single-dimension sets over long boolean lists or user exits. Syntax: <code>table-field IN setname</code>.</p>
+<ul>
+<li><strong>Example 1:</strong> if the user is in set USER-GROUP, check that the account is in set ACCOUNT-MANAGEMENT.</li>
+<li><strong>Example 2 (multiset):</strong> a multiset combines sets for several fields (dimensions) to cross-validate characteristics. If one of the expense accounts 61003000, 61004000, 61005000 or 61006000 is entered, the cost centre must be the corresponding one (TA##1100, TA##1200, TA##1300 or TA##1400).</li>
+</ul>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Rules = reusable named boolean statements (11 characters), evaluated before the rest of the expression.</li>
+<li>Sets replace long value lists; syntax <code>field IN set</code>; basic/single-dimension sets perform best.</li>
+<li>Multisets allow cross-validation of combinations such as account × cost centre.</li>
+<li>Develop and test in DEV/QA, transport to production.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No hands-on exercises are included for this unit; the learning assessment tests that validation checks values and intervals; callup points define where checks run; an application area is mandatory; one validation/substitution can cover several company codes; FI callup points are header, line and complete document; messages hold up to four variables; LIKE compares patterns; 999 steps maximum; a check runs only when the prerequisite is true; substitutions replace field contents when the prerequisite holds and can replace several values; rules summarise reusable logic; sets outperform long boolean lists; cross-validation needs multisets, not single sets.</div>
+<h2 class="unit" id="s4f13-u7">Unit 7: Data Archiving in FI</h2>
+<div class="unit-objectives"><strong>Unit objectives:</strong> Understand why and how application data is archived in SAP S/4HANA: the three-step archiving process, the archiving object concept and the three levels of archiving Customizing, and the FI-specific sequence of archiving documents (FI_DOCUMNT), transaction figures (FI_TF_*), running the compression run on the universal journal, and finally archiving master data.</div>
+
+<h3 class="lesson" id="s4f13-u7-l1">Lesson 1: Outlining the Basics and Classifications of Data Archiving</h3>
+<p class="lead">Define data archiving, explain the reasons and legal constraints behind it, the roles involved, and the generic three-step process.</p>
+<h4>Why archive?</h4>
+<p>Large database volumes slow down queries for users and increase administration effort. Data that is no longer needed in daily operations should therefore leave the database — but it cannot simply be deleted, because read access must remain possible (auditors, tax authorities, complaints). Archiving moves the data to external storage in a hardware- and software-independent format so it stays readable even after upgrades.</p>
+<ul>
+<li>Technical reasons: better and more stable response times, more efficient database administration, shorter downtimes for upgrades, recoveries and offline backups.</li>
+<li>Legal and business requirements: data privacy and protection, access for auditors, potential reuse of data.</li>
+<li>Retention periods for documents, master data and transaction figures differ by country; the FI application manager agrees them with the department, auditors and other bodies, and they drive the archiving procedures, timing and retention settings.</li>
+</ul>
+<h4>Roles</h4>
+<p>The system administrator executes archiving. The FI application manager does not run it but coordinates with the FI department, ensures compliance with regulations, performs the FI-specific Customizing, works closely with Basis and monitors the procedure as the department's representative. Long-term goals: keep database volume roughly constant and archive proactively, not reactively.</p>
+<h4>The archiving process</h4>
+<ol>
+<li><strong>Write</strong> — the write program reads the data to be archived from the database and creates one or more archive files.</li>
+<li><strong>Store</strong> — the archive files are placed in an external document storage system and administered so they can be accessed later.</li>
+<li><strong>Delete</strong> — the deletion program reads the archive file and only then deletes the corresponding records from the database.</li>
+</ol>
+<p>Writing and deleting alone is not enough; the files must be stored and managed so they remain accessible.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Archiving removes inactive data from the database without losing read access.</li>
+<li>Drivers: performance, administration effort, downtime, plus legal retention and data protection.</li>
+<li>Three steps: write archive files, store them externally, delete from the database (reading the archive first).</li>
+<li>Basis executes; the FI application manager coordinates, customizes and monitors.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u7-l2">Lesson 2: Maintaining Data Archiving</h3>
+<p class="lead">Understand the archiving object and the three Customizing levels (Basis, cross-object, object-specific) reached from <code>SARA</code>.</p>
+<h4>Archiving objects</h4>
+<p>Data archiving is the consistent transfer of complete data objects from SAP database tables to a storage system outside the database. Because a business object's data is spread over many tables, the <strong>archiving object</strong> bundles all logically related tables so that everything belonging to the object is removed together. It is the smallest unit that can be archived and deleted in its entirety. Components:</p>
+<table><thead><tr><th>Component</th><th>Content</th></tr></thead><tbody>
+<tr><td>Data declaration part</td><td>All database objects that make up the application object.</td></tr>
+<tr><td>Customizing settings</td><td>Object-specific parameters for the archiving procedure.</td></tr>
+<tr><td>Programs</td><td>Write program (writes data objects sequentially to archive files), deletion program (deletes what has been read from the archive file), display program (reads archived objects).</td></tr>
+</tbody></table>
+<h4>Archiving Customizing</h4>
+<p>Opened via the Customizing button on the initial screen of <code>SARA</code> (SAP Easy Access → Tools → Administration → Administration → Data Archiving). Usually performed by Basis/system administration.</p>
+<table><thead><tr><th>Step</th><th>Scope</th><th>Settings</th></tr></thead><tbody>
+<tr><td>1. Basis Customizing</td><td>System-wide</td><td>Transaction <code>FILE</code>: define a logical file path (global path for archiving) and assign the physical path; the logical name is a placeholder resolved at runtime.</td></tr>
+<tr><td>2. Cross-archiving-object Customizing</td><td>All archiving objects</td><td>Server group for background processing; show/hide the data archiving monitor (<code>SAR_SHOW_MONITOR</code>) so write/delete programs update monitoring data and raise alerts. The Fiori app Monitor Archiving Jobs also tracks and administers archiving jobs.</td></tr>
+<tr><td>3. Archiving-object-specific Customizing</td><td>One archiving object</td><td>Logical file name for the object; maximum archive file size; deletion program settings, including whether deletion starts automatically after an archive file is written; one variant each for test run and production run of the deletion program.</td></tr>
+</tbody></table>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>Archiving object = data declaration + Customizing + write/delete/display programs; it guarantees business consistency.</li>
+<li>Customizing levels: FILE paths (Basis), server group and monitor (cross-object), file size and deletion behaviour (object-specific).</li>
+<li>Everything is reached from <code>SARA</code>; monitoring via SAR_SHOW_MONITOR or the Monitor Archiving Jobs app.</li>
+</ul></div>
+
+<h3 class="lesson" id="s4f13-u7-l3">Lesson 3: Executing Data Archiving for Specific FI Objects</h3>
+<p class="lead">Follow the FI archiving sequence — documents, transaction figures, compression run, master data — including the checks, archiving objects, programs, the special behaviour of ACDOCA in S/4HANA, and how archived data is accessed.</p>
+<h4>Process flow and dependencies</h4>
+<p>Because the universal journal (ACDOCA) is the single line item table for all of accounting, archiving objects depend on one another: an object may be archived only after its predecessors. Example: archiving ACDOCA entries without archiving Asset Accounting would leave statistical asset line items with the asset master data and break asset reporting. The course concentrates on FI-GL: FI documents → FI transaction figures → compression run → master data. Normally documents go first; transaction figures and master data follow once the document-based checks no longer block them, although a company may choose to archive only documents long-term. SAP Note 2659820 removes Material Ledger as a prerequisite in the sequence.</p>
+<h4>Running an archiving procedure (<code>SARA</code> → Write)</h4>
+<p>Archiving runs as a background job: it selects data objects, checks each one's archivability and writes qualifying objects to the archive file; if configured, deletion starts automatically when a file is closed, otherwise the deletion job is scheduled manually by selecting the archive files to process.</p>
+<ol>
+<li><strong>Archiving variant</strong> — defines the data selection and whether it is a test or production run; variants can usually be reused only after the related jobs are deleted.</li>
+<li><strong>Execution user</strong> — needs authorisation object <code>S_ARCHIVE</code> (restrictable per archiving object), authorisations for the underlying transactions, and background authorisation <code>S_BTCH_JOB</code>.</li>
+<li><strong>Start time</strong> — as for standard background jobs.</li>
+<li><strong>Spool parameters</strong> — logs can be long, so avoid immediate output to a device.</li>
+</ol>
+<p>Monitoring: job logs and spool lists, CCMS monitor sets, the Fiori app Monitor Archiving Jobs, <code>SM37</code> (reachable via Job Overview in SARA) and the short log under Administration in SARA. The default log records archived object count, affected tables, processed entries and file sizes; application-specific logs can go down to document level. Because spool clean-up deletes logs, decide where to keep them (e.g. external storage).</p>
+<h4>Archiving FI documents (FI_DOCUMNT)</h4>
+<p>Document type and account type runtimes are set per company code in Customizing. The program checks header and items; if any condition fails, the entire document stays.</p>
+<table><thead><tr><th>Level</th><th>Condition</th></tr></thead><tbody>
+<tr><td>Header</td><td>Document type runtime exceeded; minimum duration in system exceeded; documents with withholding tax stay at least 455 days; recurring, parked and sample documents are excluded.</td></tr>
+<tr><td>Line item</td><td>No open items (only cleared items or items without open item management); account type runtime exceeded.</td></tr>
+</tbody></table>
+<p>Runtimes are measured against a key date given per run (default: execution date). Object <code>FI_DOCUMNT</code> covers FI-GL, FI-AP and FI-AR documents plus their change documents, SAPscript texts and ArchiveLink entries.</p>
+<table><thead><tr><th>Program</th><th>Purpose</th></tr></thead><tbody>
+<tr><td><code>FI_DOCUMNT_WRI</code></td><td>Writes archive files for all document tables (BKPF, BSEG, ACDOCA, ...).</td></tr>
+<tr><td><code>FI_DOCUMNT_DEL</code></td><td>Deletes BKPF/BSEG etc. entries, but <em>not</em> ACDOCA; instead sets ACDOCA-BSTAT = C.</td></tr>
+<tr><td><code>FI_DOCUMNT_PST</code></td><td>Post-processing.</td></tr>
+</tbody></table>
+<p>S/4HANA specifics:</p>
+<ul>
+<li>ACDOCA rows with BSTAT = C are treated as archived, totals-only entries and are hidden from line item reports (<code>FAGLL03</code>) and document display (<code>FB03</code>).</li>
+<li>In ECC, secondary index tables kept line item data longer for reporting performance. In S/4HANA the indexes are derived at runtime; to keep them longer than the documents, use BAdI <code>FI_DOCUMNT_IDX_DEL</code> with index runtime settings, which fills backup tables such as BSIS_BCK / BSAS_BCK (SAP Note 2519099).</li>
+<li>Customer/vendor transaction figures are computed from BSEG at runtime; since BSEG rows are deleted, the delete job writes totals for the archived documents to KNCX_DIF (customers) and LFCX_DIF (vendors).</li>
+</ul>
+<h4>Accessing archived documents</h4>
+<p>Archived data must remain readable for complaints, analyses and audits. Transactions with archive access include <code>FB03</code> / <code>FB03L</code>, <code>FBL1N</code>, <code>FBL3N</code>, <code>FBL5N</code> and <code>FAGLL03</code>. The line item browsers <code>FBL1H</code> / <code>FBL3H</code> / <code>FBL5H</code> have no standard archive access but can be enabled via a BAdI (SAP Notes 2180685, 2316951). Newer OData/INA-based programs offer no archive access.</p>
+<h4>Archiving transaction figures</h4>
+<p>Transaction figures are the debit and credit totals per account. AP/AR figures are derived from unarchived BKPF/BSEG plus the totals in LFCX_DIF/KNCX_DIF; G/L figures come from ACDOCA items including those with BSTAT = C. They must remain for at least two years and can be archived only when all posting periods in the range are closed. Archiving them is not a prerequisite for the compression run; it serves data privacy and protection.</p>
+<table><thead><tr><th>Archiving object</th><th>Content</th><th>Programs</th></tr></thead><tbody>
+<tr><td><code>FI_TF_CRE</code></td><td>Vendor transaction figures</td><td>FI_TF_CRE_WRI / FI_TF_CRE_DEL</td></tr>
+<tr><td><code>FI_TF_DEB</code></td><td>Customer transaction figures</td><td>FI_TF_DEB_WRI / FI_TF_DEB_DEL</td></tr>
+<tr><td><code>FI_TF_GLF</code></td><td>G/L transaction figures (new)</td><td>FI_TF_GLF_WRI / FI_TF_GLF_DEL</td></tr>
+</tbody></table>
+<p>AP/AR: the delete step adjusts the x_DIF totals so that they plus the unarchived ACDOCA documents net to zero; once all underlying documents are gone, the x_DIF entry is removed. G/L: the write job copies ACDOCA records to the archive; the delete job adds an offsetting record with inverted sign, so both BSTAT = C records sum to zero and nothing is displayed — no physical reduction yet.</p>
+<h4>Compression run</h4>
+<p>Document archiving only flags ACDOCA rows, and transaction-figure archiving even adds rows. The compression run (<code>FINS_ARC</code>, monitor <code>FINS_ARC_MONITOR</code>) is the first step that actually shrinks ACDOCA, without changing the end-user business view. Qualifying entries (e.g. documents already archived, see SAP Note 2346296) are replaced by an aggregate whose granularity follows the balance carryforward settings (Financial Accounting → General Ledger Accounting → Periodic Processing → Carry Forward → Enter Detail Specifications for Balance Sheet Accounts / for P&amp;L Accounts) combined with the posting period. With SAP Note 2518769 the run writes its identification into ACDOCA-SGTXT. If the aggregate nets to zero (documents and transaction figures both archived), the old entries are deleted and no aggregate is created. After document archiving the effect is memory reduction; after transaction-figure archiving it also fulfils data-protection deletion requirements. The SAP Universal Journal Detailed Analysis Service and DVM Cloud Solutions help analyse ACDOCA content and plan the steps.</p>
+<h4>Archiving FI master data</h4>
+<p>G/L accounts, customers, vendors and bank data can be archived once the business agrees and legal requirements are met. Typical path: set a posting block when the record is no longer needed, then manually set the deletion flag; the flag is one of the conditions the archiving program checks (so only responsible staff should be authorised to set it). Other checks for G/L accounts include whether documents and transaction figures still exist. There is no default minimum runtime of 999 days, and master data runs can be restricted to subsets. In S/4HANA customer/vendor data lives in the business partner, so customer/vendor master data must be archived before the business partner object <code>CA_BUPA</code>.</p>
+<div class="box key"><strong>Key takeaways</strong><ul>
+<li>FI-GL sequence: documents → transaction figures → compression run → master data; ACDOCA dependencies enforce order.</li>
+<li>FI_DOCUMNT checks runtimes, minimum duration, 455 days for withholding tax, no open items; excludes recurring, parked, sample documents.</li>
+<li>Deleting documents leaves ACDOCA rows with BSTAT = C and writes KNCX_DIF/LFCX_DIF totals; only the compression run (FINS_ARC) physically reduces ACDOCA.</li>
+<li>Transaction figures: FI_TF_CRE / FI_TF_DEB / FI_TF_GLF, at least two years, closed periods, for data protection.</li>
+<li>Master data needs a deletion flag; customer/vendor before CA_BUPA.</li>
+</ul></div>
+<div class="box"><strong>Practice</strong> No hands-on exercises are included for this unit; the learning assessment confirms that growing databases raise query load; reasons for archiving are response time, administration effort and downtime (not backup); an archiving object consists of data declaration, Customizing and programs; archiving Customizing controls how data is archived; G/L master data checks include deletion indicator, remaining documents and transaction figures; there is no 999-day default runtime; master data runs can be restricted; the deletion flag is a prerequisite for master data archiving.</div>
+
+  </div>
+</div>
+<script>document.querySelectorAll('#sidebar nav a').forEach(a=>a.addEventListener('click',()=>document.getElementById('sidebar').classList.remove('open')));</script>
+</body></html>
